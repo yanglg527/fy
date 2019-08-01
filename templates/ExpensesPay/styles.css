@@ -1,0 +1,123 @@
+.expenses-pay {
+    display: flex;
+    flex-direction: column;
+}
+
+.top-box {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    padding-bottom: 10vw;
+    background: #000 url("../images/search-bg.png") center/cover;
+}
+
+.top-box .avatar {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    border-radius: 50%;
+    border: 2px solid #D85737;
+    background-clip: content-box;
+    background: #ccc center/cover no-repeat;
+}
+
+.top-box .info {
+    flex: 1 1;
+}
+.top-box .info .text {
+    margin: 5px 0;
+    color: #fff;
+}
+
+.top-box .info .light-text {
+    color: #fff000;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    width: 90vw;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    transform: translateY(-5vw);
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+    box-sizing: border-box;
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.tabs .item {
+    line-height: 40px;
+    color: #666;
+    font-size: 16px;
+}
+
+.tabs .item:not(:last-child) {
+    margin-right: 20px;
+}
+
+.tabs .item.active {
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.list {
+    margin: 0;
+    flex: 1 1;
+    padding-left: 0;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.list-title,
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.list-title{
+    color: #333;
+    font-weight: bold;
+}
+
+.list-item{
+    color: #999;
+    line-height: 2;
+}
+
+/* 底部 */
+.bottom-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    box-shadow: 0px -3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.price-ico{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: url("../icons/contribution-2.png") center/cover no-repeat;
+}
+
+.total-text {
+    flex: 1 1;
+    margin: 0 10px;
+    color: #333;
+    font-size: 16px;
+}
+
+.total-price {
+    color: #ce3d37;
+    font-size: 18px;
+    font-weight: bold;
+}

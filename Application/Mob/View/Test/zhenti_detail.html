@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>{$detail.title}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2"/>
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css" />
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/test/examination.css" />
+	</head>
+		
+	<body>
+		<div class="page">
+			<header class="head">
+				<div class="header">
+					<span>{$detail.title}</span>
+					<a onclick="history.go(-1);"><span></span></a>
+				</div>
+			</header>
+		</div>
+		<div class="examination">
+			<div class="heart">
+				<div class="search hide">
+		            <input type="search" placeholder="请输入关键字"><i></i>
+		        </div>
+		        <style>
+					.topic p{
+						display: inherit;
+					}
+					.fraction{
+						display: inherit;
+					}
+				</style>
+		        <div class="all-question">
+		        	<volist name="subjects" id="item" key="index">
+						<if condition="$item['type_id'] == 3">
+		        	<div class="question">
+		        		<dl>
+		        			<dt><span class="topic" style="line-height: 20px">{$item.title}(&nbsp;<span class="fraction">{$item.score}</span>分&nbsp;)</span></dt>
+		        			<dd>
+		        				<div class="icon">
+		        					<div class="air"></div>
+		        					<div class="conf conf-hide"><img class="confirm " src="__IMG__notes/check.png" /></div>
+		        					<div class="choose hide"><img class="confirm" src="__IMG__notes/hong.png"/></div>
+		        				</div>
+		        				<p>A</p><span class="select">{$item['answer'][0]}</span></dd>
+		        			<dd>
+		        				<div class="icon">
+		        					<div class="air"></div>
+		        					<div class="conf conf-hide"><img class="confirm " src="__IMG__notes/check.png" /></div>
+		        					<div class="choose hide"><img class="confirm" src="__IMG__notes/hong.png"/></div>
+		        				</div>
+		        				<p>B</p><span class="select">{$item['answer'][1]}</span></dd>
+		        			<dd>
+		        				<div class="icon">
+		        					<div class="air"></div>
+		        					<div class="conf conf-hide"><img class="confirm " src="__IMG__notes/check.png" /></div>
+		        					<div class="choose hide"><img class="confirm" src="__IMG__notes/hong.png"/></div>
+		        				</div>
+		        				<p>C</p><span class="select">{$item['answer'][2]}</span></dd>
+		        			<dd>
+		        				<div class="icon">
+		        					<div class="air"></div>
+		        					<div class="conf conf-hide"><img class="confirm " src="__IMG__notes/check.png" /></div>
+		        					<div class="choose hide"><img class="confirm" src="__IMG__notes/hong.png"/></div>
+		        				</div>
+		        				<p>D</p><span class="select">{$item['answer'][3]}</span></dd>
+		        		</dl>
+		        		<div class="anAlysis">
+		        			<div class="to-view">查看答案解析</div>
+		        			<div class="answer hide">
+		        				<header>答案解析</header>
+		        				<p>选择<span class="answer-yes">&nbsp;{$item.right_answer_str}&nbsp;</span>答案。</p>
+		        				<p class="reply">{$item.remark}</p>
+		        			</div>
+		        		</div>
+		        	</div>
+		        </if>
+		        </volist>
+		        </div>
+			</div>
+		</div>
+		<include file="Common/_loading"/>
+		<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__JS__/notes/exchange/test/examination.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

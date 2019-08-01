@@ -1,0 +1,419 @@
+<!doctype html>
+<html class="no-js" lang="" xmlns:s="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <block name="title"><title>{$web_title}</title></block>
+    <!-- Bootstrap -->
+    <link href="__STATICS__/bootstrap-3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="__CSS__/exam/teacher/correct.css">
+
+
+    <script src="__STATICS__/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/wpaint/inc/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/wpaint/inc/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/wpaint/inc/jquery.ui.mouse.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/wpaint/inc/jquery.ui.draggable.min.js"></script>
+
+    <!-- wColorPicker -->
+    <link rel="Stylesheet" type="text/css" href="__STATICS__/wpaint/inc/wColorPicker.css" />
+    <script type="text/javascript" src="__STATICS__/wpaint/inc/wColorPicker.js"></script>
+
+    <!-- wPaint -->
+    <link rel="Stylesheet" type="text/css" href="__STATICS__/wpaint/wPaint.css" />
+    <script type="text/javascript" src="__STATICS__/wpaint/wPaint.js"></script>
+    <style>
+        .body{
+            background: #ddf4ff url("__IMG__/oldbg2-bg.jpg") repeat-x;
+
+        }
+        .content{
+            width: 960px;
+            background: url("__IMG__/oldbg2.jpg") no-repeat top center;
+            padding-top: 105px;
+            margin: 0 auto;
+            display: block;
+        }
+
+    </style>
+
+</head>
+<body class="body">
+<!--[if lt IE 8]>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div class="content">
+    <div class="exam_paper">
+        <notempty name="finishCorrect">
+            <div class="exam_inner">
+                <div class="exam_head">
+                    <h1>{$finishCorrect}</h1>
+                </div>
+                <div class="submit">
+                    <table class="submit_table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <if condition="$entryType == 'correct'">
+                                    <a class="btn btn-info" href="__ROOT__/Center/Exam/index">回到批改列表</a>
+                                    <else/>
+                                    <a class="btn btn-info" href="__ROOT__/Center/Exam/answerers?id={$exam.id}">回到批改列表</a>
+                                </if>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+            <else/>
+            <if condition="$is_show == false">
+                <div class="exam_inner">
+                    <div class="exam_head">
+                        <h1>{$show_title}</h1>
+                    </div>
+
+                    <div class="submit">
+                        <table class="submit_table">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <if condition="$entryType == 'correct'">
+                                        <a class="btn btn-info" href="__ROOT__/Center/Exam/index">回到批改列表</a>
+                                        <else/>
+                                        <a class="btn btn-info" href="__ROOT__/Center/Exam/answerers?id={$exam.id}">回到批改列表</a>
+                                    </if>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <else/>
+                <div class="exam_inner">
+                    <input name="exam_id" type="hidden" value="{$exam.id}"/>
+
+                    <div class="exam_head">
+                        <h1>{$exam.title}</h1>
+
+                        <div class="exam_info">
+                            <p style="float: left; margin-left: 10px">课堂：</p>
+
+                            <p style="float: left;">{$exam.grade_name}{$exam.course_name}</p>
+
+                            <p style="float: left; margin-left: 100px">发布者：</p>
+
+                            <p style="float: left;">{$exam|show_name=user_}</p>
+
+                            <p style="float: left; margin-left: 100px">发布时间：</p>
+
+                            <p style="float: left;">{$exam.publish_time|date='Y-m-d',###}</p>
+
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+
+                    <div class="exam_content">
+                        <div class="exam_subject">
+                            <!-- 显示题目-->
+                            <volist name="subjects" id="item">
+                                <if condition="$item.type_num == 'text'">
+                                    <include file="Exam/correct/_title"/>
+                                    <elseif condition="$item.type_num == 'singleChoice'"/>
+                                    <if condition="$exam.show_correct_status == 1">
+                                        <include file="Exam/correct/_single"/>
+                                    </if>
+                                    <elseif condition="$item.type_num == 'choice'"/>
+                                    <if condition="$exam.show_correct_status == 1">
+                                        <include file="Exam/correct/_choice"/>
+                                    </if>
+                                    <elseif condition="$item.type_num == 'blank'"/>
+                                    <include file="Exam/correct/_blank"/>
+                                    <elseif condition="$item.type_num == 'answer'"/>
+                                    <include file="Exam/correct/_answer"/>
+                                </if>
+                            </volist>
+                        </div>
+
+                    </div>
+
+                    <div class="submit">
+                        <table class="submit_table">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <a class="btn btn-info" href="#" id="returnBtn">回到管理</a>
+                                </td>
+                                    <td>
+                                        <a class="btn btn-info" id="btn-last">上一份</a>
+
+                                    </td>
+                                <td>
+
+                                    <if condition="$hasNext == true"><a class="btn btn-info" id="btn-next"> 下一份</a>
+                                        <else/>
+                                        <a class="btn btn-info" id="btn-finish">完成批改</a></if>
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+            </if>
+
+        </notempty>
+        <div class="footer_dividing_line"></div>
+        <include file="Exam/correct/_answer_info"/>
+    </div>
+
+</div>
+
+<include file="Exam/correct/_dialog_img" />
+
+
+<!--&lt;!&ndash; jQuery (necessary for Bootstrap's JavaScript plugins) &ndash;&gt;-->
+
+<!--&lt;!&ndash; Include all compiled plugins (below), or include individual files as needed &ndash;&gt;-->
+<script src="__STATICS__/bootstrap-3.3.5/dist/js/bootstrap.min.js"></script>
+
+
+<script src="__STATICS__/bootstrap-3.3.5/bootstrap-confirm/bs.beamDialog.js"></script>
+<script src="__STATICS__/1bit/toast.js"></script>
+<script>
+    var __root__ = "__ROOT__";
+    $('.subject').each(function(index){
+        var id = $(this).attr('id-subject');
+        $(this).find('img').attr('id-subject', id);
+        $(this).find('img').attr('id-paper', "{$examPaper.id}");
+
+    })
+
+    $('.subject .answer_input img').click(function(){
+
+        var url = $(this).attr('src');
+        var width = $(this).width();
+        var height = $(this).height();
+        var subjectId = $(this).attr('id-subject');
+        var paperId = "{$examPaper.id}";
+        showImg(url, width, height,subjectId,paperId);
+    });
+
+    var tt = 0 ;
+    function showImg(url, width, height,subjectId, paperId){
+        var widthT = 920;
+        var per = widthT/width;
+        var heightT = height * per;
+
+//        tt ++;
+        $("#wPaint").html('');
+//        $("#wPaint").unbind('wPaint');
+
+        $("#wPaint").css('width', widthT);
+//        if(tt % 2 == 0){
+//            $("#wPaint").css('height', 100);
+//        }else{
+//            $("#wPaint").css('height', 500);
+//        }
+        $("#wPaint").css('height', heightT);
+
+        $('#dialog-img').attr("src",url);
+        $('#dialog-img').attr('id-subject', subjectId);
+        $('#dialog-img').attr('id-paper', paperId);
+        $('#dialog-img').removeClass('hide');
+        $("#wPaint").wPaint('resize');
+        $('#wPaint').wPaint('clear');
+//
+        $("#wPaint").wPaint({
+            theme: 'standard classic',
+            imageBg: url
+        });
+    }
+</script>
+<script>
+    var __root__ = "__ROOT__";
+    var paperId = "{$examPaper.id}";
+    var examId = "{$exam.id}"
+    $('#returnBtn').click(function(){
+        if("{$entryType}" == "correct"){
+            window.location.href = __root__ + "/Center/Exam/index";
+        }else{
+            window.location.href = __root__ + "/Center/Exam/answerers?id=" + examId;
+        }
+    });
+    $('.subject-blank').find('input').attr('readonly', 'readonly');
+    $('.user-score').on('change', 'select', function () {
+        var val = $(this).val();
+        var maxVal = $(this).attr('max-score');
+        var id = $(this).parent().find('input[name="subjectId"]').val();
+
+        if (val == '') {
+            $(this).val('0');
+            val = 0
+        } else if (parseInt(val) < 0) {
+            $(this).val('0');
+            val = 0;
+        } else if (parseInt(val) > parseInt(maxVal)) {
+            $(this).val(maxVal);
+            val = maxVal;
+        }
+
+//        alert($("#scoreForm-"+ id).serialize());
+        $.ajax({
+            url: __root__ + "/Center/Exam/ajaxDoCorrect",
+            type: "post",
+            data: $("#scoreForm-" + id).serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    $('#show-score').text(data.data + "分");
+                } else {
+                    toastError(data.msg);
+                }
+            },
+            error: function () {
+                toastError("服务器暂时无法访问，请稍后再试");
+            }
+        });
+    })
+    $('#btnShowCorrect').click(function () {
+        $.ajax({
+            url: __root__ + "/Center/Exam/ajaxShowCorrectStatus?examId={$exam.id}",
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.reload();
+                } else {
+                    toastError(data.msg);
+                }
+            },
+            error: function () {
+                toastError("服务器暂时无法访问，请稍后再试");
+            }
+        });
+        return false;
+    })
+    $('#btn-next').click(function () {
+        $.ajax({
+            url: __root__ + "/Center/Exam/ajaxFinishCorrect",
+            type: "post",
+            data: {
+                examPaperId: paperId
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.href = __root__ + "/Center/Exam/correct?correctType=next&entryType={$entryType}&examId=" + examId + "&examPaperId=" + paperId;
+                } else {
+                    toastError(data.msg);
+                }
+            },
+            error: function () {
+                toastError("服务器暂时无法访问，请稍后再试");
+            }
+        });
+    });
+    $('#btn-last').click(function () {
+        $.ajax({
+            url: __root__ + "/Center/Exam/ajaxGetLastPaper",
+            type: "post",
+            data: {
+                examPaperId: paperId
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.href = __root__ + "/Center/Exam/correct?correctType=last&entryType={$entryType}&examId=" + examId + "&examPaperId=" + paperId;
+                } else {
+                    toastError(data.msg);
+                }
+            },
+            error: function () {
+                toastError("服务器暂时无法访问，请稍后再试");
+            }
+        });
+    });
+    $('#btn-finish').click(function () {
+        $.ajax({
+            url: __root__ + "/Center/Exam/ajaxFinishCorrect",
+            type: "post",
+            data: {
+                examPaperId: paperId
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 0) {
+                    if("{$entryType}" == "correct"){
+                        window.location.href = __root__ + "/Center/Exam/index";
+                    }else{
+                        window.location.href = __root__ + "/Center/Exam/answerers?id=" + examId;
+                    }
+
+                } else {
+                    toastError(data.msg);
+                }
+            },
+            error: function () {
+                toastError("服务器暂时无法访问，请稍后再试");
+            }
+        });
+    });
+
+
+
+    //    $('#btn-next').click(function () {
+    //        $.ajax({
+    //            url: __root__ + "/Center/Exam/ajaxFinishCorrect",
+    //            type: "post",
+    //            data: {
+    //                correctType:next,
+    //                examPaperId: paperId
+    //            },
+    //            dataType: "json",
+    //            success: function (data) {
+    //                if (data.status == 0) {
+    //                    dialog.closeDialog(modal);
+    //                    window.location.href = __root__ + "/Center/Exam/correct?correctType=next&examId=" + examId;
+    //
+    //                } else {
+    //                    toastError(data.msg);
+    //                }
+    //            },
+    //            error: function () {
+    //                toastError("服务器暂时无法访问，请稍后再试");
+    //            }
+    //        });
+    //        /*
+    //        $.beamDialog({
+    //            title: '提示',
+    //            content: '确认提交本次测试的批改?',
+    //            showCloseButton: false,
+    //            otherButtons: ["再看看", "确定"],
+    //            otherButtonStyles: ['btn-warning', 'btn-info'],
+    //            bsModalOption: {keyboard: true},
+    //            clickButton: function (sender, modal, index) {
+    //                var dialog = $(this);
+    //                if (index == 0) {
+    //                    dialog.closeDialog(modal);
+    //                } else {
+    //
+    //                }
+    //
+    //            }
+    //        });
+    //        */
+    //    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+/**
+ * 定义基础样式库:
+ * 1.取消默认样式
+ * 2.定义常用样式，如：背景色,字体大小,字体颜色...
+ */
+
+/***********************************************************************************
+ ********************************* 取消默认样式 开始 ********************************
+ ***********************************************************************************/
+
+html{color:#000;background:#fff;height: 100%;font-family: "微软雅黑";}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+body{font:12px/1 Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;min-height: 100%;}
+img{border:none;}
+li{list-style:none;}
+table {border-collapse:collapse;border-spacing:0;}
+button,input,select,textarea{font-size:100%;}/* 使得表单元素在 ie 下能继承字体大小 */
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+address,cite,dfn,em,var{font-style:normal;} /* 将斜体扶正 */
+a{color:#36c;text-decoration:none;}
+
+// 取消ios长按放大镜
+* {
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+/***********************************************************************************
+ ********************************* 取消默认样式 结束 ********************************
+ ***********************************************************************************/
+
+
+/***********************************************************************************
+ *********************************** 按钮样式 开始 **********************************
+ ***********************************************************************************/
+.btn-disable{
+	background: #ccc !important;
+}
+			
+.xyt-btn-yj-blue{
+	height: 28px;
+	line-height: 28px;
+	padding: 0px 12px;
+	text-align: center;
+	background: #3091e5;
+	color: white;
+	border-radius: 5px;
+}
+
+.xyt-btn-yj-blue:active{
+	background: #2976b9;
+}
+
+/***********************************************************************************
+ *********************************** 按钮样式 结束 **********************************
+ ***********************************************************************************/
+
+
+/***********************************************************************************
+ *********************************** 表单样式 开始 **********************************
+ ***********************************************************************************/
+.xyt-input{
+	position: relative;
+	margin: 15px 0px;
+	overflow: hidden;
+}
+.xyt-input .xyt-icon{
+	position: absolute;
+	left: 15px;
+	top: 0px;
+	bottom: 0px;
+	margin: auto;
+}
+.xyt-input input{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	border: 0px;
+	background: none;
+}
+
+.xyt-input-yuan{
+	width: 100%;
+	height: 45px;
+	line-height: 43px;
+	border-radius: 45px;
+	background: white;
+	padding: 0px 20px;
+	border: 1px solid #478af2;
+	font-size: 16px;
+}
+
+
+/***********************************************************************************
+ *********************************** 表单样式 结束 **********************************
+ ***********************************************************************************/

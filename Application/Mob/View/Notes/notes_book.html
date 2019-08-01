@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学习交流</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <!--<link rel="stylesheet" href="../plugin/swiper/css/swiper-3.3.1.min.css">-->
+    <link rel="stylesheet" type="text/css" href="__CSS__/notes/notes_detail.css"/>
+
+    <link rel="stylesheet" type="text/css" href="__STATICS__/bookBlock/css/default.css" />
+    <link rel="stylesheet" type="text/css" href="__STATICS__/bookBlock/css/bookblock.css" />
+    <!-- custom demo style -->
+    <!--<link rel="stylesheet" type="text/css" href="__STATICS__/bookBlock/css/demo1.css" />-->
+    <script src="__STATICS__/bookBlock/js/modernizr.custom.js"></script>
+
+    <style>
+        .type{
+            font-weight: bold;
+            color: #333;
+            /*display: inline;*/
+            font-size: 12px;
+            /*color: limegreen;*/
+            /*border: 1px solid limegreen;*/
+            /*border-radius: 3px;*/
+            /*padding: 1px 8px;*/
+            margin-left: 20px;
+            /*text-align: center;*/
+            /*line-height: 0.7rem;*/
+        }
+        /*.type2{*/
+            /*display: inline;*/
+            /*font-size: 13px;*/
+            /*color: orangered;*/
+            /*border: 1px solid orangered;*/
+            /*border-radius: 3px;*/
+            /*padding: 1px 8px;*/
+            /*margin-left: 20px;*/
+            /*text-align: center;*/
+            /*line-height: 0.7rem;*/
+        /*}*/
+
+        .btn-pre{
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            width: 10%;
+            z-index: 100;
+            /*background: red;*/
+        }
+        .btn-next{
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            width: 10%;
+            z-index: 100;
+            /*background: green;*/
+        }
+
+        .bb-bookblock {
+            width: 100%;
+            height: 100%;
+        }
+
+        .item{
+            margin-top: 10px;
+        }
+        .item-key{
+            font-size: 15px;
+            font-weight: bold;
+            color: #999999;
+        }
+        .item-value{
+            font-size: 14px;
+            color: #333;
+            margin-left: 5px;
+        }
+
+        .selected{
+            display: block;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<if condition="$list == null">
+    <div style="width: 100%; height: 100%; z-index: 999">
+        <div class="icon"><img src="__IMG__/notes/bookmark.png" alt=""></div>
+        <div class="swiper-container content page">
+            <!--<div class="swiper-wrapper" style="height: 100%; overflow-y: scroll">-->
+                <div style="width: 100%; height: 30px; line-height: 30px; text-align: center; margin-top: 50%; font-size: 18px">本月共 0 篇笔记</div>
+            <!--</div>-->
+        </div>
+    </div>
+</if>
+
+<div id="bb-bookblock" class="bb-bookblock" style="position: fixed">
+    <volist name="list" id="vo">
+        <div id="a_{$vo.id}" class="bb-item" <if condition='$vo.id == $selectedId'>style="display:block"<else/>style="display:none"</if> >
+            <div class="icon"><img src="__IMG__/notes/bookmark.png" alt=""></div>
+            <div class="swiper-container content page">
+                <div class="swiper-wrapper" style="height: 100%; overflow-y: scroll;word-wrap: break-word;">
+                    <div class="swiper-slide">
+                        <div class="title">
+                            {$vo.title}
+                            <if condition="$vo.type == 0">
+                                <span class="type"> ( 自学 )</span>
+                                <else/>
+                                <span class="type"> ( 集体学习 )</span>
+                            </if>
+                        </div>
+
+                        <p class="time">
+                            <i></i>{$vo.create_time|date="Y.m.d  H:i",###}  共<span id="study-time">{$vo.study_time}</span> 小时
+                        </p>
+
+                        <!--<if condition="$vo.background neq ''">-->
+                            <!--<div class="item">-->
+                                <!--<span class="item-key">背景</span>-->
+                                <!--<span class="item-value">{$vo.background}</span>-->
+                            <!--</div>-->
+                        <!--</if>-->
+
+                        <if condition="$vo.address neq ''">
+                        <div class="item">
+                            <span class="item-key">地址</span>
+                            <span class="item-value">{$vo.address}</span>
+                        </div>
+                        </if>
+
+                        <!--<if condition="$vo.citation neq ''">-->
+                        <!--<div class="item">-->
+                            <!--<span class="item-key">引语</span>-->
+                            <!--<span class="item-value">{$vo.citation}</span>-->
+                        <!--</div>-->
+                        <!--</if>-->
+
+                        <if condition="$vo.teacher neq ''">
+                        <div class="item">
+                            <span class="item-key">老师</span>
+                            <span class="item-value">{$vo.teacher}</span>
+                        </div>
+                        </if>
+
+                        <div class="item" style="margin-top: 20px">
+                            <span class="item-key">心得</span>
+                            <span class="item-value">{$vo.xinde}</span>
+                            <!--<span class="item-value">哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或</span>-->
+                        </div>
+
+                        <div class="item" style="margin-top: 20px">
+                            <span class="item-key">学习内容</span>
+                            <span class="item-value">
+                                <if condition="$vo['article_id']!=0">
+                                    <br>
+                                   <span>来源地址:</span><a style="color: red" href="__ROOT__/Mob/Notes/article?id={$vo.article_id}">{$vo.article_title}</a>
+                                    <br/>
+                                    </if>
+                                {$vo.content}
+                            </span>
+                            <!--<span class="item-value">哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或或或或哈哈哈哈或或或或或或</span>-->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </volist>
+</div>
+<a class="btn-pre" id="bb-nav-prev"></a>
+<a class="btn-next" id="bb-nav-next"></a>
+<script src="__STATICS__/jquery/jquery.js"></script>
+<!--<script src="__STATICS__/zepto/zepto.js"></script>-->
+<script src="__STATICS__/bookBlock/js/jquerypp.custom.js"></script>
+<script src="__STATICS__/bookBlock/js/jquery.bookblock.js"></script>
+
+<script>
+
+
+
+
+    var Page = (function() {
+
+        var config = {
+                    $bookBlock : $( '#bb-bookblock' ),
+                    $navNext : $( '#bb-nav-next' ),
+                    $navPrev : $( '#bb-nav-prev' ),
+                    $navFirst : $( '#bb-nav-first' ),
+                    $navLast : $( '#bb-nav-last' )
+                },
+                init = function() {
+                    config.$bookBlock.bookblock( {
+                        speed : 800,
+                        shadowSides : 0.8,
+                        shadowFlip : 0.7,
+
+//                        onEndFlip: function(old, page, isLimit){
+////                            console.log(page)
+//                            return false;
+//                        }
+                    } );
+
+                    initEvents();
+
+                },
+
+                initEvents = function() {
+
+                    var $slides = config.$bookBlock.children();
+
+                    // add navigation events
+                    config.$navNext.on( 'click touchstart', function(res) {
+
+
+                        config.$bookBlock.bookblock( 'next' );
+                        return false;
+                    } );
+
+                    config.$navPrev.on( 'click touchstart', function() {
+                        config.$bookBlock.bookblock( 'prev' );
+                        return false;
+                    } );
+
+                    config.$navFirst.on( 'click touchstart', function() {
+                        config.$bookBlock.bookblock( 'first' );
+                        return false;
+                    } );
+
+                    config.$navLast.on( 'click touchstart', function() {
+                        config.$bookBlock.bookblock( 'last' );
+                        return false;
+                    } );
+
+                    // add swipe events
+                    $slides.on( {
+                        'swipeleft' : function( event ) {
+                            config.$bookBlock.bookblock( 'next' );
+                            return false;
+                        },
+                        'swiperight' : function( event ) {
+                            config.$bookBlock.bookblock( 'prev' );
+                            return false;
+                        }
+                    } );
+
+                    // add keyboard events
+                    $( document ).keydown( function(e) {
+                        var keyCode = e.keyCode || e.which,
+                                arrow = {
+                                    left : 37,
+                                    up : 38,
+                                    right : 39,
+                                    down : 40
+                                };
+
+                        switch (keyCode) {
+                            case arrow.left:
+                                config.$bookBlock.bookblock( 'prev' );
+                                break;
+                            case arrow.right:
+                                config.$bookBlock.bookblock( 'next' );
+                                break;
+                        }
+                    } );
+                };
+
+        return { init : init };
+
+    })();
+
+$(function(){
+//    var hash = window.location.hash;
+//    if(hash != ''){
+//        $(hash).show().siblings().hide();
+//    }
+
+//        localStorage.setItem('currentpage',page);
+
+
+})
+
+</script>
+<script>
+    Page.init();
+
+
+</script>
+
+</body>
+
+</html>

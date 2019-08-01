@@ -1,0 +1,72 @@
+<form class="am-form">
+    <div class="am-g am-margin-top">
+        <input type="hidden" name="id" value="{$detail.id}">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+            商品名称
+        </div>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="name" value="{$detail.name}" class="am-input-sm">
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+    </div>
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+        所需积分
+        </div>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="number" class="am-input-sm" name="point" value="{$detail.point}">
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+            商品数量
+        </div>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="number" class="am-input-sm" name="total_count" value="{$detail.total_count}">
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">商品图片</div>
+        <div class="am-u-sm-8 am-u-md-3">
+            <div class="am-form-group am-form-file">
+                <input type="hidden" name="img_url" value="{$detail.img_url}">
+                <div class="uplosd_image" id="info-cover">
+                    <img src="{$detail.img_url|show_img}" class="info-cover"/>
+                    <span class="info-cover-span">点击选择封面</span>
+                </div>
+            </div>
+        </div>
+        <div class="am-hide-sm-only am-u-md-7 am-form-help">请上传大小小于2M的图片</div>
+    </div>
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">启用</div>
+        <div class="am-u-sm-8 am-u-md-10">
+            <div class="am-btn-group" data-am-button>
+                <empty name="detail">
+                    <label class="am-btn am-btn-default am-btn-xs">
+                        <input type="radio" name="status" value="1" checked="true"> 是
+                    </label>
+                    <label class="am-btn am-btn-default am-btn-xs">
+                        <input type="radio" name="status" value="0"> 否
+                    </label>
+                    <else/>
+                    <label class="am-btn am-btn-default am-btn-xs">
+                        <input type="radio" name="status" value="1"
+                        <if condition="$detail.status == 1"> checked="true"</if>
+                        > 是
+                    </label>
+                    <label class="am-btn am-btn-default am-btn-xs">
+                        <input type="radio" name="status" value="0"
+                        <if condition="$detail.status == 0"> checked="true"</if>
+                        > 否
+                    </label>
+                </empty>
+
+            </div>
+        </div>
+    </div>
+</form>
+
+	

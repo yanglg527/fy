@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Mob/css/toLearnAndOneDo/global.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Mob/css/toLearnAndOneDo/info/styles.css" />
+        <script src="__PUBLIC__/Mob/js/toLearnAndOneDo/base/jquery.js"></script>
+        <title>两学一做</title>
+    </head>
+    <body class="g-fill-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">{$info.theme}</span>
+        </div>
+
+        <div class="g-content-container">
+            <header class="header"><span class="categories-title">【{$types[$info['type']]}】</span> <span class="title">{$info.theme}</span></header>
+
+            <div class="sub-info">
+                <span>发布人：{$info.send_user.realname} </span>
+                <span>开始日期：{$info.start_time}</span></div>
+
+            <section class="section-wrapper">
+                <p class="section-title">主要措施：</p>
+                <div class="section-content">{$info.step}</div>
+            </section>
+
+            <section class="section-wrapper">
+                <p class="section-title">重点任务：</p>
+                <div class="section-content">{$info.mission}</div>
+            </section>
+
+            <section class="section-wrapper">
+                <p class="section-title">工作要求：</p>
+                <div class="section-content">{$info.claim}</div>
+            </section>
+
+            <section class="section-wrapper">
+                <p class="section-title">详情：</p>
+                <div class="section-content">{$info.info}</div>
+            </section>
+
+            <div class="line"></div>
+
+            <div class="block-title red">出勤人员：<php>echo count($attend[2])</php>人</div>
+            <div class="avatar-list">
+                <foreach name="attend[2]" item="vo">
+                    <div class="item">
+                        <i class="img" style="background-image:url('{$vo.image}')"></i>
+                        <span class="name">{$vo.name}</span>
+                    </div>
+                </foreach>
+            </div>
+
+            <div class="block-title orange">请假人员：<php>echo count($attend[1])</php>人</div>
+            <div class="avatar-list">
+                <foreach name="attend[1]" item="vo">
+                    <div class="item">
+                        <i class="img" style="background-image:url('{$vo.image}')"></i>
+                        <span class="name">{$vo.name}</span>
+                    </div>
+                </foreach>
+            </div>
+
+            <div class="block-title grey">缺勤人员：<php>echo count($attend[0])</php>人</div>
+            <div class="avatar-list">
+                <foreach name="attend[0]" item="vo">
+                    <div class="item">
+                        <i class="img" style="background-image:url('{$vo.image}')"></i>
+                        <span class="name">{$vo.name}</span>
+                    </div>
+                </foreach>
+            </div>
+        </div>
+        <script>
+            //返回按钮
+           $('.back-btn').click(function(e) {
+               history.go(-1)
+           })
+        </script>
+    </body>
+</html>

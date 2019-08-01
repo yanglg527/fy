@@ -1,0 +1,41 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+
+    <include file="Common/_top"/>
+
+    <div class="module-title"> 四个机制 </div>
+
+    <div class="modules">
+        <div class="am-g am-g-fixed module-row">
+            <a class="am-u-sm-4 module" href="__ROOT__/Home/Study/standingBook?type=0" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+                <img src="__IMG__icon_xuextaiz.png">
+                <p>党员先锋台账</p>
+            </a>
+            <a class="am-u-sm-4 module module-center" href="__ROOT__/Home/Study/standingBookBranch" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+                <img src="__IMG__icon_xuextaiz.png">
+                <p>支部堡垒台账</p>
+            </a>
+            <a class="am-u-sm-4 module" href="__ROOT__/Home/Study/standingBook?type=2" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+                <img src="__IMG__icon_xuextaiz.png">
+                <p>领导表率台账</p>
+            </a>
+        </div>
+        <div class="am-g am-g-fixed module-row">
+            <a class="am-u-sm-4 module module-center" href="__ROOT__/Home/Study/standingBook2?type=3" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+                <img src="__IMG__icon_xuextaiz.png">
+                <p>党组带头台账</p>
+            </a>
+        </div>
+    </div>
+
+   
+
+</block>
+<block name="scripts">
+
+</block>

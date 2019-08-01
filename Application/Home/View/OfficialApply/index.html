@@ -1,0 +1,149 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .tip{
+            width: 100%;
+            height: 31px;
+            line-height: 31px;
+            background: #FDF6D5;
+            font-size: 12px;
+            color: #666666;
+            padding-left: 10px;
+        }
+
+        .dynamic-list{
+            background: white;
+        }
+
+        .list-item{
+            border-bottom: 1px solid #f7f8f8;
+            padding: 16px 15px;
+        }
+
+        .item-title{
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            line-height: 20px;
+        }
+
+        .item-content{
+            font-size: 14px;
+            line-height: 23px;
+            color: #666666;
+            margin-top: 10px;
+        }
+
+        .todo-state{
+            font-size: 12px;
+            padding: 0px 3px;
+            line-height: 33px;
+            margin-right: 7px;
+        }
+        .todo-state-done{
+            color: #1AE642;
+            border: 1px solid #1AE642;
+            border-radius: 3px;
+        }
+        .todo-state-nodo{
+            color: #EE3D11;
+            border: 1px solid #EE3D11;
+            border-radius: 3px;
+        }
+        .btn-todo{
+            width: 84px;
+            height: 33px;
+            line-height: 33px;
+            text-align: center;
+            float: right;
+            border-radius: 16px;
+            font-size: 15px;
+        }
+        .btn-todo-done{
+            background: #DCE4E6;
+            color: #939899;
+        }
+        .btn-todo-nodo{
+            background: #FFB400;
+            color: white;
+        }
+
+        .item-info{
+            margin-top: 15px;
+            color: #999999;
+            font-size: 12px;
+        }
+
+        .btn-apply{
+            width: 274px;
+            min-width: 250px;
+            height: 40px;
+            line-height: 40px;
+            margin: 20px auto;
+            border-radius: 40px;
+            background: #FFB400;
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+        .disable{
+            background: #aaaaaa !important;
+        }
+
+        .container{
+            background: white;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="tip">温馨提示：你不是预备党员，不能提交转正申请。</div>
+
+    <form class="am-form am-form-horizontal" style="margin-top: 20px ">
+        <div class="am-form-group">
+            <label for="doc-ipt-3" class="am-u-sm-4 am-form-label">转正申请书</label>
+            <div class="am-u-sm-8">
+                <div class="am-form-group am-form-file" style="padding-top: 10px">
+                    <i class="am-icon-cloud-upload"></i> 选择要上传的文件
+                    <input id="doc-ipt-3" type="file" multiple>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="am-form-group">-->
+            <!--<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">密码</label>-->
+            <!--<div class="am-u-sm-10">-->
+                <!--<input type="password" id="doc-ipt-pwd-2" placeholder="设置一个密码吧">-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="am-form-group">-->
+            <!--<div class="am-u-sm-offset-2 am-u-sm-10">-->
+                <!--<div class="checkbox">-->
+                    <!--<label>-->
+                        <!--<input type="checkbox"> 记住十万年-->
+                    <!--</label>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="btn-apply disable">提交申请书</div>
+
+        <!--<div class="am-form-group">-->
+            <!--<div class="am-u-sm-10 am-u-sm-offset-2">-->
+                <!--<div class="btn-apply disable">提交申请书</div>-->
+                <!--&lt;!&ndash;<button type="submit" class="am-btn am-btn-default">提交申请书</button>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+    </form>
+
+
+</block>
+<block name="scripts">
+
+</block>

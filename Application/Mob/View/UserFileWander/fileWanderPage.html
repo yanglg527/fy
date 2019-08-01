@@ -1,0 +1,338 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>文件详情</title>
+</head>
+<link rel="stylesheet" href="__CSS__/reset.css" />
+<link rel="stylesheet" href="__PUBLIC__/Common/css/file_extend_style.css" />
+<style>
+    .header {
+        display: flex;
+        background: #ce3d37;
+        padding: 1rem 0.6rem;
+        justify-content: space-between;
+    }
+
+    .header .back {
+        color: #ffffff;
+        font-size: 20px;
+        position: relative;
+    }
+    .header .back::before {
+        display: block;
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateY(-50%) rotate(-45deg);
+    }
+    .header .header-title {
+        font-size: 18px;
+        color: #ffffff;
+    }
+
+    .header-add>img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contrainer .title {
+        color: #ffffff;
+        height: 6rem;
+        background: url("__IMG__/branch/head_bg3.png") no-repeat 85% 20%;
+        display: flex;
+        align-items: center;
+    }
+
+    .contrainer .title .title-topic {
+        margin-left: 1.2rem;
+    }
+
+    .contrainer .nav {
+        padding: 0.8rem;
+        vertical-align: middle;
+        position: relative;
+        display: flex;
+    align-items: center;
+    }
+
+    .contrainer .nav::after {
+        position: absolute;
+        bottom: 0;
+        left: 15px;
+        right: 15px;
+        height: 1px;
+        content: '';
+        background-color: #E0E0E0;
+        box-shadow: 0px 1px 1px #E0E0E0;
+    }
+
+    .contrainer .nav img {
+        width: 1.2rem;
+        margin: 0px 10px 0 15px;
+    }
+
+    .contrainer .content {
+        margin-top: 1.6rem;
+    }
+
+    .contrainer .content .item {
+        display: flex;
+        margin: 0 0 1.1rem 2rem;
+        width: 80%;
+    }
+
+    .item .item-left {
+        white-space: nowrap;
+        color: #9D9D9E;
+        width: 4rem;
+        text-align: right;
+        line-height: 24px;
+    }
+
+    .item .item-right {
+        word-wrap: break-word;
+        word-break: break-all;
+        margin-left: 1.5rem;
+        color: #383838;
+        line-height: 24px;
+    }
+
+    .appendix {
+        padding: 0 0 2rem 2rem;
+    }
+
+    .appendix-contrainer {
+        margin: 1.2rem 0 0 1rem;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .appendix-content {
+        width: 4rem;
+        margin-right: 2.5rem;
+        /* margin-top: 2rem; */
+    }
+
+    .appendix-content p {
+        width: 100%;
+        word-wrap: break-word;
+        word-break: break-all;
+
+    }
+
+    .appendix-content>a>img {
+        width: 4rem;
+    }
+
+    .nocontent {
+        text-align: center;
+        color: #9D9D9E;
+        margin-top: 2rem;
+        /* margin: 1rem auto; */
+    }
+
+    .appendix-content {
+        position: relative;
+    }
+
+    .appendix-content .appendix-btn i {
+        display: block;
+        width: 4rem;
+        height: 4rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: url('__IMG__/index/add-btn.png') center/cover no-repeat;
+    }
+
+    .appendix-btn .add-appendix-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    /* .add-input{
+        background: url('__IMG__/index/add-btn.png') no-repeat;
+        border:0;
+    } */
+    .appendix-content i {
+        width: 4rem;
+        display: block;
+        height: 4rem;
+        background: center/75% 75% no-repeat;
+    }
+    .read{
+        padding: 0 1rem 2rem 2rem;
+    }
+    .read-item{
+                display:flex;
+                padding-top: 1rem;
+                padding-bottom: 10px;
+    border-bottom: 1px solid #9D9D9E;
+            }
+            .read-item-right{
+                display:flex;
+                margin-left: 10px;
+                justify-content: space-between;
+                width: 80%;
+                line-height: 2.5rem;
+                color: #9D9D9E;
+            }
+            .read-item-right>span {
+                display: inline-block;
+            }
+</style>
+
+<body>
+    <div class="header">
+        <a href="__ROOT__/Mob/Index/index">
+            <div class="back">
+               
+            </div>
+        </a>
+        <div class="header-title">
+            文件详情
+        </div>
+        <if condition="$isown">
+        <a href="__ROOT__/Mob/UserFileWander/addFileWander?id={$detail.id}"><div class="header-add">
+           
+            <img src="__IMG__/index/file-add.png" alt="" />
+       
+        </div>
+    </a>
+    <else/>
+        <div></div>
+        </if>
+    </div>
+    <div class="contrainer">
+        <div class="title">
+            <div class="title-topic">
+                {$detail.title}
+            </div>
+        </div>
+        <div class="nav">
+            <img src="__IMG__/index/file.png" alt="" />
+            <span style="color:#565656">文件内容</span>
+        </div>
+        <div class="content">
+            <div class="item">
+                <div class="item-left">文件标题:</div>
+                <div class="item-right">{$detail.title}</div>
+            </div>
+            <div class="item">
+                <div class="item-left">发布人:</div>
+                <div class="item-right">{$detail.add_name}</div>
+            </div>
+            <div class="item">
+                <div class="item-left">发布日期:</div>
+                <div class="item-right">
+                        {$detail.create_time|date='Y-m-d',###}
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-left">发布内容:</div>
+                <div class="item-right">{$detail.content}</div>
+            </div>
+        
+                <div class="item">
+                        <div class="item-left">用户角色:</div>
+                        <div class="item-right">
+                            <if condition="$detail.branch_text != ''">
+                                <div>{$detail.branch_text}</div>
+                                <else/><div>全部支部</div>
+                            </if>
+                            <div style="margin-top: 1.5rem;">{$detail.role_text}</div>
+                        </div>
+                        <!-- <div class="item-right">{$detail.role_text}</div> -->
+                    </div>
+
+                <div class="item">
+                        <div class="item-left">支部角色:</div>
+                        <div class="item-right">
+                            <div>{$detail.post_text}</div>
+                           
+                        </div>
+                        <!-- <div class="item-right">{$detail.role_text}</div> -->
+                </div>
+
+                <div class="item">
+                    <div class="item-left">党委角色:</div>
+                    <div class="item-right">
+                        <div>{$detail.dw_text}</div>
+                       
+                    </div>
+                    <!-- <div class="item-right">{$detail.role_text}</div> -->
+                </div>
+
+        </div>
+        <div class="appendix">
+            <div>附件</div>
+            <div class="appendix-contrainer g-attachment-list">
+
+                    <volist name="file_arr" id="vo">
+                        <div class="appendix-content" data-id="{$vo.files_id}">
+                                <a href="{$vo.files_path}" style="color:#9D9D9E"> 
+                                    <i  class="img {$vo.type}"></i>
+                                    <!-- <i class="remove"></i> -->
+                                    <p>{$vo.former_name}
+                                    </p>
+                                </a>
+                                </div>
+                            
+                            </volist>
+             
+
+
+            </div>
+
+
+        </div>
+        <style>
+        
+        </style>
+        <div class="read">
+            <div>阅读量(<span style="color:#9D9D9E">{$read_count}</span>)</div>
+            <div class="read-list">
+                <volist name="read_list" id="vo">
+                <div class="read-item">
+                    <div ><img style="width:2.5rem;" src="{$vo.headimgurl}" alt=""></div>
+                    <div class="read-item-right">
+                        <div>{$vo.realname}</div>
+                        <div> {$vo.create_time|date='Y-m-d',###}</div>
+                    </div>
+                </div>
+                </volist>
+                <!-- <div class="read-item">
+                        <div ><img style="width:2.5rem;" src="http://p.qlogo.cn/bizmail/o9v52Lq1gg24lDRSxnLmnM1qHOUV3edguianzF6wUK5hMslNMibaTwww/0" alt=""></div>
+                        <div class="read-item-right">
+                            <div>韩荣丽</div>
+                            <div>2019-5-6</div>
+                        </div>
+                    </div>
+                    <div class="read-item">
+                            <div ><img style="width:2.5rem;" src="http://p.qlogo.cn/bizmail/o9v52Lq1gg24lDRSxnLmnM1qHOUV3edguianzF6wUK5hMslNMibaTwww/0" alt=""></div>
+                            <div class="read-item-right">
+                                <div>韩荣丽</div>
+                                <div>2019-5-6</div>
+                            </div>
+                        </div> -->
+            </div>
+        </div>
+        <!-- <div class="nocontent">没有更多内容</div> -->
+    </div>
+</body>
+
+</html>

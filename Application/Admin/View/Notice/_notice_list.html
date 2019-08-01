@@ -1,0 +1,92 @@
+		<volist name="missions.list" id="vo">
+			<tr>
+                <!-- <td><input type="checkbox" /></td> -->
+                <td>
+                    <?php if($vo['mission_type']=='1'){?>
+                        根据工作安排
+                    <?php }else if($vo['mission_type']=='2'){?>
+                        按频率
+
+                        <?php if($vo['frequency_type'] == '1'){?>
+                                (周报)
+                        <?php }else if($vo['frequency_type'] == '2'){?>
+                                (月报)
+                        <?php }else if($vo['frequency_type'] == '3'){?>
+                                (季度)
+                        <?php }else if($vo['frequency_type'] == '4'){?>
+                                (半年)
+                        <?php }else{?>
+                                (年度)
+                        <?php }?>
+                    <?php }else{?>
+                        指定时间
+                    <?php }?>
+                </td>
+
+                <td>{$vo.title}
+                </td>
+
+                <td>{$vo.content}
+                </td>
+
+                <td>{$vo.mission_score}分
+                </td>
+                
+                <td class="am-hide-sm-only">
+                  {$vo.create_time|date="Y-m-d H:i:s",###}
+                </td>
+
+                <td>
+                <if condition="$vo['on_time']">
+                    {$vo.on_time|date="Y-m-d H:i:s",###}
+                <else/>
+                    未启动
+                </if>
+                  
+                </td>
+                <td>
+                	<div class="am-btn-toolbar">
+                      <div class="am-btn-group am-btn-group-xs">
+                    <?php if($vo['status'] == '0'){?>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"  onclick="ck_edit(<?php echo $vo['id'];?>);" type="button">
+                            <span  class="am-icon-user"></span>
+                            编辑
+                        </button>
+                    <?php }?>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"  onclick="ck_detail(<?php echo $vo['id'];?>);" type="button">
+                            <span  class="am-icon-user"></span>
+                            详情
+                        </button>
+                      <?php if($vo['mission_type']=='1'&&$vo['status']!=='1'){?>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/Notice/add_time?id=<?php echo $vo["id"];?>');" type="button">
+                            <span  class="am-icon-user"></span>
+                            <?php if($vo['start_time']){?>
+                                修改录入时间
+                            <?php }else{?>
+                                录入时间
+                            <?php }?>
+                        </button>
+                      <?php }?>
+                      <?php if($vo['status'] == '0'){?>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"  date="<?php echo $vo['start_time'];?>" 
+                        onclick="start_mission(<?php echo $vo['id'];?>,<?php echo $vo['mission_type'];?>,this);" type="button">
+                            <span  class="am-icon-user"></span>
+                            启动任务
+                        </button>
+                        <!-- <button class="am-btn am-btn-default am-btn-xs am-text-secondary"  date="<?php echo $vo['start_time'];?>" 
+                        onclick="alert_modal('待开通~');" type="button">
+                            <span  class="am-icon-user"></span>
+                            启动任务
+                        </button> -->
+                      <?php }else{?>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"  onclick="" type="button">
+                            <span  class="am-icon-user"></span>
+                            任务已启动
+                        </button>
+                      <?php }?>
+                        <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</a>
+                      </div>
+                    </div>
+                </td>
+              </tr>
+        </volist>

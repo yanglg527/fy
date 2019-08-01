@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/temporary_talk/temporary_chat.css"/>
+
+</head>
+
+<body>
+<div class="bg"></div>
+<div class="page">
+    <input type="hidden" id="my-uid" value="{$user.uid}">
+    <input type="hidden" id="branch-id" value="{$branchId}">
+    <header class="head"><i onclick="history.go(-1);"></i></header>
+    <footer style="z-index: 100">
+        <div class="foot">
+            <input id="msg" type="text" onfocus="change_send()">
+            <a class="send" id="btn-send">发送</a>
+        </div>
+    </footer>
+</div>
+</body>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/temporary_talk/temporary_chat.js"></script>
+<script type="text/javascript">
+    var branchId = $("#branch-id").val();
+    console.log("branchId = " + branchId);
+    var myUid = $("#my-uid").val();
+    console.log("myUid = " + myUid);
+
+    //启用双击监听
+    mui.init({
+        gestureConfig:{
+            doubletap:true
+        },
+        subpages:[{
+            url:'_sub_temporary_chat.html',
+            id:'_sub_temporary_chat.html',
+            styles:{
+                top: '40px',
+                bottom: '0px',
+            },
+            extras:{
+                branchId : branchId
+            }
+        }]
+    });
+
+    var contentWebview = null;
+    document.querySelector('header').addEventListener('doubletap',function () {
+        if(contentWebview==null){
+            contentWebview = plus.webview.currentWebview().children()[0];
+        }
+        contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+    });
+</script>
+
+</html>

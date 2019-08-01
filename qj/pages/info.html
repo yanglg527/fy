@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组织信息</title>
+    <link rel="stylesheet" href="../stylesheets/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="../stylesheets/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/home.css">
+    <link rel="stylesheet" href="../stylesheets/map.css">
+</head>
+<body>
+<div id="app">
+    <!--头部-->
+    <div class="header">
+        <div class="logo-box"><a href="./home.html"><img src="../images/logo.png" alt="" class="logo"></a></div>
+        <div class="g-nav-bar">
+            <ul class="nav">
+                <li class="item link"><a href="./home.html">积分与台账</a></li>
+                <li class="item link"><a href="./dev.html">党员发展</a></li>
+                <li class="item link active"><a href="./info.html">组织信息</a></li>
+                <li class="item link"><a href="./study.html">学习情况</a></li>
+                <li class="item link"><a href="./mission.html">任务完成情况</a></li>
+            </ul>
+        </div>
+        <div class="user-box">
+            <div class="avatar"></div>
+            <div class="menu link">
+                <span class="chose"><span class="txt">管理员</span><i class="arrow"></i></span>
+                <ul class="choose-list">
+                    <li class="item"><a class="link" href="http://djpt.zhzy.net.cn/Admin/Index/index">个人中心</a></li>
+                    <li class="item"><a class="link" href="http://djpt.zhzy.net.cn/Admin/Index/index">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--主swipe-->
+    <div id="main-app" class="swiper-container swiper-container-vertical">
+        <div class="swiper-wrapper">
+            <!--第一页部分-->
+            <div class="swiper-slide" id="page-one">
+                <div class="content-box">
+
+                    <!--左表格-->
+                    <div class="left">
+                        <div class="table-title-bar">
+                            <span class="name" v-text="lResult.headtitle"></span>
+                        </div>
+
+                        <!--表格数据-->
+                        <div class="table-container box-bordered">
+                            <div class="table-title">
+                                <span class="item">序号</span><span class="item">党支部</span><span class="item">党员</span>
+                            </div>
+                            <div class="table-wrap mCS-autoHide" data-mcs-theme="dark-thin">
+                                <table class="table">
+                                    <tbody>
+                                    <tr v-for="(item,index) in lResult.list"
+                                        @click="cRight(item.id)">
+                                        <td><span class="num" v-text="item.rowNum+1"></span></td>
+                                        <td>
+                                            <span class="text break" v-text="item.name"></span>
+                                            <span class="text break" v-text="'支部书记: '+item.sjname" v-if="item.sjname"></span>
+                                        </td>
+                                        <td><span class="value" v-text="item.dycount"></span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--页码-->
+                            <ul class="page-bar">
+                                <li class="item ctrl link"
+                                    @click="cPage('prev','l')">&ll;
+                                </li>
+                                <li class="item num link"
+                                    v-for="item in lResult.pageMessage.pagetotal"
+                                    @click="cPage(item,'l')"
+                                    :class="{'active':item===lResult.pageMessage.page}"
+                                    v-text="item"
+                                ></li>
+                                <li class="item ctrl link"
+                                    @click="cPage('next','l')">&gg;
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--右表格-->
+                    <div class="right">
+                        <div class="table-title-bar">
+                            <span class="name" v-text="rResult.title.name"></span>
+                        </div>
+
+                        <!--表格数据-->
+                        <div class="table-container box-bordered">
+                            <div class="table-title">
+                                <span class="item">序号</span><span class="item">成员</span><span class="item">政治面貌</span>
+                            </div>
+                            <div class="table-wrap mCS-autoHide" data-mcs-theme="dark-thin">
+                                <table class="table">
+                                    <tbody>
+                                    <tr v-for="(item,index) in rResult.list"
+                                        @click="jump2person(item.uid)">
+                                        <td><span class="num" v-text="(index+1)+(rResult.pageMessage.page-1)*20"></span></td>
+                                        <td><span class="text" v-text="item.name"></span></td>
+                                        <td><span class="value" v-text="item.rolename"></span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!--页码-->
+                            <ul class="page-bar">
+                                <li class="item ctrl link"
+                                    @click="cPage('prev','r')">&ll;
+                                </li>
+                                <li class="item num link"
+                                    v-for="item in rResult.pageMessage.pagetotal"
+                                    @click="cPage(item,'r')"
+                                    :class="{'active':item===rResult.pageMessage.page}"
+                                    v-show="isShowPage(item,'r')"
+                                    v-text="item"
+                                ></li>
+                                <li class="item ctrl link"
+                                    @click="cPage('next','r')">&gg;
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--中间地图-->
+                    <div class="center">
+                        <!--年份-->
+                        <div class="page-title">珠海国家税务局直属机关委员会</div>
+                        <div class="sub-title">
+                            <span class="item">党委:1</span>
+                            <!--<span class="item" v-text="'总支:'+cResult.middleMessage.hqcount"></span>-->
+                            <span class="item" v-text="'支部:'+cResult.middleMessage.pbcount"></span>
+                            <span class="item" v-text="'党员:'+cResult.middleMessage.usercount"></span>
+                        </div>
+
+                        <div id="map-wrap">
+                            <svg id="zhuHaiMap" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 474.782 439.031">
+                                <g id="doumenq" class="map-area">
+                                    <path id="形状_6" data-name="形状 6" class="cls-1 map-base"
+                                          d="M104,56s-7.827,7.165-7,10-5.955-2.08-8,0-4.043-6.4-6-13-10.5-7.033-12-4-8.248,5.794-6,13,0.122,5.638,4,6,17.142,9.486,16,19,4,1,4,1l-1,7-3,1s-0.858-1.611-1,1,2,5,2,5l2,8s-4.14,6.4-4,8,1.151,28.928-4,33-5.131,9.007-5,14-3.626,12.4-4,17,2.185,29.554-30,32c-2.664.146-16,15-16,15s-17.186,4.549,1,36c14.066,20.738,3.24,44.067,0,46s-2.881,5.233-1,11-3.881,11.871-1,15,4.92-10.422,12-3c3.753-12.794,17.8-17.737,26-20,4.109-10.2,9-13.71,15-14-0.143-4.9,1.767-7.1,9-6,2.627-.432,4-5,4-5l2-1,3-1,1-6s13.037-9.612,21-3,1.249,6.62,0,7-3,7-3,7l-5,7-2,3s-2.845,2.707,5,2l11,12-4,4-10-7-4,2-1,3-5,5,2,2,5-5,8,11,6,3,14,1s10.728,5,13,2-14.817-13.309,11-35c0,0,15.624-12.195,22-13s2.136,0.758,4,1,5.53-1.38,6-3,4.992,3.943,9,5,8.174,0.089,13-8,11.289,0.687,11,5,14.512-15.018,24-28,27.333-2.606,6-33c-9.05-21.182-23.429-30.232-33-33-5.989-5.327-8.793-18.025-23-42-9.089-15.531-5.517-38.159-5-39s-34.007-51.971-55-63c0,0-3.849.6-5,4s-11.078,1.769-12-1-10,2-10,2l-1-4-2-1-2,1Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="斗门区" class="cls-2 map-txt" x="96.758" y="206.565">斗门区</text>
+                                    <circle @mouseenter="cBallId(3)" id="ball1_拷贝" data-name="ball1 拷贝" class="cls-3 map-ball" cx="115.844" cy="219.563" r="8.5"/>
+                                </g>
+                                <g id="gaolangang" class="map-area">
+                                    <path id="形状_5" data-name="形状 5" class="cls-4 map-base"
+                                          d="M33,360l9,8s4.947-6.57,8,3c0,0,6.987,2.193,3,6-0.9,2.857,14.124,17.361,16,5,2.352-5.232,8.757,1.647,9,7s-4.759,5.716,0,11-10.523,5.923,9,22c3.838,12.037-7.2,14.3-10,14s-9.819,10.279,7,12c7.551-3.032,6,7,6,7s2.705,5.556,7-2c4.057-5.418,8.576-1.929,10-8,0,0-10.671,3.834-7,0s1.992-1.889,2-5,3.021,3.032,9,4,10.793-5.9,11-9-15.871-5.749-7-15,9.762-7.5,13-6,6.861,3.726,6,0,7.118,1.152,8-2-6.407-4.868-3-9-8.1,2.014-9-7c5.515-.7,8.028-7.936,12-8s2.306-8.431,1-9,0.473-7.728,6-7,11.346-9.736,0-31c0,0-12.475-.182-15-3s-16.662,2.185-21-4-9.542-14.944-13-7l-1,2-4-4,5-5,2-4,6-5,11,7,2-2-10-9-3-1-4-3,4-5,5-8s-0.517-2.833,1-3c-1.292-2.009,1-2,1-2l4-2s-4.136-4.475-9-6c-3.066-.194-12.165,3.582-14,7s1,5,1,5H93l-7,6-7,1a6.913,6.913,0,0,0-1,5c0.481,3.052-1.688,1.76-5,3s-6.707,3.888-10,11-19.378,3.224-25,18c0,0,.415,7.046-7,2,0,0-1.259-3.212-6,3s0.167,7.57-3,12,3.523,2.283,6,3S34.188,356.673,33,360Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="高栏港" class="cls-2 map-txt" x="59.758" y="340.565">高栏港</text>
+                                    <circle @mouseenter="cBallId(10)" id="ball1_拷贝_10" data-name="ball1 拷贝 10" class="cls-3 map-ball" cx="78.844" cy="357.563" r="8.5"/>
+                                </g>
+                                <g id="jinwan" class="map-area">
+                                    <path id="形状_4" data-name="形状 4" class="cls-5 map-base"
+                                          d="M146,334s20.712,18.907,17,42c-2.616,22,3.63,33.017,9,26,8.11,10.245,7.863,10.741,11,12s6.781,3.975,14-3,7,4,7,4,2.63,1.851,8-1,6.521,1.179,8,3a6.24,6.24,0,0,0,4,2s-1.151,6.7,2,6,0.329,5.218-1,5-6.521,3.574,0,3c4.622-.407-1.685-5.248,10-3s5-11,5-11,15.753-9.355,23-6,2.315-11.245-7-6c-7.123,1.683-1.562-3.737,1-5s-11.795-11.229,1-12c5.4-.772,4.438-6.542,3-9s10.534-22.362,14-22,7.986-2.147,26,15c10.89,6.46,11.822-.322,13-2s12.329-.54,1-7-7.329-4.579-7-11,0.192-6.127-7-6-4.753-30.425-12-32,9.685-27.708-17-33c-5.315-3.1-13.233-24.513-9-26s-13.384-1.56-28,23-14.288,6.894-15,6-8.521-2.066-9,4c-6.233,7.71-14.48,9.826-22,0-4.781,7.71-4.726,2.208-9,4s-21.753,7.409-30,22S146,334,146,334Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="金湾区" class="cls-2 map-txt" x="186.758" y="320.565">金湾区</text>
+                                    <circle @mouseenter="cBallId(4)" id="ball1_拷贝_11" data-name="ball1 拷贝 11" class="cls-3 map-ball" cx="205.844" cy="336.563" r="8.5"/>
+                                </g>
+                                <g id="hengq" class="map-area">
+                                    <path id="形状_2" data-name="形状 2" class="cls-5 map-base"
+                                          d="M295,266s24.459,29.213,48,13c10.678,1.7,23-8,23-8s7.246,4.9,8-2,5.321-4.555,8,3,7.4,6.362,10,15-0.839,29.986-1,33-3.786,3.351-3,9,0.637,4.693-1,5-0.235,3.64,3,3,7.578,1.165,9,3,1.348,9.085-7,7-3-6-3-6-1.123-2.2-7,0-6.669-1.353-12,2-19.982,6.695-17,12-2.348,6.677-6,7c-2.627.232-13.318-5.534-20-15-2.609-3.7-2.056-15.67-5-20-2.869-4.219-8.4-2.963-12-11-1.564-3.5,4.491-9.909.2-12.434-5.405-3.18-11.625-8.384-14.2-13.566-2.785-5.606-2.052-8.651-3-13-1.064-4.885-3.554-10.808-2-12C291,265,292.34,263.53,295,266Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="横琴区" class="cls-2 map-txt" x="313.758" y="295.565">横琴区</text>
+                                    <circle @mouseenter="cBallId(5)" id="ball1_拷贝_12" data-name="ball1 拷贝 12" class="cls-3 map-ball" cx="333.844" cy="310.563" r="8.5"/>
+                                </g>
+                                <g id="chegou" class="map-area">
+                                    <path id="形状_3" data-name="形状 3" class="cls-4 map-base"
+                                          d="M274,230s13.233,3.491,31-8,16.531-11.718,31-12a71.269,71.269,0,0,0,18-7s12.946-4,18,15c-4.319,1.677-12.282,3.817-13,11,0,0-12.438,9.011-17,8-1.061,5.266-19.539.213-12.605,22.356C329.717,270.1,332.2,296.427,302,265c-18.026-10.9-18.969-9.07-23-20C275.038,234.257,271.907,236.908,274,230Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="车购税" class="cls-2 map-txt" x="274.758" y="221.565">车购税</text>
+                                    <circle @mouseenter="cBallId(6)" id="ball1_拷贝_13" data-name="ball1 拷贝 13" class="cls-3 map-ball" cx="294.844" cy="234.563" r="8.5"/>
+                                </g>
+                                <g id="baos" class="map-area">
+                                    <path id="形状_13" data-name="形状 13" class="cls-1 map-base"
+                                          d="M372,221s-9.465.663-11,8-6.989,2.8-15,11c0,0-17.48-1.576-15,15s0.368,17,0,21,11.146-4.2,15-2,14.687-9.9,19-8,10.348-29.235,10-32S375.8,226.932,372,221Z" transform="translate(-17.656 -17.938)"/>
+                                    <text id="保税" class="cls-2 map-txt" x="318.758" y="233.565">保税</text>
+                                    <circle @mouseenter="cBallId(8)" id="ball1_拷贝_14" data-name="ball1 拷贝 14" class="cls-3 map-ball" cx="328.844" cy="245.563" r="8.5"/>
+                                </g>
+                                <g id="xiangzhouq" class="map-area">
+                                    <path id="形状_8" data-name="形状 8" class="cls-6 map-base"
+                                          d="M339,85s-7.422-10.477,0-11,9.007,0.094,10-2,4.355,4.413,10,2,6-4,6-4,0.843,8.643,3,9,3.971,3.013,8,2,4,1,4,1l2,3h6s4.209-.758,4,1,1,5,1,5h7l1,3s1.4,3.971,15,8c10.027,2.979-3.241,8.51,14,9,2.118,1.33,9.808,8.028,10,9,0.451,6.931-3.507,7.518-34,5-13-.448-14.466,26.106-12,29s1.74,10.461,1,17,15,13,15,13-4.078,3.583-2,6-2.453,1.523-7,0-2,7.031-9,7c-2.31-7.8-3.48-2.067-3,0s-14.344,8.453-23,4-11.482-.477-17,1-17.587,11.534-23-2c-0.372-9.754,20.747-6.236,23-6s4-7,4-7l4-1,1-9-4-3-1-2-4,1-9-15s-5.318-15-11-17-6.747,2.289-8-5c-2.723-3.509.221-5.021,4-5,3.779,0.651,5-4,5-4l6-1s8.738,0.1,10-5a22.865,22.865,0,0,0,0-10h-3l-3-5-3,1-2-2V97l5-4Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="香洲区" class="cls-7 map-txt" x="334.757" y="120.565">香洲区</text>
+                                    <circle @mouseenter="cBallId(2)" id="ball1_拷贝_15" data-name="ball1 拷贝 15" class="cls-3 map-ball" cx="353.844" cy="135.563" r="8.5"/>
+                                </g>
+                                <g id="gaoxinq" class="map-area">
+                                    <path id="形状_7" data-name="形状 7" class="cls-1 map-base"
+                                          d="M461,23s-12.015,8.795-11,21,3.454,8.362,3,14-0.137,5.925,2,6,8.057,4.855,11-3,9.875-4.014,11-2,7.531-1.465,4-10,2.195-3.619,6-4,7.037-6.754,4-11-0.21-6.224,1-6-0.4-.945-2-2-4-7-4-7-6.692,5.893-11,1-4.631.367-6,2-1.789-2.386-3-3-5.072.209-5,1S461,23,461,23ZM364,41s1.837-3,5-3c2.1,0,5.308,2.967,8.081,3.614,2.8,0.653,5.354-1.491,7.919-1.614,2.679-.129,5.469-1,8-1,2.273,0,4.117,1,6,1a21.453,21.453,0,0,1,7,1s1.042,14.158,1,18-9,6-9,6,2.05,6.142,5,3,6.026-3.425,6,1-5,7.843-1,5,4-3,4-3,10.5,15.787,20,11,3.728-3.757,9-1,3.435-10.425,7-9,2.687,5.5,3,8,5-4,5-4l8,3s-10.54,12.612-13,17-12.736,7.739-11-2c-0.28-2.179-6.94.108-5,4s0.857,6.123-1,4-8.24,4.964-2,8c0,0-10.526.895-11-4s-8-7-8-7l-10-4-2-5a8.743,8.743,0,0,0-4,0c-1.635.561-3-1-3-1l-1-4-5-2-4,1-1-3-7-2-3,1-4-2-3-9s-6.319,3.071-7,4-4.766,1.607-6-1-6.7-1.173-8,0-5.661,1.347-6,0-5.377-.1-5-4-7.246-9.786,4-11,3.071-10.2,3-11,7.47-.6,10-7S353.415,46.292,364,41Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="高新区" class="cls-2 map-txt" x="337.758" y="34.565">高新区</text>
+                                    <circle @mouseenter="cBallId(11)" id="ball1_拷贝_16" data-name="ball1 拷贝 16" class="cls-3 map-ball" cx="358.844" cy="49.563" r="8.5"/>
+                                </g>
+                                <g id="wanshan" class="map-area">
+                                    <path id="形状_1" data-name="形状 1" class="cls-1 map-base"
+                                          d="M392.7,386.526l19.1,0.991s11.439-5.66,14.076,4.953c0,0-9.623,7.9,4.021,5.943,0,0,2.266,5.2,2.011,8.915s10.485,1.342,11.06,3.962-7.424,3.986-13.071,2.972c0,0,3.428,6.05-2.011,5.943-7.009-.327,3.364,8.221,6.033,7.925,4.463-.96,4.309,7.446-10.054,4.952-3.877-.829-3.017,7.925-3.017,7.925s-3.729,8.974-15.081,0c-8.66-5-7.81,7.514-16.086-10.9-2.668-5.151-1.986-7.842-7.038-5.944s-9.3-14.377-1.006-14.858S378.117,399.565,392.7,386.526Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <text id="万山区" class="cls-2 map-txt" x="368.758" y="395.565">万山区</text>
+                                    <circle @mouseenter="cBallId(9)" id="ball1_拷贝_17" data-name="ball1 拷贝 17" class="cls-3 map-ball" cx="389.844" cy="411.563" r="8.5"/>
+                                </g>
+                                <g id="kuajing" class="map-area">
+                                    <path id="形状_10" data-name="形状 10" class="cls-5 map-base"
+                                          d="M426.542,169s0.253,7.642,6.077,6.022,8.452-1.85,9.117,3.011-7.542,4.123,1.519,9.033,5.265,10.859,3.039,13.55-11.734,1.141-10.636,4.516-1.809,1.426,1.519,6.022-8.251,1.2-9.116,1.506-6.909,1.63-10.635,3.011-10.125-1.684-13.674-4.517-18.067,4.573-16.713-4.516L384,202.121s4.881,5.277,10.635-1.5,7.121-8.341,12.155-3.011c8.034,1.057,7.121-7.648,6.078-10.539s11.106-5.448,12.155-13.549Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <circle @mouseenter="cBallId(12)" id="ball1_拷贝_18" data-name="ball1 拷贝 18" class="cls-3 map-ball" cx="401.844" cy="186.563" r="8.5"/>
+                                    <text id="kuaj" class="cls-2 map-txt" x="398.758" y="174.565">跨境</text>
+                                </g>
+                                <g id="guoshui" class="map-area">
+                                    <path id="guoshui-2" data-name="guoshui" class="cls-5 map-base"
+                                          d="M397,163s1.382,8.076,0,9,5.8,6.711,11,8c7.064,1.4,8.628-1.451,12-3,2.68-1.232,8.425-11.447,11-12s-4.327-18.678,0-25-0.768-2.543,3-11c-9.4-2.154-26.7-1.153-30.129-1.508C398.494,126.819,391.3,143.069,396,152,397.832,154.328,397,163,397,163Z"
+                                          transform="translate(-17.656 -17.938)"/>
+                                    <circle @mouseenter="cBallId(7)" id="ball1" class="cls-3 map-ball" cx="386.844" cy="115.563" r="5.5"/>
+                                    <!--<circle @mouseenter="cBallId(2)" id="ball1_拷贝_2" data-name="ball1 拷贝 2" class="cls- map-ball" cx="401.844" cy="118.563" r="5.5"/>-->
+                                    <!--<circle @mouseenter="cBallId(3)" id="ball1_拷贝_3" data-name="ball1 拷贝 3" class="cls-3 map-ball" cx="386.844" cy="129.563" r="5.5"/>-->
+                                    <!--<circle @mouseenter="cBallId(4)" id="ball1_拷贝_4" data-name="ball1 拷贝 4" class="cls-3 map-ball" cx="401.844" cy="134.563" r="5.5"/>-->
+                                    <!--<circle @mouseenter="cBallId(5)" id="ball1_拷贝_5" data-name="ball1 拷贝 5" class="cls-3 map-ball" cx="386.844" cy="145.563" r="5.5"/>-->
+                                    <!--<circle @mouseenter="cBallId(7)" id="ball1_拷贝_6" data-name="ball1 拷贝 6" class="cls-3 map-ball" cx="401.844" cy="150.563" r="5.5"/>-->
+                                </g>
+                            </svg>
+
+                            <ul class="hover-list">
+                                <li class="item" v-text="cResult.list[ballId].name"></li>
+                            </ul>
+                            <!--底部广州地图-->
+                            <img src="../images/gzMap.png" alt="" class="shadow-map">
+
+                        </div>
+
+                        <!--底部文字-->
+                        <div class="bottom-wrap">
+                            <div class="branch-box">
+                                <h2 class="branch-title">按行政序列</h2>
+                                <ul class="branch-list">
+                                    <li class="item link"
+                                        v-for="item in cResult.list"
+                                        v-text="item.name"
+                                        @click="cLeft(item.id)"
+                                    ></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--js-->
+<script type="text/javascript" src="../js/lib/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery.mCustomScrollbar.min.js"></script>
+<!--vue-->
+<script type="text/javascript" src="../js/lib/vue.min.js"></script>
+<script type="text/javascript" src="../js/lib/vue-resource.min.js"></script>
+<script>
+    var basePath='http://dj.zhzy.net.cn';
+    // var basePath = 'http://fy.dev.com';
+    (function () {
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                cUrl: basePath + '/api/information/middleline',
+                lUrl: basePath + '/api/information/leftIndex',
+                rUrl: basePath + '/api/information/rightIndex',
+                ballId: 0,
+
+
+                lPost: {
+                    id: 319,
+                    page: 1,
+                    limit: 20
+                },
+                rPost: {
+                    id: 48,
+                    page: 1,
+                    limit: 20
+                },
+
+                cResult: {list: [{name: ''}], middleMessage: {}},
+                lResult: {pageMessage: {page: '', pagetotal: '', total: ''}},
+                rResult: {list: [], title: {name: ''}, pageMessage: {page: '', pagetotal: '', total: ''}}
+            },
+            mounted: function () {
+                this.getCenter(this.cUrl);
+                this.getLeft(this.lUrl, this.lPost);
+                this.getRight(this.rUrl, this.rPost);
+            },
+            methods: {
+                getCenter: function (url) {
+                    this.$http.jsonp(url).then(function (res) {
+                        this.cResult = JSON.parse(JSON.stringify(res.body.data));
+                        console.log(this.cResult);
+                    });
+                },
+                getLeft: function (url, data) {
+                    this.$http.jsonp(url, {params: data}).then(function (res) {
+                        this.lResult = JSON.parse(JSON.stringify(res.body.data));
+
+                        /*获取最新左列表第一个记录的id 传给右列表参数*/
+                        this.rPost.id = this.lResult.list[0].id;
+                        this.rPost.page = 1;
+                        this.getRight(this.rUrl, this.rPost);
+                    });
+                },
+                cLeft: function (id) {
+                    this.lPost.id = id;
+                    this.lPost.page = 1;
+                    this.getLeft(this.lUrl, this.lPost);
+                },
+                getRight: function (url, data) {
+                    this.$http.jsonp(url, {params: data}).then(function (res) {
+                        this.rResult = JSON.parse(JSON.stringify(res.body.data));
+                    });
+                },
+                cRight: function (id) {
+                    this.rPost.id = id;
+                    this.getRight(this.rUrl, this.rPost);
+                },
+                cPage: function (page, tableName) {
+                    var p = page;
+                    if (typeof page === 'string' && (page === 'prev') || page === 'next') {
+                        var current = this[tableName + 'Result'].pageMessage.page;
+                        p = (page === 'prev') ? current - 1 : current + 1;
+                    }
+
+                    if (p < 1 || p > this[tableName + 'Result'].pageMessage.pagetotal || p === this[tableName + 'Result'].pageMessage.page) {
+                        return false;
+                    }
+
+                    this[tableName + 'Post'].page = p;
+                    if (tableName === 'l') {
+                        this.getLeft(this[tableName + 'Url'], this[tableName + 'Post']);
+                    } else {
+                        this.getRight(this.rUrl, this.rPost);
+                    }
+                },
+                isShowPage: function (page, tableName) {
+                    var pageCount = 5;
+                    return Math.ceil(page / pageCount) === Math.ceil((this[tableName + 'Result'].pageMessage.page) / pageCount);
+                },
+                jump2person: function (id) {
+//                    window.location.href = './person.html' + '?id=' + id;
+                    window.open('person.html' + '?id=' + id);
+                },
+                cBallId: function (id) {
+                    this.ballId = id;
+                }
+            }
+        });
+    })();
+</script>
+
+<!--swiper-->
+<script>
+    (function ($) {
+        $(function () {
+            var swiper = new Swiper('#main-app', {
+                pagination: '.swiper-pagination',
+                direction: 'vertical',
+                slidesPerView: 1,
+                paginationClickable: true,
+                spaceBetween: 30,
+                mousewheelControl: true
+            });
+
+
+            var table = $('.table-wrap');
+            /*自定义滚动条*/
+            table.mCustomScrollbar();
+
+            /*自适应表格高度*/
+            var BASE_WINDOW_HEIGHT = 974, BASE_ELEMENT_HEIGHT = 610,
+                offsetH = $(window).height() - BASE_WINDOW_HEIGHT;
+            table.css('height', BASE_ELEMENT_HEIGHT + offsetH);
+
+        });
+    })(jQuery);
+</script>
+
+<!--下拉菜单-->
+<script>
+    (function ($) {
+        $(function () {
+            var list = $('.menu,.down-list');
+            list.on('click', function () {
+                $(this).toggleClass('active');
+            });
+        });
+    })(jQuery);
+</script>
+
+地图提示
+<script>
+    (function ($) {
+        $(function () {
+            var tips = $('.hover-list'), wrap = $('#map-wrap'), mapBall = $('#zhuHaiMap').find('.map-ball'),
+                basePos = {x: wrap.offset().left, y: wrap.offset().top}, ofs = 10;
+
+            mapBall.each(function (index, el) {
+                $(el).on('mouseenter', function () {
+                    tips.addClass('active');
+                    $(this).on('mousemove.map', function (e) {
+                        tips.css({
+                            'left': e.pageX - basePos.x + ofs,
+                            'top': e.pageY - basePos.y + ofs
+                        });
+                    });
+                }).on('mouseleave', function () {
+                    tips.removeClass('active');
+                });
+            });
+        });
+    })(jQuery);
+</script>
+</body>
+</html>

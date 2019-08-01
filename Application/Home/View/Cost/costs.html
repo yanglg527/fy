@@ -1,0 +1,200 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+	    .container{
+            background-color: #ffffff;
+        }
+
+        .tip {
+            width: 100%;
+            height: 31px;
+            line-height: 31px;
+            background: #FDF6D5;
+            font-size: 12px;
+            color: #666666;
+            padding-left: 10px;
+        }
+
+        .list-item{
+            margin: 10px 5px;
+            border: 1px solid #E8E8E8;
+            border-radius: 5px;
+            padding: 8px 10px;
+            overflow: hidden;
+        }
+
+        .item-title{
+            height: 24px;
+            line-height: 24px;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+
+        .item-period{
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .item-end-date{
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .party-fee-title{
+            font-size: 16px;
+            color: #999999;
+            width: 50%;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .party-fee{
+            font-size: 18px;
+            color: red;
+            width: 50%;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+        }
+
+        .btn-pay{
+            float: right;
+            height: 35px;
+            line-height: 35px;
+            width: 80px;
+            text-align: center;
+            font-size: 15px;
+            color: white;
+            background: orange;
+            border-radius: 3px;
+        }
+
+        .btn-payed{
+            float: right;
+            height: 35px;
+            line-height: 35px;
+            width: 80px;
+            text-align: center;
+            font-size: 15px;
+            color: white;
+            background: #cccccc;
+            border-radius: 3px;
+        }
+        .date-change{
+        	height: 40px;
+        	background-color: #f8f8f8;
+        	border-bottom:1px solid #eeeeee;
+        	padding-top: 8px;
+        	color: #999;
+        }
+        .date-change .title{
+        	color: #00C2E5;
+        	text-align: center;
+        }
+    </style>
+</block>
+
+<block name="content">
+    <div class="dynamic-list">
+    	<div  class="am-g date-change">
+    		<div class="am-u-sm-1">
+		        <a  id="year-sub"><i class="am-header-icon am-icon-chevron-left"></i></a>
+		    </div>
+		    <div class="am-u-sm-10 title" id="year">{$year}</div>
+	        <div class="am-u-sm-1">
+                <a  id="year-add"> <i class="am-header-icon am-icon-chevron-right"></i></a>
+	        </div>
+    	</div>
+
+        <div id="list">
+        <volist name="list" id="item">
+            <a href="__ROOT__/Home/Cost/detail?id={$item.id}">
+                <div class="list-item">
+                    <div class="item-title">{$item.fee_name}</div>
+                    <hr style="margin: 8px 0px; color: #E8E8E8"/>
+                    <div style="width:50%;border-right:1px solid #E8E8E8;float:left;text-align:center;"><span class="party-fee-title">已缴党费：</span><span class="party-fee">{$item.has_pay}元</span></div>
+                    <div style="width:50%;;float:right;text-align:center;"><span class="party-fee-title">未缴人数：</span><span class="party-fee">{$item.un_pay_count}人</span></div>
+                </div>
+            </a>
+        </volist>
+        </div>
+
+
+    </div>
+
+
+
+</block>
+
+<block name="scripts">
+    <script>
+        var year = {$year};
+        $(window).load(function(){
+            ajax_loading();
+        });
+        $('#year-sub').click(function () {
+             year = year - 1;
+            $('#year').text(year);
+            ajax_loading();
+        })
+        $('#year-add').click(function () {
+             year = year + 1;
+            $('#year').text(year);
+            ajax_loading();
+        })
+
+        function ajax_loading(){
+            $('#list').html("<label style='text-align: center;width: 100%;font-weight: 500;color: grey'>加载中...</label>");
+            $.ajax({
+                data: {
+                    'year':year,
+                    'id':{$detail.id}
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Home/Cost/ajaxLoadingCost',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            if(data.data.year == year){
+                                var html_content = '';
+                                $.each(data.data.list,function(i,vo)
+                                {
+                                    html_content += "<a href='__ROOT__/Home/Cost/detail?id=" + vo.id +"'>" +
+                                            "<div class='list-item'>" +
+                                            "<div class='item-title'>" + vo.fee_name + "</div>" +
+                                            "<hr style='margin: 8px 0px; color: #E8E8E8'/>" +
+                                            "<div style='width:50%;border-right:1px solid #E8E8E8;float:left;text-align:center;'>" +
+                                            "<span class='party-fee-title'>已缴党费：</span><span class='party-fee'>" + vo.has_pay + "元</span>" +
+                                            "</div>" +
+                                            "<div style='width:50%;;float:right;text-align:center;'>" +
+                                            "<span class='party-fee-title'>未缴人数：</span><span class='party-fee'>" + vo.un_pay_count+ "人</span>" +
+                                            "</div>" +
+                                            "</div>" +
+                                            "</a>";
+                                });
+                                console.log("html:" + JSON.stringify(data));
+                                $('#list').html(html_content);
+                                if(html_content == ''){
+                                    $('#list').html("<label style='text-align: center;width: 100%;font-weight: 500;color: grey'>无数据</label>");
+                                }
+                            }
+
+
+                        }
+                    } else {
+                    }
+                },
+                error: function (data) {
+                    alert('网络异常');
+                    $('#list').html("<label style='text-align: center;width: 100%;font-weight: 500;color: grey'>加载失败</label>");
+                }
+            })
+        }
+    </script>
+
+</block>

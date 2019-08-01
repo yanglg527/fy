@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .cu{
+        font-weight:700;!important;
+    }
+    .title-color{
+        color:#999999;
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <link rel="stylesheet" href="__CSS__/branch_info/list-styles.css">
+    
+    <title>{$title}</title>
+
+  
+</head>
+
+<body>
+    <div class="page" style="padding-bottom:0px;">
+        
+        <div class="banner">
+            <div class="head"><i onclick="history.go(-1);"></i><p style="font-size: 18px;">妇幼保健院党组织架构</p>
+            </div>
+        </div>
+        <div>
+
+            <ul class="list">
+                <volist name="branch" id="vo">
+                    <li class="item">
+                        <!-- id是支部id -->
+                        <div class="info-box" <if condition="$vo['small_group'] ==''">id={$vo.id}</if> >
+                            <div class="avatar" style="background-image: url('__IMG__/branch_info/flag.jpg')">
+                                <!-- <img src="__IMG__/branch_info/flag.jpg" alt=""> -->
+                            </div>
+                            <div class="info">
+                                <p class="title" style="font-size: 18px;font-weight:bold ">{$vo.name}</p>
+                                <notempty name="vo.sj_realname">
+                                    <p class="leader" style="font-size: 14px">
+                                    <span class="title-color">书记:</span>&nbsp;
+                                    <span>{$vo.sj_realname}</span></p>
+                                </notempty>
+                                <notempty name="vo.sj_realname">
+                                    <!--<div class="am-g doc-am-g">-->
+                                        <!--<div class="am-u-md-4">支部委员:</div>-->
+                                        <!--<div class="am-u-md-8"> <volist name="vo.wy" id="item" key="index" >-->
+                                            <!--&nbsp;{$item}-->
+                                        <!--</volist></div>-->
+                                    <!--</div>-->
+                                    <p style="display: flex">
+                                        <span class="leader title-color" style="font-size: 14px;flex-shrink:0"> 支部委员:</span>
+                                        <span style="line-height: 20px;font-size: 14px">
+                                            <volist name="vo.wy" id="item" key="index" >
+                                           &nbsp;   {$item}
+                                            </volist>
+                                        </span>
+                                    </p>
+                                </notempty>
+
+                                <if condition="$vo['small_group'] !=''">
+                                <div>
+                                    <p class="text-type-1" style="font-size: 14px"><span class="cu group am-text-danger">{$vo.small_group_count}</span>个党小组&nbsp;&nbsp;&nbsp;&nbsp;<span class="cu member am-text-danger">{$vo.branch_mumber_count}</span>个党员</p>
+                                    <!--<span class="text-type-2 am-margin-left-sm">{$vo.branch_mumber_count}个党员</span>-->
+                                </div>
+                                <else/>
+                                    <p class="text-type-1" style="font-size: 14px"><span class="cu am-text-danger">{$vo.branch_mumber_count}</span>个党员</p>
+                                </if>
+                            </div>
+                        </div>
+                        <if condition="$vo['small_group'] !=''">
+                            <div class="group-box" style="margin-top: 3px">
+                                <volist name="vo.small_group" id="item">
+                                    <div class="group-item">
+                                        <a href="__ROOT__/Mob/SmallGroup/index?pg_id={$item.id}" style="color:#fff;">
+                                            <p class="group-name">{$item.name}</p>
+                                            <notempty name="item.gl_realname"><p class="group-leader" style="font-size: 10px">组长: {$item.gl_realname}</p></notempty>
+                                        </a>
+                                    </div>
+                                </volist>
+                            </div>
+                        <else/>
+                            <div class="group-box" style="margin-top: 3px">
+                                <div style="height: 44px;color: white">
+                                    <p class="group-name" style="font-size: 14px;margin-left: 20px;margin-top: 10px">当前支部下暂时没有党小组&nbsp;&nbsp;<a href="__ROOT__/Mob/Branch/zone?id={$vo.id}">进入该支部</a></p>
+
+                                </div>
+                            </div>
+                        </if>
+                    </li>
+                </volist>
+                <!-- <li class="item">
+                    <div class="info-box">
+                        <div class="avatar">
+                                <img src="__IMG__/branch_info/flag.jpg" alt="">
+                        </div>
+                        <div class="info">
+                            <p class="title">第一支部</p>
+                            <p class="leader">李某</p>
+                            <p class="text-type-1">666</p>
+                            <p class="text-type-2"></p>
+                        </div>
+                    </div>
+        
+                    <div class="group-box">
+                        <div class="group-item">
+                            <p class="group-name">第一党组</p>
+                            <p class="group-leader">张某</p>
+                        </div>
+                        <div class="group-item">
+                            <p class="group-name">第一党组</p>
+                            <p class="group-leader">张某</p>
+                        </div>
+                        <div class="group-item">
+                            <p class="group-name">第一党组</p>
+                            <p class="group-leader">张某</p>
+                        </div>
+                        <div class="group-item">
+                            <p class="group-name">第一党组</p>
+                            <p class="group-leader">张某</p>
+                        </div>
+                        <div class="group-item">
+                            <p class="group-name">第一党组</p>
+                            <p class="group-leader">张某</p>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+    
+    </div>
+    <script src="__STATICS__/assets/js/jquery.min.js"></script>
+
+
+    <script>
+        ;(function($) {
+            $(".group-box").slideUp(0)
+
+            $(".info-box").click(function(e) {
+                var target = $(this)
+
+                // 如果有id，则直接跳转页面
+                 if(target.attr('id')){
+                    // window.location.href="__ROOT__/Mob/BranchInfo/branchDetail?id="+target.attr('id')
+                    // return
+                }
+
+                var group = target.siblings(".group-box");
+                var isActive = target.hasClass("active");
+
+                $(".info-box").removeClass("active");
+                $(".group-box").slideUp();
+
+                if (isActive) {
+                    target.removeClass("active");
+                    target.find('.group').css('color','#dd514c');
+                    target.find('.member').css('color','#dd514c');
+                    target.find('.title-color').css('color','#999999');
+                    group.slideUp()
+                } else {
+                    target.addClass("active");
+                    target.find('.title-color').css('color','#ffffff');
+                    target.find('.group').css('color','#f8dc13');
+                    target.find('.member').css('color','#f8dc13');
+                    // target.css('color','#f37b1d');
+                    $(".group-box").css('background-color','#f37b1d');
+                    group.slideDown()
+                }
+            })
+        })(window.jQuery)
+    </script>
+</body>
+
+</html>

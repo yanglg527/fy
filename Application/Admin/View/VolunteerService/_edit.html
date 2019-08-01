@@ -1,0 +1,73 @@
+<form class="am-form am-form-horizontal" id="form-data" method="post">
+    <input type="hidden" name="id" value="{$info.id}"/>
+    <input type="hidden" id="status" name="status"/>
+
+    <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
+      <p>开始日期应小于结束日期！</p>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">主题</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="theme" value="{$info.theme}" placeholder="主题(至少 3 个字符)" minlength="3" required/>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <!-- disabled="disabled" -->
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">开始日期</label>
+        <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+          <input type="text" readonly="readonly"
+          name="start_date" value="{$info.start_date}" id="start_date" class="am-form-field" placeholder="开始日期" required>
+          <span class="am-input-group-btn am-datepicker-add-on">
+            <button class="am-btn am-btn-default" type="button" id="startDate">
+                <span class="am-icon-calendar"></span></button>
+          </span>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选召开日期
+        </div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">结束日期</label>
+        <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+          <input type="text"  readonly="readonly" name="end_date" value="{$info.end_date}" id="end_date" class="am-form-field" placeholder="结束日期" required>
+          <span class="am-input-group-btn am-datepicker-add-on">
+            <button class="am-btn am-btn-default" id="endDate"  type="button">
+                <span class="am-icon-calendar"></span></button>
+          </span>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择日期
+        </div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">服务地点</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="address" value="{$info.address}" placeholder="服务地点(至少 3 个字符)" minlength="3" required/>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">详情</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <!-- detail -->
+            <textarea class="am-validate" name="detail"  id="content" required>{$info.detail}</textarea>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <div class="am-u-sm-10 am-u-sm-offset-2">
+          <button type="submit"
+          class="am-btn am-btn-default btn-loading-example" onclick="onStatus(2)">提交推送</button>
+          <button type="submit"
+          class="am-btn am-btn-default btn-loading-example" onclick="onStatus(0)">保存草稿</button>
+          <button type="button" class="am-btn am-btn-default" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+</form>

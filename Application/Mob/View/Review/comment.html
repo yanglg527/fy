@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学习交流</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+   <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/experience/comment.css" />
+</head>
+
+<body>
+<div class="page">
+    <header class="head">
+        <a onclick="history.go(-1);"><i></i></a>
+    </header>
+    <div class="experience">
+        <div class="list">
+            <div class="title">{$detail.title}</div>
+            <div class="head">
+                <img src="{$detail.user_headimgurl|get_head_url}" alt="">
+                <span class="name">{$detail.user_realname}</span>
+                <span class="position">{$detail.adm_post_name}</span>
+                <i class="time">
+                    {$detail.create_time|date='Y.m.d H:i'}
+                </i>
+            </div>
+            <div class="content">{$detail.content}</div>
+        </div>
+    </div>
+    <div class="comment comment_list">
+        <div class="title">评论 (<span>{$detail.count_comment}</span>)</div>
+        <volist name="comments" id="item">
+            <dl>
+                <dt><img src="{$item.user_headimgurl|get_head_url}"></dt>
+                <dd class="container">
+                    <span>{$item.user_realname}&nbsp&nbsp&nbsp{$item.user_post_name}<span class="time">{$item.create_time|time_to_string_ques}</span></span>
+                    <div class="overview">
+                        {$item.content}
+                    </div>
+                </dd>
+            </dl>
+        </volist>
+    </div>
+    <footer>
+        <div class="foot">
+            <input type="text" placeholder="请输入评论" id="content">
+            <a class="send">发送</a>
+        </div>
+    </footer>
+</div>
+<include file="Common/_loading"/>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__notes/exchange/comment.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+    $('.send').click(function () {
+        var value = $('#content').val()
+        if(value.length >0){
+            loading()
+            $.ajax({
+                data: {
+                    id: '{$detail.id}',
+                    content:value
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Mob/Review/ajax_comment',
+                success: function (data) {
+                    close_loading()
+                    if (data['status'] == 0) {
+                        alert(data.msg);
+
+                       window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading()
+                    alert('网络异常');
+                }
+            })
+        }else{
+            alert("评论内容不能为空");
+        }
+
+    })
+</script>
+</body>
+
+</html>

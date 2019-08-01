@@ -1,0 +1,353 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .tip{
+            width: 100%;
+            height: 31px;
+            line-height: 31px;
+            background: #FDF6D5;
+            font-size: 12px;
+            color: #666666;
+            padding-left: 15px;
+        }
+
+        .item {
+            position: relative;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            border-bottom: 1px solid #e8e8e8;
+            background: white;
+        }
+
+        .item-left {
+            position: absolute;
+            height: 45px;
+            line-height: 45px;
+            left: 15px;
+            color: #1a1a1a;
+            font-size: 17px;
+        }
+
+        .item-right {
+            position: absolute;
+            height: 45px;
+            line-height: 45px;
+            left: 100px;
+            color: #1a1a1a;
+            right: 15px;
+            height: 45px;
+            font-size: 17px;
+        }
+
+        .item-icon{
+            position: absolute;
+            height: 45px;
+            line-height: 45px;
+            right: 15px;
+            font-size: 17px;
+            color: #999999;
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            font-size: 17px;
+            color: #1a1a1a;
+            background: none !important;
+            border: 0;
+            outline:none;  // 去除选中时的蓝色边框
+        }
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 0px 0px;
+            font-size: 17px;
+            color: #1a1a1a;
+        }
+        .item-right .am-selected{
+            width: 90%;
+        }
+
+        .am-btn i{
+            display: none;
+        }
+
+        .btn-apply{
+            width: 274px;
+            min-width: 250px;
+            height: 40px;
+            line-height: 40px;
+            margin: 20px auto;
+            border-radius: 40px;
+            background: #FFB400;
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+        .disable{
+            background: #aaaaaa !important;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="tip">{$tip}</div>
+
+    <form class="uploadform">
+        <div class="item">
+            <span class="item-left">姓 名</span>
+            <span class="item-right">{$user.realname}</span>
+        </div>
+        <div class="item">
+            <span class="item-left">性 别</span>
+            <span class="item-right">
+                <select data-am-selected style="border: none" name="gender">
+                    <if condition="$user.gender == 0">
+                        <option value="0" selected>女</option>
+                        <option value="1">男</option>
+                        <else/>
+                        <option value="0">女</option>
+                        <option value="1" selected>男</option>
+                    </if>
+                </select>
+            </span>
+            <span class="item-icon"> > </span>
+        </div>
+        <div class="item">
+            <span class="item-left">生 日</span>
+            <span class="item-right">
+                <input name="birthday" value="{$user.birthday}" type="text" class="am-form-field" readonly required data-am-datepicker="{format: 'yyyy-mm-dd', viewMode: 'years'}"/>
+            </span>
+            <span class="item-icon"> > </span>
+        </div>
+        <div class="item">
+            <span class="item-left">职 务</span>
+            <span class="item-right">
+                <input value="{$user.position}" name="position"/>
+            </span>
+        </div>
+        <div class="item">
+            <span class="item-left">单 位</span>
+            <span class="item-right">
+                <input value="{$user.work_unit}" name="workUnit"/>
+                <!--<textarea name="workUnit" style="line-height: 23px; resize:none !important; padding:0px; width: 100%;border: none;">{$user.work_unit}</textarea>-->
+            </span>
+        </div>
+
+        <div class="item" style="margin-top: 10px">
+            <span class="item-left">入党支部</span>
+            <span class="item-right">
+                <select data-am-selected style="border: none" name="branchId">
+                    <option value="0">选择党支部</option>
+                    <volist name="branchList" id="item">
+                        <if condition="$userJoinApply[0]['branch_id'] == $item['id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                        <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+            </span>
+            <span class="item-icon"> > </span>
+        </div>
+
+        <div class="item" style="border-top: 1px solid #e8e8e8; margin-top: 10px; border-bottom: 0px">
+            <span class="item-left">个人工作简历</span>
+        </div>
+        <input name="rewardSituation" type="hidden" value=""/>
+        <!--自定义富文本 start-->
+        <div class="article-content" id="content" style="padding: 5px 10px;border-bottom: 1px solid #E8E8E8;min-height: 200px;">
+            {$user.reward_situation}
+        </div>
+        <if condition="$btnStatus">
+            <include file="Common/_article_buttons"/>
+        </if>
+        <!--自定义富文本 end-->
+        <!--<textarea name="rewardSituation" rows="4"  style="padding:15px; width: 100%;border: none;border-bottom: 1px solid #e8e8e8;"></textarea>-->
+
+        <div class="item" style="border-top: 1px solid #e8e8e8; margin-top: 10px; border-bottom: 0px">
+            <span class="item-left">个人奖励情况</span>
+        </div>
+        <input name="jobResume" type="hidden" value=""/>
+        <!--自定义富文本 start-->
+        <div class="article-content" id="content2" style="padding: 5px 10px;border-bottom: 1px solid #E8E8E8;min-height: 200px;">
+            {$user.job_resume}
+        </div>
+        <if condition="$btnStatus">
+            <include file="Common/_article_buttons2"/>
+        </if>
+        <!--自定义富文本 end-->
+        <!--<textarea name="jobResume" rows="4"  style="padding: 15px;width: 100%;border: none;border-bottom: 1px solid #e8e8e8;">{$user.job_resume}</textarea>-->
+
+    </form>
+
+    <if condition="$btnStatus">
+        <div class="btn-apply" id="btn-submit">提交申请</div>
+        <br/>
+    <else/>
+        <div class="btn-apply disable">你已申请</div>
+        <br/>
+    </if>
+
+    <!-- 自定义富文本--->
+    <form id="file-upload-form"  action="" method="post" enctype="multipart/form-data">
+        <input id="fileUploadInput" type="file" name="file"   style="display: none">
+    </form>
+    <!----->
+
+    <!-- 自定义富文本--->
+    <form id="file-upload-form2"  action="" method="post" enctype="multipart/form-data">
+        <input id="fileUploadInput2" type="file" name="file"   style="display: none">
+    </form>
+    <!----->
+
+</block>
+<block name="scripts">
+
+    <if condition="$btnStatus">
+
+    <!-- 自定义富文本 start
+     富文本取值 $('#content').getValue()；
+     -->
+    <script src="__STATICS__/artEditor/artEditor.js"></script>
+
+    <script>
+        //第一个富文本
+        var artEditor =  $('#content').artEditor({
+            imgTar: '#imageUpload',
+            uploadUrl: '__ROOT__/Home/File/ajaxAirEditorImage',
+            placeholader: '<p>请填写你的个人简历</p>',
+            formInputId: 'target',
+            uploadStart: function() {
+                loading();
+            },
+            uploadSuccess: function(res) {
+                close_loading()
+                var data2 = JSON.parse(res)
+                if(data2.status == 0){
+                    return data2.msg;
+                }
+            },
+            uploadError: function(res) {
+                alert("图片上传失败");
+                close_loading()
+            }
+        });
+        $('#fileUploadInput').change(function(){
+            if( $('#fileUploadInput').val() != ''){
+                var formData = new FormData($('#file-upload-form')[0]);
+                $.ajax({
+                    url: '__ROOT__/Home/File/ajaxAirEditorFile',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $('#fileUploadInput').val('');
+                        if (data['status'] == 0) {
+                            var fileHtml = "<br/><a style='display: inline-block' href='" + data.data.path + "' download='" + data.data.name + "'><i class='am-icon-cloud-upload'></i>  "+ data.data.name +"</a><br/>";
+                            $('#content').insertFile(fileHtml);
+                        } else {
+                            alert(data.msg);
+                        }
+                        close_loading()
+                    },
+                    error: function (data) {
+                        $('#fileUploadInput').val('');
+                        alert("附件上传失败");
+                        close_loading()
+                    }
+                })
+            }
+        })
+    </script>
+    <script>
+        //第二个富文本
+        var artEditor =  $('#content2').artEditor({
+            imgTar: '#imageUpload2',
+            uploadUrl: '__ROOT__/Home/File/ajaxAirEditorImage',
+            placeholader: '<p>请填写你个人奖励情况</p>',
+            formInputId: 'target',
+            uploadStart: function() {
+                loading();
+            },
+            uploadSuccess: function(res) {
+                close_loading()
+                var data2 = JSON.parse(res)
+                if(data2.status == 0){
+                    return data2.msg;
+                }
+            },
+            uploadError: function(res) {
+                alert("图片上传失败");
+                close_loading()
+            }
+        });
+        $('#fileUploadInput2').change(function(){
+            if( $('#fileUploadInput2').val() != ''){
+                var formData = new FormData($('#file-upload-form2')[0]);
+                $.ajax({
+                    url: '__ROOT__/Home/File/ajaxAirEditorFile',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $('#fileUploadInput2').val('');
+                        if (data['status'] == 0) {
+                            var fileHtml = "<br/><a style='display: inline-block' href='" + data.data.path + "' download='" + data.data.name + "'><i class='am-icon-cloud-upload'></i>  "+ data.data.name +"</a><br/>";
+                            $('#content2').insertFile(fileHtml);
+                        } else {
+                            alert(data.msg);
+                        }
+                        close_loading()
+                    },
+                    error: function (data) {
+                        $('#fileUploadInput2').val('');
+                        alert("附件上传失败");
+                        close_loading()
+                    }
+                })
+            }
+        })
+    </script>
+    <!-- 自定义富文本 end -->
+    </if>
+    <script type="text/javascript">
+        $('#btn-submit').click(function () {
+            $('input[name="jobResume"]').val($('#content').getValue());
+            $('input[name="rewardSituation"]').val($('#content2').getValue());
+            var data = $('.uploadform').serialize();
+
+            $.ajax({
+                url: '__ROOT__/JoinApply/Index/ajaxJoinApply',
+                type: 'POST', //GET
+                data: $('.uploadform').serialize(),
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        alert(data.msg);
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+    </script>
+
+</block>

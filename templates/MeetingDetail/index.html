@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="../global.css" />
+        <link rel="stylesheet" href="./styles.css" />
+
+        <script src="../lib/vue.min.js"></script>
+        <script src="../lib/axios.min.js"></script>
+        <script src="../lib/utils.js"></script>
+
+        <title>三会一课</title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn" @click="goback"></div>
+                <span class="nav-title"></span>
+            </div>
+
+            <div class="g-content-container meeting-detail" v-if="!!detail">
+                <header class="header">
+                    <span class="categories-title" v-text="'['+detail.meeting_type+']'"></span> <span class="title" v-text="detail.theme"></span>
+                </header>
+
+                <div class="g-sub-info">
+                    <span v-text="'发布人：'+detail.realname+''+detail.branch_name">
+                    </span> <span v-text="'开始日期：'+detail.create_at"></span>
+                </div>
+
+                <section class="section-wrapper">
+                    <p class="section-title">召开地址：</p>
+                    <div class="section-content" v-text="detail.place"></div>
+                </section>
+
+                <div class="g-cutting-line m20"></div>
+
+                <section class="section-wrapper">
+                    <p class="section-title">会议记录：</p>
+                    <div class="section-content" v-html="detail.content"></div>
+                </section>
+
+                <div class="g-cutting-line m20"></div>
+
+                <div class="block-title attend" v-if="detail && detail.attend" v-text="'出席人员：'+detail.attend.length+'人'"></div>
+                <div class="avatar-list">
+                    <div v-for="v in detail.attend" :key="v.uid" class="item">
+                        <i class="img" :style="{backgroundImage: v.img}"></i>
+                        <span class="name" v-text="v.realname"></span>
+                    </div>
+                </div>
+
+                <div class="block-title sitIn" v-if="detail && detail.sitIn" v-text="'出席人员：'+detail.sitIn.length+'人'"></div>
+                <div class="avatar-list">
+                    <div v-for="v in detail.sitIn" :key="v.uid" class="item">
+                        <i class="img" :style="{backgroundImage: v.img}"></i>
+                        <span class="name" v-text="v.realname"></span>
+                    </div>
+                </div>
+
+                <div class="block-title leave" v-if="detail && detail.leave" v-text="'出席人员：'+detail.leave.length+'人'"></div>
+                <div class="avatar-list">
+                    <div v-for="v in detail.leave" :key="v.uid" class="item">
+                        <i class="img" :style="{backgroundImage: v.img}"></i>
+                        <span class="name" v-text="v.realname"></span>
+                    </div>
+                </div>
+
+                <div class="block-title absent" v-if="detail && detail.absent" v-text="'出席人员：'+detail.absent.length+'人'"></div>
+                <div class="avatar-list">
+                    <div v-for="v in detail.absent" :key="v.uid" class="item">
+                        <i class="img" :style="{backgroundImage: v.img}"></i>
+                        <span class="name" v-text="v.realname"></span>
+                    </div>
+                </div>
+
+                <div class="g-cutting-line m10"></div>
+
+                <!-- 附件列表 -->
+                <section class="section-wrapper">
+                    <p class="section-title">相关附件：</p>
+                    <div class="g-attachment-list" v-if="detail.files">
+                        <div class="item" v-for="v in detail.files" :key="v.files_path">
+                            <i :class="v.className"></i><span class="name" v-text="v.former_name"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="g-cutting-line m10"></div>
+
+                <!-- 评论列表 -->
+                <section class="section-wrapper">
+                    <p class="section-title">评论：</p>
+                    <div class="comment-list" v-if="detail.comment">
+                        <div v-for="v in detail.comment" :key="v.uid" class="item">
+                            <i class="avatar" :style="{backgroundImage: v.img}"></i>
+                            <div class="comment-right">
+                                <div class="top-info">
+                                    <span class="user" v-text="v.realname"></span>
+                                    <span class="date" v-text="v.date"></span>
+                                </div>
+
+                                <div class="comment-article" v-text="v.comments"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 评论文本框 -->
+                    <div :class="['comment-container', {active:showCommentbox}]">
+                        <div class="top">
+                            <span class="text" @click="onCommentToggle(false)">取消</span>
+                            <span class="title">添加评论</span>
+                            <span class="text" @click="onCommentSubmit">提交</span>
+                        </div>
+                        <div class="comment-box">
+                            <textarea class="comment-text" maxlength="200" placeholder="请输入评论内容" v-model="commentText"></textarea>
+                            <span class="comment-tips" v-text="commentText.length+'/200'"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="bottom">
+                    <span :class="collectionClass" @click="onLikeOrCollection('collection')">收藏</span>
+                    <span class="bottom-item comment" @click="onCommentToggle(true)">评论</span>
+                    <span :class="likeClass" @click="onLikeOrCollection('like')">点赞</span>
+                </div>
+                <div class="to-fixed-bottom"></div>
+            </div>
+        </div>
+
+        <script src="./main.js"></script>
+    </body>
+</html>

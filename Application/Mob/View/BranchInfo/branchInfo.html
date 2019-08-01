@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>支部信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+        <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+        <script src="__STATICS__/flexible/flexible.js"></script>
+        <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+        <link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/branch_info/personal.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/branch_info/branchInfo.css"/>
+
+        <style>
+            header.head {
+                background: url("__IMG__/branch/head_bg2.png") no-repeat;
+                background-size: cover;
+            }
+
+            header.head .head_return>i {
+                background: url("__IMG__/branch/left.png") no-repeat 100%;
+                background-size: 100%;
+            }
+
+            .page ul {
+                margin-top: 0.9rem;
+            }
+
+        </style>
+	</head>
+
+	<body>
+
+		<div class="page">
+			<header class="head">
+				<!-- <div class="statistics">
+					<a href="javascript:">数据统计</a>
+				</div> -->
+				<a onclick="history.go(-1);">
+                    <div class="head_return"><i></i></div>
+                    <div class="head_title" style="position: absolute;
+                    text-align: center;
+                    top:0;">
+                        <img src="__IMG__/branch/toptitle.png" alt="" style="width: 70%;">
+                    </div>
+                </a>
+                
+				<div class="title_img">
+					<div class="img-bg" style="margin-bottom: 0.2rem">
+						<img src="{$detail.cover|show_img}">
+					</div>
+                    <span>{$detail.name}</span>
+				</div>
+				<ul class = "cityCouncil">
+                    <li><a class ="bor" ><p>{$counts.party_count}</p><span>党员</span></a></li>
+					<li><a ><p>{$counts.tobe_count}</p><span>发展对象</span></a></li>
+                    <li><a ><p>{$counts.activite_count}</p><span>积极分子</span></a></li>
+                    <li><a><p>{$counts.crowd_count}</p><span>群众</span></a></li>
+					<!--<li><a href="#"><p>{$counts.ready_count}</p><span>预备党员</span></a></li>-->
+
+
+
+				</ul>
+			</header>
+		</div>
+		<div class="content">
+			<div class="contenter">
+                <div id="page0">
+                    <ul>
+                        <volist name="partys" id="item">
+                            <li><a href="__ROOT__/Mob/Center/edit?uid={$item.uid}">
+                                <img src="{$item.headimgurl|get_head_url}"/>
+                                <div>
+                                    <section>{$item.realname}<if condition="$item.gender == 1"><img src="__IMG__/branch_info/male.png"/><else/><img src="__IMG__/branch_info/female.png"/></if></section>
+                                    <p>{$item.sign}</p>
+                                </div></a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <div id="page1">
+                    <ul>
+                        <volist name="tobes" id="item">
+                            <li><a href="__ROOT__/Mob/Center/edit?uid={$item.uid}">
+                                <img src="{$item.headimgurl|get_head_url}"/>
+                                <div>
+                                    <section>{$item.realname} <if condition="$item.gender == 1"><img src="__IMG__/branch_info/male.png" alt="#"/><else/><img src="__IMG__/branch_info/female.png" alt="#"/></if></section>
+                                    <p>{$item.sign}</p>
+                                </div>
+                            </a></li>
+                        </volist>
+                    </ul>
+                </div>
+                <div id="page2">
+                    <ul>
+                        <volist name="activites" id="item">
+                            <li>
+                                <a href="__ROOT__/Mob/Center/edit?uid={$item.uid}">
+                                    <img src="{$item.headimgurl|get_head_url}"/>
+                                    <div>
+                                        <section>{$item.realname}<if condition="$item.gender == 1"><img src="__IMG__/branch_info/male.png"/><else/><img src="__IMG__/branch_info/female.png"/></if></section>
+                                        <p>{$item.sign}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <div id="page3">
+                    <ul>
+                        <volist name="crowds" id="item">
+                            <li>
+                                <a href="__ROOT__/Mob/Center/edit?uid={$item.uid}">
+                                    <img src="{$item.headimgurl|get_head_url}"/>
+                                    <div>
+                                        <section>{$item.realname}<if condition="$item.gender == 1"><img src="__IMG__/branch_info/male.png"/><else/><img src="__IMG__/branch_info/female.png"/></if></section>
+                                        <p>{$item.sign}</p>
+                                    </div>
+                                </a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+
+		</div>
+        <script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+        <script src="__STATICS__/zepto/zepto.js"></script>
+        <script src="__STATICS__/zepto/event.js"></script>
+        <script src="__STATICS__/zepto/touch.js"></script>
+        <script src="__JS__/branch_info/party.js" type="text/javascript" charset="utf-8"></script>
+        <include file="Common/_menu"/>
+	</body>
+
+</html>

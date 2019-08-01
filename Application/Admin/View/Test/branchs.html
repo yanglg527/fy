@@ -1,0 +1,165 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .popup-qrcode{
+            position: absolute;display:none; z-index:3000; background-color:#FFF; left: 601px; top: 217px; height: auto; width: auto;text-align:center;
+            border: 2px solid #28a326;
+            border-radius: 10px;
+        }
+        .popup-qrcode .img-qrcode{
+            margin: 10px;
+            width: 280px !important;
+            height:280px !important;
+        }
+        .popup-qrcode h4{
+            padding-bottom: 10px;
+            border-bottom: 1px solid lightgray;
+        }
+
+        .popup-qrcode .close-popup{
+            color: grey;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 16px;
+        }
+
+        .popup-qrcode .bottom-button{
+            padding-bottom: 10px;
+        }
+        .popup-qrcode .bottom-button input{
+            background-color: #eeeeee;
+            border: 1px lightgray solid;
+            border-radius: 5px;
+            padding: 5px 20px;
+            color: black;
+            font-size: 14px;
+        }
+        .popup-qrcode .bottom-button .btn-download{
+            background-color: #eeeeee;
+            border: 1px lightgray solid;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .span-more{
+            background-color: #029865;
+            color: white;
+            padding: 5px 10px ;
+        }
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><a href="#" onClick="javascript :history.back(1);"><strong
+                    class="am-text-primary am-text-lg">测试管理</strong></a> /
+                <small>
+                    《{$detail.title}》管理
+                </small>
+            </div>
+        </div>
+        <hr>
+
+
+        <div class="am-g">
+
+            <include file="_branchanalysis"/>
+            <div class="am-u-sm-12 am-u-md-1 ">
+            </div>
+            <form class="am-u-sm-12 am-u-md-11 right-align" style="text-align: right;display: none;">
+                <input type="hidden" name="id" value="{$search.id}">
+
+                <div style="position: relative;top: 12px;display: inline-block;">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" class="am-form-field" placeholder="输入支部名称关键词" name="keyword"
+                               value="{$search.keyword}">
+                    </div>
+                </div>
+
+                <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+            </form>
+
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-type" style="min-width: 70px">支部名称</th> 
+                            <th class="table-author ">应答人数</th>
+                            <th class="table-author ">答题人数</th>
+                             <th class="table-author ">未答人数</th>
+                            <th class="table-author ">平均分</th>
+                            <th class="table-author " >及格人数</th>
+
+
+                            <th class="table-author " >不及格人数</th>
+                            <th class="table-author " >未批改人数</th>
+
+
+                            <th class="table-author ">支部成员</th>
+                            <!--<th class="table-set">操作</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.name}</td>
+                                <td>
+                                    {$item.count_people}
+                                </td>
+                                <td>
+                                    {$item.count_total}
+                                </td>
+                                 <td>
+                                 	<php>echo $item['count_people']-$item['count_total'];</php>
+                                </td>
+                                <td><php>echo sprintf( "%.1f ",$item['avg']);</php></td>
+                                <td>
+                                	 {$item.count_pass}
+                                </td>
+
+                                <td>
+                                     {$item.count_unpass}
+                                </td>
+                                <td>
+                                     {$item.count_unpg}
+                                </td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <a type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-succe am-hide-sm-only" href="__ROOT__/Admin/Test/manage?id={$item.id}&test_id={$detail.id}"
+                                                    data-id="{$item.id}"><span class="am-icon-trash-o"></span> 成员列表
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <hr/>
+                    <p>注：.....</p>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+
+</block>

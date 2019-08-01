@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>积分轨迹</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+     <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/pei/pei.css"/>
+    <style type="text/css">
+        table.imagetable {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+
+            border-color: #999999;
+            border-collapse: collapse;
+        }
+        table.imagetable th {
+            background:#f9f9f9;
+            font-size: 16px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #999999;
+        }
+        table.imagetable td {
+
+
+            padding: 8px;
+            border-style: solid;
+
+        }
+        table.imagetable tr:nth-child(odd)>td
+        {
+            background:#f7f7f7;
+        }
+        table.imagetable tr:nth-child(even)> td
+        {
+            background: #ffffff;;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <div class="head">{$branch.name}积分构成图</div>
+    <!-- <div id="sixChart" style="height: 14rem;margin-top: 1rem"></div> -->
+    <div class="canvas" id="lineChart" style="height: 14rem;margin-top: 1rem;width:80%;">
+    </div>
+
+    <!--<div style="margin-top: 1rem">-->
+        <!--&lt;!&ndash; CSS goes in the document HEAD or added to your external stylesheet &ndash;&gt;-->
+
+        <!--<div style="margin-bottom:0.5rem "><h1 style="text-align: center;font-size: 18px;">{$branch.name}积分构成表</h1></div>-->
+        <!--&lt;!&ndash; Table goes in the document BODY &ndash;&gt;-->
+        <!--<table class="imagetable" style="width: 100%">-->
+            <!--<tr>-->
+                <!--<th >积分来源</th>-->
+                <!--<th>积分</th>-->
+                <!--<th>积分占比</th>-->
+            <!--</tr>-->
+
+            <!--&lt;!&ndash;{$types[0]["name"]} {:show_rate($count[0],$total)}%&ndash;&gt;-->
+            <!--<volist name="types" id="vo" >-->
+                <!--<tr>-->
+                    <!--<td>{$vo.name}</td>-->
+                    <!--<td>{$count[$i-1]}</td>-->
+                    <!--<td>{:show_rate($count[$i-1],$total)}</td>-->
+                <!--</tr>-->
+            <!--</volist>-->
+
+
+        <!--</table>-->
+
+    <!--</div>-->
+</div>
+<script src="__JS__/party_serve/integral/echarts.common.min.js"></script>
+<script>
+
+    //六个打通饼图
+    // option = {
+    //     title : {
+    //         text: '六个打通积分',
+    //         x:'center'
+    //     },
+    //     tooltip: {
+    //         trigger: 'item',
+    //         formatter: "{a} <br/>{b}: {c} ({d}%)"
+    //     },
+    //     legend: {
+    //         // orient: 'vertical',
+
+    //         x: 'center',
+    //         y: 'bottom',
+    //         data:['绩效系统','工作创新指数','纪律审查信息管理系统','廉政风险防控平台','智慧人事系统',
+    //             '工作强度指数','学习创新平台','智慧党建平台' ]
+    //             //'数字人事系统','工作奉献指数',
+    //     },
+    //     series: [
+    //         {
+    //             name:'积分统计',
+    //             type:'pie',
+    //             radius: ['80%', '40%'],
+    //             avoidLabelOverlap: false,
+    //             label: {
+    //                 normal: {
+    //                     show: false,
+    //                     position: 'center'
+    //                 },
+    //                 emphasis: {
+    //                     show: true,
+    //                     textStyle: {
+    //                         fontSize: '30',
+    //                         fontWeight: 'bold'
+    //                     }
+    //                 }
+    //             },
+    //             labelLine: {
+    //                 normal: {
+    //                     show: false
+    //                 }
+    //             },
+
+    //             data:[
+
+    //             {value:{$six_data['performance_score']}, name:'绩效系统'},
+    //             {value:{$six_data['work_innovation_score']}, name:'工作创新指数'},
+    //             {value:{$six_data['discipline_score']}, name:'纪律审查信息管理系统'},
+    //             {value:{$six_data['risk_score']}, name:'廉政风险防控平台'},
+    //             // {value:six_data['personnel_score'], name:'数字人事系统'},
+    //             {value:{$six_data['intelligent_score']}, name:'智慧人事系统'},
+    //             {value:{$six_data['strength_score']}, name:'工作强度指数'},
+    //             // {value:six_data['dedication_score'], name:'工作奉献指数'},
+    //             {value:{$six_data['learn_innovation_score']}, name:'学习创新平台'},
+    //             {value:{$six_data['score']}, name:'智慧党建平台'},
+
+    //             ]
+    //         }
+    //     ]
+    // };
+    // var sixChart = echarts.init(document.getElementById('sixChart'));
+    // sixChart.setOption(option);
+
+</script>
+<script >
+
+var option = {
+    title : {
+        text: '{$branch.name}积分构成图',
+        x:'center'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+//      orient: 'vertical',
+         x : 'right',
+        y : 'bottom',
+        data:[
+        '{$types[0]["name"]} {:show_rate($count[0],$total)}%',
+        '{$types[1]["name"]} {:show_rate($count[1],$total)}%',
+        '{$types[2]["name"]} {:show_rate($count[2],$total)}%',
+        '{$types[3]["name"]} {:show_rate($count[3],$total)}%',
+        '{$types[4]["name"]} {:show_rate($count[4],$total)}%',
+        '{$types[5]["name"]} {:show_rate($count[5],$total)}%',
+        '{$types[6]["name"]} {:show_rate($count[6],$total)}%',
+        '{$types[7]["name"]} {:show_rate($count[7],$total)}%']
+    },
+    series: [
+        {
+            name:'积分来源',
+            type:'pie',
+            radius : '35%',
+            center : ['50%', '50%'],
+            data:[
+                {value:{$countPei[0]|show_count}, name:"{$types[0]['name']}"},
+                {value:{$countPei[1]|show_count}, name:'{$types[1]["name"]} '},
+                {value:{$countPei[2]|show_count}, name:'{$types[2]["name"]} '},
+                {value:{$countPei[3]|show_count}, name:'{$types[3]["name"]} '},
+                {value:{$countPei[4]|show_count}, name:'{$types[4]["name"]} '},
+                {value:{$countPei[5]|show_count}, name:'{$types[5]["name"]} '},
+                {value:{$countPei[6]|show_count}, name:'{$types[6]["name"]}'},
+                {value:{$countPei[7]|show_count}, name:'{$types[7]["name"]}'}
+            ]
+        }
+    ]
+};
+
+		var lineChart = echarts.init(document.getElementById('lineChart'));
+		lineChart.setOption(option);
+
+
+
+
+
+</script>
+
+</body>
+</html>

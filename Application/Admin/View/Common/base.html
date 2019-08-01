@@ -1,0 +1,741 @@
+<!--<!doctype html>
+<html class="no-js">-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$webTitle}</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="__STATICS__/assets/css/admin.css">
+    <link rel="stylesheet" href="__PUBLIC__/Admin/css/page.css">
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.switch.css">
+</head>
+<block name="styles">
+
+</block>
+
+<body>
+    <!-- <header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <strong>珠海妇幼智慧党建平台</strong>
+       
+    </div>
+
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+            class="am-icon-bars"></span></button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+             <li><a href="http://dj.zhzy.net.cn/qj/pages/home.html"><span
+                    class="am-icon-expand"></span> <span class="admin-fullText">全景图</span></a></li>
+            <li class="am-dropdown" data-am-dropdown>
+                <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+                    <span class="am-icon-users"></span> {$admin['realname']} <span class="am-icon-caret-down"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    
+                    <li><a href="__ROOT__/Admin/Login/logout"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span
+                    class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+        </ul>
+    </div>
+</header> -->
+
+    <div class="am-cf admin-main">
+        <!-- sidebar start -->
+        <style>
+            .main-menu-bar{
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 20;
+            }
+
+            ul .selected {
+                background-color: #eee;
+            }
+
+
+
+            .main-menu-item {
+                position: relative;
+                z-index: 3;
+            }
+
+            .main-menu-item:hover .sub-menu {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            .sub-menu {
+                position: absolute;
+                /*top: 10px;*/
+                left: 100%;
+                bottom: 10px;
+                z-index: 99999;
+                padding-left: 20px;
+                width: 220px;
+                /* background-color: #FFFFFF; */
+                list-style: none;
+                visibility: hidden;
+                opacity: 0;
+                transition: all 0.25s;
+                margin: 0;
+            }
+
+            .popover-caret {
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: 0;
+                left: 3px;
+                top: 16px;
+                border-bottom: 10px solid transparent;
+                border-right: 17px solid #FFFFFF;
+                border-left: 0px solid transparent;
+                border-top: 10px solid transparent;
+               
+            }
+
+            .sub-menu .sub-menu-item {
+                position: relative;
+                padding: 10px;
+                text-align: center;
+                background-color: #FFFFFF;
+                box-shadow: 2px 2px 2px #e6e4e4;
+            }
+            .sub-menu .sub-menu-item a{
+                color: #666666;
+                font-weight: 600;
+            }
+            .sub-menu .sub-menu-item a:hover{
+                color: #BD3211;
+            }
+            .sidebar-span span{
+                display: block;
+                margin-top: 0.5rem;
+                color: #FFFFFF;
+                /* flex-direction:column; */
+            } 
+        </style>
+        <div class="main-menu-bar">
+        <div class="admin-sidebar am-offcanvas" id="admin-offcanvas"
+            style="padding-bottom:150px;background-color:#BD3211;">
+            <div class="am-offcanvas-bar admin-offcanvas-bar">
+                <ul class="am-list admin-sidebar-list">
+                    <li class="" id="my-popover">
+                        <a><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/quanbu.png" alt="">
+                            </span> </a>
+                    </li>
+                    <li style="margin-bottom:3rem;">
+                        <a href="__ROOT__/Admin/Index/index">
+
+                            <span class="am-icon-btn "><img src="__PUBLIC__/Common/img/common.png" /></span>
+                            <div style="margin-top:10px;color:#FFFFFF;">管理员</div>
+                        </a>
+                    </li>
+
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/yemian.png" alt="">
+                                <span>首页</span>
+                            </span> </a>
+                    </li>
+
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a ><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/guanli-copy.png" alt="">
+                                <span>管理</span>
+                            </span> </a>
+
+                            <ul class="sub-menu">
+                                    <span class="popover-caret"></span>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyWorking/index">工委信息管理</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyOrganization/index">党委信息管理</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyBranch/index">支部信息管理</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyGroup/index">党小组信息管理</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyBranch/users">用户信息管理</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/WorkUnit/index">单位信息管理</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyBranch/relations">党组织关系转接</a></li>
+                                    <li class="sub-menu-item"><a href="__ROOT__/Admin/PartyBranch/honor">支部荣誉</a></li>
+                                 
+                             
+                                </ul>
+                    </li>
+
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a ><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/taizhang.png" alt="">
+                                <span>台账</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Taizhang/index1">个人台账</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Taizhang/index4">支部台账</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Taizhang/index2">党委台账</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Taizhang/tags">台账标签</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/fazhan.png" alt="">
+                                <span>发展</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/MemberDevelopment/userRoleLog">身份转换记录</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/MemberDevelopment/userApply">入党申请书</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/MemberDevelopment/userReport">思想报告</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/MemberDevelopment/userExam">考试记录</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/MemberDevelopment/userAdvice">支部和党委意见</a></li>
+                        </ul>
+                    </li>
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/guanli.png" alt="">
+                                <span>党务</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/ThreeMeeting/index">三会一课</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/TwoLeamAndOneDot/index">两学一做</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/ThemeDay/index">主题党日</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Reward/index">奖励机制</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/fuwu.png" alt="">
+                                <span>服务</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Speaking/index">向组织说句话</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Help/index">困难求助</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Donation/index">济困捐款</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/huodong.png" alt="">
+                                <span>活动</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/VolunteerService/index">志愿服务</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Questionnaire/index.html">问卷调查</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Vote/index">投票活动</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Event/index">活动展示</a></li>
+                        </ul>
+                    </li>
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/pinglun.png" alt="">
+                                <span>评论</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Comment/articleComment">文章评论</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Comment/activityComment">活动评论</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Comment/speakingComment">向组织说句话评论</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Comment/taizhangComment">台账评论</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/Comment/helpComment">困难求助评论</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/ThreeMeeting/comment">三会一课评论</a></li>
+                        </ul>
+                    </li>
+                    <li class="{$sidebar_module|ui_sidebar='Index',$sidebar_sub,'index',2} main-menu-item">
+                        <a href="__ROOT__/Admin/Index/index"><span class="sidebar-span">
+                                <img src="__PUBLIC__/Admin/img/index/xitong.png" alt="">
+                                <span>系统</span>
+                            </span> </a>
+                        <ul class="sub-menu">
+                            <span class="popover-caret"></span>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/System/moduleList">模块管理</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/System/index">规则管理</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/System/groupList">角色管理</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/System/adminCity">系统管理员</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/System/set_member">设置</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/System/changePass">修改密码</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/IntegralManagement/index">积分统计</a></li>
+                            <li class="sub-menu-item"><a href="__ROOT__/Admin/IntegralManagement/performance">录入绩效</a></li>
+                        </ul>
+                    </li>
+                    <!-- 支部管理员 特有菜单 -->
+                    <if condition="$auth == 3">
+                        <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'member',2} main-menu-item">
+                            <a href="__ROOT__/Admin/PartyBranch/member"><span class="am-icon-fw am-icon-users"></span>
+                                成员信息</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='Content',$sidebar_sub,'index',2} main-menu-item">
+                            <a href="__ROOT__/Admin/Content/index"><span class="am-icon-fw am-icon-file-text"></span>
+                                内容管理</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='Norm',$sidebar_sub,'index',2}">
+                            <a href="__ROOT__/Admin/Norm/index"><span
+                                    class="am-icon-fw am-icon-file-text"></span>党员发展规范</a>
+                        </li>
+
+
+                        <li class="admin-parent">
+                            <a class="am-cf" data-am-collapse="{target: '#collapse-nav6'}">
+                                <span class="am-icon-book"></span> 台账管理 <span
+                                    class="am-icon-angle-right am-fr am-margin-right"></span>
+                            </a>
+                            <!--1  个人台账 2 党组台账  3 领导台账  4 支部台账-->
+                            <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='Taizhang',1}"
+                                id="collapse-nav6">
+                                <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index1',2} ">
+                                    <a href="__ROOT__/Admin/Taizhang/index1" class="am-cf"><span
+                                            class="am-icon-child"></span> 个人台账</a>
+                                </li>
+                                <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index4',2}">
+                                    <a href="__ROOT__/Admin/Taizhang/index4" class="am-cf"><span
+                                            class="am-icon-user"></span> 支部台账</a>
+                                </li>
+                                <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index2',2}">
+                                    <a href="__ROOT__/Admin/Taizhang/index2" class="am-cf"><span
+                                            class="am-icon-child"></span> 党组台账</a>
+                                </li>
+                                <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index3',2}">
+                                    <a href="__ROOT__/Admin/Taizhang/index3" class="am-cf"><span
+                                            class="am-icon-male"></span> 领导台账</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="admin-parent">
+                            <a class="am-cf" data-am-collapse="{target: '#collapse-navps'}"><span
+                                    class="am-icon-fw am-icon-sitemap"></span>
+                                群团组织管理<span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                            <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='PartySociey'}"
+                                id="collapse-navps">
+                                <li class="{$sidebar_module|ui_sidebar='PartySociey',$sidebar_sub,'labor',2}">
+                                    <a href="__ROOT__/Admin/PartySociey/alliance?type=labor"><span
+                                            class="am-icon-fw am-icon-pencil-square-o"></span> 工会</a>
+                                </li>
+                                <li class="{$sidebar_module|ui_sidebar='PartySociey',$sidebar_sub,'youth',2}">
+                                    <a href="__ROOT__/Admin/PartySociey/alliance?type=youth"><span
+                                            class="am-icon-fw am-icon-pencil-square-o"></span> 共青团组织</a>
+                                </li>
+                                <li class="{$sidebar_module|ui_sidebar='PartySociey',$sidebar_sub,'woman',2}">
+                                    <a href="__ROOT__/Admin/PartySociey/alliance?type=woman"><span
+                                            class="am-icon-fw am-icon-pencil-square-o"></span> 妇委会组织</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Test',2}"><a
+                                href="__ROOT__/Admin/Test/index"><span class="am-icon-fw am-icon-check-square-o"></span>
+                                微测试</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'WeiXinDe',2}">
+                            <a href="__ROOT__/Admin/WeiXinDe/branch_xinde"><span
+                                    class="am-icon-fw am-icon-heart-o"></span> 微心得</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'PartyClass',2}">
+                            <a href="__ROOT__/Admin/PartyClass/branchClass"><span
+                                    class="am-icon-fw am-icon-video-camera"></span> 微党课</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Note',2}">
+                            <a href="__ROOT__/Admin/Note/branch_note"><span class="am-icon-fw am-icon-book"></span>
+                                学习笔记</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'partyOrganization',2}">
+                            <a href="__ROOT__/Admin/PartyBranch/adms"><span class="m-icon-fw am-icon-cog"></span>
+                                管理员设置</a>
+                        </li>
+                    </if>
+                    <!--<if condition="$auth == 1">-->
+                    <!--<li  class="{$sidebar_module|ui_sidebar='Integral',$sidebar_sub,'index',2}"><a href="__ROOT__/Admin/IntegralManagement/index"><span class="am-icon-fw am-icon-credit-card"></span> 积分管理</a></li>-->
+                    <!--</if>-->
+                    <if condition="$auth == 1">
+                        <!-- <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav1'}"><span class="am-icon-fw am-icon-sitemap"></span>
+                            <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='PartyBranch'}  {$sidebar_module|ui_sidebar='PartyWorking'} {$sidebar_module|ui_sidebar='PartyCommittee'} {$sidebar_module|ui_sidebar='partyOrganization'}" id="collapse-nav1">
+                         
+                            <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'work',2}"><a href="__ROOT__/Admin/PartyWorking/index" class="am-cf"><span
+                                    class="am-icon-fw am-icon-sitemap"></span> 工委信息管理</a></li>
+                            <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'partyOrganization',2}"><a href="__ROOT__/Admin/PartyOrganization/index" class="am-cf"><span
+                                    class="am-icon-fw am-icon-sitemap"></span> 党委信息管理</a></li>
+                       
+                                <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'index',2}"><a href="__ROOT__/Admin/PartyBranch/index" class="am-cf"><span
+                                        class="am-icon-fw am-icon-sitemap"></span> 支部信息管理</a></li>
+                                <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'partyGroup',2}"><a href="__ROOT__/Admin/PartyGroup/index" class="am-cf"><span
+                                            class="am-icon-fw am-icon-sitemap"></span> 党小组信息管理</a></li>
+
+
+                            <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'users',2}"><a href="__ROOT__/Admin/PartyBranch/users"><span class="am-icon-fw am-icon-user"></span> 用户信息管理</a>
+                            </li>
+                            <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'workUnit',2}"><a href="__ROOT__/Admin/WorkUnit/index"><span class="am-icon-fw am-icon-user"></span> 单位信息管理</a>
+                            </li>
+
+                            <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'relations',2}"><a href="__ROOT__/Admin/PartyBranch/relations"><span class="am-icon-fw am-icon-refresh"></span> 党组织关系转接</a></li>
+                            <li class="{$sidebar_module|ui_sidebar='PartyBranch',$sidebar_sub,'partyHonor',2}"><a href="__ROOT__/Admin/PartyBranch/honor" class="am-cf"><span
+                                        class="am-icon-fw am-icon-star"></span> 支部荣誉</a></li>
+                        </ul>
+                    </li> -->
+                        <!-- <li class="{$sidebar_module|ui_sidebar='Content',$sidebar_sub,'index',2}"><a href="__ROOT__/Admin/Content/index"><span class="am-icon-fw am-icon-file-text"></span></a></li>
+             <li class="{$sidebar_module|ui_sidebar='Norm',$sidebar_sub,'index',2}">
+                    <a href="__ROOT__/Admin/Norm/index"><span class="am-icon-fw am-icon-file-text"></span></a>
+                </li> -->
+
+
+                        <!-- <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-navcomment'}"><span class="am-icon-fw am-icon-sitemap"></span>
+                            评论管理<span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='Comment'} " id="collapse-navcomment">
+                                <li class="{$sidebar_module|ui_sidebar='Comment',$sidebar_sub,'articleComment',2}"><a href="__ROOT__/Admin/Comment/articleComment" class="am-cf"><span
+                                    class="am-icon-fw am-icon-sitemap"></span> 文章评论</a></li>
+                            <li class="{$sidebar_module|ui_sidebar='Comment',$sidebar_sub,'activityComment',2}"><a href="__ROOT__/Admin/Comment/activityComment" class="am-cf"><span
+                                    class="am-icon-fw am-icon-sitemap"></span> 活动评论</a></li>
+                            <li  class="{$sidebar_module|ui_sidebar='Comment',$sidebar_sub,'speakingComment',2}"><a href="__ROOT__/Admin/Comment/speakingComment" class="am-cf"><span class="am-icon-fw am-icon-bullhorn"></span>
+                                        向组织说句话评论</a></li>
+
+                            <li class="{$sidebar_module|ui_sidebar='Comment',$sidebar_sub,'taizhangComment',2}"><a href="__ROOT__/Admin/Comment/taizhangComment" class="am-cf"><span
+                                        class="am-icon-fw am-icon-sitemap"></span> 台账评论</a></li>
+                            <li class="{$sidebar_module|ui_sidebar='Comment',$sidebar_sub,'helpComment',2}"><a href="__ROOT__/Admin/Comment/helpComment" class="am-cf"><span
+                                        class="am-icon-fw am-icon-sitemap"></span> 困难求助评论</a></li>
+
+                            <li class="{$sidebar_module|ui_sidebar='Comment',$sidebar_sub,'comment',2}"><a href="__ROOT__/Admin/ThreeMeeting/comment" class="am-cf"><span
+                                    class="am-icon-fw am-icon-sitemap"></span> 三会一课</a></li>
+
+                        </ul>
+                    </li> -->
+
+
+
+                        <!-- <li class="{$sidebar_module|ui_sidebar='Tasks',$sidebar_sub,'index',2}">
+                <a href="__ROOT__/Admin/Tasks/index"><span class="am-icon-fw am-icon-bullhorn"></span> 待办任务</a>
+            </li> -->
+                        <!-- Calvin 2019/1/21 党务管理 -->
+                        <!-- <li class="admin-parent">
+               <a class="am-cf" data-am-collapse="{target: '#collapse-nav7'}">
+                   <span class="am-icon-book"></span> 党务管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+               </a>
+               <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='ThreeMeeting',1}{$sidebar_module|ui_sidebar='Reward'}{$sidebar_module|ui_sidebar='TwoLeamAndOneDot',1}{$sidebar_module|ui_sidebar='ThemeDay',1}" id="collapse-nav7">
+                   <li class="{$sidebar_module|ui_sidebar='ThreeMeeting',$sidebar_sub,'index',2}">
+                       <a href="__ROOT__/Admin/ThreeMeeting/index" class="am-cf"><span class="am-icon-child"></span> 三会一课</a>
+                   </li>
+                   <li class="{$sidebar_module|ui_sidebar='TwoLeamAndOneDot',$sidebar_sub,'index',2}">
+                       <a href="__ROOT__/Admin/TwoLeamAndOneDot/index" class="am-cf"><span class="am-icon-user"></span> 两学一做</a>
+                   </li>
+                   <li class="{$sidebar_module|ui_sidebar='ThemeDay',$sidebar_sub,'index',2}">
+                       <a href="__ROOT__/Admin/ThemeDay/index" class="am-cf"><span class="am-icon-child"></span> 主题党日</a>
+                   </li>
+                   <li class="{$sidebar_module|ui_sidebar='Reward',$sidebar_sub,'Reward',2}"><a href="__ROOT__/Admin/Reward/index" class="am-cf"><span
+                           class="am-icon-fw am-icon-star"></span> 奖励机制</a></li>
+               </ul>
+             </li> -->
+                        <!-- Calvin end 党务管理 -->
+                        <!-- <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#collapse-nav6'}">
+                    <span class="am-icon-book"></span> 台账管理 <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a> -->
+                        <!--1  个人台账 2 党组台账  3 领导台账  4 支部台账-->
+                        <!-- <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='Taizhang',1}" id="collapse-nav6">
+                    <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index1',2}">
+                        <a href="__ROOT__/Admin/Taizhang/index1" class="am-cf"><span class="am-icon-child"></span> 个人台账</a>
+                    </li>
+                    <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index4',2}">
+                        <a href="__ROOT__/Admin/Taizhang/index4" class="am-cf"><span class="am-icon-user"></span> 支部台账</a>
+                    </li>
+
+                        <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'index2',2}">
+                            <a href="__ROOT__/Admin/Taizhang/index2" class="am-cf"><span class="am-icon-child"></span> 党委台账</a>
+                        </li>
+                    
+                        <li class="{$sidebar_module|ui_sidebar='Taizhang',$sidebar_sub,'tags',2}">
+                            <a href="__ROOT__/Admin/Taizhang/tags" class="am-cf"><span class="am-icon-child"></span> 台账标签</a>
+                        </li>
+
+                </ul>
+            </li> -->
+                        <!-- <li class="admin-parent">
+                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav0'}"><span class="am-icon-fw am-icon-print"></span>
+                        积分管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                    <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='Integral',1}" id="collapse-nav0">
+                        <li class="{$sidebar_module|ui_sidebar='Integral',$sidebar_sub,'index',2}">
+                            <a href="__ROOT__/Admin/IntegralManagement/index" class="am-cf"><span class="am-icon-fw am-icon-bar-chart-o"></span> 积分统计</a>
+                        </li>
+                        <li class="{$sidebar_module|ui_sidebar='Integral',$sidebar_sub,'performance',2}">
+                            <a href="__ROOT__/Admin/IntegralManagement/performance"><span class="am-icon-fw am-icon-edit"></span> 录入绩效</a>
+                        </li>
+                    </ul>
+                </li>
+                    <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-navps'}"><span class="am-icon-fw am-icon-sitemap"></span>
+                        群团组织管理<span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='PartySociey'}" id="collapse-navps">
+                            <li class="{$sidebar_module|ui_sidebar='PartySociey',$sidebar_sub,'labor',2}">
+                                <a href="__ROOT__/Admin/PartySociey/alliance?type=labor"><span class="am-icon-fw am-icon-pencil-square-o"></span> 工会</a>
+                            </li>
+                            <li class="{$sidebar_module|ui_sidebar='PartySociey',$sidebar_sub,'youth',2}">
+                                <a href="__ROOT__/Admin/PartySociey/alliance?type=youth"><span class="am-icon-fw am-icon-pencil-square-o"></span> 共青团组织</a>
+                            </li>
+                            <li class="{$sidebar_module|ui_sidebar='PartySociey',$sidebar_sub,'woman',2}">
+                                <a href="__ROOT__/Admin/PartySociey/alliance?type=woman"><span class="am-icon-fw am-icon-pencil-square-o"></span> 妇委会组织</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}"><span
+                        class="am-icon-fw am-icon-line-chart"></span> 党员发展 <span
+                        class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='MemberDevelopment',1}" id="collapse-nav2">
+                       
+                            <li class="{$sidebar_module|ui_sidebar='MemberDevelopment',$sidebar_sub,'userRoleLog',2}">
+                                <a href="__ROOT__/Admin/MemberDevelopment/userRoleLog"><span class="am-icon-fw am-icon-cogs"></span>
+                                身份转换记录</a></li>
+                            <li class="{$sidebar_module|ui_sidebar='MemberDevelopment',$sidebar_sub,'userApply',2}">
+                                <a href="__ROOT__/Admin/MemberDevelopment/userApply"><span class="am-icon-fw am-icon-pencil-square-o"></span> 入党申请书</a>
+                            </li>
+                            <li class="{$sidebar_module|ui_sidebar='MemberDevelopment',$sidebar_sub,'userReport',2}">
+                                <a href="__ROOT__/Admin/MemberDevelopment/userReport"><span class="am-icon-fw am-icon-pencil-square-o"></span> 思想报告</a>
+                            </li>
+                            <li class="{$sidebar_module|ui_sidebar='MemberDevelopment',$sidebar_sub,'userExam',2}">
+                                <a href="__ROOT__/Admin/MemberDevelopment/userExam"><span class="am-icon-fw am-icon-pencil-square-o"></span> 考试记录</a>
+                            </li>
+                            <li class="{$sidebar_module|ui_sidebar='MemberDevelopment',$sidebar_sub,'userAdvice',2}">
+                                <a href="__ROOT__/Admin/MemberDevelopment/userAdvice"><span class="am-icon-fw am-icon-pencil-square-o"></span> 支部和党委意见</a>
+                            </li>
+                        </ul>
+                    </li>
+                     <li class="{$sidebar_module|ui_sidebar='UserFileWander',$sidebar_sub,'index',2}"><a href="__ROOT__/Admin/UserFileWander/index"><span class="am-icon-fw am-icon-cubes"></span>文件流转</a></li>
+                   -->
+
+                        <!-- <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav4'}"><span class="am-icon-fw am-icon-print"></span>
+                            微应用 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='App',1}" id="collapse-nav4">
+                            <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'index',2}"><a href="__ROOT__/Admin/Speaking/index" class="am-cf"><span class="am-icon-fw am-icon-bullhorn"></span>
+                                向组织说句话</a></li>
+
+                            <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'help',2}"><a href="__ROOT__/Admin/Help/index" class="am-cf"><span class="am-icon-fw am-icon-wheelchair"></span>
+                                困难求助</a></li>
+
+                           <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Vote',2}"><a href="__ROOT__/Admin/Vote/index" class="am-cf"><span class="am-icon-fw am-icon-bar-chart"></span>
+                                投票活动</a></li>
+                            <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Event',2}"><a class="active" href="__ROOT__/Admin/Event/index"><span class="am-icon-fw am-icon-newspaper-o"></span> 活动报名</a></li> -->
+                        <!-- calvin  志愿服务-->
+                        <!-- <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'volunteerservice',2}"><a class="active" href="__ROOT__/Admin/VolunteerService/index"><span class="am-icon-fw am-icon-newspaper-o"></span> 志愿服务</a></li>
+
+                            <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Test',2}"><a href="__ROOT__/Admin/Test/index"><span class="am-icon-fw am-icon-check-square-o"></span> 微测试</a>
+                            </li>
+                            <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Donation',2}"><a href="__ROOT__/Admin/Donation/index"><span class="am-icon-fw am-icon-header"></span> 济困捐款</a></li>
+
+                                   <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Questionnaire',2}">
+                                    <a href="__ROOT__/Admin/Questionnaire/index.html"><span class="am-icon-fw am-icon-calendar"></span>
+                                    问卷调查</a>
+                                </li>
+                         
+                            <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'WeiXinDe',2}"><a href="__ROOT__/Admin/WeiXinDe/index.html"><span class="am-icon-fw am-icon-heart-o"></span> 微心得</a></li>
+
+
+                                <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'PartyClass',2}">
+                                    <a href="__ROOT__/Admin/PartyClass/index.html"><span class="am-icon-fw am-icon-video-camera"></span> 微党课</a>
+                                </li>
+
+                                <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Note',2}">
+                                    <a href="__ROOT__/Admin/Note/index.html"><span class="am-icon-fw am-icon-book"></span> 学习笔记</a>
+                                </li>
+
+                                <li  class="{$sidebar_module|ui_sidebar='App',$sidebar_sub,'Special',2}">
+                                    <a href="__ROOT__/Admin/Special/index"><span class="am-icon-fw am-icon-book"></span> 扶贫专项</a>
+                                </li>
+                         
+                        </ul>
+                    </li> -->
+                        <!-- <li class="admin-parent">
+                        <a class="am-cf" data-am-collapse="{target: '#collapse-nav5'}"><span class="am-icon-fw am-icon-cog"></span>
+                            系统管理 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
+                        <ul class="am-list am-collapse admin-sidebar-sub {$sidebar_module|ui_sidebar='System',1}" id="collapse-nav5">
+
+                                <li  class="{$sidebar_module|ui_sidebar='System',$sidebar_sub,'moduleList',2}">
+                                    <a href="__ROOT__/Admin/System/moduleList" class="am-cf"><span class="am-icon-fw am-icon-th-large"></span> 模块管理</a>
+                                </li>
+                                <li  class="{$sidebar_module|ui_sidebar='System',$sidebar_sub,'ruleList',2}">
+                                    <a href="__ROOT__/Admin/System/index" class="am-cf"><span class="am-icon-fw am-icon-shield"></span> 规则管理</a>
+                                </li>
+                                <li  class="{$sidebar_module|ui_sidebar='System',$sidebar_sub,'groupList',2}">
+                                    <a href="__ROOT__/Admin/System/groupList"><span class="am-icon-fw am-icon-graduation-cap"></span> 角色管理</a>
+                                </li>
+                                <li  class="{$sidebar_module|ui_sidebar='System',$sidebar_sub,'adminCity',2}">
+                                    <a href="__ROOT__/Admin/System/adminCity"><span class="am-icon-fw am-icon-users"></span> 系统管理员</a>
+                                </li>
+                        
+
+                            <li  class="{$sidebar_module|ui_sidebar='System',$sidebar_sub,'changePass',2}">
+                                <a href="__ROOT__/Admin/System/changePass"><span class="am-icon-fw am-icon-lock"></span> 修改密码</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="{$sidebar_module|ui_sidebar='Notice',$sidebar_sub,'index',2}"><a href="__ROOT__/Admin/PartyMembershipDues/index"><span class="am-icon-fw am-icon-rmb"></span> 党费管理</a></li>
+                    </if> -->
+
+
+
+                </ul>
+            </div>
+        </div>
+        </div>
+
+        <!--修复菜单栏的宽度-->
+        <div class="admin-sidebar" style="width:80px; opacity: 0"></div>
+        <!-- sidebar end -->
+        <!-- content start -->
+        <div class="admin-content">
+            <div
+                style="background-color:#FFFFFF;margin:2rem auto;width:98%;display: flex;justify-content : space-between;align-items : center;padding: 2rem; ">
+                <div>
+                    <img src="__PUBLIC__/Admin/img/index/biaoti.png" alt="">
+                </div>
+                <div style="display: flex;align-items:flex-end  ;">
+
+                    <a style="display:block;text-align: center;margin:0 1.2rem; color: #333333;"
+                        href="__ROOT__/Admin/Tasks/index">
+                        <img src="__PUBLIC__/Admin/img/index/daiban.png" alt="">
+                        <span style="display:block;">待办任务</span>
+                    </a>
+
+                    <a style="display:block;text-align: center;margin:0 1.2rem; color: #333333;"
+                        href="__ROOT__/Admin/Content/index">
+                        <img src="__PUBLIC__/Admin/img/index/neirong.png" alt="">
+                        <span style="display:block;">内容管理</span>
+                    </a>
+
+                    <a style="display:block;text-align: center;margin:0 1.2rem; color: #333333;"
+                        href="__ROOT__/Admin/UserFileWander/index">
+                        <img src="__PUBLIC__/Admin/img/index/wenjian.png" alt="">
+                        <span style="display:block;">文件流转</span>
+                    </a>
+
+                    <a style="display:block;text-align: center;margin:0 1.2rem;color: #333333;"
+                        href="http://dj.zhzy.net.cn/qj/pages/home.html">
+                        <img src="__PUBLIC__/Admin/img/index/quanjing.png" alt="">
+                        <span style="display:block;">全景图</span>
+                    </a>
+                </div>
+            </div>
+            <block name="content">
+
+            </block>
+            <footer class="admin-content-footer">
+                <!-- <hr>
+            <p class="am-padding-left">© 2018 珠海妇幼</p> -->
+            </footer>
+
+        </div>
+        <!-- content end -->
+    </div>
+
+    <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+        data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+    <!-- loading弹窗 -->
+    <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading"></div>
+    <!-- 删除弹窗 -->
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">系统提示</div>
+            <div class="am-modal-bd" id="confirm-text">
+                你确定要删除这条记录吗？
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示弹窗 -->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd" id="alert-title">系统提示</div>
+            <div class="am-modal-bd" id="alert-text">
+
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+    <script>var __root__ = "__ROOT__";</script>
+    <script src="__STATICS__/assets/js/jquery.min.js"></script>
+    <script src="__STATICS__/assets/js/amazeui.min.js"></script>
+    <script src="__STATICS__/assets/js/amazeui.switch.min.js"></script>
+    <script src="__STATICS__/assets/js/app.js"></script>
+    <script src="__PUBLIC__/Common/js/public.js"></script>
+    <script type="text/javascript">
+
+        function loading_page(url) {
+            var $modal = $('#my-modal-loading');
+            $modal.modal();
+            window.location.href = url;
+        }
+
+        function loading(text = '正在载入...') {
+            let html = '<div class="am-modal-dialog"><div class="am-modal-hd">' + text + '</div><div class="am-modal-bd"><span class="am-icon-spinner am-icon-spin"></span></div></div>'
+            var $modal = $('#my-modal-loading');
+            $modal[0].innerHTML = html
+            $modal.modal();
+        }
+
+        function close_loading() {
+            var $modal = $('#my-modal-loading');
+            $modal.modal('close');
+        }
+
+        function alert_modal(text, title) {
+            if (title == undefined) {
+                title = "系统提示";
+            }
+            $("#alert-title").html(title);
+            $("#alert-text").html(text);
+            $("#my-alert").modal();
+        }
+    </script>
+    <block name="scripts">
+
+    </block>
+</body>
+
+</html>

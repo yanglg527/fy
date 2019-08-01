@@ -1,0 +1,103 @@
+html,
+body {
+  margin: 0;
+}
+.banner {
+  min-height: 500px;
+  padding: 0;
+  overflow: hidden;
+  background: url("../../../images/index/bgblock.png") center/100% 100%
+    no-repeat;
+}
+.logo {
+  display: block;
+  width: 60%;
+  margin: 20px auto 0;
+}
+.btn-box {
+  position: relative;
+  width: 100vw;
+  height: 100vw;
+  margin: 15vw auto;
+  transform: rotate(45deg);
+}
+.btn-item {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+}
+.item-left,
+.item-right {
+  top: 50%;
+  width: 30vw;
+  height: 30vw;
+  transform: translate(0, -50%);
+}
+.item-top,
+.item-bottom {
+  left: 50%;
+  width: 30vw;
+  height: 30vw;
+  transform: translate(-50%, 0);
+}
+.item-center {
+  top: 50%;
+  left: 50%;
+  width: 30vw;
+  height: 30vw;
+  transform: translate(-50%, -50%);
+  background: url("../../../images/index/center.png") center/cover no-repeat;
+}
+.item-left {
+  left: 0;
+  padding-right: 15vw;
+  background: url("../../../images/index/leftblock.png") top/100% 100% no-repeat;
+}
+.item-right {
+  right: 0;
+  padding-left: 15vw;
+  background: url("../../../images/index/rightblock.png") top/100% 100%
+    no-repeat;
+}
+.item-top {
+  top: 0;
+  padding-bottom: 15vw;
+  background: url("../../../images/index/top.png") top/100% 100% no-repeat;
+}
+.item-bottom {
+  bottom: 0;
+  padding-top: 15vw;
+  background: url("../../../images/index/bottom.png") top/100% 100% no-repeat;
+}
+.content-box {
+  transform: rotate(-45deg);
+}
+.icon {
+  display: block;
+  width: 10vw;
+  padding-top: 10vw;
+  background: center/cover no-repeat;
+}
+.item-left .icon {
+  background-image: url("../../../images/index/icon-left.png");
+}
+.item-right .icon {
+  background-image: url("../../../images/index/icon-right.png");
+}
+.item-top .icon {
+  background-image: url("../../../images/index/icon-top.png");
+}
+.item-bottom .icon {
+  background-image: url("../../../images/index/icon-bottom.png");
+}
+.item-center .icon {
+  background-image: url("../../../images/index/icon-center.png");
+}
+.text {
+  margin: 0;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+}

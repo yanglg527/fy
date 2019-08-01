@@ -1,0 +1,30 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/grassroots/personal/education.css">
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a onclick="history.go(-1);">
+                <div class="head_return"><i></i></div>
+                <div class="xinnav">学历情况</div>
+            </a>
+        </header>
+        <ul class="content">
+            <volist name="edus" id="item">
+                <li>
+                    <div class="title">
+                        <div class="time">{$item.finish_time|date='Y-m',###}</div>
+                        <a href="__ROOT__/Mob/Center/edu_edit?id={$item.id}" class="edit"><i></i>编辑</a>
+                    </div>
+                    <div class="school">{$item.school_name}</div>
+                    <div class="education">{$item.type_name}</div>
+                </li>
+            </volist>
+
+        </ul>
+        <a href="__ROOT__/Mob/Center/edu_edit" class="foot">添加更多学历情况</a>
+    </div>
+</block>
+<block name="scripts">
+</block>

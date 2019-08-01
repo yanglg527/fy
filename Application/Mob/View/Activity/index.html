@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>党员活动</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/party_serve/nav.css" />
+</head>
+<style type="text/css">
+    header.head .head_return>i {
+        background: url("__IMG__/member_develop/return.png") no-repeat 100%;
+        background-size: 100%;
+    }
+
+    .head {
+        width: 100%;
+        height: 1rem;
+        line-height: 1rem;
+        position: relative;
+        z-index: 10;
+        background-color: #ce3d37;
+        color: #ffffff;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .head>i {
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        background: url(__IMG__/ledger_list/return.png) no-repeat 100%;
+        background-size: 100%;
+        position: absolute;
+        left: 0.26rem;
+        top: 25%;
+    }
+
+    .speak .img-icon {
+        width: 1rem;
+        display: inline;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .speak>a>.text {
+
+        padding-right: 0.5rem;
+        color: #fff;
+    }
+
+    /* .speak>a{
+
+    background: url("__IMG__/party_serve/nav_bg.png") no-repeat;
+    background-size: cover;
+} */
+</style>
+
+<body>
+    <div class="banner">
+        <div class="head">
+
+            <i onclick="location.href='__ROOT__/Mob/Index/index'"></i>
+            <p style="font-size:18px;">党员活动</p>
+        </div>
+    </div>
+    <div class="organ" style="position:unset;">
+        <div class="organer" style="position: absolute; overflow-y: scroll">
+            <div class="speak">
+                <img src="__IMG__/activity/a.jpg" alt="#" />
+                <a href="__ROOT__/vue-project/pages/VolunteerList/index.html">
+                    <p class="text">
+                        <img src="__IMG__/activity/xin.png" alt="#" class="img-icon" /> 志愿服务
+                    </p>
+                </a>
+            </div>
+
+            <div class="speak">
+                <img src="__IMG__/activity/b.jpg" alt="#" />
+                <a href="__ROOT__/Questionnaire/Index/index">
+                    <p class="text">
+                        <img src="__IMG__/activity/note.png" alt="#" class="img-icon" /> 问卷调查
+                    </p>
+                </a>
+            </div>
+            <!-- <div class="speak">
+            <img src="__IMG__/party_serve/c.png" alt="#" />
+            <a href="__ROOT__/Mob/PartyServe/donation">
+                <p class="text">
+                    <i></i>济困捐款
+                </p>
+            </a>
+        </div> -->
+
+            <div class="speak">
+                <img src="__IMG__/activity/c.jpg" alt="#" />
+                <!--  -->
+                <a href="__ROOT__/Vote/Index/index">
+                    <p class="text">
+                        <img src="__IMG__/activity/chart.png" alt="#" class="img-icon" /> 投票活动
+                    </p>
+                </a>
+            </div>
+            <div class="speak">
+                <img src="__IMG__/activity/d.jpg" alt="#" />
+                <a href="__ROOT__/Event/Index/activityDisplay">
+                    <p class="text">
+                        <img src="__IMG__/activity/scales.png" alt="#" class="img-icon" /> 活动展示
+                    </p>
+                </a>
+            </div>
+            <div class="speak">
+                <img src="__IMG__/activity/e.jpg" alt="#" />
+                <a href="__ROOT__/Event/Index/activityDisplay?type_id=2">
+                    <p class="text">
+                        <img src="__IMG__/activity/flag.png" alt="#" class="img-icon" /> 特色活动
+                    </p>
+                </a>
+            </div>
+            <div class="speak">
+                <img src="__IMG__/activity/f.jpg" alt="#" />
+                <a href="__ROOT__/Event/Index/activityDisplay?type_id=3">
+                    <p class="text">
+                        <img src="__IMG__/activity/voice.png" alt="#" class="img-icon" /> 其他活动
+                    </p>
+                </a>
+            </div>
+
+        </div>
+        <br/>
+    </div>
+    <!-- <script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script> -->
+    <script src="__STATICS__/zepto/zepto.js"></script>
+    <script src="__STATICS__/zepto/event.js"></script>
+    <script src="__STATICS__/zepto/touch.js"></script>
+    <include file="Common/_menu" />
+</body>
+
+</html>

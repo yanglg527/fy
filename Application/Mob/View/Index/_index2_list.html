@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/index/index.css">
+
+    <link rel="stylesheet" href="__STATICS__/mui/other/mui/css/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/mui/xyt/css/xyt.icon.css">
+    <link rel="stylesheet" href="__STATICS__/mui/xyt/css/xyt.base.css">
+
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .title_img > .title .inwrap .position li > .sign_in {
+            background: url(__IMG__/index/attendance.png) no-repeat 0 90%;
+            background-size: 80%;
+        }
+
+        .banner .swipe .left span {
+            background: url(__IMG__/index/left.png) no-repeat 44px 85px;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+<!--下拉刷新容器-->
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+    <div class="mui-scroll" style="background: #F7F7F7;">
+        <!-- 列表项模板 -->
+        <div id="list-item-template" style="display: none;">
+            <a class="xyt-item" href="__ROOT__/Home/Article/index.html?id=##id[1]##">
+            <dl  style="margin-top: 15px">
+                <dt class="##是否显示[3]##"><img src="##图片[5]##" style="width: 110px;height: 68px"></dt>
+                <dd style="height: 68px">
+                    <div>##标题[7]##</div>
+                    <p>##时间[9]##</p>
+                </dd>
+            </dl>
+            </a>
+        </div>
+        <!--数据列表-->
+        <div class="mui-table-view mui-table-view-chevron " style="position: initial; padding: 10px">
+            <div class="page">
+                <header class="head">
+                    <div class="head_title">党组成员小广播</div>
+                    <a href="__ROOT__/Mob/Center/index">
+                        <div class="title_img">
+                            <div class="img-bg">
+                                <img src="{$user.headimgurl|get_head_url}" alt="">
+                            </div>
+                            <div class="title clearFix">
+                                <div class="inwrap">
+                                    <ul class="position">
+                                        <li>{$user.role_name}</li>
+                                        <li class="icon">/</li>
+                                        <li class="userName">{$user.realname}</li>
+                                        <li class="icon">/</li>
+                                        <li class="sign"><span class="sign_in"></span><span class="character">去签到</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="head_message">
+                        <div class="item"><span>{$user.score}</span>
+                            <p>积分</p></div>
+                        <div class="item"><span>{$user.score_pm}</span>
+                            <p>积分排名</p></div>
+                        <div class="item last"><span>{$user['tz_count']}</span>
+                            <p>累计台账</p></div>
+                    </div>
+                </header>
+                <nav class="nav">
+                    <div class="column">
+                        <a class="item" href="__ROOT__/Mob/PartyGroup/index"><img src="__IMG__/index/mechanism.png" alt="">
+                            <p>四个机制</p></a>
+                        <a class="item" href="__ROOT__/Mob/BranchInfo/citys"><img src="__IMG__/index/org-message.png" alt="">
+                            <p>组织信息</p></a>
+                        <a class="item" href="__ROOT__/Mob/Inform/inform"><img src="__IMG__/index/organization.png" alt="">
+                            <p>群团组织</p></a>
+                        <a class="item" href="__ROOT__/Mob/MemberDevelop/index"><img src="__IMG__/index/progress.png" alt="">
+                            <p>党员发展</p></a>
+                    </div>
+                    <div class="column last">
+                        <a href="__ROOT__/Mob/PartyWork/partyWork" class="item"><img src="__IMG__/index/manage.png" alt="">
+                            <p>党务管理</p></a>
+                        <a class="item"><img src="__IMG__/index/serve.png" alt="">
+                            <p>党员服务</p></a>
+                        <a class="item"><img src="__IMG__/index/exchange.png" alt="">
+                            <p>学习交流</p></a>
+                        <a class="item"><img src="__IMG__/index/activity.png" alt="">
+                            <p>活动参与</p></a>
+                    </div>
+                </nav>
+                <div class="banner plate">
+                    <div class="head">
+                        <div class="title"><span></span><b>四维展示平台</b></div>
+                    </div>
+                    <div class="swiper-container grow-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img src="__IMG__/index/home.png" alt=""><span class="bg"></span></div>
+                            <div class="swiper-slide"><img src="__IMG__/index/create.png" alt=""><span class="bg"></span></div>
+                            <div class="swiper-slide"><img src="__IMG__/index/show.png" alt=""><span class="bg"></span></div>
+                        </div>
+                        <img src="__IMG__/branch/growBottom.png" alt="" class="displayBottom">
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_head">
+                <div class="dynamic item active"><span></span>本局党建动态</div>
+                <div class="everyday item"><span id="hide"></span>党建每日读</div>
+            </div>
+            <div class="list">
+
+            </div>
+            <div class="day_list hide">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var __root__ = "__ROOT__";
+</script>
+<script src="__STATICS__/mui/other/mui/js/mui.min.js"></script>
+<script src="__STATICS__/mui/xyt/js/xyt.mui.js"></script>
+<script src="__STATICS__/mui/xyt/js/xyt.common.js"></script>
+<script src="__STATICS__/mui/xyt/js/xyt.printf.js"></script>
+<script>
+    var published_at_0 = 0;
+    var published_at_1 = 0;
+    var type_name = 0;
+
+
+
+    // 获得列表项html字符串模板数组
+    var listItemHtmlArray = xyt.getListItemHtml();
+    // 获得列表
+    var list = document.body.querySelector('.list');
+    var list2 = document.body.querySelector('.day_list');
+
+    // 初始化可拖拉列表
+    xyt.initPullList({
+        pullUpCallback: pullUpCallback,
+        disableDown:true
+    })
+
+
+
+    var count = 0;
+
+
+    // 上拉加载具体业务实现
+    function pullUpCallback() {
+        count++;
+        var published_at = 0;
+        if(type_name == 0){
+            published_at = published_at_0
+        }else{
+            published_at = published_at_1
+        }
+        xyt.LIST_SIZE = 5;
+        xyt.ajaxGetJsonData({
+            isLoadMore: true,
+            api: "Home/Index/ajaxLoading",
+            data: {
+                'type_name': type_name,
+                'published_at': published_at,
+            },
+            successCallBack: requestSuccessCallBack,
+            failCallBack: requestFailCallBack
+        });
+    }
+
+    // 请求成功回调
+    function requestSuccessCallBack(data, isLoadMore,msg) {
+        console.log("requestSuccessCallBack");
+
+        updateList(data, isLoadMore,msg);
+        var lenght = data == undefined?0:data.length
+        xyt.endUpdate(length, isLoadMore);
+    }
+
+    // 请求失败回调
+    function requestFailCallBack(status, msg) {
+    }
+
+    function get_img_url(url) {
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url;
+        }else{
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+
+    /**
+     * 更新列表内容
+     * @param {Object} data：json数组
+     */
+    function updateList(data, isLoadMore,typename) {
+        var listItem = "";
+        var lenght = data == undefined?0:data.length
+        for (var i = 0; i < lenght; i++) {
+            var item = data[i]
+            listItemHtmlArray[1] = item.id
+            if (item.cover_path == '' || item.cover_path == null) {
+                listItemHtmlArray[3] = "hide"
+                listItemHtmlArray[5] = "";
+            }else{
+                listItemHtmlArray[3] = "";
+                listItemHtmlArray[5] = get_img_url(item.cover_path);
+            }
+
+            listItemHtmlArray[7] = item.title;
+            if(item.published_at == '' || item.published_at == null){
+                listItemHtmlArray[9] = "";
+            }else{
+                listItemHtmlArray[9] = new Date(item.published_at * 1000).Format("yyyy-MM-dd");
+            }
+            for (var j = 0; j < listItemHtmlArray.length; j++) {
+                listItem += listItemHtmlArray[j];
+            }
+            if(typename == 0){
+                published_at_0 = data[i]['published_at'];
+            }else{
+                published_at_1 = data[i]['published_at'];
+            }
+        }
+        if (isLoadMore) {
+            if(typename == 0){
+                list.innerHTML += listItem;
+            }else{
+                list2.innerHTML += listItem;
+            }
+        } else {
+            if(typename == 0){
+                list.innerHTML = listItem;
+            }else{
+                list2.innerHTML = listItem;
+            }
+        }
+    }
+
+
+
+</script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script>
+    mui.ready(function () {
+        type_name = 0;
+        mui('#pullrefresh').pullRefresh().pullupLoading();
+        type_name = 1;
+        pullUpCallback();
+        type_name = 0;
+    });
+    $(".everyday").tap(function () {
+        $(".list").addClass("hide");
+//        $(".activity").addClass("hide");
+        $(".day_list").removeClass("hide");
+//        $(".day_activity").removeClass("hide");
+        $(".list_head .active").removeClass("active");
+        $(".list_head .dynamic span").css("display", "none");
+        $(".list_head #hide").css("display", "inline-block");
+        $(".list_head .everyday").addClass("active");
+        type_name = 1;
+        mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+        mui('#pullrefresh').pullRefresh().refresh(true);
+    });
+    $(".dynamic").tap(function () {
+
+        $(".day_list").addClass("hide");
+//        $(".day_activity").addClass("hide");
+        $(".list").removeClass("hide");
+//        $(".activity").removeClass("hide");
+        $(".list_head .active").removeClass("active");
+        $(".list_head .dynamic span").css("display", "inline-block");
+        $(".list_head #hide").css("display", "none");
+        $(".list_head .dynamic").addClass("active");
+        type_name = 0;
+        mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+        mui('#pullrefresh').pullRefresh().refresh(true);
+    });
+</script>
+</body>
+
+</html>

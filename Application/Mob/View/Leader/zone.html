@@ -1,0 +1,258 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/leader/public.css">
+    <link rel="stylesheet" href="__CSS__/common/zonePublic.css">
+    <link rel="stylesheet" href="__CSS__/party_member/memberZone.css">
+    <link rel="stylesheet" href="__CSS__/index_list1.css">
+    <style>
+
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        .target-box>p {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.4rem;
+    display: inline-block;
+    width: 92%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <div class="head_title" style="margin-bottom: 5px;padding: 5px;text-align: center;">
+                <img src="__IMG__/branch/toptitle.png" alt="" style="width: 70%;">
+            </div>
+            <div class="title_img">
+                <div class="img-bg">
+                    <img src="{$detail.headimgurl|get_head_url}" alt="" style="overflow: hidden">
+                </div>
+                <div class="head_title clearFix">
+                    <div class="inwrap">
+                        <ul class="position">
+                            <li>{$detail['realname']}</li>
+                            <notempty  name = "detail.gender|get_sex" >
+                                <li class="icon">|</li>
+                                <li>{$detail.gender|get_sex}</li>
+                            </notempty>
+                            <notempty  name = "detail.adm_post_name" >
+                            <li class="icon">|</li>
+                            <li>{$detail['adm_post_name']}</li>
+                            </notempty>
+                        </ul>
+                    </div>
+                </div>
+                <span class="name" style="padding: 1px 5px;color: white">{$detail['branch_name']}</span>
+            </div>
+            <div class="head_message member_message">
+                <a href="__ROOT__/Mob/PartyServe/integral?uid={$detail.uid}"  class="item">
+                    <span>{$detail.score}</span>
+                    <p style="color: #C2C2C2">积分</p>
+                </a>
+                <a class="item" href="__ROOT__/Mob/Taizhang/leader_contrast#{$detail.uid}">
+                    <span>{$detail.pm}</span>
+                    <p style="color: #C2C2C2">积分排名</p>
+                </a>
+                <div class="item last">
+                    <a class="item last" href="__ROOT__/Mob/PartyMember/zone?uid={$detail.uid}">
+                    <span>{$detail.tz}</span>
+                    <p style="color: #C2C2C2">累计台账</p>
+                        </a>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="ledger">
+        <div class="head">
+            <div class="title four-target">
+                <span></span>领导的四个指标
+            </div>
+        </div>
+        <div class="target">
+            <volist name="norms" id="item">
+                <a href="__ROOT__/Mob/Taizhang/tz_listf_norm?id={$detail.uid}&norm_id={$item.id}&type=3">
+                    <div class="target-box">
+                        <p>{$item.title}
+                        </p>
+                        <div class="target-display">
+                            <img src="__IMG__/branch/right.png" alt="" class="titleRight">
+                        </div>
+                    </div>
+                </a>
+            </volist>
+        </div>
+    </div>
+    <div class="ledger ledgerTrack">
+        <div class="head leaderHead">
+            <div class="title four-target ">
+                <span></span>轨迹
+            </div>
+            <div class="track">
+                <span></span>成长轨迹
+                <span></span>
+            </div>
+        </div>
+        <div class="swiper-container grow-container">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide grow-slide"><a href="__ROOT__/Mob/Taizhang/track?id={$detail['uid']}"><img src="__IMG__/branch/grow.png" alt=""></a>
+                    <!-- <span class="bg"></span> --></div>
+            </div>
+            <img src="__IMG__/branch/growBottom.png" alt="" class="growBottom">
+            <div class="swiper-button-prev swiper-button-gray"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <div class="ledger">
+        <a href="__ROOT__/Mob/Taizhang/tz_listf_leader?id={$detail.uid}">
+            <div class="head">
+                <div class="title">
+                    <span></span>台账列表
+                    <img src="__IMG__/branch/all.png" alt="" class="titleRight">
+                </div>
+                <div class="search"><img src="__IMG__/branch/search@2x.png" alt=""></div>
+            </div>
+        </a>
+
+        <div class="list">
+            <volist name="taizhang" id="item" key="index">
+                <dl>
+                    <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                        <dt><img src="{$item.cover|show_img='middle'}" style="height: 85px;width:105px;"></dt></a>
+                    <dd class="content">
+                        <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                            <h2 class="title">{$item.title}</h2>
+                            <div class="content">{$item.content|show_sub_title=10}</div>
+                            <div class="overview">
+                                <img class="userhead" src="{$item.user_headimgurl|get_head_url}" alt="">
+                                <span class="name">{$item.user_realname}</span>
+                                <span>{$item.tag_name}</span>
+                            </div>
+                        </a>
+                        <div style="margin-bottom:5px;">
+                            <span class="collect name" data-id="{$item.id}" >收藏(<span class="count">{$item.sc_count}</span>)&nbsp;&nbsp;</span>
+                            <if condition="$item['template_id'] eq 3">
+                                <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}">评论({$item.pl_count})</a>
+                                <else />
+                                <span class="name" ><a href="__ROOT__/Mob/Taizhang/tz_comment?id={$item.id}">评论({$item.pl_count})</a>&nbsp;&nbsp;</span>
+                            </if>
+                            <span class="like name" data-id="{$item.id}">点赞(<span class="count">{$item.dz_count}</span>)</span>
+                        </div>
+                        <!-- <div class="icon"><img style="width:20px;" src="__IMG__/ledger_list/{$index}.png"></div> -->
+                    </dd>
+                </dl>
+            </volist>
+        </div>
+
+    </div>
+    <!-- <div class="black-container black-hide">
+        <div class="blackBox">
+            <div class="buttonList1">
+                <ul class="black_ul1">
+                     <li class="black_li1">
+                        <a href="__ROOT__/Mob/Index/index">
+                            <div class="black-img">
+                                <img src="__IMG__/leader/index_back.png" alt="回到首页">
+                            </div>
+                            <p>回到首页</p>
+                        </a>
+                    </li>
+                     <li class="black_li1">
+                        <a href="__ROOT__/Mob/Inform/index">
+                            <div class="black-img">
+                                <img src="__IMG__/leader/tongzhishixiang@2x.png" alt="通知事项">
+                            </div>
+                            <p>通知事项</p>
+                        </a>
+                    </li>
+                    <li class="black_li1">
+                        <a href="__ROOT__/Mob/Friend/index?type=my">
+                            <div class="black-img">
+                                <img src="__IMG__/leader/haoy@2x.png" alt="好友">
+                            </div>
+                            <p>好友</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="buttonList1">
+                <ul class="black_ul2">
+                    <li class="black_li2">
+                        <a href="__ROOT__/Mob/TemporaryTalk/temporary_branch">
+                            <div class="black-img">
+                                <img src="__IMG__/leader/liuyanban@2x.png" alt="留言板">
+                            </div>
+                            <p>留言板</p>
+                        </a>
+                    </li>
+                    <li class="black_li2">
+                        <a href="__ROOT__/Mob/Taizhang/user_dz">
+                            <div class="black-img">
+                                <img src="__IMG__/leader/dianzan@2x.png" alt="点赞">
+                            </div>
+                            <p>点赞</p>
+                        </a>
+                    </li>
+                    <li class="black_li2">
+                        <a href="__ROOT__/Mob/Taizhang/user_sc">
+                            <div class="black-img">
+                                <img src="__IMG__/leader/shoucang@2x.png" alt="收藏<">
+                            </div>
+                            <p>收藏</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="buttonList1">
+                <ul class="black_ul1">
+                     <li class="black_li1">
+                        <a id="follow" data-status="<if condition=" $detail.is_follow== 1">1
+                        <else/>
+                        0</if>">
+                        <div class="black-img">
+                            <img src="__IMG__/leader/shoucang@2x.png" alt="关注">
+                        </div>
+                        <p>
+                            <if condition="$detail.is_follow == 1">取消关注
+                                <else/>
+                                关注
+                            </if>
+                        </p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="detail-close">×</div>
+    </div> -->
+
+
+
+</block>
+<block name="scripts">
+
+    <script src="__JS__/branch/branchZone.js"></script>
+    <script src="__JS__/leader/leaderZone.js"></script>
+    <script src="__JS__/ledger_list/dz.js"></script>
+    <script>
+        
+    </script>
+</block>

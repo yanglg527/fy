@@ -1,0 +1,320 @@
+/*头部*/
+/*header.head{
+    width:100%;
+    height:6rem;
+    background: url(../../images/branch/head_bg.png) no-repeat;
+    background-size: 100%;
+    padding-top:0.3rem;
+}
+.title_img{
+    text-align: center;
+}
+.title_img .img-bg{
+    width:2rem;
+    height:2rem;
+    border-radius: 50%;
+    background-color:rgba(255,255,255,0.2);
+    margin: auto;
+    padding:5px;
+}
+.title_img img{
+    width:100%;
+    height:100%;
+    border-radius: 50%;
+
+}
+.title_img .title{
+    width:2.3rem;
+    height:0.7rem;
+    background: url(../../images/branch/authority@2x.png) no-repeat 100% 100%;
+    background-size: 100%;
+    margin:10px auto;
+}
+.head_message{
+    display: -webkit-flex; 
+    display: flex;
+    color:#c2c2c2;
+    margin-top:1.4rem;
+    font-size:10px;
+}
+.head_message .item{
+    flex:1;
+    text-align: center;
+    border-right:1px solid rgba(255,255,255,0.5);
+}
+.head_message .item span{
+    color:#fefefe;
+    font-size:12px;
+}
+.head_message .last{
+    border-right:none;
+}
+.head_message .item p{
+    margin-top: 5px;
+}*/
+/*导航*/
+.nav{
+    width:100%;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    padding-top:10px;
+    padding-bottom:10px;
+    border-bottom: 1px solid #c2c2c2;
+}
+.nav .item{
+    display: inline-block;
+    flex:1;
+    text-align: center;
+    font-size: 10px;
+}
+.nav .item img{
+    width:50%;
+}
+.nav .item p{
+    margin-top:5px;
+}
+/*小标题区域*/
+/*.banner{
+    padding:10px;
+}*/
+/*.banner .head{
+    width:100%;
+    height:0.9rem;
+    position: relative;
+}*/
+/*.banner .head .title{
+    font-size: 14px;
+    float: left;
+}*/
+/*.banner .head .title span{
+    display: inline-block;
+    width:1px;
+    height:10px;
+    background-color: #cc3e39;
+    margin-right:3px;
+}*/
+/*.banner .head .right{
+    float: right;
+    width:0.5rem;
+    height:0.5rem;
+    background: url(../../images/branch/right.png) no-repeat 100%;
+    background-size: 100%;
+}*/
+.banner_content .banner_img{
+    width:25%;
+    float: left;
+}
+/*.swiper-container .swiper-slide{
+
+}*/
+.swiper-container .swiper-slide img{
+    border-radius:6px;
+}
+/*.swiper-container .swiper-slide p{
+    text-align: center;
+    font-size:10px;
+    padding-top:10px;
+    color:#999999;
+}*/
+/*台账*/
+/*.ledger{
+    padding:10px;
+}*/
+/*.ledger .head .title span{
+    display: inline-block;
+    width:3px;
+    height:10px;
+    background-color: #cc3e39;
+    margin-right:3px;
+}*/
+/*.ledger .head{
+    width:100%;
+    height:0.8rem;
+    position: relative;
+}*/
+/*.ledger .head .title{
+    font-size: 14px;
+    float: left;
+    line-height: 0.67rem;
+}*/
+/*.ledger .head .title span{
+    display: inline-block;
+    width:1px;
+    height:10px;
+    background-color: #cc3e39;
+    margin-right:3px;
+}*/
+.ledger .head .title .right{
+    display: inline-block;
+    width:0.5rem;
+    height:0.4rem;
+    background: url(../../images/branch/right.png) no-repeat 100%;
+    background-size: 100%;
+}
+.ledger .head .title img{
+    /*width:0.45rem;*/
+    margin-left:10px;
+    height:0.5rem;
+}
+.ledger .head .search{
+    float: right;
+    width:0.5rem;
+    height:0.5rem;
+    background: url(../../images/branch/search@2x.png) no-repeat;
+    background-size:100%;
+}
+.ledger .head .search img{
+    width:100%;
+    height:100%;
+}
+.ledger .content .like{
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    width:100%;
+    margin-bottom: 0.5rem;
+}
+.ledger .content .like .item{
+    height:6rem;
+}
+
+.ledger .content .like .left{
+    flex:2;
+    position: relative;
+    margin-right:3px;
+}
+.ledger .content .like .left .shade{
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:6rem;
+    line-height:6rem;
+    text-align: center;
+    font-size: 15px;
+    color:#ffffff;
+}
+.ledger .content .like .left img{
+    width:100%;
+    height:100%;
+    border-radius: 6px 0 0 6px;
+}
+.ledger .content .like .center{
+    flex:1;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    flex-direction:column;
+    margin-right:3px;
+}
+.ledger .content .like .center img{
+    flex:1;
+    width:100%;
+    height:50%;
+}
+.ledger .content .like .center img.first{
+    margin-bottom: 3px;
+}
+.ledger .content .like .right{
+    flex:1;
+    height:6rem;
+    position: relative;
+}
+.ledger .content .like .right img{
+    width:100%;
+}
+.ledger .content .like .right img.first{
+    margin-bottom: 3px;
+    height:3.9rem;
+    border-radius: 0 6px 0 0;
+}
+.ledger .content .like .right div{
+    position: absolute;
+    left:0;
+    width:100%;
+    height:2.1rem;
+    background-color: rgba(0,0,0,0.6);
+    text-align: center;
+    border-radius: 0 0 6px 0;
+
+}
+.ledger .content .like .right div>img{
+    border-radius: 0 0 6px 0;
+}
+.ledger .content .like .right .shade img{
+    width:80%;
+}
+.ledger .content .innovate .right img.first{
+    height:2.1rem;
+}
+.ledger .content .innovate .right div{
+    height:3.9rem;
+}
+.ledger .content div.innovate{
+    margin-bottom: 0;
+}
+/*其他*/
+.other{
+    padding:10px;
+}
+.other .head .title span{
+    display: inline-block;
+    width:1px;
+    height:10px;
+    background-color: #cc3e39;
+    margin-right:3px;
+}
+.other .head{
+    width:100%;
+    height:0.8rem;
+    position: relative;
+}
+.other .head .title{
+    font-size: 14px;
+    float: left;
+}
+.other .head .title span{
+    display: inline-block;
+    width:1px;
+    height:10px;
+    background-color: #cc3e39;
+    margin-right:3px;
+}
+.other .content{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    width:100%;
+}
+.other .content .column {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.other .content .item{
+    width:50%;
+    padding-right:10px;
+    position: relative;
+}
+.other .content .item .first{
+    margin-bottom: 10px;
+}
+.other .content .item>img{
+    width:100%;
+    border-radius: 6px;
+}
+.other .content .item .shade{
+    color:#ffffff;
+    position: absolute;
+    width:100%;
+    height:2.23rem;
+    text-align: center;
+    top:0;
+    left:0;
+    font-size: 15px;
+}
+.other .content .item .shade>img{
+    width:1rem;
+    height:1rem;
+    margin-top:6%;
+    margin-bottom:5px;
+}
+

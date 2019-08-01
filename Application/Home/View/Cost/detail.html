@@ -1,0 +1,223 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .this-top{
+            width: 100%;
+            background: white;
+            padding: 15px;
+            position: relative;
+            border-bottom: 1px solid #f7f8f8;
+        }
+        .this-top img{
+            width: 53px;
+            height: 52px;
+            position: absolute;
+            top: 15px;left: 0px;right: 0px;
+            margin: auto;
+        }
+        .this-top .name{
+            text-align: center;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .branch-name{
+            height: 38px;
+            line-height: 38px;
+            font-size: 18px;
+            color: #1a1a1a;
+            text-align: center;
+            margin-top: 52px;
+        }
+
+        .branch-info{
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 15px;
+            background: white;
+        }
+        .branch-info p{
+            padding: 0px;
+            margin: 0px;
+            text-align: center;
+        }
+        .branch-info .info-title{
+            color: #999999;
+            font-size: 12px;
+        }
+        .branch-info .info-content{
+            color: #1a1a1a;
+            font-size: 15px;
+        }
+
+        .my-tab{
+            width: 100%; !important;
+            /*height: 45px !important;*/
+            font-size: 15px !important;
+            /*border: 0px !important;*/
+        }
+        .my-tab li{
+
+        }
+        .tab-item{
+            width: 100%;
+            text-align: center;
+        }
+        .am-active{
+
+        }
+
+        .list-item{
+            border-top: 1px solid #f7f8f8;
+            padding: 15px 0px;
+        }
+        .list-item .sex{
+            width: 12px;
+            margin-left: 5px;
+        }
+
+        .head-icon{
+            height: 53px;
+            width: 53px;
+            border-radius:53px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 53px;
+            -webkit-border-radius: 53px;
+            float: left;
+        }
+        .head-icon img{
+            width:53px;
+            height:53px;
+            line-height: 0;	/* remove line-height */
+            display: inline-block;	/* circle wraps image */
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        .item-name{
+            height: 30px;
+            line-height: 30px;
+            margin-left: 63px;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+
+        .item-job{
+            height: 23px;
+            line-height: 23px;
+            margin-left: 63px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+
+
+        .branch-list{
+            background: #F7F8F8;
+        }
+
+
+        .item-title{
+            height: 39px;
+            line-height: 39px;
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            position: relative;
+            padding-left: 38px;
+        }
+        .item-title img{
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 0px;
+            margin: auto;
+        }
+
+        .item-info{
+            height: 35px;
+            line-height: 35px;
+            padding-left: 38px;
+            color: #666666;
+            font-size: 14px;
+        }
+            [class*=am-u-] {
+                 padding-left: 0rem;
+                 padding-right: 0rem;
+                text-align: center;
+            }
+
+        .am-nav > li > a {
+            position: relative;
+            display: block;
+            padding: .4em 0;
+            border-radius: 0;
+        }
+
+    </style>
+</block>
+<block name="content">
+    <div class="this-top">
+        <img src="__IMG__icon_weidangk.png"/>
+        <div class="branch-name">{$detail.branch_name}</div>
+        <div class="name">{$detail.fee_name}</div>
+        <!--<div class="name">{$detail['gee_year']|show_cost_season=$detail['season']}</div>-->
+        <div class="name">{$detail.total_count}名党员</div>
+    </div>
+    <div class="branch-info">
+        <div class="am-u-sm-4">
+            <p class="info-content">{$detail.total_pay}</p>
+            <p class="info-title">应缴党费</p>
+        </div>
+        <div class="am-u-sm-4">
+            <p class="info-content">{$detail.has_pay}</p>
+            <p class="info-title">已缴党费</p>
+        </div>
+        <div class="am-u-sm-4">
+            <p class="info-content">{$detail.un_pay}</p>
+            <p class="info-title">未缴党费</p>
+        </div>
+
+        <div style="clear: both"></div>
+    </div>
+    <div style="background: white;margin-bottom:10px;">
+        <div class="branch-info">
+	        <div class="am-u-sm-6">
+	        	<span class="info-title">已缴党员：</span>
+	            <span class="info-content">{$detail.has_pay_count}人</span>
+	        </div>
+	        <div class="am-u-sm-6">
+	            <span class="info-title">未缴党员：</span>
+	            <span class="info-content">{$detail.un_pay_count}人</span>
+	        </div>
+	        <div style="clear: both"></div>
+    	</div>
+    	<table class="am-table" style="font-size:12px;text-align:center;">
+		    <tbody>
+            <volist name="list" id="item">
+                <tr>
+                    <td>{$item.user_realname}</td>
+                    <td><empty name="item.user_post_id">党员<else/>{$item.post_name}<notempty name="item.user_branch_hq_id">(总支)</notempty></empty></td>
+                    <td><if condition="$item.order_status == 1"><span class="am-badge am-badge-success am-radius">已缴</span><else/> <a class="am-badge am-badge-warning am-radius">未缴</a></if></td>
+                </tr>
+            </volist>
+
+		    </tbody>
+		</table>
+    </div>
+
+   
+
+
+</block>
+<block name="scripts">
+
+
+    </script>
+</block>

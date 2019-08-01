@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__CSS__Tasks/create.css" />
+        <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+        <script src="__PUBLIC__/Mob/js/axios.min.js"></script>
+
+        <title>添加留言</title>
+    </head>
+    <body>
+        <div class="g-full-flex">
+            <div class="g-nav-bar">
+                <div class="back-btn"></div>
+                <span class="nav-title">添加留言</span>
+            </div>
+
+            <div class="g-content-container todo-create">
+                <div class="todo-create__form">
+                    <input type="hidden" name="id" id="id" value="{$id}"/>
+                    <div class="todo-create__form-item">
+                        <div class="title">留言</div>
+                        <div class="value">
+                            <textarea class="text-area" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="todo-create__bottom-box">
+                    <div class="btn orange" onclick="ajaxSave()">提交</div>
+                    <div class="btn red back-btn">取消</div>
+                </div>
+            </div>
+        </div>
+        <script>
+        var axiosIns = axios.create({
+        baseURL: '__ROOT__',
+        timeout: 100000,
+        headers: { "Content-Type": "multipart/form-data" }
+        })
+        // 保存
+        function ajaxSave(status){
+            var id = $('#id').val();
+            var content = $('.text-area').val();
+            $.post(
+                "__ROOT__/Mob/Tasks/addMailbox",
+                {'id':id,'content':content},
+                function(result){
+                    if (0 == result.status) {
+                        console.log('ajaxSave', '保存成功');
+                        history.go(-1);
+                    }else {
+                        console.log(result);
+                    }
+           },'JSON');
+        }
+
+        //返回按钮
+        $('.back-btn').click(function(e) {
+            history.go(-1)
+        })
+
+        </script>
+    </body>
+</html>

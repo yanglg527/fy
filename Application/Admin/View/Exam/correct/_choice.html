@@ -1,0 +1,67 @@
+<div class="subject">
+    <div class="pull-left subject-answer">
+        <div class="question">
+            {$item.title} （ ）（{$item.score}分）
+        </div>
+        <div class="options">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" disabled
+                    <if condition="$item['user_answer']['0'] == 1">checked</if>
+                    >
+                    A.{$item.answer.0}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" disabled
+                    <if condition="$item['user_answer']['1'] == 1">checked</if>
+                    >
+                    B.{$item.answer.1}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" disabled
+                    <if condition="$item['user_answer']['2'] == 1">checked</if>
+                    >
+                    C.{$item.answer.2}
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" disabled
+                    <if condition="$item['user_answer']['3'] == 1">checked</if>
+                    >
+                    D.{$item.answer.3}
+                </label>
+            </div>
+
+
+        </div>
+        <div class=" alert alert-success" style="margin-right: 30px;text-align: left">
+            <div class="pull-left question subject-score" style="display: block">
+                <include file="Exam/correct/_public_user_score"/>
+            </div>
+            <div class="clearfix"></div>
+            <h5 style="margin-top: 15px;display: block">正确答案：</h5>
+            <php>
+                $show = '';
+                $answerss = to_json_obj($item['right_answer']);
+                $rightStr = array('A','B','C','D');
+                $size = sizeof($answerss);
+                foreach($answerss as $index=>$s){
+                if($s == 1){
+                $show = $show.$rightStr[$index]." ";
+                }
+                }
+            </php>
+            <div>{$show}</div>
+
+            <h5 style="margin-top: 15px;display: block">解析：</h5>
+
+            <div>{$item.remark}</div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

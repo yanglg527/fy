@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学习交流</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/notes/learn.css"/>
+
+    <style>
+        .date{
+            width: 100%; height: 16px;
+            position: absolute; top: -60px; bottom: 0px; margin: auto;
+            text-align: center; font-size: 15px; font-weight: bold; color: white;
+            border-bottom: 0px;
+        }
+        .number{
+            width: 100%; height: 14px;
+            position: absolute; top: -20px; bottom: 0px; margin: auto;
+            text-align: center; font-size: 12px; font-weight: bold; color: white;
+        }
+        .lj_time{
+            width: 100%;height: 14px;position: absolute;top: 20px;bottom: 0px;
+            margin: auto;text-align: center;font-size: 11px;font-weight: bold;color: white;
+        }
+
+    </style>
+</head>
+<body>
+<div class="page" style="position: fixed; top: 0px; bottom: 0px; overflow-y: scroll; width: 100%; height: 100%; background: url('__IMG__/notes/bg_notebook.jpg');">
+    <div class="banner" style="height: 40px">
+        <div class="head"><i  onclick="history.go(-1);"></i><span style="font-size: 16px">{$user.realname}学习笔记</span></div>
+    </div>
+    <div style="text-align: center;margin-top: 3%;font-size: 15px;color: #fff;">
+        <!-- 年累计学时:<?php echo $yearTime;?>小时 -->
+        <if condition="$list_count == 0">
+            该用户没笔记
+        </if>
+    </div>
+
+    <div class="content learn">
+
+        <volist name="list" id="vo" key="index">
+        <if condition="$vo.note_count neq '0'">
+            <a href="__ROOT__/Mob/Notes/note_month?uid={$user.uid}&year={$vo.select_year}" class="item" style="position: relative; margin-bottom: 15px">
+                <div class="book" style="background: transparent"><img src="__IMG__/notes/cover_notebook.png" height="165px" alt=""></div>
+                
+                <div class="date" style="">              
+                        {$vo.select_year}年日记本
+                </div>
+                <div class="number" style="">{$vo['note_count']}篇</div>
+                <div class="lj_time" style="">学时:{$vo['sum_time']}小时</div>
+
+            </a>
+        </if>
+        </volist>
+    
+        <!--<a href="__ROOT__/Mob/Notes/articles?id=6" class="item" style="position: relative">-->
+            <!--<div class="book" style="background: transparent"><img src="__IMG__/notes/cover_notebook.png" alt=""></div>-->
+            <!--<div class="date" style="">2017年12月</div>-->
+            <!--<div class="number" style="">31篇</div>-->
+        <!--</a>-->
+        <!--<a href="__ROOT__/Mob/Notes/articles?id=6" class="item">-->
+            <!--<div class="book"><img src="__IMG__/notes/cover_notebook.png" alt=""></div>-->
+        <!--</a>-->
+    </div>
+</div>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/notes/learn.js"></script>
+</body>
+
+</html>

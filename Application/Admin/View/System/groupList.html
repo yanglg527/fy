@@ -1,0 +1,136 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">角色管理</strong></div>
+      </div>
+      <hr>
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <button  onclick="loading_page('__ROOT__/Admin/System/groupAdd?p={$page.pageInfo.pageNo}');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+              <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+            </div>
+          </div>
+        </div>
+        <form class="am-u-sm-12 am-u-md-3" id="search-form">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" name="keyword" value="{$keyword}">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="submit">搜索</button>
+          </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <!-- <th class="table-check"><input type="checkbox" /></th> -->
+                <th class="table-title" id="btn-dec">id</th>
+                <th class="table-type">角色名称</th>
+                <th class="table-type">角色类型</th>
+                <th class="table-author am-hide-sm-only">描述</th>
+                <th class="am-hide-sm-only" style="width:60px;">状态</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="page.list" id="item">
+              <tr>
+                <!-- <td><input type="checkbox" /></td> -->
+                <td>{$item.id}</td>
+                <td>{$item.title}</td>
+                <td class="am-hide-sm-only"><if condition="$item.type == 1"> 前端用户<else/>后台管理员</if></td>
+                <td class="am-hide-sm-only">{$item.a_describe}</td>
+                <td class="am-hide-sm-only"><if condition="$item.status == 1"><span class="am-badge am-badge-success am-radius">启用</span><else/><span class="am-badge am-badge-warning am-radius">禁用</span></if></td>
+                <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary " onclick="loading_page('__ROOT__/Admin/System/groupAdd?p={$page.pageInfo.pageNo}&id={$item.id}');"><span class="am-icon-pencil-square-o"></span>编辑</button>
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-status" data-id="{$item.id}"><span class="am-icon-archive"></span> <if condition="$item.status == 1" >禁用<else/>启用</if></button>
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" data-id="{$item.id}"><span class="am-icon-trash-o" ></span> 删除</button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </form>
+        </div>
+
+      </div>
+
+  </div>
+</block>
+<block name="scripts">
+
+  <script>
+    var id = 0;
+    $('.btn-dec').click(function(){
+       id = $(this).attr('data-id');
+      $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+          $.ajax({
+            url:'__ROOT__/Admin/System/ajaxDecGroup',
+            type:'POST', //GET
+            data:{id:id},
+            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success:function(data){
+              if(data.status == 0){
+                window.location.reload();
+              }else{
+                alert_modal(data.msg);
+              }
+            },
+            closeOnConfirm: false,
+            error:function(xhr,textStatus){
+              alert_modal("服务器暂时无法连接，请稍候再试");
+            }
+          })
+        },
+        onCancel: function() {
+
+        }
+      });
+    });
+
+    $('.btn-status').click(function(){
+       id = $(this).attr('data-id');
+      $.ajax({
+        url:'__ROOT__/Admin/System/ajaxSaveGroupStatus',
+        type:'POST', //GET
+        data:{id:id},
+        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        success:function(data){
+          if(data.status == 0){
+            window.location.reload();
+          }else{
+            alert_modal(data.msg);
+          }
+        },
+        error:function(xhr,textStatus){
+          alert_modal("服务器暂时无法连接，请稍候再试");
+        }
+      })
+    });
+  </script>
+
+</block>

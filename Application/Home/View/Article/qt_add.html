@@ -1,0 +1,220 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .item {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .item-left {
+            position: absolute;
+            left: 10px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .item-right {
+            position: absolute;
+            left: 80px;
+            color: black;
+            right: 10px;
+            height: 50px;
+            font-size: 14px;
+        }
+
+        .item-right-select {
+            position: absolute;
+            left: 130px;
+            color: black;
+            right: 10px;
+            height: 50px;
+            font-size: 14px;
+
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: 0;
+            color: black;
+        }
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 10px 0px;
+            font-size: 14px;
+            color: black;
+        }
+        .item-right .am-selected{
+            width: 90%;
+        }
+
+
+
+        .container {
+            background: white;
+        }
+
+        .write-button {
+            position: absolute;
+            height: 50px;
+            width: 100%;
+            bottom: 0;
+            background: #0084c7;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            font-size: 16px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <form class="uploadform" style="padding-bottom: 70px">
+        <div class="item">
+            <span class="item-left">标&nbsp;&nbsp;&nbsp;题：</span>
+            <span class="item-right"><input name="title" type="text" placeholder="请填写标题"></span>
+
+        </div>
+        <div class="item">
+            <span class="item-left">类型：</span>
+            <span class="item-right">{$tag['name']}</span>
+
+
+        </div>
+        <div class="item">
+            <span class="item-left">是否显示在首页：</span>
+            <span class="item-right item-right-select" >
+                <select data-am-selected name="type" id='name' style="border: none">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </span>
+
+        </div>
+        <div style="height: 10px;background: #f8f8f8;width: 100%">
+
+        </div>
+
+        <div class="item" style="border-top: 1px solid gainsboro;">
+            <span class="item-left">内容</span>
+        </div>
+        <!--自定义富文本 start-->
+        <input type="hidden" value="" name="content">
+        <div class="article-content" id="content" style="padding: 5px 10px;border-bottom: 1px solid #E8E8E8;min-height: 200px">
+            {$detail.intro}
+        </div>
+        <include file="Common/_article_buttons"/>
+        <style>
+            #a-upload{
+                left: 4% !important;
+            }
+        </style>
+        <!--自定义富文本 end-->
+        <!--<textarea name="content" rows="8"-->
+                  <!--style="padding: 10px;width: 100%;border: none;border-bottom: 1px solid gainsboro;"></textarea>-->
+    </form>
+    <a class="write-button" id="btn-send">
+        发送
+    </a>
+
+    <!-- 自定义富文本--->
+    <form id="file-upload-form"  action="" method="post" enctype="multipart/form-data">
+        <input id="fileUploadInput" type="file" name="file"   style="display: none">
+    </form>
+    <!----->
+</block>
+<block name="scripts">
+    <!--
+    富文本取值 $('#content').getValue()；
+    -->
+    <script src="__STATICS__/artEditor/artEditor.js"></script>
+    <script>
+
+        var artEditor =  $('#content').artEditor({
+            imgTar: '#imageUpload',
+            uploadUrl: '__ROOT__/Home/File/ajaxAirEditorImage',
+            placeholader: '<p>请输入介绍</p>',
+            formInputId: 'target',
+            uploadStart: function() {
+                loading();
+            },
+            uploadSuccess: function(res) {
+                close_loading()
+                var data2 = JSON.parse(res)
+                if(data2.status == 0){
+                    return data2.msg;
+                }
+            },
+            uploadError: function(res) {
+                alert("图片上传失败");
+                close_loading()
+            }
+        });
+        $('#fileUploadInput').change(function(){
+            if( $('#fileUploadInput').val() != ''){
+                var formData = new FormData($('#file-upload-form')[0]);
+                $.ajax({
+                    url: '__ROOT__/Home/File/ajaxAirEditorFile',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $('#fileUploadInput').val('');
+                        if (data['status'] == 0) {
+                            var fileHtml = "<br/><a style='display: inline-block' href='" + data.data.path + "' download='" + data.data.name + "'><i class='am-icon-cloud-upload'></i>  "+ data.data.name +"</a><br/>";
+                            $('#content').insertFile(fileHtml);
+                        } else {
+                            alert(data.msg);
+                        }
+                        close_loading()
+                    },
+                    error: function (data) {
+                        $('#fileUploadInput').val('');
+                        alert("附件上传失败");
+                        close_loading()
+                    }
+                })
+            }
+        })
+    </script>
+    <!-- 自定义富文本 end -->
+    <script>
+    	var tag_id = {$tag_id};
+        $('#btn-send').click(function () {
+            var title = $('input[name="title"]').val();
+            var is_index = $('#name').val();
+            var img_url = $('input[name="img_url"]').val();
+            var content = $('#content').getValue();
+            $.ajax({
+                url: '__ROOT__/Home/Article/ajaxSaveArticle',
+                type: 'POST', //GET
+                data: {'title':title,'content':content,'is_index':is_index,'tag_id':tag_id},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.href = '__ROOT__/Home/Article/articles?id={$tag_id}';
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+    </script>
+
+</block>

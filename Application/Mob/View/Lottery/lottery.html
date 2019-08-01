@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>签到</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/lottery/lottery.css"/>
+	</head>
+		
+	<body>
+		<div class="lottery">
+			<div class="heart">
+				<header><img src="__IMG__/lottery/chou.png"/></header>
+				<div class="lottery-area">
+					<ul>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item0">7</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item1">2</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item2">8</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item3">4</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item4">10</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item5">6</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item6">1</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item7">9</span>分</div>
+							</div>
+						</li>
+						<li>
+							<div class="no-open"><img src="__IMG__/lottery/hongbao.png"/></div>
+							<div class="has-been-opened hide">
+								<img src="__IMG__/lottery/quan.png"/>
+								<div class="text"><span class="item8">0</span>分</div>
+							</div>
+						</li>
+					</ul>
+					<!--<a href="../branch_note.html" class="return">返回</a>-->
+					<a href="../index.html" class="return">返回</a>
+					<a href="convert.html" class="convert">积分兑换</a>
+				</div>
+				<div class="remind">
+					<div class="jiang">
+						<div class="jiang-heart">
+							<div class="yes hide">
+								<img src="__IMG__/lottery/jifen.png"/>
+								<div class="text">
+									<p>恭喜你本次抢到</p>
+									<p><span id="lottery-result">10</span>分</p>
+								</div>
+							</div>
+							<div class="no">
+								<img src="__IMG__/lottery/kai.png"/>
+								<div class="text">
+									<p>很遗憾你本次抢到</p>
+									<p><span>0</span>分</p>
+								</div>
+							</div>
+						</div>
+						<a class="zhidao">知道了</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<!--<script src="__JS__/lottery/lottery.js" type="text/javascript" charset="utf-8"></script>-->
+	<script>
+		var x = null;
+		//点击出现红包
+		$(".lottery-area li").tap(function(){
+			$(".lottery-area li").off('tap');
+			var index = $(this).index();
+			console.log("index = " + index);
+			ajaxGetPrize(index);
+		})
+
+		//点击知道了关闭红包
+		$(".remind .zhidao").tap(function () {
+			$(".remind").hide();
+			$(".lottery-area li").find(".no-open").addClass("hide");
+			$(".lottery-area li").find(".has-been-opened").removeClass("hide");
+		});
+
+		function onLiTap() {
+			$(".remind").hide();
+			$(".lottery-area li").find(".no-open").addClass("hide");
+			$(".lottery-area li").find(".has-been-opened").removeClass("hide");
+			$(".remind .zhidao").removeEventListener('tap', onLiTap, false);
+		}
+
+		function ajaxGetPrize(index){
+			$.ajax({
+				type: "post",
+				url: "__ROOT__/Mob/Lottery/ajaxGetPrize",
+				cache: false,
+				data:{
+					"index": index
+				},
+				dataType: "json",
+				success: function (res) {
+					if(res['status'] == 0){
+						// 设置各卡牌的值
+						console.log("peizeConfigList = " + JSON.stringify(res['data']['prizeConfigList']));
+						setCardValue(index, res['data']['prizeConfigList']);
+						// 显示抽奖结果
+						//判断是0分，还是有1-10分
+						// var index = parseInt($(this).find(".text span").text());
+						// if(x == null){
+						// 	x = index;
+						// }
+						console.log("win point = " + res['data']['prize']['point']);
+						$(".item" + index).html(res['data']['prize']['point']);
+//						$("#lottery-result").html(res['data']['prize']['point']);
+						if(res['data']['prize']['point'] > 0){
+							$(".remind").show().find(".yes").removeClass("hide").siblings("div").addClass("hide");
+						}else{
+							$(".remind").show().find(".no").removeClass("hide").siblings("div").addClass("hide");
+						}
+						$(".remind").find("p>span").text(res['data']['prize']['point']);
+					}else if(res['status'] == 1){
+						alert(res['msg']);
+					}
+				},
+				error: function () {
+					alert("网络异常...");
+				}
+			});
+
+			function setCardValue(index, prizeList){
+				console.log("list length = " + prizeList.length);
+				for(var i=0; i<prizeList.length; i++){
+					console.log("point = " + prizeList[i]['point']);
+					console.log("jiu item text = " + $(".item" + i).html());
+					 $(".item" + i).html(prizeList[i]['point']);
+				}
+			}
+
+		}
+	</script>
+	</body>
+
+
+</html>

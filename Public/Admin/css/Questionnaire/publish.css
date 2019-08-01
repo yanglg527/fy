@@ -1,0 +1,200 @@
+
+.btn-show1{
+    cursor: pointer;
+    margin-left: 20px;
+}
+.btn-show2{
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.exam_head .exam_info p{
+    float: left;
+}
+
+.exam_subject .subject_title p{
+    float: left;
+}
+.exam_subject .subject {
+    padding-bottom: 30px;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+
+.subject .question{
+    font-weight: normal;
+}
+
+.subject .question p{
+    display: block;
+    line-height: 2.3em;
+}
+
+.subject img{
+    /*width:200px;height:auto;*/
+    width: 100%;
+}
+
+.subject .options{
+    padding-left: 0;
+}
+
+.subject .edit-buttons{
+    position: absolute;
+    bottom: 0px;
+    padding: 5px;
+    width: 100%;
+    left: 0px;
+    background-color: #f3f3f3;
+}
+
+.alert{
+    margin-bottom: 5px !important;
+}
+
+
+/********************按钮组**********************/
+.buttons{
+    position: fixed;
+    width: auto;
+    bottom: 10%;
+    margin-top: -120px;
+    right: 100px;
+    z-index: 1000;
+    /*background-color: #0ab4ff;*/
+    border: 1px solid lightgrey;
+    height: auto;
+    box-shadow:3px 3px 8px #eee;
+}
+
+.buttons a{
+    cursor: pointer;
+
+}
+.buttons a div{
+    height: 60px;
+    width: 60px;
+    border-bottom: 1px solid lightgrey;
+    background-color: white;
+}
+.buttons a div span{
+    display: block;
+    background-color: white;
+    line-height: 20px !important;
+    vertical-align: middle;
+    margin: 0 auto;
+    color:  #69d36f;
+}
+
+.buttons a .noline{
+    border-bottom: 0px ;
+}
+
+.buttons a div:hover{
+    border: 1px solid #69d36f;
+}
+/********************end 按钮组**********************/
+
+/************/
+.editor-subject2{
+    border: 1px solid lightgrey;
+    padding-bottom: 10px;
+}
+.editor-subject2 .subject{
+    padding: 10px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.editor-subject2 button{
+    width: 100px !important;
+}
+.editor-subject2 button{
+    width: 100px !important;
+}
+.editor-subject2 .options .radio{
+    padding: 5px 0;
+    display: block;
+}
+
+
+
+/*************题目编辑公共***************/
+.editor-subject{
+    background-color: #f8f8f8;
+    border: 1px solid lightgrey;
+    padding-bottom: 10px;
+}
+.editor-subject .subject{
+    padding: 10px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgrey;
+}
+.editor-subject button{
+    width: 100px !important;
+}
+.editor-subject .options .radio{
+    padding: 5px 0;
+    display: block;
+}
+ .editor-content{
+    padding: 10px ;
+    border-bottom: 1px solid lightgrey;
+}
+ .editor-content-top{
+    text-align: left;
+    font-size: 14px;
+    padding-bottom: 10px;
+}
+
+.edui-editor{
+    border: 0px !important;
+}
+
+.editor-bottom{
+    padding-top: 10px;
+}
+ .noline{
+    border: 0px !important;
+}
+.editor-content-div {
+    position: relative
+}
+
+.editor-content-div .edui-editor-toolbarbox{
+    display:none !important;
+}
+.editor-content-div .blank-insert{
+    position: absolute;
+    bottom: 3px;
+    right:90px;
+    width: 70px;
+    z-index: 900
+}
+.editor-content-div .url-insert{
+    position: absolute;
+    bottom: 3px;
+    right:120px;
+    width: 70px;
+    z-index: 900
+}
+
+.editor-content-div .image-insert{
+    position: absolute;
+    bottom: 3px;
+    right:10px;
+    width: 70px;
+    z-index: 900
+}
+
+
+
+/********************选择题编辑框**********************/
+/********************end选择题编辑框**********************/
+
+/********************填空题编辑框**********************/
+/********************end填空题编辑框**********************/
+
+/********************简答题编辑框**********************/
+/********************end简答题编辑框**********************/

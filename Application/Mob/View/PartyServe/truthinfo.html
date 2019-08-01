@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我向组织说句话</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/truth/truth_all.css"/>
+	</head>
+		
+	<body>
+		
+		<div class="page">
+			<header class ="head">
+				<div class="header"><span>心里话</span><a onclick="history.go(-1);"><span></span></a></div>
+			</header>
+		</div>
+	
+		<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<!--<script src="__STATICS__/zepto/zepto.js"></script>-->
+		<!--<script src="__STATICS__/zepto/event.js"></script>-->
+		<!--<script src="__STATICS__/zepto/touch.js"></script>-->
+		<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="__JS__/party_serve/truth/truth_all.js" type="text/javascript" charset="utf-8"></script>-->
+
+		<script>
+			var truthId = "{$detail.id}";
+			var title = "{$detail.title}";
+			var content = "{$detail.content}";
+			var date = "{$detail.create_time|date='Y-m-d',###}";
+			var agreeCount = "{$agreeCount}";
+			var commentCount = "{$commentCount}";
+			var agreeFlag = "{$agreeFlag}";
+
+			mui.init({
+				subpages:[{
+					url:'_sub_truthinfo.html',
+					id:'_sub_truthinfo.html',
+					styles:{
+						top: '45px',
+						bottom: '0px',
+					},
+					extras:{
+						title: "{$detail.title}",
+						content: "{$detail.content}",
+						date: "{$detail.create_time|date='Y-m-d',###}",
+						agreeCount: "{$detail.agree_count}",
+					}
+				}]
+			});
+
+
+//			$('#btn-send').click(function () {
+//				var id = $("#truth-id").val();
+//				var comment = $("#input-comment").val();
+////				alert("comment = " + comment);
+//				if (comment.replace(/(^s*)|(s*$)/g, "").length == 0){
+//					alert('内容不能为空');
+//				}else{
+//					$.ajax({
+//						data: {
+//							"id" : id,
+//							"content" : comment
+//						},
+//						type: 'POST',
+//						dataType: 'json',
+//						url: '/djptNew/Mob/PartyServe/ajaxSaveTruthComment',
+//						success: function (data) {
+//							console.log("success");
+//							if (data['status'] == 0) {
+//								window.location.href = window.location.href;
+//							}
+//						},
+//						error: function (data) {
+//							alert('网络异常');
+//						}
+//					});
+//				}
+//			});
+
+//			$("#btn-like").click(function () {
+//				var agreeStatus = $(this).attr("data-status");
+//				if(agreeStatus == 0){
+//					var id = $("#truth-id").val();
+//					console.log("id = " + id);
+//					$.ajax({
+//						data: {
+//							"id" : id,
+//						},
+//						type: 'POST',
+//						dataType: 'json',
+//						url: '/djptNew/Mob/PartyServe/ajaxTruthAgree',
+//						success: function (data) {
+//							console.log(data['msg']);
+//							if (data['status'] == 0) {
+//								window.location.href = window.location.href;
+//							}
+//						},
+//						error: function (data) {
+//							alert('网络异常');
+//						}
+//					});
+//				}else{
+//					alert("您已经点过赞了..");
+//				}
+//			});
+
+		</script>
+	</body>
+
+</html>

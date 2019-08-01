@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="../global.css" />
+        <link rel="stylesheet" href="styles.css" />
+
+        <script src="../lib/vue.min.js"></script>
+        <script src="../lib/axios.min.js"></script>
+        <script src="../lib/utils.js"></script>
+
+        <title></title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn" @click="goback"></div>
+                <span class="nav-title">志愿服务详情</span>
+            </div>
+
+            <div class="g-content-container volunteer-detail" v-if="detail">
+                <header class="header">
+                    <span class="title" v-text="detail.theme"></span>
+                </header>
+
+                <div class="g-sub-info"><span v-text="'发布人：'+detail.send_name"></span><span v-text="'开始日期：'+detail.start_date"></span></div>
+
+                <section class="section-wrapper">
+                    <p class="section-title">服务时间：</p>
+                    <div class="section-content" v-text="detail.start_date+'至'+detail.end_date"></div>
+                </section>
+
+                <section class="section-wrapper">
+                    <p class="section-title">服务地点：</p>
+                    <div class="section-content" v-text="detail.address"></div>
+                </section>
+
+                <section class="section-wrapper">
+                    <p class="section-title">详情：</p>
+                    <div class="section-content"><div v-html="detail.detail"></div></div>
+                </section>
+
+                <div class="g-cutting-line m20"></div>
+
+                <div class="block-title red" v-text="'报名人员：'+ userList.length +'人'"></div>
+                <div class="avatar-list">
+                    <div class="item" v-for="v in userList" :key="v.uid">
+                        <i class="img" :style="{backgroundImage:v.img}"></i><span class="name" v-text="v.realname"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="volunteer-detail__bottm-bar">
+                <div class="left">已报名：<span class="red-text" v-text="userList.length"></span>人</div>
+
+                <!-- red | grey -->
+                <div :class="btnObj.className" v-text="btnObj.text" @click="onEnroll(btnObj.text)"></div>
+            </div>
+        </div>
+
+        <script src="./main.js"></script>
+    </body>
+</html>

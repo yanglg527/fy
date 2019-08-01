@@ -1,0 +1,18 @@
+<a href="__ROOT__/Home/User/info.html">
+<div class="top top-bg">
+    <div class="header-icon">
+        <img src="{$user.headimgurl|get_head_url}">
+    </div>
+
+    <div class="top-info">
+        <div class="name">{$user.realname}</div>
+        <div class="user-info"> <empty name="user.branch_name"><else/><span id="branch">{$user.branch_name}</span></empty> <span id="identity">{$user.role_name}</span> </div>
+        <div class="point-div"><a href="__ROOT__/Home/User/scoreLog"> <img src="__IMG__icon_point.png"/> <span>积分 &nbsp;</span> <span id="point">{$user.score}</span> </a></div>
+    </div>
+    
+    <div class="btn-sign-in">
+        <a href="__ROOT__/SignIn/Index"><img src="__IMG__icon_quqiandao.png"> <span>去签到</span></a>
+        <!--<a href="__ROOT__/SignIn/Index/signPrize.html"><img src="__IMG__icon_quqiandao.png"> <span>去签到</span></a>-->
+    </div>
+</div>
+</a>

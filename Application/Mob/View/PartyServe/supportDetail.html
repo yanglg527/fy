@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="__CSS__/global.css" />
+    <link rel="stylesheet" href="__CSS__/party_serve/help/styles.css" />
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <script src="__STATICS__/jquery/jquery.js"></script>
+    <script src="//cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+
+    <title>济困捐款-详情页面</title>
+</head>
+<style>
+    .log-panel {
+        margin: 10px;
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+    }
+
+    .log-panel .title {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        color: #666;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .log-panel .log-line {
+        margin: 5px 0;
+        height: 1px;
+        background-color: #e0e0e0;
+    }
+
+    .log-panel .log-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+        color: #999;
+    }
+
+    .contribution-bottom-box {
+        box-shadow: 0px -3px 10px 0px rgba(51, 51, 51, 0.3);
+    }
+
+    .contribution-bottom-box .info-line {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        color: #999;
+    }
+
+    .contribution-bottom-box .ico {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        background: center/cover no-repeat;
+    }
+
+    .contribution-bottom-box .g-empty-ele {
+        flex: 1 1;
+    }
+
+    .contribution-bottom-box .bottom-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px;
+    }
+
+    .contribution-bottom-box .time-out {
+        font-size: 16px;
+        color: #666;
+    }
+
+    .contribution-bottom-box .day {
+        display: inline-block;
+        margin: 0 5px;
+        font-size: 20px;
+        color: #ce3d37;
+    }
+
+    .contribution-bottom-box .contribution-btn {
+        flex: 1 1;
+        margin-left: 20px;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 40px;
+        color: #fff;
+        font-size: 18px;
+        background-color: #ce3d37;
+    }
+    .contribution-bottom-box .contribution-over-btn {
+        flex: 1 1;
+        margin-left: 20px;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 40px;
+        color: #fff;
+        font-size: 18px;
+        background-color: #ccc;
+    }
+    .content p>img{
+        width: 100%;
+    }
+</style>
+
+<body class="g-full-flex">
+    <input type="hidden" name="title" value="{$detail.title}">
+    <input type="hidden" name="uid" value="{$detail.uid}">
+    <input type="hidden" name="donation_log_id" value="{$detail.donation_log_id}">
+    <div class="g-nav-bar">
+        <a href="javascript:history.back(-1)"> <div class="back-btn"></div></a>
+        <span class="nav-title">{$detail.title}</span>
+    </div>
+    <div class="g-content-container">
+        <header class="header"><span class="categories-title">【爱心捐助】</span> <span class="title">{$detail.title}</span></header>
+
+        <div class="g-sub-info"><span>发布人：{$detail.user_realname}</span> <span>开始日期：{$detail.start_time|date='Y-m-d',###}</span></div>
+        <div class="content" style="padding:10px;">
+            {$detail.intro}
+        </div>
+        <div class="log-panel">
+            <div class="title"><span>我已捐款</span> <span><span>共计：</span><span style="color:#ce3d37">{$my_total_fee}元</span></span></div>
+            <div class="log-line"></div>
+            <volist name="donation_log_list" id="vo">
+                    <div class="log-item"><span>{$vo.create_time|date='Y-m-d',###}</span><span>{$vo.name}</span> <span style="color:#ce3d37">{$vo.fee}元</span></div>
+            </volist>
+        </div>
+    </div>
+    <!-- 弹出层 -->
+    <div class="pay-cover">
+        <div class="shadow-layer"></div>
+        <div class="content-container">
+            <div class="pay-cover__header">
+                <i class="ico" style="background-image:url('/Public/Mob/images/party_serve/contribution-1.png')"></i>
+                <span class="title">我要捐款</span>
+                <span class="sub-title">传递爱心，传递温暖</span>
+                <i class="close-btn" style="background-image:url('/Public/Mob/images/party_serve/close.png')"></i>
+            </div>
+
+            <div class="pay-cover__price-wrapper">
+                <div class="item"  data-price="10">
+                    <span class="price-text">10元</span>
+                </div>
+                <div class="item" data-price="50">
+                    <span class="price-text">50元</span>
+                </div>
+                <div class="item" data-price="100">
+                    <span class="price-text">100元</span>
+                </div>
+
+                <!-- 自定义金额 -->
+                <div class="item">
+                    <div class="custom-price">
+                        <input type="number"  name="money" id="custom-price" placeholder="自定义金额" min="10" max="10000" />
+                        <span>元</span>
+                    </div>
+                </div>
+                <div  style="border: none;margin: auto">
+                    <input type="checkbox" name="anonymous" value="1"><span style="margin-left:5px ">匿名捐款</span>
+                </div>
+            </div>
+
+            <div class="pay-cover__submit-btn" id="btn-pay">爱心捐款</div>
+
+            <p class="pay-cover__tips">捐赠需跳转微信支付完成支付</p>
+        </div>
+    </div>
+    <div class="contribution-bottom-box">
+        <div class="info-line">
+            <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i> <span>已捐款：</span><span style="color:#ce3d37">{$user_count}人</span>
+                <div class="g-empty-ele"></div>
+            <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i> <span>收到善款：</span><span style="color:#ce3d37">{$total_fee}元</span>
+        </div>
+        <div class="bottom-line">
+            <div class="time-out">倒计时:<span class="day">{$detail.left_time}</span>天</div>
+            <if condition="$total_status == 1">
+                <div class="contribution-over-btn">已结束</div>
+                <else/>
+                <div class="contribution-btn">我要捐款</div>
+            </if>
+
+        </div>
+    </div>
+<!--提醒弹出框-->
+    <div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示</div>
+            <div class="am-modal-bd">
+                请选择或输入金额
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn">确定</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    // 弹出层控制
+    $('.contribution-btn').on('click',function () {
+        $('.pay-cover').addClass('active');
+    });
+    $('.close-btn').on('click',function () {
+        $('.pay-cover').removeClass('active');
+    });
+    $('.shadow-layer').on('click',function () {
+        $('.pay-cover').removeClass('active');
+    });
+    $('#custom-price').on('click',function () {
+        $('.item').removeClass('active');
+    });
+    var total_fee = $('input[name="money"]').val();
+    console.log('item',total_fee);
+    var priceBtn = $(".pay-cover__price-wrapper .item");
+    priceBtn.click(function () {
+        var curr=$(this);
+        var total_fee = curr.attr("data-price");
+        priceBtn.removeClass('active');
+        curr.addClass("active");
+        $("#custom-price").val("")
+    })
+
+</script>
+<script type="text/javascript">
+    var donation_log_id = $('input[name="donation_log_id"]').val();
+    var uid = $('input[name="uid"]').val();
+    var body = $('input[name="title"]').val();
+
+    $('#btn-pay').click(function () {
+        var input_money = $('input[name="money"]').val();//自定义输入金额
+        var choose_money  = $('.pay-cover__price-wrapper .active').attr('data-price');//选择框
+        if(!input_money && !choose_money){
+            $("#my-alert").modal();
+        }
+        if(input_money){
+            var total_fee = input_money;
+        }else{
+            var total_fee = choose_money;
+        }
+        creatOrder(total_fee);
+        // callpay();
+        $('#finish-div').removeClass('hidden');
+    });
+    function  creatOrder(total_fee){
+        var anonymous = $("input[type='checkbox']").is(':checked');//判断是否选中 返回 true false
+        $.ajax({
+            url: '__ROOT__/Mob/PartyServe/ajaxCreatOrder',
+            type: 'POST', //GET
+            data: {
+                uid: uid,
+                body: body,
+                total_fee: total_fee,
+                anonymous: anonymous,
+            },
+            dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function(res) {
+               var out_trade_no = res.data.out_trade_no;
+                window.location.href = "__ROOT__/Mob/PartyServe/pays?out_trade_no=" + out_trade_no + "&donation_log_id=" + donation_log_id;
+                alert_modal(res.a);
+                // if(data.status == 0) {
+                //     window.location.reload();
+                // } else {
+                //     alert_modal(data.msg);
+                // }
+            },
+            closeOnConfirm: false,
+            error: function(xhr, textStatus) {
+                alert_modal("服务器暂时无法连接，请稍候再试");
+            },
+        })
+    }
+
+    //调用微信JS api 支付
+    // function jsApiCall() {
+    //     WeixinJSBridge.invoke(
+    //         'getBrandWCPayRequest', {$data},
+    //         function (res) {
+    //             WeixinJSBridge.log(res.err_msg);
+    //             if(res.err_msg == "get_brand_wcpay_request:ok" ){
+    //                 // 使用以上方式判断前端返回,微信团队郑重提示：
+    //                 //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+    //                 var url = "__ROOT__/Weixin/Weixinpay/pay";
+    //                 window.location.href = url;
+    //             }
+    //         }
+    //     );
+    // }
+
+    // function callpay() {
+    //     if(typeof WeixinJSBridge == "undefined") {
+    //         if (document.addEventListener) {
+    //             document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+    //         } else if (document.attachEvent) {
+    //             document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+    //             document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+    //         }
+    //     }else{
+    //         jsApiCall();
+    //     }
+    // }
+</script>
+
+
+
+
+

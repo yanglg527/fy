@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>积分兑换</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/lottery/convert.css"/>
+
+    <style>
+        .list-convert-log li{
+            font-size: 13px;
+            line-height: 16px;
+            padding: 0.3rem 0.3rem;
+            margin: 0rem 0.3rem;
+            margin-bottom: 0.5rem;
+
+            border-top: 1px solid #e7e7e7;
+            border-bottom: 1px solid #e7e7e7;
+        }
+    </style>
+</head>
+<body>
+<include file="Common/_loading"/>
+<div class="page">
+    <header>
+        <p>可兑换积分</p>
+        <h1>{$user.cost_score}</h1>
+    </header>
+    <nav>
+        <div class="active telephone">兑资料<p class="active"></p></div>
+        <div class="flow">兑流量包<p></p></div>
+        <div class="film">兑电影票<p></p></div>
+    </nav>
+    <!--list telephone 这两个样式名称位置不能变-->
+    <ul class="list telephone">
+        <volist name="listHuaFei" id="item">
+            <li class="active">
+                <div class="left"><span>{$item.name}</span></div>
+                <div class="right">需扣积分：<span>{$item.cost_score}</span><button data-id="{$item.id}" data-type="prize1" class="btn">兑换</button></div>
+            </li>
+        </volist>
+    </ul>
+    <ul class="list flow hide">
+        <volist name="listLiuLiang" id="item">
+            <li class="active">
+                <div class="left"><span>{$item.name}</span></div>
+                <div class="right">需扣积分：<span>{$item.cost_score}</span><button data-id="{$item.id}" data-type="prize2"  class="btn">兑换</button></div>
+            </li>
+        </volist>
+    </ul>
+    <ul class="list film hide">
+        <volist name="listDianYing" id="item">
+            <li class="active">
+                <div class="left"><span>{$item.name}</span></div>
+                <div class="right">需扣积分：<span>{$item.cost_score}</span><button data-id="{$item.id}" data-type="prize3"  class="btn">兑换</button></div>
+            </li>
+        </volist>
+    </ul>
+
+    <if condition="$isShowLog">
+        <div style="margin-top: 0.3rem; background: white; width: 100%; padding: 0.2rem 0px">
+            <div style="height: 1rem; line-height: 1rem; font-size: 13px; padding-left: 0.3rem; color: #3c3c3c">兑换记录：</div>
+            <ul class="list-convert-log">
+                <volist name="listConvertLog" id="item">
+                    <li>
+                        <span>{$item.create_time|date="Y-m-d",###}</span>兑换“<span style="font-size: 15px">{$item.name}</span>”，扣除<span style="font-size: 15px; color: orangered">{$item.cost_score}</span>积分。
+                    </li>
+                </volist>
+            </ul>
+        </div>
+    </if>
+
+    <div style="width: 100%; background: white; font-size: 13px; margin-top: 0.3rem; padding: 0.5rem 0.3rem 1rem 0.3rem; line-height: 0.6rem">
+        温馨提示：
+        <p style="margin-top: 0.2rem">1、兑换前请确保个人信息录入准确、完善，否则将不能成功兑换哦！</p>
+        <p>2、兑换礼品的积分不在年终考核中扣减。</p>
+    </div>
+
+    <!--兑换成功的弹框-->
+    <div class="screen_shade hide">
+        <div class="content">
+            <div class="shade-head"><i></i>
+                <span class="prize1">话费兑换成功</span>
+                <span class="prize2 hide">流量兑换成功</span>
+                <span class="prize3 hide">电影票兑换成功</span>
+            </div>
+            <div class="text">
+                <span class="prize1">兑换的话费将在24小时内生效</span>
+                <span class="prize2 hide">兑换流量将在24小时内生效</span>
+                <span class="prize3 hide">兑换电影票将在48小时内生效</span>
+                <p>请注意查收</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/lottery/convert.js" type="text/javascript" charset="utf-8"></script>
+<include file="Common/_menu"/>
+<script>
+    $(".list>li.active .btn").click(function(){
+        loading("");
+        var id = $(this).attr("data-id");
+        var className = $(this).attr("data-type");
+        $.ajax({
+            type: "post",
+            url: "__ROOT__/Mob/Lottery/ajaxConvertPrize",
+            cache: false,
+            data:{
+                "id": id
+            },
+            dataType: "json",
+            success: function (res) {
+                close_loading();
+                if(res['status'] == 0){
+                    $(".screen_shade .content span").addClass("hide");
+                    $(".screen_shade .shade-head ."+className).removeClass("hide");
+                    $(".screen_shade .text ."+className).removeClass("hide");
+                    $(".screen_shade").removeClass("hide");
+                }else{
+                    alert(res['msg']);
+                }
+            },
+            error: function () {
+                close_loading();
+                alert("网络异常...");
+            }
+        });
+    });
+</script>
+</body>
+</html>

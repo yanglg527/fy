@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="__STATICS__/photoCrop/css/upload.css" />
+		<title>修改头像</title>
+		<style>
+			.crop-btn.crop-normal {
+				width: 65%;
+				left: 17.5%;
+				margin-left: 0 !important;
+				height: 40px;
+				line-height: 40px;
+				border-radius: 22.5px;
+				font-size: 14px !important;
+				font-weight: bold;
+				position: relative;
+				margin-top: 20px;
+				background: #3f5bea !important;
+				background: -moz-linear-gradient(left, #3f5bea, #4aa0f7)!important;
+				background: -o-linear-gradient(left, #3f5bea, #4aa0f7)!important;
+				background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#3f5bea), to(#4aa0f7))!important;
+			}
+			
+			.crop-btn:active {
+				color: white;
+				background: #3f5bea !important;
+			}
+			
+			.crop-btn.crop-photo {
+				margin-top: 30px !important;
+				top: 0 !important;
+			}
+			
+			.crop-btn.crop-rephoto {
+				margin-top: 20px;
+			}
+			
+			.crop-btn.crop-unclick {
+				background: #818181 !important;
+				background: -moz-linear-gradient(left, #818181, #c3c3c3)!important;
+				background: -o-linear-gradient(left, #818181, #c3c3c3)!important;
+				background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#818181), to(#c3c3c3))!important;
+			}
+			
+			.crop-btn.crop-success {
+				background: #19ab18 !important;
+				background: -moz-linear-gradient(left, #19ab18, #44c044)!important;
+				background: -o-linear-gradient(left, #19ab18, #44c044)!important;
+				background: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#19ab18), to(#44c044))!important;
+			}
+			
+			.crop-success:active {
+				color: white;
+				background: #19ab18 !important;
+			}
+			
+			.crop-unclick:active {
+				color: white;
+			}
+			
+			.crop-btn.crop-qrcode {
+				margin-top: 20px;
+				background: orange !important;
+			}
+
+			.crop-btn.crop-qrcode:active {
+				margin-top: 20px;
+				background: darkorange !important;
+			}
+		</style>
+	</head>
+
+	<body style="position: relative;padding: 0;margin: 0">
+			<div id="img-cro-div" style="overflow: auto;position:relative;top: 0;bottom: 0px;left: 0;right:0;padding-bottom:40px;margin: 0">
+				<div id="img-crop-preview">
+					<img id="previewResult" src="{$user.headimgurl|get_head_url}" />
+					<input class="upload-file" style="display: none;" type="file" id="file" accept="image/*" />
+					<a class="crop-btn crop-normal crop-photo" id='fileChooseButton'>选择照片</a>
+					<a class="crop-btn crop-normal crop-rephoto crop-unclick" id='rephoto'>确定修改</a>
+					<a class="crop-btn crop-normal crop-qrcode" id='back' onclick="history.go(-1);">取消</a>
+				</div>
+				<div class="crop-div" id="uploadPage" style="background: black;">
+					<div class="crop-main">
+						<div class="upload-loading">
+							<span class="centerXY"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></span>
+						</div>
+						<canvas class="upload-mask">
+       			 	</canvas>
+						<div class="preview-box">
+							<img id="preview" />
+						</div>
+						<canvas class="photo-canvas">
+        			</canvas>
+					</div>
+					<div class="crop-bottom">
+						<button class="crop-btn" id="closeCrop">取消</button>
+						<button class="crop-btn" id="getFile">使用</button>
+					</div>
+				</div>
+			</div>
+	</body>
+	<script>
+		var __root__ = "__ROOT__";
+	</script>
+	<script src="__STATICS__/photoCrop/js/jquery-2.1.4.js"></script>
+	<script src="__STATICS__/photoCrop/js/require.js"></script>
+	<script src="__STATICS__/photoCrop/js/main.js"></script>
+	<script src="__STATICS__/photoCrop/js/canvas-toBlob.js"></script>
+	<script src="__STATICS__/photoCrop/crop-plugin.js"></script>
+
+	<script>
+		function loading() {
+			
+        }
+        function close_loading() {
+			
+        }
+		var base64 = "";
+        $('#rephoto').click( function(event) {
+			if(  $('#rephoto').hasClass('crop-unclick')) {
+
+			} else {
+				//提交数据
+                var data = {
+                    file:base64
+				}
+                loading();
+                var url = "__ROOT__/Mob/Center/ajax_upload_head";
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    data: data,
+                    dataType: "json",
+                    success: function (data) {
+                        close_loading();
+                        if (data.status == 0) {
+                            window.location.href = "__ROOT__/Mob/Center/edit";
+                        } else {
+                            alert(data.msg);
+                        }
+                    },
+                    error: function () {
+                        close_loading();
+                        alert("服务器暂时无法访问，请稍后再试");
+                    }
+                });
+			}
+
+		})
+
+		var cropPlugin = new CropPlugin({
+			onResult: function(result) {
+                $('#rephoto').removeClass('crop-unclick')
+                $('#rephoto').addClass('crop-success')
+                $('#fileChooseButton').text('重新选择')
+                base64 = result.base64
+			}
+		})
+		$('#fileChooseButton').click( function(event) {
+			cropPlugin.start();
+			return false;
+		})
+
+
+	</script>
+
+
+</html>

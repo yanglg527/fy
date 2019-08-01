@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>群团组织</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<link rel="stylesheet" href="__STATICS__/mui/mui.tab.pullrefresh.css">
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/alliance/alliance.css" />
+		<style type="text/css">
+			.article_list {
+				margin: 10px;
+			}
+			
+			.article_list ul {
+				list-style-type: none;
+				width: 100%;
+				margin-bottom: 20px;
+			}
+			
+			.article_list h3 {
+				font-weight: 400;
+				color: #333;
+				font-size: 16px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			
+			.article_list li img {
+				float: left;
+				width: 25%;
+				margin: 0 10px 0 0;
+			}
+			
+			.article_list li p {
+				font-size: 12px;
+				color: #757575;
+				margin-top: 0.5rem;
+				line-height: 1.3em;
+			}
+			
+			.article_list a li {
+				/*margin:0px 10px; */
+				padding: 10px 0px;
+				overflow: auto;
+				border-top: 1px solid #dedede;
+			}
+			
+			.article_list li:hover {
+				background: #eee;
+				cursor: pointer;
+			}
+			
+			.article_list a {
+				text-decoration: none;
+			}
+			
+			.content {
+				background: #fff;
+				margin: 0px;
+				padding: 0px;
+			}
+			.mui-content ul:before,.mui-content ul:after{
+				background-color: transparent;
+			}
+		</style>
+	</head>
+
+	<body>
+		<include file="Common/_nav1"/>
+		<div class="page">
+			<div class="head labor">
+				<div class="icon"><img src="__IMG__/alliance/labor.png" alt=""></div>
+				<div class="title">
+					<h1>工会</h1>
+					<p>工会，或称劳工总会、工人联合会。工会原意是指基于共同利益而自发组织的社会团体。这个共同利益团体诸如为同一雇主工作的员工，在某一产业领域的个人</p>
+				</div>
+			</div>
+			<div class="head youth hide">
+				<div class="icon"><img src="__IMG__/alliance/youth.png" alt=""></div>
+				<div class="title">
+					<h1>共青团组织</h1>
+					<p>中国共产主义青年团（简称共青团）是中国共产党领导的一个由信仰共产主义的中国青年组成的群众性组织。</p>
+				</div>
+			</div>
+			<div class="head woman hide">
+				<div class="icon"><img src="__IMG__/alliance/woman.png" alt=""></div>
+				<div class="title">
+					<h1>妇委会组织</h1>
+					<p>中华全国妇女联合会，简称全国妇联。中国共产党领导的为争取妇女解放而联合起来的中国各族各界妇女的群众组织。它具有广泛的群众性和社会性。</p>
+				</div>
+			</div>
+			<nav>
+				<div class="labor">工会
+					<p class="active"></p>
+				</div>
+				<div class="youth">共青团组织
+					<p></p>
+				</div>
+				<div class="woman">妇委会组织
+					<p></p>
+				</div>
+			</nav>
+			<div class="content labor">
+				<div class="mui-content article_list">
+					<ul class="mui-table-view mui-table-view-chevron" data-type="labor">
+
+					</ul>
+
+				</div>
+			</div>
+			<div class="content youth hide">
+				<div class="mui-content article_list">
+					<ul class="mui-table-view mui-table-view-chevron" data-type="youth">
+
+					</ul>
+
+				</div>
+			</div>
+			<div class="content woman hide">
+				<div class="mui-content article_list">
+					<ul class="mui-table-view mui-table-view-chevron" data-type="woman">
+
+					</ul>
+
+				</div>
+			</div>
+			<footer>
+				<a id="btn-edit" class="icon"><img src="__IMG__/alliance/edit.png" alt=""></a>
+			</footer>
+		</div>
+
+		<div id="list-template1" style="display: none">
+			<a href="__ROOT__/Mob/Alliance/detail?id=##id##">
+				<li alt="">
+					<h3>##title##</h3>
+					<p>##subTitle##</p>
+				</li>
+			</a>
+
+		</div>
+		<script>
+			var __root__ = "__ROOT__";
+		</script>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<script src="__STATICS__/dateUtil.js"></script>
+		<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__STATICS__/mui/mui.pullToRefresh.js"></script>
+		<script src="__STATICS__/mui/mui.pullToRefresh.material.js"></script>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<include file="Common/_menu"/>
+		<script>
+			mui.init();
+			var list1 = mui('.list1')[0];
+			var lastItem1 = 0;
+			var type = "labor";
+			var listItemHtmlArray1 = mui('#list-template1')[0].innerHTML.split("##");
+			(function($) {
+				//阻尼系数
+				var deceleration = mui.os.ios ? 0.003 : 0.0009;
+				$('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration: deceleration
+				});
+				$.ready(function() {
+					//循环初始化所有下拉刷新，上拉加载。
+					$.each(document.querySelectorAll('.mui-content'), function(index, pullRefreshEl) {
+						var a = $(pullRefreshEl).pullToRefresh({
+							up: {
+								callback: function() {
+									var self = this;
+									var list1 = self.element.querySelector('ul');
+									type = list1.getAttribute("data-type");
+									mui.ajax('__ROOT__/Mob/Alliance/ajaxLoadData', {
+										data: {
+											type: type,
+											lastItem: lastItem1
+										},
+										dataType: 'json', //服务器返回json格式数据
+										type: 'post', //HTTP请求类型
+										timeout: 10000, //超时时间设置为10秒；
+										success: function(data) {
+
+											if(data['status'] == 0) {
+												//                    console.log("data = aaaaaaaaaaaaaaaa");
+												var listData = data.data;
+												lastItem1 = data.msg;
+												//                    console.log("data = " + JSON.stringify(listData));
+												if(listData && listData.length > 0) {
+													var listItem = "";
+													var itemTemp = "";
+													for(var i = 0; i < listData.length; i++) {
+
+														listItemHtmlArray1[1] = listData[i]['id'];
+														listItemHtmlArray1[3] = listData[i]['title'];
+														listItemHtmlArray1[5] = get_content(listData[i]['content'],100);
+														itemTemp = "";
+														for(var j = 0; j < listItemHtmlArray1.length; j++) {
+															itemTemp += listItemHtmlArray1[j];
+														}
+														listItem += itemTemp;
+													}
+													list1.innerHTML += listItem;
+
+													if(listData.size < 15) { // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+															self.endPullUpToRefresh(true);
+													} else {
+															self.endPullUpToRefresh(false);
+													}
+												} else {
+														self.endPullUpToRefresh(true);
+												}
+
+											} else {
+												self.endPullUpToRefresh(true);
+												alert(data.msg);
+											}
+										},
+										error: function(xhr, type, errorThrown) {
+												self.endPullUpToRefresh(true);
+											console.log(type);
+											mui.alert('网络异常');
+										}
+									});
+								}
+							}
+						}).pullUpLoading();
+					});
+				});
+			})(mui);
+		</script>
+		<script>
+			var title = "工会";
+			mui("nav").on('tap', 'div', function() {
+				removeClass(mui('nav p.active')[0], 'active');
+				type = this.className
+				title = type == "labor" ? "工会" : type == "youth" ? "共青团组织" : "妇委会组织";
+				addClass(mui('nav .' + type + ' p')[0], 'active');
+				addClass(mui('.page>.head')[0], 'hide');
+				addClass(mui('.page>.head')[1], 'hide');
+				addClass(mui('.page>.head')[2], 'hide');
+				removeClass(mui(".page>.head." + type)[0], 'hide');
+
+				addClass(mui('.page>.content')[0], 'hide');
+				addClass(mui('.page>.content')[1], 'hide');
+				addClass(mui('.page>.content')[2], 'hide');
+				removeClass(mui(".page>.content." + type)[0], 'hide');
+			});
+			mui("footer").on('tap', 'a', function() {
+				sessionStorage.setItem("edie_title", title);
+				window.location.href = "__ROOT__/Mob/Alliance/edit?type=" + type;
+			})
+		</script>
+	</body>
+
+</html>

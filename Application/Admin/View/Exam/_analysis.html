@@ -1,0 +1,12 @@
+			<div class="row alert alert-success test_info">
+				<div class="col-xs-3"><span>答题人数：{$exam.exam_count}</span></div>
+				<div class="col-xs-3"><span>满分：{$exam.score}</span></div>
+				<div class="col-xs-3"><span>平均分：<php>echo sprintf( "%.1f ",$exam['avg_score']); </php></span></div>
+				<div class="col-xs-3"><span>优秀人数：{$exam.good_count}</span></div>
+				<div class="col-xs-3"><span>及格人数：{$exam.pass_count}</span></div>
+				<div class="col-xs-3"><span>不及格人数：{$exam['corrected_count']|template_sub=$exam['pass_count']}</span></div>
+				<div class="col-xs-3"><span>及格率：{$exam['pass_count']|template_percent=$exam['corrected_count']}</span></div>
+				<div class="col-xs-3"><span>优秀率：{$exam['good_count']|template_percent=$exam['corrected_count']}</span></div>
+				<div class="col-xs-3"><span>已批改：{$exam.corrected_count}</span></div>
+				<div class="col-xs-3"><span>未批改：{$exam['exam_count']|template_sub=$exam['corrected_count']}</span></div>
+			</div>

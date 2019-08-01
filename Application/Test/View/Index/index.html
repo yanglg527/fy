@@ -1,0 +1,99 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .container{
+            background: #fefefe !important;
+        }
+
+        .content {
+            position: relative;
+            height: auto;
+            background: white;
+            width: 100%;
+        }
+
+        .list-item .list-item-row {
+            padding: 5px 10px;
+            position: relative;
+            color: black;
+            height: 70px;
+            display: table;
+            background: white;
+            width: 100%;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .list-item .list-item-row .title {
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            right: 10px;
+            line-height: 16px;
+            font-size: 15px;
+            height: 40px;
+
+        }
+
+        .list-item .list-item-row .limit {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            line-height: 16px;
+            font-size: 15px;
+            width: auto;
+
+        }
+
+        .list-item .list-item-row .attend {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: grey;
+
+        }
+
+        .attend .time {
+            margin-left: 10px;
+
+        }
+
+        .list-item .list-item-row .creator {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: grey;
+
+        }
+
+        .creator span {
+            color: #006699;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="content">
+        <volist name="list" id="item">
+
+            <a class="list-item" href="__ROOT__/Test/Index/detail?id={$item.exam_id}">
+                <div class="list-item-row">
+
+                    <span class="title">{$item.title}</span>
+                    <span class="attend">
+                                {$item.exam_count}
+                                参与
+                        <span class="time"> {$item.create_time|date='Y-m-d h:i',###}</span>
+                    </span>
+                    <span class="creator"> 发布组织:<span>{$item|show_branch_auth}</span></span>
+                </div>
+            </a>
+        </volist>
+    </div>
+</block>
+<block name="scripts">
+
+</block>

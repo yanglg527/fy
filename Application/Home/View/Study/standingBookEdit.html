@@ -1,0 +1,346 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        body{
+            padding-bottom: 0px;
+        }
+        .uploadform{
+            background-color: #f7f8f8;
+            /*padding-bottom: 40px;*/
+        }
+
+        .item {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-bottom: 1px solid #E8E8E8;
+            background-color: white;
+        }
+
+        .intro {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-top: 1px solid #E8E8E8;
+            border-bottom: 1px solid #E8E8E8;
+            margin-top: 10px;
+            background-color: white;
+        }
+
+
+        .item-left {
+            position: absolute;
+            left: 10px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .item-right {
+            position: absolute;
+            left: 80px;
+            color: black;
+            right: 10px;
+            height: 50px;
+            font-size: 14px;
+
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: 0;
+            color: black;
+        }
+
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 10px 0px;
+            font-size: 14px;
+            color: black;
+        }
+
+        .item-right .am-selected {
+            width: 90%;
+        }
+
+        .container {
+            background: white;
+        }
+
+        .btn-save {
+            /*position: absolute;*/
+            height: 50px;
+            width: 100%;
+            /*bottom: 0;*/
+            background: #0084c7;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            font-size: 16px;
+        }
+
+        input:not([type=radio]):not([type=checkbox]) {
+            vertical-align: inherit;
+            padding: 0px 5px;
+        }
+
+        .am-gallery {
+            margin-top: 10px;
+            padding: 5px;
+            border-top: 1px solid #E8E8E8;
+            border-bottom: 1px solid #E8E8E8;
+            background-color: white;
+        }
+
+        .file-ul{
+            margin-top: 10px;
+            margin-bottom: 0px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            /*padding: 5px;*/
+            border-top: 1px solid #E8E8E8;
+            border-bottom: 1px solid #E8E8E8;
+            background-color: white;
+        }
+        .file-li{
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .file-li a{
+            font-size: 1.6rem;
+        }
+
+        .am-form-group{
+            text-align: center;
+            padding-bottom: 40px;
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            font-size: 17px;
+            color: #1a1a1a;
+            background: none !important;
+            border: 0;
+            outline:none;  // 去除选中时的蓝色边框
+        }
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 0px 0px;
+            font-size: 17px;
+            color: #1a1a1a;
+        }
+        .item-right .am-selected{
+            width: 90%;
+        }
+
+        .am-btn i{
+            /*display: none;*/  // 隐藏下拉小三角
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <form class="uploadform">
+        <input type="hidden" value="{$studyStandingBook.id}" name="id">
+        <input type="hidden" value="{$studyStandingBook.type}" name="type">
+        
+        <div class="item">
+            <span class="item-left">主&nbsp;&nbsp;&nbsp;题：</span>
+            <span class="item-right"><input name="theme" type="text" placeholder="请填写主题" value='{$studyStandingBook.theme}'></span>
+        </div>
+        <div class="item" id="shyk">
+            <span class="item-left">内&nbsp;&nbsp;&nbsp;容：</span>
+            <span class="item-right" >
+                <select data-am-selected name="content_type" style="border: none">
+                    <option value="0" <if condition="$studyStandingBook.content_type eq 0">selected</if> >其他</option>
+                    <option value="1" <if condition="$studyStandingBook.content_type eq 1">selected</if> >思想汇报</option>
+                    <option value="2"<if condition="$studyStandingBook.content_type eq 2">selected</if> >心得体会</option>
+                    <option value="3"<if condition="$studyStandingBook.content_type eq 3">selected</if> >活动展现</option>
+                </select>
+            </span>
+        </div>
+        <div class="item">
+            <span class="item-left">分&nbsp;&nbsp;&nbsp;类：</span>
+            <span class="item-right" >
+                <select id="classify" data-am-selected name="classify" style="border: none">
+                    <option value="1" <if condition="$studyStandingBook.classify eq 1">selected</if> >规定动作</option>
+                    <option value="2" <if condition="$studyStandingBook.classify eq 2">selected</if> >自主创新</option>
+                </select>
+            </span>
+        </div>
+        <div class="item">
+            <span class="item-left">主持人：</span>
+            <span class="item-right"><input name="host" type="text" placeholder="请填写主持人姓名" value='{$studyStandingBook.host}'></span>
+        </div>
+        <div class="item">
+            <span class="item-left">举办日：</span>
+            <span class="item-right">
+                <input name="attendTime" <if condition="$studyStandingBook.attend_time gt 0">value="{$studyStandingBook.attend_time|date="Y-m-d",###}"</if>  type="text" placeholder="请选择活动举办日期" class="am-form-field" readonly required data-am-datepicker="{format: 'yyyy-mm-dd', viewMode: 'months'}"/>
+            </span>
+            <!--<span class="item-icon"> > </span>-->
+        </div>
+        <div class="item" id="div-attendance" <if condition="$studyStandingBook.classify eq 2">style="display:none"</if> >
+            <span class="item-left">人&nbsp;&nbsp;&nbsp;数：</span>
+            <span class="item-right">
+                <input name="attendance" value="{$studyStandingBook.attendance}" type="number" placeholder="请填写出席人数" class="am-form-field"/>
+            </span>
+            <!--<span class="item-icon"> > </span>-->
+        </div>
+
+
+        <div class="intro" style="border-top: 1px solid #E8E8E8;">
+            <span class="item-left">出席名单</span>
+        </div>
+        <textarea name="attendee" rows="3" style="padding: 10px;width: 100%;border: none; border-bottom: 1px solid #E8E8E8;">{$studyStandingBook.attendee}</textarea>
+
+
+        <div class="intro" style="border-top: 1px solid #E8E8E8;">
+            <span class="item-left">详细内容</span>
+        </div>
+        <!--自定义富文本 start-->
+        <input type="hidden" value="" name="content">
+        <div class="article-content" id="content" style="background: white; padding: 5px 10px;border-bottom: 1px solid #E8E8E8;min-height: 200px">
+            {$studyStandingBook.content}
+        </div>
+        <include file="Common/_article_buttons"/>
+
+        <!--自定义富文本 end-->
+
+        <div style="height: 40px; background: white"></div>
+
+    </form>
+
+    <div style="text-align: center; background: white; width: 100%;  padding: 30px; ">
+        <button id="btn-submit" style="width: 50%; height: 100%; font-size: 15px;" type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">提交保存</button>
+    </div>
+
+    <form id="file-upload-form"  action="" method="post" enctype="multipart/form-data">
+        <input id="fileUploadInput" type="file" name="file"   style="display: none">
+    </form>
+
+</block>
+<block name="scripts">
+
+    <!-- 自定义富文本 start
+     富文本取值 $('#content').getValue()；
+     -->
+    <script src="__STATICS__/artEditor/artEditor.js"></script>
+    <script>
+
+        var artEditor =  $('#content').artEditor({
+            imgTar: '#imageUpload',
+            uploadUrl: '__ROOT__/Home/File/ajaxAirEditorImage',
+            placeholader: '<p style="font-size: 13px; color: #aaaaaa">请填写内容</p>',
+            formInputId: 'target',
+            uploadStart: function() {
+                loading();
+            },
+            uploadSuccess: function(res) {
+                close_loading()
+                var data2 = JSON.parse(res)
+                if(data2.status == 0){
+                    return data2.msg;
+                }
+            },
+            uploadError: function(res) {
+                alert("图片上传失败");
+                close_loading()
+            }
+        });
+        $('#fileUploadInput').change(function(){
+            if( $('#fileUploadInput').val() != ''){
+                var formData = new FormData($('#file-upload-form')[0]);
+                loading();
+                $.ajax({
+                    url: '__ROOT__/Home/File/ajaxAirEditorFile',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        $('#fileUploadInput').val('');
+                        if (data['status'] == 0) {
+                            var fileHtml = "<br/><a style='display: inline-block' href='" + data.data.path + "' download='" + data.data.name + "'><i class='am-icon-cloud-upload'></i>  "+ data.data.name +"</a><br/>";
+                            $('#content').insertFile(fileHtml);
+                        } else {
+                            alert(data.msg);
+                        }
+                        close_loading()
+                    },
+                    error: function (data) {
+                        $('#fileUploadInput').val('');
+                        alert("附件上传失败");
+                        close_loading()
+                    }
+                })
+            }
+        })
+    </script>
+    <!-- 自定义富文本 end -->
+
+    <script>
+        var entry = "{$entry}"
+        var organizationId = "{$organizationId}";
+        $('#btn-submit').click(function () {
+            $('input[name="content"]').val($('#content').getValue());
+            var data = $('.uploadform').serialize();
+            $.ajax({
+                url: '__ROOT__/Home/Study/ajaxSaveStandingBook',
+                type: 'POST', //GET
+                data: $('.uploadform').serialize(),
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+//                        history.go(-1);
+                        var type = '{$studyStandingBook.type}';
+                        if(type == 3){
+                            window.location.href = '__ROOT__/Home/Study/standingBook2?type=' + type;
+                        }else if(type == 4){
+                            window.location.href = '__ROOT__/Home/Study/standingBook3?organizationId=' + organizationId;
+                        }else{
+                            if(entry == 'info'){
+                                window.location.href = '__ROOT__/Home/Study/standingBook?entry=info&type=' + type;
+                            }else{
+                                window.location.href = '__ROOT__/Home/Study/standingBook?type=' + type;
+                            }
+                        }
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+
+        $("#classify").on('change', function() {
+//            alert("aaaaaaaaaaaa = " + $(this).val());
+
+            if($(this).val() == 1){
+                $("#div-attendance").show();
+            }else{
+                $("#div-attendance").hide();
+            }
+        });
+
+    </script>
+
+</block>

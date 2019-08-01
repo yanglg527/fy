@@ -1,0 +1,24 @@
+{
+  "status": "ok",
+  "data": {
+    "sortKey": [
+      "data1",
+      "data2",
+      "data3",
+      "data4"
+    ],
+    "table": {
+      "title": [
+        "党组",
+        "积分",
+        "台账"
+      ],
+      "list": {
+        "data1": "香洲区党组",
+        "data2": 20,
+        "data3": 222,
+        "data4": 8654
+      }
+    }
+  }
+}

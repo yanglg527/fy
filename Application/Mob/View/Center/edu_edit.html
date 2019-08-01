@@ -1,0 +1,95 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/grassroots/personal/education_edit.css">
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a>
+                <div class="head_return"><i onclick="history.go(-1);"></i></div>
+            </a>
+            <div class="xinnav">学历情况</div>
+            <a href="education.html" class="save">保存</a>
+        </header>
+    </div>
+    <div class="personal-edit">
+        <div class="heart">
+            <div class="block">
+                <ul>
+                    <li>
+                        <a id="name" href="#"><!--判断进入页面是添加还是修改内容，给图片添加样式hide控制图片的显示或隐藏-->
+                            <img class="addto " src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>
+                            学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;校：
+                            <span><input type="text" name="school_name" value="{$detail.school_name}"/></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="basic" href="#">
+                            <img class="addto" src="__IMG__/grassroots/personal/addTo.png" />
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png"/>
+                            毕业年份：<span><php>if($detail['finish_time']){</php>{$detail.finish_time|date='Y-m',###}<php>}</php></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="education" href="#">
+                            <img class="addto" src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png"/>
+                            学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：<span attr-id="{$detail.type_id}">{$detail.type_name}</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="remind">
+        <div class="education">
+            <section><a class="cancel">取消</a><a class="determine">确定</a></section>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">研究生</div>
+                    <div class="swiper-slide">本科</div>
+                    <div class="swiper-slide">专科</div>
+                    <div class="swiper-slide">高中</div>
+                    <div class="swiper-slide">初中</div>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <!--出生年月插件-->
+    <script src="__STATICS__/datePicker/datePicker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__JS__/grassroots/personal/education_edit.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $('.save').click(function () {
+            loading();
+            var data = {
+                id:"{$detail.id}",
+                school_name:$('input[name="school_name"]').val(),
+                finish_time:$('#basic span').text(),
+                type_name:$('#education span').text()
+            }
+            var url = "__ROOT__/Mob/Center/ajax_save_edu";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location=document.referrer;
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+            return false;
+        })
+    </script>
+</block>

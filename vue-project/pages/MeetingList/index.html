@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="../../static/css/global.css" />
+        <link rel="stylesheet" href="./styles.css" />
+
+        <script src="../../static/js/lib/vue.min.js"></script>
+        <script src="../../static/js/lib/axios.min.js"></script>
+        <script src="../../static/js/utils.js"></script>
+
+        <title>三会一课</title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn" @click="goback"></div>
+                <span class="nav-title">三会一课</span>
+                <div class="right" v-show="isEditable" @click="onAddToggle(true)">
+                    <i class="add-record"></i>
+                </div>
+            </div>
+
+            <div class="g-content-container meeting" @scroll="onScroll">
+                <div class="g-search-box-with-bg">
+                    <div class="content">
+                        <input type="text" class="search-input" maxlength="10" placeholder="请输入搜索内容" v-model="keyword" />
+                        <div class="search-btn" @click="getList"></div>
+                    </div>
+                </div>
+
+                <div class="g-fill-tabs">
+                    <div
+                        v-for="item in tabs"
+                        :key="item.key"
+                        :class="{'item':true, 'active':tabKey === item.key}"
+                        @click="onTab(item.key)"
+                        v-text="item.text"
+                    ></div>
+                </div>
+
+                <div class="g-no-data" v-if="!showingList.length"></div>
+
+                <div class="meeting-list">
+                    <div v-for="item in showingList" :key="item.id" class="meeting-item">
+                        <div class="top">
+                            <span class="date" v-text="item.date"></span>
+                            <span :class="item.typeClass" v-text="item.type"></span>
+                        </div>
+
+                        <div class="middle-content" @click="onNavToDetail(item.id)">
+                            <i class="img" :style="{backgroundImage:item.img}"></i>
+                            <div class="info">
+                                <p class="title" v-text="item.title"></p>
+                                <p class="bottom-text">
+                                    <i class="avatar" :style="{backgroundImage:item.avatar}"></i>
+                                    <span class="author" v-text="item.author + ' ' + item.branch"></span>
+                                    <i class="ico-read"></i><span class="read" v-text="item.read"></span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="g-cutting-line m5"></div>
+
+                        <div class="bottom">
+                            <span
+                                :class="['bottom-item', item.isCollection ? 'is-collection' : 'collection']"
+                                @click="onLikeOrCollection(item.id,'collection')"
+                                v-text="'收藏(' + item.collection + ')'"
+                            ></span>
+                            <span class="bottom-item comment" v-text="'评论(' + item.comment + ')'"></span>
+                            <span
+                                :class="['bottom-item', item.isLike ? 'is-like' : 'like']"
+                                @click="onLikeOrCollection(item.id,'like')"
+                                v-text="'点赞(' + item.like +')'"
+                            ></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增遮罩层 -->
+            <div :class="['add-container', {active : showAddLayer}]">
+                <div class="shadow-box" @click="onAddToggle(false)"></div>
+                <div class="content-box">
+                    <a class="item" href="../RecordBookCreate/index.html">新增台账</a>
+                    <a class="item" href="../MeetingDrafts/index.html">草稿箱</a>
+                    <div class="item" @click="onAddToggle(false)">取消</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../static/js/meeting-list.js"></script>
+        <!-- <script src="../../js-resources/meeting-list.js"></script> -->
+    </body>
+</html>

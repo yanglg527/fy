@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/notes_edit.css"/>
+	</head>
+		<style type="text/css">
+           .note-content{
+			   width: 100%;
+			   margin-top: 1rem;
+			   padding: 0px 0.1rem;
+			   font-size: 17px;
+			   line-height: 22px;
+			   text-align: left;
+           }
+           .btn-edit {
+			   width: 50%;
+			   background: #ce3d3a;
+			   border: 1px solid #ce3d3a;
+			   border-radius: 30px;
+			   color: #fff;
+			   text-align: center;
+			   line-height: 0.5rem;
+			   padding: 2% 19%;
+			   margin: 12.6% auto 0px auto;
+			   font-size: 0.38rem;
+			   display: block;
+			}
+		</style>
+	<body>
+		<div class="page">
+			<header class ="head">
+				<div class="header"><span class="time">{$detail.create_time|date="y年m月d日 H:i",###}</span><a onclick="history.go(-1);"><span></span></a></div>
+			</header>
+		</div>
+		<div class="notes-edit">
+			<div class="heart" style="text-align:center">
+				<div class="note-content">{$detail.content}</div>
+				<a href="notes_edit.html?id={$detail.id}" class="btn-edit">编辑</a>
+			</div>
+		</div>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+//			$(".btn-edit").tap(function () {
+//				var id = this.getAttribute("data-id");
+//				console.log("id = " + id);
+//
+//			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,88 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">党费统计及查询</strong></div>
+      </div>
+      <hr>
+      <form class="am-g" action="__ROOT__/Admin/Cost/fee">
+        <div class="am-u-sm-12 am-u-md-4">
+          <div class="am-btn-toolbar">
+            <if condition="$auth == 1">
+            <div class="am-btn-group am-btn-group-xs">
+              <button  onclick="loading_page('__ROOT__/Admin/Cost/add');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span>添加党费缴纳</button>
+            </div>
+            </if>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-8" style="text-align: right">
+
+            <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="year">
+              <option value="0">年份选择</option>
+              <volist name="years" id="item">
+                <if condition="$item['year'] == $search['year']">
+                  <option value="{$item.year}" selected>{$item.year}</option>
+                  <else/>
+                  <option value="{$item.year}">{$item.year}</option>
+                </if>
+              </volist>
+            </select>
+          <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" placeholder="输入费用名称关键词" name="keyword" value="{$search.keyword}">
+          </div></div>
+
+          <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+
+          </div>
+      </form>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-title" >名称</th>
+                <th class="table-title" >年份</th>
+                <th class="am-hide-sm-only" >党费统计</th>
+                <th class="am-hide-sm-only" >缴费党员</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="page.list" id="item">
+                <tr>
+                  <td>{$item.name}</td>
+                  <td>{$item.year}</td>
+                  <td class="am-hide-sm-only">{$item.has_pay}/{$item.total_pay}</td>
+                  <td class="am-hide-sm-only">{$item.has_pay_count}/{$item.total_count}</td>
+                  <td>
+                        <a type="button" href="__ROOT__/Admin/Cost/info?id={$item.id}"
+                                class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-status"
+                                data-id="{$item.uid}"><span class="am-icon-archive"></span>
+                          支部列表
+                        </a>
+                  </td>
+                </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </form>
+        </div>
+
+      </div>
+
+  </div>
+</block>
+<block name="scripts">
+</block>

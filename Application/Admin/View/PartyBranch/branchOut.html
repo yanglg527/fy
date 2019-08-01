@@ -1,0 +1,120 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">党组织信息管理</strong></a> /
+                <small>{$detail.realname}调出</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="uploadform">
+
+                        <input type="hidden" name="uid" value="{$detail.uid}">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            用户名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            {$detail.realname}
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            现属支部
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            {$detail.branch_name}
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            去处
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="target" value="">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            原因
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <textarea type="text" class="am-input-sm" name="reason" rows="3" ></textarea>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save">确认调出</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃操作</button>
+        </div>
+    </div>
+    <include file="PartyBranch/_user_selecter"/>
+</block>
+<block name="scripts">
+    <script>
+
+
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+        $('#btn-save').click(function () {
+            $('#confirm-text').text('确认调出该用户吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/PartyBranch/ajaxBranchOut',
+                        type: 'POST', //GET
+                        data: $('#uploadform').serialize(),
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                loading_page('__ROOT__/Admin/PartyBranch/users?p={$p}');
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+
+        });
+    </script>
+</block>

@@ -1,0 +1,612 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+
+<link rel="stylesheet" href="__CSS__/reset.css" />
+<link rel="stylesheet" href="__PUBLIC__/Common/css/file_extend_style.css" />
+<link rel="stylesheet" href="__CSS__Tasks/initData.css" />
+<style>
+    .header {
+        display: flex;
+        background: #ce3d37;
+        padding: 1rem 0.6rem;
+        justify-content: space-between;
+    }
+
+    .header .back {
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    .header .header-title {
+        font-size: 18px;
+        color: #ffffff;
+    }
+
+    .header-add>img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contrainer .title {
+        color: #ffffff;
+        height: 6rem;
+        background: url("__IMG__/branch/head_bg3.png") no-repeat 85% 20%;
+        display: flex;
+        align-items: center;
+    }
+
+    .contrainer .title .title-topic {
+        margin-left: 1.2rem;
+    }
+
+    .contrainer .nav {
+        padding: 0.5rem;
+        vertical-align: middle;
+        position: relative;
+    }
+
+    .contrainer .nav::after {
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        content: '';
+        background-color: #E0E0E0;
+        box-shadow: 0px 2px 2px #E0E0E0;
+    }
+
+    .contrainer .nav img {
+        width: 1.2rem;
+        margin: 10px 5px 0 20px;
+    }
+
+    .contrainer .content {
+        margin-top: 1.6rem;
+    }
+
+    .contrainer .content .item {
+        display: flex;
+        margin: 0 0 3rem 3.5rem;
+        width: 75%;
+    }
+
+    .item .item-left {
+        white-space: nowrap;
+        color: #9D9D9E;
+        width: 4rem;
+        text-align: right;
+        line-height: 32px;
+    }
+
+    .item .item-right {
+
+        margin-left: 1.5rem;
+        color: #383838;
+    }
+
+    /* 
+    .item .item-right label {
+        display: block;
+        height: 1.8rem;
+        width: 12rem;
+        border: 1px solid #E0E0E0;
+        position: relative;
+    }
+
+    .item .item-right label>i {
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        background: url('__IMG__/index/arrow.png') center/cover no-repeat;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+ */
+    .item .item-right>div {
+        min-height: 1.8rem;
+        width: 12rem;
+        border: 1px solid #E0E0E0;
+    }
+
+    .item .item-right input {
+        height: 1.8rem;
+        width: 12rem;
+        border: 1px solid #E0E0E0;
+    }
+
+    .item .form-item {
+        display: block;
+        /* margin: 10px; */
+    }
+
+    .item .form-item div:last-child {
+        /* display: block; */
+        margin-top: 1rem;
+    }
+
+    .appendix {
+        padding: 0 0 0 2rem;
+    }
+
+    .appendix-contrainer {
+        margin: 0 0 0 1rem;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .appendix-content {
+        width: 4rem;
+        margin-right: 2.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .appendix-content p {
+        width: 100%;
+        word-wrap: break-word;
+        word-break: break-all;
+
+    }
+
+    .appendix-content>img {
+        width: 4rem;
+    }
+
+    .nocontent {
+        text-align: center;
+        color: #9D9D9E;
+        margin-top: 2rem;
+    }
+
+    .nocontent>button {
+        background: #ce3d37;
+        width: 15rem;
+        height: 3rem;
+        line-height: 3rem;
+        color: #FFFFFF;
+    }
+
+    /* .date-img {
+        background: url('__IMG__/Index/date-img.png') no-repeat
+    } */
+    .date-img {
+        background: url('__IMG__/index/date-img.png') no-repeat
+    }
+
+    .date-selection {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .date-selection label {
+        display: block;
+        width: 100%;
+        border: 1px solid #e0e0ee;
+    }
+
+    .date-selection span {
+        display: block;
+        width: 100%;
+        height: 1.8rem;
+        line-height: 1.8rem;
+    }
+
+    .date-selection i {
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: url('__IMG__/index/date-img.png') center/cover no-repeat;
+    }
+
+    .date-selection .date-ele {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+
+
+    .appendix-btn {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .appendix-btn label {
+        display: block;
+        width: 100%;
+        border: 1px solid #e0e0ee;
+    }
+
+    .appendix-btn span {
+        display: block;
+        width: 100%;
+        height: 1.8rem;
+        line-height: 1.8rem;
+    }
+
+    .appendix-content {
+        position: relative;
+    }
+
+    .appendix-content .appendix-btn i {
+        display: block;
+        width: 4rem;
+        height: 4rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: url('__IMG__/index/add-btn.png') center/cover no-repeat;
+    }
+
+    .appendix-btn .add-appendix-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    /* .add-input{
+        background: url('__IMG__/index/add-btn.png') no-repeat;
+        border:0;
+    } */
+    .appendix-content i {
+        width: 4rem;
+        display: block;
+        height: 4rem;
+        background: center/75% 75% no-repeat;
+    }
+
+    /* .appendix-content .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url(./icons/ico-remove.png) center/cover no-repeat;
+    } */
+</style>
+
+<body>
+    <div class="header">
+        <a href="#">
+            <div class="back">
+                &lt;
+            </div>
+        </a>
+        <div class="header-title">
+            新增文件
+        </div>
+        <div class="header-add">
+            <!-- 占位置 -->
+            <!-- <img src="__IMG__/index/file-add.png" alt="" /> -->
+        </div>
+    </div>
+    <div class="contrainer">
+        <form action="">
+            <input type="hidden" id="file_id" name="file_id">
+            <input type="hidden" name='uid' value="{$detail.uid}">
+            <input type="hidden" name='surplus_file_id' >
+            
+            <div class="nav">
+                <img src="__IMG__/index/file.png" alt="" />
+                <span style="color:#565656">文件内容</span>
+            </div>
+            <div class="content">
+                <div class="item">
+                    <div class="item-left">文件标题:</div>
+                    <div class="item-right"> <input type="text" name='title' value="{$detail.title}"></div>
+                </div>
+                <div class="item">
+                    <div class="item-left">发布人:</div>
+                    <div class="item-right">
+
+                        <input type="text" name='add_name' value="{$detail.add_name}">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-left">发布日期:</div>
+                    <div class="item-right date-selection">
+                        <label for="date">
+                            <span>{$detail.create_time|date='###','Y-m-d'}</span>
+                            <i></i>
+                            <input type="date" name="create_time" id="date" class="date-ele" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="item-left">发布内容:</div>
+                    <div class="item-right">
+                        <textarea name="content" id="" cols="25" rows="10"
+                            style="border: 1px solid #E0E0E0">{$detail.content}</textarea>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-left">发布范围:</div>
+                    <div class="item-right form-item">
+                        <div class="value arrow" onclick="onShowSelect(true,'branch-form')">
+                            <p class="value-text branch-input">{$detail.branch_text}</p>
+                        </div>
+                        <input type="hidden" id="branch-input" name="branch-input" value="{$detail.branch_arr}">
+                        <input type="hidden" id="role-input" name="role-input" value="{$detail.role_arr}">
+                        <div class="value arrow" onclick="onShowSelect(true,'role-form')">
+                            <p class="value-text role-input">{$detail.role_text}</p>
+                        </div>
+
+                        <!-- <label for="">
+                            <span>2019-10-01</span>
+                            <i></i>
+                            <input type="date" name="" id="">
+                        </label> -->
+                        <!-- <input type="date" class="date-img"> -->
+                    </div>
+                </div>
+            </div>
+            <div class="appendix">
+                <div>附件</div>
+                <div class="appendix-contrainer g-attachment-list">
+
+                    <!-- <div class="appendix-content">
+                            <i  class="img jpg"></i>
+                            <i class="remove"></i>
+                            <p>eqweqwedsdsdsds
+                            </p>
+                        </div>
+                        <div class="appendix-content">
+                                <i  class="img jpg"></i>
+                                <i class="remove"></i>
+                                <p>eqweqwedsdsdsds
+                                </p>
+                            </div>
+                            <div class="appendix-content">
+                                    <i  class="img jpg"></i>
+                                    <i class="remove"></i>
+                                    <p>eqweqwedsdsdsds
+                                    </p>
+                                </div>
+                                <div class="appendix-content">
+                                        <i  class="img jpg"></i>
+                                        <i class="remove"></i>
+                                        <p>eqweqwedsdsdsds
+                                        </p>
+                                    </div> -->
+                    <!-- <div class="appendix-content">
+                    <img src="__IMG__/index/file.png" alt="">
+                    <p>eqweqwedsdsdsds
+                    </p>
+                </div>
+
+                <div class="appendix-content">
+                        <img src="__IMG__/index/file.png" alt="">
+                        <p>eqweqwedsdsdsds
+                        </p>
+                    </div>
+
+                    <div class="appendix-content">
+                            <img src="__IMG__/index/file.png" alt="">
+                            <p>eqweqwedsdsdsds
+                            </p>
+                        </div> -->
+
+                    <div class="appendix-content">
+                        <div class="appendix-btn">
+                            <label for="date">
+                                <span>{$detail.create_time|date='###','Y-m-d'}</span>
+                                <i></i>
+                                <input type="file" name="create_time" id="date" class="add-appendix-input" />
+                            </label>
+                        </div>
+                        <!-- <input type="file" ref="eleFile" class="add-input"/> -->
+                        <!-- <img src="" alt=""> -->
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <div class="nocontent">
+                <button>确认发布</button>
+            </div>
+
+
+            <div class="form-cover" id='branch-form'>
+                <div class="content-body">
+                    <volist name="branch_data" id="vo">
+                        <div class="check-item" onclick="onCheckSelect(this, '{$vo.id}', '{$vo.name}',1)">
+                            <i class='check-ico <if condition="in_array($vo[' id'],$detail['branch_id_arr'])">active
+                                </if>'></i>
+                            <span class="check-text">{$vo.name}</span>
+                        </div>
+                    </volist>
+                </div>
+                <div class="bottom-confirm" onclick="onShowSelect(false,'branch-input')">
+                    <span class="confirm-btn">确定</span>
+                </div>
+            </div>
+
+            <div class="form-cover" id='role-form'>
+                <div class="content-body">
+                    <volist name="role_data" id="vo">
+                        <div class="check-item" onclick="onCheckSelect(this, '{$vo.id}', '{$vo.name}',2)">
+
+                            <i class='check-ico <if condition="in_array($vo[' id'],$detail['role_id_arr'])">active</if>
+                                '></i>
+                            <span class="check-text">{$vo.name}</span>
+                        </div>
+                    </volist>
+                </div>
+                <div class="bottom-confirm" onclick="onShowSelect(false,'role-input')">
+                    <span class="confirm-btn">确定</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+<script src="__JS__Tasks/create.js"></script>
+<script type="text/javascript">
+    // const DOMAIN = "http://fy.test.com"
+    var valueIndex = []
+    var valueText = []
+    var branchvalue = transArr({ $detail.branch_id_arr | json_encode=true});
+    var branchText = transArr({ $detail.branch_text_arr | json_encode=true});
+    var rolevalue = transArr({ $detail.role_id_arr | json_encode=true});
+    var roleText = transArr({ $detail.role_text_arr | json_encode=true});
+
+    // 删除 remove
+    $(".g-attachment-list").on("click", ".remove", function () {
+        console.log("删除附件", event)
+        var fileID = $(this)
+            .parent(".appendix-content")
+            .attr("data-id")
+        if (fileID) {
+            delFiles(fileID)
+        }
+        $(this)
+            .parent(".appendix-content")
+            .remove()
+    })
+    // var arr=transArr({$array|json_encode=true});
+
+    /**
+    * 附件上传
+    */
+    $(".add-appendix-input").change(function () {
+        let fd = new FormData()
+        fd.append("file", $(".add-appendix-input").get(0).files[0])
+        $.ajax({
+            url: "/Mob/UserFileWander/ajaxUploadAppendix",
+            type: "post",
+            processData: false,
+            contentType: false,
+            dataType: "JSON",
+            data: fd,
+            success: function (res) {
+                console.log(res)
+                if (res.status === 0) {
+                    Html = `   <div class="appendix-content" data-id="${res.data.id}">
+                        <i  class="img ${res.data.type}"></i>
+                        <i class="remove"></i>
+                        <p>${res.data.name}
+                        </p>
+                    </div>`;
+
+                    $(".g-attachment-list").prepend(Html)
+                    addFiles(res.data["id"])
+                    // $(".loading").addClass("hidden")
+                    console.log("上传成功", res.data)
+                } else {
+                    // $('.loading .name').html(res.data.msg);
+                    alert(res.msg)
+                    // $(".progress-tips").html(0)
+                    // $(".progress-percent").css("width", "1%")
+                    // var loadingtxt = window.setTimeout(function() {
+                    //     $(".loading").addClass("hidden")
+                    // }, 2000)
+                }
+            },
+            error: function (err) {
+                console.log("err", err)
+                alert("上传发生意外，请稍后再试！")
+            }
+        })
+    })
+    //把一个json_encode之后的php数组 转成js可用数组
+    function transArr(php_obj) {
+        var js_obj = [];
+        $.each(php_obj, function (i) {
+            js_obj[i] = php_obj[i];
+        });
+        return js_obj;
+    }
+
+    /**
+ * 支部，角色选择
+ * @param  {boolean} bool true打开 false关闭
+ */
+    function onShowSelect(bool, id) {
+        console.log(id)
+        if (bool) {
+            $("#" + id).addClass("active")
+        } else {
+            // 数据绑定到表单中
+            $("#" + id).val(valueIndex)
+            $("." + id).html(valueText.toString())
+            $(".form-cover").removeClass("active")
+            $(".g-search-box-small").removeClass("focus")
+        }
+    }
+
+    /**
+ * 实施人员选中事件
+ * @param  {[type]} id [description]
+ * @return {[type]}      [description]
+ */
+    function onCheckSelect(obj, id, name, checktype) {
+        console.log("onCheckChange", id)
+        console.log(checktype)
+        let checkIco = $(obj).find(".check-ico")
+
+        switch (checktype) {
+            case 1:
+                console.log(branchvalue)
+                valueIndex = branchvalue
+                valueText = branchText
+
+                break;
+            case 2:
+                valueIndex = rolevalue
+                valueText = roleText
+                break;
+        }
+        console.log("插入前", valueIndex, valueText)
+        if (checkIco.hasClass("active")) {
+            let index = valueIndex.findIndex(n => n == id)
+            valueIndex.splice(index, 1)
+            valueText.splice(index, 1)
+            checkIco.removeClass("active")
+        } else {
+
+            valueIndex.push(id)
+            valueText.push(name)
+            checkIco.addClass("active")
+        }
+        switch (checktype) {
+            case 1:
+                branchvalue = valueIndex
+                branchText = valueText
+                break;
+            case 2:
+                rolevalue = valueIndex
+                roleText = valueText
+                break;
+        }
+        console.log(branchvalue)
+        console.log(rolevalue)
+        console.log("插入后", valueIndex, valueText)
+        // $($.parseHTML(this) + "> i").addClass('active')
+    }
+
+</script>
+
+</html>

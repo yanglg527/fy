@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>学习交流</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link href="__STATICS__/mui/mui.min.css" rel="stylesheet" />
+		<link href="__STATICS__/mui/mui.picker.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/experience/issue.css" />
+		<link rel="stylesheet" href="__CSS__/grassroots/personal/polity.css">
+
+	</head>
+
+	<body>
+		<form class="page">
+			<header class="head">
+				<a onclick="history.go(-1);">
+					<div class="head_return"><i></i></div>
+				</a>
+			</header>
+			<div class="headline">
+				<input type="text" placeholder="请输入标题...."name="title">
+			</div>
+			<div class="experience">
+				<span>写心得</span>
+				<textarea placeholder="请输入心得" maxlength="100" name="content"></textarea>
+				<div><span>0</span>/100个字以内</div>
+			</div>
+			<div class="submit" id="upload">提交</div>
+		</form>
+		<include file="Common/_loading"/>
+		<script src="__STATICS__/assets/js/jquery.min.js"></script>
+		<script src="__JS__/notes/exchange/experience/issue.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			 $('#upload').click(function(){
+			 var data = $('.page').serialize();
+			 var url = "__ROOT__/Mob/Review/ajaxAdd";
+			 loading();
+			 $.ajax({
+			 url: url,
+			 type: "post",
+			 data: data,
+			 dataType: "json",
+			 success: function (data) {
+                 close_loading()
+			 if (data.status == 0) {
+			 window.location.href = "__ROOT__/Mob/Review/index";
+			 } else {
+			 alert(data.msg);
+			 }
+			 },
+			 error: function () {
+                 close_loading()
+			 alert("服务器暂时无法访问，请稍后再试");
+			 }
+			 });
+			 return false;
+			 })
+		</script>
+		</body>
+
+		</html>

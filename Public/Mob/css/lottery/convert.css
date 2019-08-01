@@ -1,0 +1,159 @@
+.page{
+    width:100%;
+    height:100%;
+    background-color: #f5f5f5;
+}
+header{
+    position: relative;
+    margin:0.26rem;
+    color:#fff;
+    height:2.5rem;
+    background-color: #ce3a3d;
+    border-radius: 0.08rem;
+    padding:0.4rem 0.26rem;
+    font-size: 0.3rem;
+}
+header>h1{
+    font-size: 25px;
+    position: absolute;
+    bottom: 0.3rem;
+    margin-left:0.8rem;
+}
+nav{
+    display: flex;
+    display: -webkit-flex;
+    height:1.3rem;
+    line-height: 1.3rem;
+    margin-top: 0.5rem;
+    border-bottom:  1px solid #e2e2e2;
+    background-color: #fff;
+    font-size: 0.38rem;
+}
+nav>div{
+    flex:1;
+    text-align: center;
+    font-size: 0.3rem;
+    color:#333;
+}
+nav>div.active{
+    color:#ce3a3d;
+}
+nav>div.active>p{
+    width:100%;
+    height:3px;
+    background-color: #ce3a3d;
+    position: relative;
+    top:-0.08rem;
+}
+.list{
+    padding: 0.3rem 0.26rem;
+    background-color: #fff;
+}
+.list>li{
+    height:1.2rem;
+    line-height: 1.2rem;
+    display: flex;
+    display: -webkit-flex;
+    background: url("../../../images/lottery/a2.png") no-repeat;
+    background-size: 100% 100%;
+    color:#999;
+    margin-bottom: 0.5rem;
+}
+/*可兑换的列表选择项*/
+.list>li.active{
+    background: url("../../../images/lottery/bg1.png") no-repeat;
+    background-size: 100% 100%;
+    color:#fff;
+}
+.list>li.finish{
+    background: url("../../../images/lottery/bg2.png") no-repeat;
+    background-size: 100% 100%;
+}
+.list>li>div{
+    flex:1
+}
+.list>li>div.left{
+    padding-left:0.3rem;
+    font-size: 0.38rem;
+}
+.list>li>div.left .text{
+    padding-left:0.08rem;
+    font-size: 0.3rem;
+}
+.list>li>div.right{
+    text-align: center;
+    font-size: 0.32rem;
+}
+.list>li>div.right .btn{
+    border: none;
+    background-color: #9a9a9a;
+    border-radius: 3px;
+    width:1.3rem;
+    height:0.6rem;
+    line-height: 0.6rem;
+    margin-left:0.3rem;
+    color:#fff;
+    font-size: 0.3rem;
+}
+.list>li.active>div.right .btn{
+    background-color: #ce3d3a;
+}
+
+footer{
+    margin-top: 0.3rem;
+    padding:0.3rem;
+    color:#9a9a9a;
+    background-color: #fff;
+    height:2rem;
+}
+footer p{
+    margin-top:0.2rem;
+    padding-left:0.3rem;
+    line-height: 0.5rem;
+}
+
+/*弹框*/
+.screen_shade{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+.screen_shade>.content{
+    width:85%;
+    margin:66% auto;
+    color:#ffffff;
+    font-size: 11px;
+}
+.screen_shade>.content .shade-head{
+    height:3rem;
+    line-height: 3rem;
+    text-align: center;
+    background-color: #ec3d3a;
+    border-radius: 10px 10px 0 0;
+    font-size: 0.5rem;
+
+}
+.screen_shade>.content .shade-head>i{
+    display: inline-block;
+    width: 1rem;
+    height:1rem;
+    margin-right: 0.3rem;
+    background: url("../../../images/lottery/access.png") no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    top:0.3rem;
+}
+.screen_shade>.content .text{
+    width:100%;
+    background-color: #fff;
+    line-height: 0.5rem;
+    color:#333;
+    text-align: center;
+    border-radius:0 0 10px 10px ;
+    padding:1rem 0;
+    font-size: 0.42rem;
+}

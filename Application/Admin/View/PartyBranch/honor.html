@@ -1,0 +1,112 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">支部荣誉</strong></div>
+        </div>
+        <hr>
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-6">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <button  onclick="loading_page('__ROOT__/Admin/PartyBranch/honorAdd?p={$page.pageInfo.pageNo}');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                        <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+                        <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+                    </div>
+                </div>
+            </div>
+            <!--<form class="am-u-sm-12 am-u-md-3" id="search-form" action="__ROOT__/Admin/PartyBranch/honor">-->
+                <!--<div class="am-input-group am-input-group-sm">-->
+                    <!--<input type="text" class="am-form-field" name="keyword" value="{$search.keyword}">-->
+                        <!--<span class="am-input-group-btn">-->
+                            <!--<button class="am-btn am-btn-default" type="submit">搜索</button>-->
+                        <!--</span>-->
+                <!--</div>-->
+            <!--</form>-->
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-title am-text-center" id="btn-dec">id</th>
+                            <!--<th class="table-type">支部名称</th>-->
+                            <th class="table-author am-text-center am-hide-sm-only">荣誉名称</th>
+                            <th class="table-author am-text-center am-hide-sm-only">支部名称</th>
+                            <th class="table-date am-text-center am-hide-sm-only">创建日期</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td class="am-text-center">{$item.id}</td>
+                                <td class="am-text-center">{$item.name}</td>
+                                <td class="am-text-center">{$item.branch_name}</td>
+                                <td class="am-hide-sm-only am-text-center">{$item.create_time|date="Y-m-d",###}</td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary " onclick="loading_page('__ROOT__/Admin/PartyBranch/honorAdd?p={$page.pageInfo.pageNo}&id={$item.id}');"><span class="am-icon-pencil-square-o"></span>编辑</button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" data-id="{$item.id}"><span class="am-icon-trash-o" ></span> 删除</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <hr />
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+        var id = 0;
+        $('.btn-dec').click(function(){
+             id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url:'__ROOT__/Admin/PartyBranch/ajaxDecPartyBranchHonor',
+                        type:'POST', //GET
+                        data:{id:id},
+                        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success:function(data){
+                            if(data.status == 0){
+                                window.location.reload();
+                            }else{
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error:function(xhr,textStatus){
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+    </script>
+
+</block>

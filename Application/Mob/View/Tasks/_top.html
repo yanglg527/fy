@@ -1,0 +1,32 @@
+<div class="g-search-box-with-bg">
+        <!-- <div class="content">
+            <input type="text" class="search-input" maxlength="10" placeholder="请输入搜索内容" v-model="keyword" />
+            <div class="search-btn" @click="getList"></div>
+        </div> -->
+
+        <div class="message">
+            <a href="__ROOT__/Mob/Tasks/branchTasksPool?status=-1&branchId={$count.branchId}&branchName={$title}">
+                <div class="message-item">
+                    <p class="numeral">{$count.total}</p>
+                    <p class="text">任务总数</p>
+                </div>
+            </a>
+            <a href="__ROOT__/Mob/Tasks/branchTasksPool?status=2&branchId={$count.branchId}&branchName={$title}">
+                <div class="message-item">
+                    <p class="numeral">{$count.overdue}</p>
+                    <p class="text">未完成</p>
+                </div>
+            </a>
+            <a href="__ROOT__/Mob/Tasks/branchTasksPool?status=1&branchId={$count.branchId}&branchName={$title}">
+                <div class="message-item">
+                    <p class="numeral">{$count.complete}</p>
+                    <p class="text">已完成</p>
+                </div>
+            </a>
+        </div>
+</div>
+
+<div class="g-fill-tabs">
+    <div class="item left"><i></i>{$fillTabsLeft}</div>
+    <div class="item right"><span class="num">{$count.rightNum}</span>{$fillTabsRight}</div>
+</div>

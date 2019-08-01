@@ -1,0 +1,97 @@
+.contribution .header .header-inner {
+    color: #ffffff;
+    font-size: 0.33rem;
+
+    display: flex;
+    height: 0.75rem;
+    padding: 0.2rem;
+    justify-content: space-between;
+    align-items: center;
+    /* background: linear-gradient(-10deg, #d42018 40%, #ff7d1d 85%); */
+    background-color: #ce3d37;
+}
+.contribution .red {
+    color: #ce3d37;
+}
+.contribution .gary {
+    color: #999;
+}
+.contribution .header-inner > div {
+    width: 33.33%;
+}
+.contribution .header-inner > .back {
+    display: flex;
+    justify-content: flex-start;
+}
+.contribution .header-inner > .title {
+    display: flex;
+    justify-content: center;
+}
+.contribution .header-inner > .more {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.contribution .list ul > li {
+    padding: 0.2rem;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.contribution .list .item .item-inner {
+    display: flex;
+    justify-content: space-between;
+}
+.contribution .list .item .item-inner .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.contribution .list .item .item-inner .left > h4 {
+    text-indent: -0.5em;
+    line-height: 1.4em;
+}
+
+.contribution .list .item .item-inner .left .info {
+    display: flex;
+    justify-content: space-between;
+}
+.contribution .list .item .item-inner .right {
+    color: #ffffff;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.contribution .list .item .item-inner .right span {
+    font-size: 0.3rem;
+    display: flex;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    line-height: 1.2em;
+    align-items: center;
+    border-radius: 50%;
+}
+.contribution .list .item .time {
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.2rem;
+    border-top: 1px solid #f4f4f4;
+    margin-top: 0.2rem;
+}
+.contribution .list .over-item .right > span {
+    color: #999;
+    background-color: #f4f4f4;
+}
+.contribution .list .now-item .right > span {
+    display: flex;
+    justify-content: center;
+    background-color: #ce3d37;
+}

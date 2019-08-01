@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学时笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2"/>
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <link rel="stylesheet" href="/djptNew/public/common/css/pop.window.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/temporary_talk/temporary_branch.css"/>
+
+    <style>
+        .info-div{
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-size: 16px;
+            color: #999;
+            position: absolute;
+            top: 300px; left: 0px; right: 0px;
+            /*background: palegreen;*/
+        }
+        .info-div span{
+            display: inline-block;
+            text-align: center;
+            background: #e7e7e7;
+            border-radius: 50px;
+            padding: 0px 20px;
+            min-width: 60%;
+        }
+
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="banner">
+        <div class="head"><i onclick="history.go(-1);"></i></div>
+    </div>
+    <div style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; background-image: url('__IMG__party_work/bg_book.png'); background-size: 100% 100%">
+        <div style="position: relative; width: 100%; height: 100%">
+            <img style="position: absolute; top: 0px; right: 40px; height: 80px" src="__IMG__party_work/icon_book_tag.png"/>
+            <img style="position: absolute; width: 130px; top: 130px; left: 0px; right: 0px; margin: auto" src="__IMG__party_work/icon_danghui.png"/>
+            <img style="position: absolute; width: 80px; top:50px; left: 50px; right: 0px; margin: auto" src="__IMG__party_work/icon_baige.png"/>
+            <if condition="$user.work_unit_name">
+                <div class="info-div">
+                    <span>单位： {$user.work_unit_name}</span>
+                </div>
+            </if>
+            <a class="info-div" style="top: 350px">
+                <span style="background: #f00b0d; color: #fff">姓名： {$user.realname}</span>
+            </a>
+            <a class="info-div" style="top: 400px">
+                <span id="user-study-time" style="background: #f00b0d; color: #fff">本年累计学时:{$yearTime}小时</span>
+            </a>
+            <!--<div id="btn-study-time" class="info-div" style="top: 450px">-->
+                <!--<span style="background: #f00b0d; color: #fff">录入学时</span>-->
+            <!--</div>-->
+            <a href="__ROOT__/Mob/Notes/note_list.html" class="info-div" style="top: 450px">
+                <span style="background: #f00b0d; color: #fff">学习笔记</span>
+            </a>
+        </div>
+    </div>
+
+    <!--添加临时支部名称-->
+    <div class="add_shade hide"><!--添加class名hide隐藏弹框-->
+        <div class="container">
+            <div style="text-align: center; font-size: 16px">请输入学时</div>
+            <div style="text-align: center; margin: 20px auto 0px auto; width: 160px; height: 26px; line-height: 26px; padding: 0px 5px; font-size: 16px; border: 1px solid black"><input style="border: 0px; width: 100px; height: 20px; margin: 0px; padding: 0px 5px" type="number" step="0.1" placeholder="" id="study-time"/> 小时</div>
+            <div class="btn" style="margin-top: 20px">
+                <a class="cancel">取消</a>
+                <a class="ensure">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script>
+    $("#btn-study-time").click(function(){
+        $(".add_shade").removeClass("hide");
+    });
+    $(".add_shade .ensure").click(function(){
+        var studyTime = $("#study-time").val();
+//        alert("studytime = " + studyTime);
+        $.ajax({
+            data: {
+                "studyTime" : studyTime
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/Notes/ajaxAddStudyTime',
+            success: function (data) {
+                console.log("success");
+                if (data['status'] == 0) {
+                    $('#user-study-time').innerText = data['data'];
+//                    history.go(-1);
+                }else{
+                    alert(data['msg']);
+                }
+                close_loading();
+            },
+            error: function (data) {
+                close_loading();
+                alert('网络异常');
+            }
+        });
+
+    });
+    $(".add_shade .cancel").click(function(){
+        $(".add_shade").addClass("hide");
+    });
+</script>
+
+<include file="Common/_menu"/>
+
+</body>
+</html>

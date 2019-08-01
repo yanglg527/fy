@@ -1,0 +1,99 @@
+.list {
+    list-style: none;
+    padding-left: 0;
+    overflow: hidden;
+    background-color: #e6e6e6;
+}
+
+.item {
+    margin: 10px;
+}
+
+.info-box {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: #fff;
+    transition: all 0.5s;
+}
+
+.info-box.active{
+    background-color: #ce3d37;
+    color: #fff;
+}
+
+.avatar {
+    width: 15vw;
+    height: 15vw;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: #eee center/cover no-repeat;
+    border: 5px solid rgba(255, 155, 155, 0.5);
+}
+
+.title,
+.leader,
+.text-type-1,
+.text-type-2 {
+    margin: 0;
+    line-height: 1.5;
+}
+.title {
+    font-size: 20px;
+}
+
+.leader {
+    font-size: 16px;
+}
+
+.text-type-1,
+.text-type-2 {
+    font-size: 16px;
+}
+
+/* 展开的小组 */
+.group-box {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    background-color: #ce3d37;
+    border-radius: 5px;
+}
+
+.group-item {
+    position: relative;
+    width: 33.33%;
+    padding: 10px 0;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+}
+
+.group-name,
+.group-leader {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.group-item:not(:last-child)::after {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    display: block;
+    content: '';
+    width: 1px;
+    height: 24px;
+    background-color: #fff;
+    transform: translateY(-50%);
+}
+
+.group-item:nth-child(3n)::after{
+    visibility: hidden;
+}
+
+/* 修改文字颜色 */
+.info-box.active .am-text-danger{
+    color:#fff;
+}

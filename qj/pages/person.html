@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>成员信息</title>
+    <link rel="stylesheet" href="../stylesheets/swiper-3.4.2.min.css">
+    <link rel="stylesheet" href="../stylesheets/jquery.mCustomScrollbar.min.css">
+
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/person.css">
+
+</head>
+<body>
+<div id="app">
+    <!--头部-->
+    <div class="header">
+        <div class="logo-box"><a href="./home.html"><img src="../images/logo.png" alt="" class="logo"></a></div>
+        <div class="g-nav-bar">
+            <ul class="nav">
+                <li class="item link active"><a href="./home.html">积分与台账</a></li>
+                <li class="item link"><a href="./dev.html">党员发展</a></li>
+                <li class="item link"><a href="./info.html">组织信息</a></li>
+                <li class="item link"><a href="./study.html">学习情况</a></li>
+                <li class="item link"><a href="./mission.html">任务完成情况</a></li>
+            </ul>
+        </div>
+        <div class="user-box">
+            <div class="avatar"></div>
+            <div class="menu link">
+                <span class="chose"><span class="txt">管理员</span><i class="arrow"></i></span>
+                <ul class="choose-list">
+                    <li class="item"><a class="link" href="http://djpt.zhzy.net.cn/Admin/Index/index">个人中心</a></li>
+                    <li class="item"><a class="link" href="http://djpt.zhzy.net.cn/Admin/Index/index">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--中间内容区-->
+    <div class="main-container">
+
+        <div class="wrap">
+            <!--中间-->
+            <div class="circle-ring"></div>
+            <div class="center-box" :class="{'female':person.gender==='0'}">
+                <div class="moving-box"></div>
+            </div>
+
+            <!--圆圈-->
+            <ul class="balls">
+                <li class="item" v-for="i in 7"></li>
+            </ul>
+
+            <!--文本-->
+            <ul class="text-list">
+                <li class="item link"><span class="title">六个打通积分:<span class="value" v-text="person.score"></span>分</span></li>
+                <li class="item link"><span class="title">积分排名:第<span class="value" v-text="person.rank"></span>名</span></li>
+                <li class="item link"><span class="title">学习笔记篇数:<span class="value" v-text="person.notes_num"></span>篇</span></li>
+                <li class="item link"><span class="title">总时长:<span class="value" v-text="person.sum_studytime||0"></span>小时</span></li>
+                <li class="item link"><span class="title">党建工作台账:<span class="value" v-text="person.tzcount"></span>条</span></li>
+                <li class="item link"><span class="title">党建工作任务总数:<span class="value" v-text="person.all_mission_count"></span>个</span></li>
+                <li class="item link"><span class="title">未完成任务:<span class="value" v-text="person.nodone_mission_count"></span>个</span></li>
+                <li class="item link"><span class="title">已完成任务:<span class="value" v-text="person.finish_mission_count"></span></span>个</li>
+                <li class="item link"><span class="title">逾期完成任务:<span class="value" v-text="person.overdue_mission_count"></span></span>个</li>
+            </ul>
+        </div>
+
+        <!--底部组织信息-->
+        <div class="bottom-data">
+            <div class="item"><span class="value" v-text="person.branch_total"></span><span class="name">支部积分</span></div>
+            <div class="item"><span class="value" v-text="person.branch_count"></span><span class="name">支部积分排名</span></div>
+            <div class="item"><span class="value" v-text="person.branch_tz"></span><span class="name">支部台账</span></div>
+        </div>
+
+        <!--底部文本框-->
+        <div class="bottom-box">
+            <div class="person-box">
+                <div class="person-avatar"><img :src="person.headimgurl" alt="" class="avatar"></div>
+                <div class="right-box">
+                    <h2 class="person-name" v-text="person.realname"></h2>
+                    <h3 class="person-job" v-text="person.amd_post_name"></h3>
+                </div>
+            </div>
+            <h3 class="group-name" v-text="person.organization_name"></h3>
+        </div>
+    </div>
+
+    <!--模态框-->
+    <div class="cover-container">
+        <div class="cover-box">
+            <div id="main-tab" class="swiper-container  swiper-no-swiping">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <h2 class="slide-title">六个打通积分构成</h2>
+                        <div class="chart-box">
+                            <div id="chart1"></div>
+                        </div>
+                    </div>
+                    <!--学习笔记-->
+                    <div class="swiper-slide">
+                        <h2 class="slide-title">学习情况</h2>
+                        <h3 class="slide-sub-title">累计学习笔记: <span class="num" v-text="noteData.info.notes_num||0"></span>篇; 累积学时: <span class="num" v-text="noteData.info.sum_studytime||0"></span>小时</h3>
+                        <div class="note-list mCS-autoHide" data-mcs-theme="dark-thin">
+                            <div class="item" v-for="item in noteData.list">
+                                <div class="book">
+                                    <img src="../images/book.png" alt="" class="book-img">
+                                    <div class="text-box">
+                                        <p class="date" v-text="item.month+'月'"></p>
+                                        <p class="count" v-text="item.note_count+'篇'"></p>
+                                        <p class="time" v-text="'学时'+item.sum_time+'小时'"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--台账部分-->
+                    <div class="swiper-slide">
+                        <h2 class="slide-title">党建工作台账</h2>
+                        <div class="record-list mCS-autoHide" data-mcs-theme="dark-thin">
+                            <div class="item" v-for="item in tzData.list">
+                                <div class="left-img"><img :src="item.cover" alt=""></div>
+                                <div class="record-body">
+                                    <h3 class="title" v-text="replaceS(item.title)"></h3>
+                                    <h4 class="sub-title" v-text="item.tag_name"></h4>
+                                    <div class="ctrl-bar">
+                                        <span class="item link"><img src="../images/star.png" alt="" class="icon">{{item.sc_count}}</span>
+                                        <span class="item link"><img src="../images/comment.png" alt="" class="icon">{{item.pl_count | replaceSymbol}}</span>
+                                        <span class="item link"><img src="../images/link.png" alt="" class="icon">{{item.dz_count}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--任务总数-->
+                    <div class="swiper-slide">
+                        <h2 class="slide-title">党建任务总数</h2>
+                        <div class="chart-box">
+                            <div id="chart2"></div>
+                        </div>
+                    </div>
+
+                    <!--未完成-->
+                    <div class="swiper-slide">
+                        <div class="slide-title">未完成任务</div>
+                        <div class="mission-list">
+                            <div class="item"
+                                 v-for="item in missionData.nodone_mission">
+                                <a href="" class="title"><span class="date" v-text="item.s_time+'~'+item.e_time"></span><span class="txt" v-text="item.title"></span></a>
+                                <p class="article" v-text="item.content"></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--已完成-->
+                    <div class="swiper-slide">
+                        <div class="slide-title">已完成任务</div>
+                        <div class="mission-list">
+                            <div class="item"
+                                 v-for="item in missionData.finish_mission">
+                                <a href="" class="title"><span class="date" v-text="item.s_time+'~'+item.e_time"></span><span class="txt" v-text="item.title"></span></a>
+                                <p class="article" v-text="item.content"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--逾期完成-->
+                    <div class="swiper-slide">
+                        <div class="slide-title">逾期完成任务</div>
+                        <div class="mission-list">
+                            <div class="item"
+                                 v-for="item in missionData.gone_mission">
+                                <a href="" class="title"><span class="date" v-text="item.s_time+'~'+item.e_time"></span><span class="txt" v-text="item.title"></span></a>
+                                <p class="article" v-text="item.content"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+
+            <!--关闭按钮-->
+            <div class="close-btn link"></div>
+        </div>
+    </div>
+</div>
+
+<!--js-->
+<script type="text/javascript" src="../js/lib/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../js/lib/swiper-3.4.2.jquery.min.js"></script>
+<script type="text/javascript" src="../js/lib/jquery.mCustomScrollbar.min.js"></script>
+<script type="text/javascript" src="../js/lib/echarts.min.js"></script>
+<script type="text/javascript" src="../js/lib/vue.min.js"></script>
+<script type="text/javascript" src="../js/lib/vue-resource.min.js"></script>
+
+<!--vue-->
+<script>
+    var basePath='http://dj.zhzy.net.cn';
+    // var basePath = 'http://fy.dev.com';
+    (function ($) {
+        $(function () {
+            var vm = new Vue({
+                'el': '#app',
+                'data': {
+                    dataId: 0,
+                    person: {},
+                    noteData: {info: {}, list: []},
+                    tzData: {},
+                    missionData: {}
+                },
+                'mounted': function () {
+                    this.dataId = window.location.search.split('?')[1].split('=')[1];
+                    this.getPerson(basePath + '/api/Person/personInfo', {'id': this.dataId});
+                    this.getNote(basePath + '/Api/Person/learnNotes', {id: this.dataId});
+                    this.getTz(basePath + '/api/Person/tzList', {id: this.dataId});
+                    /*http://192.168.8.59:8002/api/Person/tzList*/
+                    this.getMission(basePath + '/Api/Person/detailMission', {id: this.dataId});
+                },
+                'methods': {
+                    'getPerson': function (url, data) {
+                        this.$http.jsonp(url, {'params': data}).then(function (res) {
+                            this.person = JSON.parse(JSON.stringify(res.body.data));
+                        })
+                    },
+                    getNote: function (url, data) {
+                        this.$http.jsonp(url, {params: data}).then(function (res) {
+                            this.noteData = JSON.parse(JSON.stringify(res.body.data));
+                        });
+                    },
+                    getTz: function (url, data) {
+                        this.$http.jsonp(url, {params: data}).then(function (res) {
+                            this.tzData = JSON.parse(JSON.stringify(res.body.data));
+                            console.log(this.tzData);
+                        });
+                    },
+                    getMission: function (url, data) {
+                        this.$http.jsonp(url, {params: data}).then(function (res) {
+                            this.missionData = JSON.parse(JSON.stringify(res.body.data));
+                            console.log(this.missionData);
+                        });
+                    },
+                    replaceS: function (str) {
+                        console.log(str);
+                        return str.replace(/&ldquo;/g, '\"').replace(/&rdquo;/g, '\"').replace(/&mdash;/g, '\-\-').replace(/&quot;/g, '\"').replace(/&lt;/g, '\<').replace(/&gt;/g, '\>');
+                    }
+                },
+               
+            });
+        });
+    })(jQuery);
+</script>
+
+<script>
+    /*球体旋转*/
+    (function ($) {
+        $(function () {
+            var ball = $('.balls .item'), text = $('.text-list .item');
+            text.each(function (index, el) {
+                $(el).on({
+                    'mouseenter': function () {
+                        if (index > 3) {
+                            ball.eq(index - 2).addClass('active');
+                        } else if (index === 0 || index === 1) {
+                            ball.eq(0).addClass('active');
+                        } else if (index === 2 || index === 3) {
+                            ball.eq(1).addClass('active');
+                        }
+                    },
+                    'mouseleave': function () {
+                        ball.removeClass('active');
+                    }
+                })
+            });
+        });
+    })(jQuery);
+
+    /*弹窗*/
+    (function ($) {
+        $(function () {
+            //初始化swiper
+            var mS = new Swiper('#main-tab', {
+                prevButton: '.swiper-button-prev',
+                nextButton: '.swiper-button-next'
+            });
+
+            var cover = $('.cover-container'), item = $('.text-list .item'), close = $('.close-btn');
+            item.each(function (index, el) {
+                $(el).on('click', function () {
+                    if (index === 0 || index === 1) {
+                        cover.addClass('active');
+                        mS.slideTo(0);
+                    } else if (index === 2 || index === 3) {
+                        cover.addClass('active');
+                        mS.slideTo(1);
+                    } else if (index > 3) {
+                        cover.addClass('active');
+                        mS.slideTo(index - 2);
+                    }
+                });
+            });
+            close.on('click', function () {
+                cover.removeClass('active');
+            });
+
+        });
+    })(jQuery);
+
+
+    /*自定义滚动条*/
+    (function ($) {
+        $(function () {
+//            var scrollEle = $('.record-list,.note-list,.mission-list');
+//            scrollEle.mCustomScrollbar();
+        });
+    })(jQuery);
+
+    /*图表*/
+    (function ($) {
+        $(function () {
+            var chart = echarts.init(document.querySelector('#chart1'));
+            var option = {
+//                title: {
+//                    text: '六个打通积分构成',
+//                    left: 'center',
+//                    top: 0
+//                },
+
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data: ['绩效系统', '工作创新指数', '纪律审查信息管理系统', '廉政风险防控平台', '数字人事系统', '智慧人事系统',
+                        '工作强度指数', '工作奉献指数', '学习创新平台', '智慧党建平台']
+                },
+                series: [
+                    {
+                        name: '积分构成',
+                        type: 'pie',
+                        radius: '75%',
+                        center: ['50%', '50%'],
+                        data: [
+                            {value: 335, name: '绩效系统'},
+                            {value: 310, name: '工作创新指数'},
+                            {value: 274, name: '纪律审查信息管理系统'},
+                            {value: 235, name: '廉政风险防控平台'},
+                            {value: 456, name: '数字人事系统'},
+                            {value: 450, name: '智慧人事系统'},
+                            {value: 401, name: '工作强度指数'},
+                            {value: 356, name: '工作奉献指数'},
+                            {value: 302, name: '学习创新平台'},
+                            {value: 354, name: '智慧党建平台'}
+                        ].sort(function (a, b) {
+                            return a.value - b.value;
+                        }),
+                        roseType: 'radius',
+                        label: {
+                            normal: {
+                                textStyle: {
+                                    color: '#c23531'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                lineStyle: {
+                                    color: 'rgba(255, 0, 0,1)'
+                                },
+                                smooth: 0.2,
+                                length: 30,
+                                length2: 20
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+//                                color: '#c23531',
+                                shadowBlur: 100,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+
+                        animationType: 'scale',
+                        animationEasing: 'elasticOut',
+                        animationDelay: function (idx) {
+                            return Math.random() * 200;
+                        }
+                    }
+                ]
+            };
+            chart.setOption(option);
+        });
+        $(function () {
+            var chart = echarts.init(document.querySelector('#chart2'));
+            var id = window.location.search.split('?')[1].split('=')[1];
+            $.ajax({
+                url: basePath + '/api/Person/personInfo',
+                type: 'get',
+                dataType: 'jsonp',
+                data: {id: id},
+                success: function (res) {
+                    var option = {
+                        title: {
+                            text: '任务统计',
+                            left: 'center',
+                            top: 0,
+                            textStyle: {
+                                color: '#333'
+                            }
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: ['已完成任务', '未完成任务', '逾期完成任务']
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+
+//            visualMap: {
+//                show: true,
+////                min: 80,
+////                max: 600,
+//                inRange: {
+//                    colorLightness: [0, 1]
+//                }
+//            },
+                        graphic: {
+                            type: 'text',
+                            left: 'center',
+                            top: 'center',
+                            style: {
+                                text: '党建工作任务总数\n' + res.data['all_mission_count'],
+                                font: 'normal bolder 20px sans-serif',
+                                textAlign: 'center',
+                                textVerticalAlign: 'middle'
+                            }
+                        },
+                        series: [
+                            {
+                                name: '任务完成情况',
+                                type: 'pie',
+                                radius: ['45%', '80%'],
+                                center: ['50%', '50%'],
+                                startAngle: 0,
+                                data: [
+                                    {value: res.data['finish_mission_count'], name: '已完成任务'},
+                                    {value: res.data['nodone_mission_count'], name: '未完成任务'},
+                                    {value: res.data['overdue_mission_count'], name: '逾期完成任务'}
+                                ].sort(function (a, b) {
+                                    return a.value - b.value;
+                                }),
+                                label: {
+                                    normal: {
+                                        formatter: '{b}: {c} ({d}%)'
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        smooth: 0.2,
+                                        length: 20,
+                                        length2: 40
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        color: '#c23531',
+                                        shadowBlur: 20,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                },
+
+                                animationType: 'scale',
+                                animationEasing: 'elasticOut',
+                                animationDelay: function (idx) {
+                                    return Math.random() * 200;
+                                }
+                            }
+                        ]
+                    };
+                    chart.setOption(option);
+                }
+            });
+        });
+    })(jQuery);
+
+</script>
+<!--下拉菜单-->
+<script>
+    (function ($) {
+        $(function () {
+            var list = $('.menu,.down-list');
+            list.on('click', function () {
+                $(this).toggleClass('active');
+            });
+        });
+    })(jQuery);
+</script>
+</body>
+</html>

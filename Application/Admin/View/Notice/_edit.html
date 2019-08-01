@@ -1,0 +1,185 @@
+<form class="am-form">
+
+<input type="hidden" name="mission_id" id="mission_id" value="<?php echo $mission_info['id'];?>">
+<input type="hidden" name="mission_type" id="mission_type" value="<?php echo $mission_info['mission_type'];?>">
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">任务类型(生成方式)</div>
+    <div class="am-u-sm-8 am-u-md-10">
+        <label>
+        <?php if($mission_info['mission_type']=='1'){?>
+          根据工作安排
+        <?php }else if($mission_info['mission_type']=='2'){?>
+          按频率
+        <?php }else{?>
+          指定时间
+        <?php }?>
+        </label>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">责任事项</div>
+  <div class="am-u-sm-8 am-u-md-10">
+    <textarea class="" rows="5" id="title" name="title"><?php echo $mission_info['title'];?></textarea>
+  </div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">协助落实单位</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+              <?php foreach($assist_list as $k=>$v){?>  
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="checkbox" name="assist_unit_id[]" value="<?php echo $v['id'];?>" <?php if(in_array($v['id'],$mission_info['assist_unit_id'])){?>checked<?php }?>><?php echo $v['name'];?>
+                </label>
+              <?php }?>
+                
+          </div>
+    </div>
+</div>
+
+<?php if($mission_info['mission_type']=='2'){?>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">频率生成方式</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="pinlv_type" value="1" <?php if($mission_info['pinlv_type']=='1'){?>checked<?php }?>>从年初1月1日开始生成
+                </label>
+
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="pinlv_type" value="2" <?php if($mission_info['pinlv_type']=='2'){?>checked<?php }?>>从启动日期开始生成
+                </label>
+          </div>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">频率</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="1" <?php if($mission_info['frequency_type']=='1'){?>checked<?php }?>>周报
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="2" <?php if($mission_info['frequency_type']=='2'){?>checked<?php }?>>月报
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="3" <?php if($mission_info['frequency_type']=='3'){?>checked<?php }?>>季度
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="4" <?php if($mission_info['frequency_type']=='4'){?>checked<?php }?>>半年
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="5" <?php if($mission_info['frequency_type']=='5'){?>checked<?php }?>>年度
+                </label>
+          </div>
+    </div>
+</div>
+<?php }?>
+
+<?php if($mission_info['mission_type'] == '3'||$mission_info['start_time'] != ''){?>
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">开始日期</div>
+  <div class="am-u-sm-8 am-u-md-10">
+
+    <button type="button" class="am-btn am-btn-default am-margin-right" id="btn-start-date">开始日期</button>
+    <span id="start_time" name="start_time">
+      <?php echo date('Y-m-d',$mission_info['start_time']);?>
+    </span>
+  </div>
+</div>
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">结束日期</div>
+  <div class="am-u-sm-8 am-u-md-10">
+
+    <button type="button" class="am-btn am-btn-default am-margin-right" id="btn-end-date">结束日期</button>
+    <span id="end_time" name="end_time">
+      <?php echo date('Y-m-d',$mission_info['end_time']);?>
+    </span>
+  </div>
+</div>
+<?php }?>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">见证资料</div>
+  <div class="am-u-sm-8 am-u-md-10">
+    <textarea class="" rows="6" id="content" name="content"><?php echo $mission_info['content'];?></textarea>
+  </div>
+  <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+</div>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">任务分值</div>
+  <div class="am-u-sm-8 am-u-md-6">
+    <input type="text" id="mission_score" name="mission_score" value="<?php echo $mission_info['mission_score'];?>" class="am-input-sm" />
+  </div>
+  <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">推送对象</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+              <?php foreach($adms as $k=>$v){?>  
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="checkbox" name="push_person[]" value="<?php echo $v['id'];?>" <?php if(in_array($v['id'],$mission_info['push_person'])){?>checked<?php }?>><?php echo $v['name'];?>
+                </label>
+              <?php }?> 
+          </div>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right"></div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+          <?php foreach($person_adm as $k=>$v){?>  
+            <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox" name="person_admin[]" value="<?php echo $v['id'];?>" <?php if(in_array($v['id'],$mission_info['person_adm_id'])){?>checked<?php }?>><?php echo $v['name'];?>
+            </label>
+          <?php }?>             
+          </div>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">任务规范1.0章节</div>
+  <div class="am-u-sm-8 am-u-md-10">
+      <div class="am-btn-group standard_ex" data-am-button>
+      <?php foreach($mission_info['standard_id'] as $k=>$v){?>  
+        <label class='am-btn am-btn-default am-btn-xs th_ml am-active stan_x' onclick='del_label(this)'>
+          <input type='checkbox' name='standard_id[]' value="<?php echo $v['id'];?>"><?php echo $v['value'];?><?php echo $v['label'];?>
+        </label>
+      <?php }?>
+      </div>
+  </div>
+</div>
+
+<!--一级目录-->
+<div class="am-g am-margin-top" id="first_ml">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">一级目录</div>
+  <div class="am-u-sm-8 am-u-md-10">
+    <select id="frist_standard" name="frist_standard" style="width:245px;">
+        <option value="">请选择</option>
+      <volist name="frist_standard" id="vo">
+        <option value="{$vo['id']}">{$vo['label']}</option>
+      </volist>
+    </select>
+  </div>
+</div>
+<!--二级目录-->
+<div class="am-g am-margin-top" id="secend_ml" style="display: none;">
+</div>
+
+<style>
+  .th_ml{
+    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width: 250px;
+  }
+</style>
+<!--三级目录-->
+<div class="am-g am-margin-top" id="third_ml" style="display: none;">
+</div>
+
+</form>

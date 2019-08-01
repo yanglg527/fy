@@ -1,0 +1,77 @@
+<extend name="./Application/Mob/View/ScoreView/base.html" />
+<block name="styles">
+
+
+</block>
+<block name="content">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .content-list {
+            background-color: rgb(250, 250, 250);
+            flex: 1;
+            /* overflow-y: scroll; */
+        }
+
+
+        .item div {
+            word-break: break-all;
+        }
+
+        .top-bar,
+        .item {
+            display: flex;
+            text-align: center;
+        }
+
+        .top-bar {
+            height: 0.7rem;
+            line-height: 0.7rem;
+            color: #848181;
+            /* border-bottom: 1px solid #eee; */
+        }
+
+        .content-list .item {
+            height: 1rem;
+            line-height: 1rem;
+            border-bottom: 1px solid #eee;
+
+        }
+
+        .title.type,
+        .item>.type {
+            width: 50%;
+            word-break: break-all;
+        }
+
+        .title.num,
+        .title.score,
+        .item>.num,
+        .item>.score {
+            width: 25%;
+        }
+    </style>
+    <div class="container">
+        <div class="top-bar">
+            <div class="title type">类型</div>
+            <div class="title num">数量</div>
+            <div class="title score">积分</div>
+        </div>
+        <div class="content-list">
+            <volist name="tag_name" id="vo">
+                <a href="__ROOT__/Mob/ScoreView/studyTag?tag_id={$vo.id}&article={$vo.article_str}" style="color:black;">
+                    <div class="item">
+                        <div class="type"><i style="color:red;">|</i> <span>{$vo.name}</span></div>
+                        <div class="num">{$vo.count}</div>
+                        <div class="score">{$vo.total}</div>
+                    </div>
+                </a>
+            </volist>
+        </div>
+    </div>
+
+</block>

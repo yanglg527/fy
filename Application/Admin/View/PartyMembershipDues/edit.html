@@ -1,0 +1,322 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">党费管理</strong></a> /
+                <small><empty name="detail">新增<else/>编辑</empty>缴纳党费信息</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="upload-form">
+                    <input type="hidden" name="id" value="{$detail.id}">
+                    <!--<input type="hidden" name="uid" value="{$detail.id}">-->
+                    <input type="hidden" name="name" value="{$detail.realname}">
+                    <input type="hidden" name="chushiname" value="{$detail.name}">
+                    <input type="hidden" name="uid" value="{$detail.uid}">
+                    <empty name="detail"><else/><input type="hidden" name="uid" value="{$detail.uid}"></empty>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            排序
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" class="am-input-sm" name="sort" value="{$detail.sort}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+                    </div>
+                    <empty name="detail.post_id">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">所属支部</div>
+                            <div class="am-u-sm-8 am-u-md-10">
+                                <div class="am-btn-group" data-am-button>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="branch_id" value="0" <empty name="detail.branch_id">checked="true"</empty> >不设置
+                                    </label>
+                                    <volist name="branchs" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="branch_id" value="{$item.id}"
+                                            <if condition="$detail['branch_id'] == $item['id']">checked="true"</if> >{$item.name}
+                                        </label>
+                                    </volist>
+
+                                </div>
+                            </div>
+                        </div>
+                        <else/>
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                所属支部
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-6">
+                                {$detail.branch_name}    职位:{$detail.post_name}
+                            </div>
+                            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                        </div>
+                    </empty>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-3 am-u-md-2 am-text-right">
+                            姓名
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6" style="float:left">
+                            <!--<input type="text" class="am-input-sm" name="name" value="{$detail.name}">-->
+                            <button type="button" id="btn-choose" data-name="{$detail.realname}" data-id="{$detail.uid}"
+                            class="am-btn am-btn-xs am-btn-primary btn-post"
+                            data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                            style="width: 150px"><empty name="detail.realname">选择成员<else/>{$detail.realname}</empty>
+                            </button>
+                        </div>
+                        <!--<div class="am-hide-sm-only am-u-md-4 am-form-help">-->
+                            <!--<button type="button" data-name="{$detail.realname}" data-id="{$detail.uid}"-->
+                                    <!--class="am-btn am-btn-xs am-btn-primary btn-post"-->
+                                    <!--data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"-->
+                                    <!--style="width: 150px"><empty name="detail.realname">选择成员<else/>{$detail.realname}</empty>-->
+                            <!--</button>-->
+                        <!--</div>-->
+                        <!--<div class="am-hide-sm-only am-u-md-4 am-form-help"></div>-->
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                          年月
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <div class="am-g">
+                                <div class="am-u-sm-3">
+                                    <!--<span><button class="am-btn am-btn-xs am-btn-primary">选择年份</button></span>-->
+                                    <span><input style="height: 27px;" name="year" type="text" value="{$detail.year}" class="am-form-field"  data-am-datepicker="{format: 'yyyy ', viewMode: 'years', minViewMode: 'years'}" placeholder="选择年份" data-am-datepicker readonly/></span>
+                                </div>
+                                <div class="am-u-sm-3">
+                                    <!--<span><button  class="am-btn am-btn-xs am-btn-primary">选择月份</button></span>-->
+                                    <span><input style="height: 27px;" name="month" type="text" value="{$detail.month}" class="am-form-field" data-am-datepicker="{format: 'mm ', viewMode: 'months', minViewMode: 'months'}" placeholder="选择月份" data-am-datepicker readonly/></span>
+                                </div>
+                                <div class="am-u-sm-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            党费金额
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" class="am-input-sm" name="money" value="{$detail.money}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">( 元 )</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">正常缴费</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="status" value="1" checked <if condition="$detail.status == 1"> checked="true" </if>> 是
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="status" value="2" <if condition="$detail.status == 2"> checked="true" </if>> 否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save" >提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+    <include file="PartyOrganization/_user_selecter"/>
+</block>
+<block name="scripts">
+    <!--图片上传控件-->
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+    <script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/onebit/upload-file.js"></script>
+
+    <script>
+        //初始化给成员赋值
+        var name =  $('input[name="chushiname"]').val();
+        if(name){
+            $('#btn-choose').text(name);
+        }
+
+
+        $('#btn-choose').click(function(){
+            getUsers();
+        });
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+        $('#btn-save').click(function(){
+            $.ajax({
+                url:'__ROOT__/Admin/PartyMembershipDues/ajaxSave',
+                type:'POST', //GET
+                data:$('#upload-form').serialize(),
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/PartyMembershipDues/index?p={$p}');
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        });
+
+        //多选框取值
+        function get_checkbox_val(cname){
+            var str =new Array();
+            $("input[name='"+cname+"[]']:checked").each(function(i,val){
+                str[i] = $(this).val();
+            })
+
+            return str;
+        }
+    </script>
+    <script>
+        var type = 'normal';
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==27){ // 按 Esc
+                //要做的事情
+            }
+            if(e && e.keyCode==113){ // 按 F2
+                //要做的事情
+            }
+            if(e && e.keyCode==13){ // enter 键
+                //要做的事情
+                getUsers();
+
+            }
+        };
+        // function change(){
+        $(".out").css("height","280px");//设置外边框高度
+        // }
+
+
+        function getUsers() {
+
+            var keyword = $('#selector-search-input').val();
+            if(type == 'normal'){
+                $('#select-content').html("加载中...");
+            }else{
+                keyword = $('#selector-search-input2').val();
+                $('#select-content2').html("加载中...");
+            }
+
+           var branch_id = $("input[name='branch_id']:checked").val();
+            $.ajax({
+                url: '__ROOT__/Admin/PartyMembershipDues/ajaxGetUsers_member',
+                type: 'POST', //GET
+                data: {branch_id:branch_id,keyword: keyword,type:type,uid:'{$detail.uid}'},  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if(type == 'normal'){
+                        $('#select-content').html("");
+                    }else{
+                        $('#select-content2').html("");
+                    }
+
+                    if (data.status == 0) {
+                        var html = "";
+
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        if(type == 'normal'){
+                            $('#select-content').html(html);
+                        }else{
+                            $('#select-content2').html(html);
+                        }
+
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    if(type == 'normal'){
+                        $('#select-content').html("服务器暂时无法连接，请稍候再试");
+                    }else{
+                        $('#select-content2').html("服务器暂时无法连接，请稍候再试");
+                    }
+
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+        $('#selector-btn-search').click(function () {
+            getUsers()
+        })
+
+        $('#selector-btn-search2').click(function () {
+            getUsers()
+        })
+
+
+
+
+        $('.canselect').click(function () {
+
+
+        })
+
+        $('#doc-modal-1').on('open.modal.amui', function(){
+            type = 'normal'
+        });
+
+        $('#doc-modal-1').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            $('input[name="uid"]').val(uid);
+            $('input[name="name"]').val(realname);
+            $('.btn-post').text(realname);
+            $('#doc-modal-1').modal('close');
+        })
+    </script>
+
+
+    <script type="text/javascript">
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

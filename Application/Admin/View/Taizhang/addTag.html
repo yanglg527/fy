@@ -1,0 +1,113 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <style type="text/css">
+        .uplosd_image {
+            height: 120px !important;
+            width: 180px !important;
+        }
+
+        .info-cover {
+            width: 180px;
+            height: 120px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        .info-cover-span {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            bottom: 0px;
+            margin: 0 !important;
+            /* margin-left: 10px !important; */
+            font-size: 14px !important;
+            width: 180px;
+            text-align: center;
+            color: white !important;
+            cursor: pointer;
+        }
+
+        .hidden_div {
+            display: none;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onclick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg"
+                                                                           aizhang="">台帐标签管理</strong></a> /
+                <small>
+                    <if condition="$detail.id gt 0">修改台账标签<else/>新增台帐标签</if>
+                </small>
+            </div>
+        </div>
+        <hr/>
+        <div class="am-tabs-bd" style="margin:20px;    border: 1px solid #ddd;">
+            <div class="am-tab-panel am-fade am-in am-active">
+                <div class="am-form" id="upload-form">
+                    <input type="hidden" id="id" value="{$detail.id}" class="am-input-sm"/>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            标签名
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" id="title" value="{$detail.title}" class="am-input-sm"/>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+                            *必填，长度不超过50字符。
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="am-margin">
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="submit_info();">提交保存</button>
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+    </div>
+</block>
+
+<block name="scripts">
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script type="text/javascript">
+
+        function submit_info() {
+            var id = $('#id').val();
+            var title = $('#title').val();
+            if (title == '') {
+                alert_modal("主题不能为空");
+                return false;
+            }
+
+            $.ajax({
+                data: {'id':id, 'title': title},
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Taizhang/ajaxAddTag',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        self.location = document.referrer;
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        }
+
+    </script>
+</block>
+</body>
+</html>

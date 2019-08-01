@@ -1,0 +1,48 @@
+<extend name="./Application/Mob/View/Common/base.html" />
+<block name="styles">
+	<link rel="stylesheet" href="__CSS__/member_develop/report.css">
+	<style>
+		header.head {
+			background: url(__IMG__/branch/head_bg2.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.ledger .head .title .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .search {
+			background: url(__IMG__/branch/search@2x.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		html {
+			height: 100%;
+			background: #e3e9ef;
+		}
+
+        img {
+            max-width: 100%;
+        }
+    </style>
+</block>
+<block name="content">
+	<div class="page">
+    <header class="head">
+        <a onclick="history.go(-1);"><div class="head_return"><i></i>考试成绩</div></a>
+    </header>
+    <article>
+        <div class="article_container">
+            <h3{$detail.title}</h3>
+            <p><notempty name="detail.update_time">{$detail.create_time|date='Y-m-d',###}</notempty></p>
+        </div>
+        <div class="apply">
+            {$detail.score}
+        </div>
+    </article>
+</div>
+</block>
+<block name="scripts">
+	<script src="__JS__/member_develop/partyDevelop.js"></script>
+</block>

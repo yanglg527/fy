@@ -1,0 +1,70 @@
+<form action="" method="post" class="exam_inner">
+    <input type="hidden" name="id" value="{$detail.id}">
+    <volist name="subjects" id="item">
+        <if condition="$item['type_id'] == 1">
+            <div class="content-block-title header-I">
+                <h4>{$item['title']}</h4>
+            </div>
+            <elseif condition="$item['type_id'] == 2" dis="多选"/>
+            <div>
+                <div class="content-block-title header-II">
+                    {$item['title']}　({$item.score}分)<span class="aninvalid">*</span>
+                </div>
+                <div class="card">
+
+                    <label class="card-footer">
+                        <span><input type="checkbox"  disabled <if condition="$item['user_answer']['0'] == 1">checked</if> value="0"> A {$item['answer'][0]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="checkbox"  disabled <if condition="$item['user_answer']['1'] == 1">checked</if> value="1"> B {$item['answer'][1]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="checkbox" disabled <if condition="$item['user_answer']['2'] == 1">checked</if>> C {$item['answer'][2]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="checkbox" disabled <if condition="$item['user_answer']['3'] == 1">checked</if>> D {$item['answer'][3]}</span>
+                    </label>
+                </div>
+            </div>
+            <br/>
+            <elseif condition="$item['type_id'] == 3" dis="单选"/>
+            <div>
+                <div class="content-block-title header-II">
+                    {$item['title']}　({$item.score}分)<span class="aninvalid">*</span>
+                </div>
+                <div class="card">
+                    <label class="card-footer">
+                        <span><input type="radio" disabled <if condition="$item['user_answer']['0'] == 0">checked</if>> A {$item['answer'][0]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" disabled <if condition="$item['user_answer']['0'] == 1">checked</if>> B {$item['answer'][1]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" disabled <if condition="$item['user_answer']['0'] == 2">checked</if>> C {$item['answer'][2]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" disabled <if condition="$item['user_answer']['0'] == 3">checked</if>> D {$item['answer'][3]}</span>
+                    </label>
+
+                </div>
+            </div>
+            <br/>
+            <elseif condition="$item['type_id'] == 4" dis="判断"/>
+            <div>
+                <div class="content-block-title header-II">
+                    {$item['title']}　({$item.score}分)<span class="aninvalid">*</span>
+                </div>
+                <div class="card">
+                    <label class="card-footer">
+                        <span><input type="radio" disabled <if condition="$item['user_answer']['0'] == 0">checked</if>> 正确</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" disabled <if condition="$item['user_answer']['0'] == 1">checked</if>> 错误</span>
+                    </label>
+
+                </div>
+            </div>
+            <br/>
+        </if>
+    </volist>
+</form>

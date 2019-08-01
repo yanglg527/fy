@@ -1,0 +1,141 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/ledger_list/ledger_list.css">
+    <link rel="stylesheet" href="__CSS__/ledger_list/ledger.css">
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .title_img .title {
+            background: url(__IMG__/branch/title@2x.png) no-repeat 100% 100%;
+            background-size: 100%;
+        }
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <div class="banner">
+            <div class="title"><i onclick="history.go(-1);"></i>点赞之星</div>
+            <div class="banner_bg"><img src="__IMG__/ledger_list/bg.png" alt=""></div>
+        </div>
+        <div class="content">
+            <div class="list">
+                <volist name="list" id="item">
+                    <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                        <dl>
+                            <dt><img src="{$item.cover|show_img}"></dt>
+                            <dd class="content">
+                                <h2>{$item.title}</h2>
+                                <div class="content">{$item.content|show_sub_title=10}</div>
+                                <div class="overview">
+                                    <span>{$item.tag_name}</span>
+                                    <i></i>
+                                </div>
+                                <div class="foot">
+                                    <div class="foot_title">
+                                        <img src="{$item.user_headimgurl|get_head_url}" alt="">
+                                        <span class="name">{$item.user_realname}</span>
+                                        <span class="position">{$item.user_adm_post_name}</span>
+                                        <i class="time">
+                                            {$item.create_time|date='Y-m-d H:i',###}
+                                        </i>
+                                    </div>
+
+                                </div>
+                            </dd>
+                        </dl>
+                    </a>
+                    <div class="footer">
+                        <div class="collect" data-id="{$item.id}"><i></i>收藏(<span class="count">{$item.sc_count}</span>)
+                        </div>
+                        <div class="comment"><a href="__ROOT__/Mob/Taizhang/tz_comment?id={$item.id}"><i></i>评论(<span>{$item.pl_count}</span>)</a>
+                        </div>
+                        <div class="like" data-id="{$item.id}"><i></i>点赞(<span class="count">{$item.dz_count}</span>)
+                        </div>
+                    </div>
+                </volist>
+
+
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <script src="__JS__/ledger_list/ledger.js"></script>
+    <script>
+        $('.list').on('click', '.collect', function () {
+            var id = $(this).attr('data-id');
+            var c = this
+            $.ajax({
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Mob/Taizhang/ajax_correct',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        alert(data.msg);
+                        if (data.data.is_correct == 1) {
+                            $(c).addClass('active')
+                        } else {
+                            $(c).removeClass('active')
+                        }
+                        $(c).find('.count').text(data.data.detail.sc_count)
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    alert('网络异常');
+                }
+            })
+        })
+
+        $('.list').on('click', '.like', function () {
+            var id = $(this).attr('data-id');
+            var c = this
+            $.ajax({
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Mob/Taizhang/ajax_dz',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        alert(data.msg);
+                        if (data.data.is_dz == 1) {
+                            $(c).addClass('active')
+                        } else {
+                            $(c).removeClass('active')
+                        }
+                        $(c).find('.count').text(data.data.detail.dz_count)
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    alert('网络异常');
+                }
+            })
+        })
+    </script>
+</block>

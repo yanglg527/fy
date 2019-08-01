@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>html5手机端图片上传裁剪代码 - 站长素材</title>
+</head>
+
+<style type="text/css">
+	html,body{
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+	.toBar{
+		width: 100%;
+		padding: 15px;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 1;
+	}
+	.toBar label input{
+		display: none;
+	}
+	.toBar label,.toBar button{
+		display: inline-block;
+		width: 100px;
+		text-align: center;
+		padding: 10px 0;
+		font-size: 12px;
+		color: #fff;
+		background: #8080ca;
+		border-radius: 6px;
+		cursor: pointer;
+	}
+	.toBar button{
+		border: none;
+		float: right;
+	}
+	.img_content,canvas{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-webkit-transform: translate(-50%,-50%);
+		transform: translate(-50%,-50%);
+	}
+	canvas{
+		border: 1px solid #333;
+	}
+</style>
+
+<body>
+<div class="toBar">
+	<label>
+		选择图片
+		<input type="file" />
+	</label>
+	<button type="button">使用</button>
+</div>
+<div class="img_content">
+	<img src="img/1.jpg" />
+</div>
+<!--裁剪图片框。宽高为定义裁剪出的图片大小-->
+<canvas width="300" height="300"></canvas>
+
+<script src="js/img.js"></script>
+<script src="js/require.js"></script>
+<script src="js/main.js"></script>
+<script>
+	window.addEventListener("load",function(){
+		var $input = document.querySelector("input");
+		var $img = document.querySelector("img");
+		var $canvas = document.querySelector("canvas");
+		//选择图片
+		$input.addEventListener("change",function(){
+			$img.src = getFileUrl(this);
+		},false);
+		
+		
+		
+		var myCrop;
+		require(["jquery", 'hammer', 'tomPlugin', "tomLib", 'hammer.fake', 'hammer.showtouch'], function($, hammer, plugin, T) {
+			document.addEventListener("touchmove", function(e) {
+					e.preventDefault();
+			});
+			var opts = {
+					cropWidth: $canvas.width,
+					cropHeight: $canvas.height
+			},
+			previewStyle = {
+				x: 0,
+				y: 0,
+				scale: 1,
+				rotate: 0,
+				ratio: 1
+			},
+			transform = T.prefixStyle("transform"),
+			myCrop = T.cropImage({
+				bindFile: $("input"),
+				enableRatio: false, //是否启用高清,高清得到的图片会比较大
+				canvas: $canvas, //放一个canvas对象
+				cropWidth: opts.cropWidth, //剪切大小
+				cropHeight: opts.cropHeight,
+				bindPreview: $("img"), //绑定一个预览的img标签
+				useHammer: true, //是否使用hammer手势，否的话将不支持缩放
+				oninit: function() {
+
+				},
+				onLoad: function(data) {
+					//用户每次选择图片后执行回调
+					resetUserOpts();
+					previewStyle.ratio = data.ratio;
+					$("img").attr("src", data.originSrc).css({
+						width: data.width,
+						height: data.height
+					}).css(transform, 'scale(' + 1 / previewStyle.ratio + ')');
+					myCrop.setCropStyle(previewStyle)
+				}
+			});
+
+			function resetUserOpts() {
+				$("canvas").hammer('reset');
+				previewStyle = {
+					scale: 1,
+					x: 0,
+					y: 0,
+					rotate: 0
+				};
+				$("img").attr("src", '');
+			};
+			$("canvas").hammer({
+				gestureCb: function(o) {
+					//每次缩放拖拽的回调
+					$.extend(previewStyle, o);
+					console.log("用户修改图片", previewStyle)
+					$("img").css(transform, "translate3d(" + previewStyle.x + 'px,' + previewStyle.y + "px,0) rotate(" + previewStyle.rotate + "deg) scale(" + (previewStyle.scale / previewStyle.ratio) + ")")
+				}
+			});
+			
+			$("button").on("click", function() {
+				myCrop.setCropStyle(previewStyle)
+				var src = myCrop.getCropFile({});
+				window.location.href = src;
+			});
+		});
+		
+		
+	},false);
+</script>
+
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+<p>适用浏览器：360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗. 不支持IE8及以下浏览器。</p>
+<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+</div>
+</body>
+</html>

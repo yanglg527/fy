@@ -1,0 +1,78 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">模块管理</strong></a> /
+                <small><empty name="detail">新增<else/>编辑</empty>模块</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form">
+
+                    <empty name="detail"><else/><input type="hidden" name="id" value="{$detail.id}"></empty>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            模块名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="modulename" value="{$detail.modulename}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save" >提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('#btn-save').click(function(){
+
+            $.ajax({
+                url:'__ROOT__/Admin/System/ajaxSaveModule',
+                type:'POST', //GET
+                data:$('.am-form').serialize(),
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                    if(data.status == 0){
+                        loading_page('__ROOT__/Admin/System/moduleList?p={$p}');
+                    }else{
+                        alert_modal(data.msg);
+                    }
+                },
+                error:function(xhr,textStatus){
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+    </script>
+</block>

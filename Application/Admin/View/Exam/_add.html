@@ -1,0 +1,65 @@
+<!-- Modal -->
+<div class="modal fade" id="addExam" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增测试</h4>
+      </div>
+      <div class="modal-body">
+        <from class="form-horizontal">
+          <fieldset>
+		  <div class="form-group">
+		    <label for="title" class="col-sm-2 control-label">标题</label>
+		    <div class="col-sm-10">
+		      <input type="text" name="title" id='title' class="form-control" id="title" placeholder="请输入测试的标题">
+		    </div>
+		  </div>
+		  <div class="form-group">
+			    <label for="class" class="col-sm-2 control-label">关联课堂</label>
+			    <div class="col-sm-10">
+			      <select name="room_id" id='room_id' class="form-control">
+					  <volist name="rooms" id="room">
+	                        <option value="{$room.id}" id='{$room.type_name}'>{$room.title}</option>
+	                   </volist>
+					</select>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="subject" class="col-sm-2 control-label">所属科目</label>
+			    <div class="col-sm-5">
+			      <select name="course_id" id='course_id' class="form-control">
+					  <volist name="courses" id="course">
+	                        <option value="{$course.id}" >{$course.chn}</option>
+	                   </volist>
+					</select>
+			    </div>
+			  </div>
+		  	<div class="form-group" id="is_gk">
+			    <label for="intro" class="col-sm-2 control-label">是否公开</label>
+			    <div class="col-sm-10">
+			      	<label class="radio-inline">
+					  <input type="radio" name="exam_range" id="exam_range1" value="1" checked> 公开
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="exam_range" id="exam_range2" value="0"> 私密
+					</label>
+					<p class="help-block">如果设定为私密，仅有您的课堂的学生才可以做这份测试。</p>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="remark" class="col-sm-2 control-label">简短描述</label>
+			    <div class="col-sm-10">
+			      <textarea class="form-control" id='intro' name="intro" rows="3" placeholder="请输入该测试的简短介绍，长度不超过100个字。"></textarea>
+			    </div>
+			  </div>
+			</div>
+		</fieldset>
+      </from>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="addExam();">确&nbsp;定</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关&nbsp;闭</button>
+      </div>
+    </div>
+  </div>
+</div>

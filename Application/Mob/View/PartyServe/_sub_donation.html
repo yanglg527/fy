@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta>
+		<title>扶贫捐款</title>
+		  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" href="__CSS__/party_serve/relief/relief.css">
+	</head>
+	<style type="text/css">
+		.list dl {
+			background: url(__IMG__/party_serve/relief.png) no-repeat;
+			background-size: cover;
+		}
+	</style>
+
+	<body >
+
+	<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top: 0" style="background: transparent">
+    	<div class="mui-scroll " style="background: transparent">
+
+        <!--数据列表-->
+        <ul class="mui-table-view mui-table-view-chevron list" style="background: transparent">
+		</ul>
+				<div id="list-template" style="display: none">
+					<dl>
+						<dt><img src="##cover##"></dt>
+						<dd class="content">
+							<a href="__ROOT__/Mob/PartyServe/donationDetail?id=##id##">
+								<h2>##title##</h2>
+								<div class="time">##time##</div>
+								<div class="foot">
+									<div class="foot_title">
+										<img src="##head##" alt="">
+										<span class="name">##realname##</span>
+									</div>
+									<!--给下面这个div添加active类名，改变图标和字体颜色-->
+									<div class="number active"><i></i>捐款(<span>##count##</span>)</div>
+								</div>
+							</a>
+						</dd>
+					</dl>
+
+				</div>
+			</div>
+		</div>
+<script>
+	var __root__ = "__ROOT__";
+</script>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<script src="__STATICS__/dateUtil.js"></script>
+		<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '',
+						callback: pullupRefresh
+					}
+				}
+			});
+
+			mui.ready(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			});
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				ajaxGetHelpList();
+			}
+
+			var list = mui('.mui-table-view')[0];
+			var lastItem = 0;
+			var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+
+			function ajaxGetHelpList() {
+				mui.ajax('__ROOT__/Mob/PartyServe/ajaxLoadingDonation', {
+					data: {
+						lastItem: lastItem
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						if(data['status'] == 0) {
+							//                    console.log("data = aaaaaaaaaaaaaaaa");
+							var listData = data.data;
+							//                    console.log("data = " + JSON.stringify(listData));
+							if(listData && listData.length > 0) {
+								var listItem = "";
+								var itemTemp = "";
+								for(var i = 0; i < listData.length; i++) {
+									lastItem = listData[i]['create_time'];
+
+
+
+									listItemHtmlArray[1] = get_img_url(listData[i]['cover']);
+									listItemHtmlArray[3] = listData[i]['id'];
+									listItemHtmlArray[5] = listData[i]['title'];
+									var createTimeStr = new Date(listData[i]['create_time'] * 1000).Format("yyyy-MM-dd");
+									listItemHtmlArray[7] = createTimeStr;
+									listItemHtmlArray[9] = get_head_url(listData[i]['user_headimgurl']);
+									listItemHtmlArray[11] = listData[i]['user_realname'];
+									listItemHtmlArray[13] = show_count(listData[i]['help_count']);
+									itemTemp = "";
+									for(var j = 0; j < listItemHtmlArray.length; j++) {
+										itemTemp += listItemHtmlArray[j];
+									}
+									listItem += itemTemp;
+								}
+								list.innerHTML += listItem;
+
+								if(listData.size < 15) { // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+								} else {
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+								}
+							} else {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+						} else {
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							alert(data.msg);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+						mui.alert('网络异常');
+					}
+				});
+			}
+
+			mui('.mui-scroll').on('tap', 'a', function() {
+				var href = this.getAttribute('href')
+				parent.location.href = href;
+			})
+
+			
+		</script>
+	</body>
+
+</html>

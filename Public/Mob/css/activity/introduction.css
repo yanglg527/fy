@@ -1,0 +1,67 @@
+.introduction{
+	width:100%;
+	padding:0.5rem;
+}
+.introduction .heart{
+	width:100%;
+	height:100%;
+	font-size:0.38rem;
+}
+.introduction .heart>img{
+	width:100%;
+	height:4.5rem;
+	display: block;
+	margin-bottom: 0.3rem;
+}
+.introduction .heart li{
+	padding:0.3rem 0;
+	padding-left:0.8rem;
+	overflow: hidden;
+	position:relative;
+}
+.introduction .heart li pre{
+	display:block;
+	float:left;
+	line-height:0.5rem;
+}
+.introduction .heart li span{
+	line-height:0.5rem;
+	display:block;
+	float:left;
+	word-wrap:break-word;
+	max-width:5.8666rem;
+}
+.introduction .heart li i{
+	display:block;
+	width:0.2rem;
+	height:0.2rem;
+	background-color:#CE3D3A;
+	border-radius:50%;
+	position:absolute;
+	left:0;
+	top:0.42rem;
+}
+
+
+
+
+.introduction .heart .box{
+	margin-top: 0.5rem;
+}
+.introduction .heart .box>a{
+	width:4rem;
+	height:1rem;
+	line-height:1rem;
+	border-radius:1rem;
+	display:block;
+	text-align:center;
+	font-size:0.4rem;
+	color:#fff;
+	background-color:#CE3D3A;
+}
+.introduction .heart .box .sign{
+	float:left;
+}
+.introduction .heart .box .list{
+	float:right;
+}

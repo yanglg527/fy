@@ -1,0 +1,148 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .item {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .item-left {
+            position: absolute;
+            left: 10px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .item-right {
+            position: absolute;
+            left: 80px;
+            color: black;
+            right: 10px;
+            height: 50px;
+            font-size: 14px;
+
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: 0;
+            color: black;
+        }
+
+        .item-select {
+            position: absolute;
+            left: 80px;
+            right: 5px;
+            color: grey;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .container {
+            background: white;
+        }
+
+        .write-button {
+            position: absolute;
+            height: 50px;
+            width: 100%;
+            bottom: 0;
+            background: #0084c7;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            font-size: 16px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="item">
+        <span class="item-left">标&nbsp;&nbsp;&nbsp;题：</span>
+        <span class="item-right">{$detail.title}</span>
+
+    </div>
+    <div class="item">
+        <span class="item-left">发件人：</span>
+        <span class="item-right">{$detail.sender_realname}</span>
+
+
+    </div>
+    <div class="item">
+        <span class="item-left">收件人：</span>
+        <span class="item-right" id="rUid">{$detail.receiver_names}</span>
+        <input name="rUid" type="hidden">
+
+    </div>
+    <div class="item">
+        <span class="item-left">类&nbsp;&nbsp;&nbsp;型：</span>
+        <span class="item-right" id="type"><if condition="$detail.type == 0">意见和建议<else/>寻求帮助</if></span>
+        <input name="type" type="hidden">
+
+    </div>
+    <div style="height: 10px;background: #f8f8f8;width: 100%">
+
+    </div>
+
+    <div class="item" style="border-top: 1px solid gainsboro;">
+        <span class="item-left">内容</span>
+    </div>
+    <div style="padding: 10px">
+        {$detail.msg}
+    </div>
+    <a class="write-button" href="__ROOT__/Mail/Index/replyLetter?id={$detail.outbox_id}&rUid={$detail.sender_uid}">
+        回复
+    </a>
+
+
+</block>
+<block name="scripts">
+    <script>
+        $('#btn-send').click(function () {
+            $.ajax({
+                url: '__ROOT__/Mail/Index/ajaxSend',
+                type: 'POST', //GET
+                data: $('.uploadform').serialize(),
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.href = '__ROOT__/Mail/Index/index?type=1';
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+        $('#rUid').click(function(){
+            $('#select-sj').removeClass("hidden");
+        })
+        $('#type').click(function(){
+            $('#select-type').removeClass("hidden");
+        })
+        $('.sj-item').click(function () {
+            var rUid = $(this).attr('data-id');
+            var rName = $(this).text();
+            $('#rUid').text(rName);
+            $('input[name="rUid"]').val(rUid);
+            $('#select-sj').addClass("hidden");
+        })
+        $('.type-item').click(function () {
+            var rUid = $(this).attr('data-id');
+            var rName = $(this).text();
+            $('#type').text(rName);
+            $('input[name="type"]').val(rUid);
+            $('#select-type').addClass("hidden");
+        })
+    </script>
+
+</block>

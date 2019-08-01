@@ -1,0 +1,53 @@
+.page{
+    /*position: absolute;*/
+    width:100%;
+    height:100%;
+    padding:0.8rem 0.6rem 0.5rem 1.5rem;
+    background: url("../../../images/notes/book_box.png") no-repeat;
+    background-size: 100% 100%;
+    /*z-index: -99;*/
+}
+.icon{
+    width:0.5rem;
+    position: absolute;
+    top:0;
+    right:0.8rem;
+}
+.icon>img{
+    width:100%;
+}
+.page .title{
+    /*height:1.5rem;*/
+    /*line-height: 1.5rem;*/
+    /*line-height: 0.7rem;*/
+    padding-right: 1rem;
+    /*color:#333;*/
+    /*font-size: 0.45rem;*/
+    /*font-weight: bold;*/
+    color: #0a8ddf; font-size: 16px; line-height: 20px
+}
+.page>.time{
+    color:#999;
+    font-size: 12px;
+    height:0.6rem;
+    margin-top: 8px;
+}
+.page .time>i{
+    display: inline-block;
+    width:8px;
+    height:8px;
+    background-color: #ce3d3a;
+    border-radius: 50%;
+    margin-right: 0.1rem;
+    margin-top: 10px !important;
+}
+.content{
+    width: 98%;
+}
+.content .swiper-slide{
+    line-height: 0.5rem;
+    color:#666;
+}
+.content .swiper-slide img{
+    width:100%;
+}

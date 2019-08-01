@@ -1,0 +1,88 @@
+<extend name="./Application/Mob/View/Common/base.html" />
+<block name="styles">
+	<link rel="stylesheet" href="__CSS__/member_develop/report.css">
+	<style>
+		header.head {
+			background: url(__IMG__/branch/head_bg2.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.ledger .head .title .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .search {
+			background: url(__IMG__/branch/search@2x.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		html {
+			height: 100%;
+			background: white;
+		}
+
+        img {
+            max-width: 100%;
+        }
+    </style>
+</block>
+<block name="content">
+	<div class="page">
+    <header class="head">
+        <a onclick="history.go(-1);"><div class="head_return"><i></i>思想汇报</div></a>
+    </header>
+    <article>
+        <div class="article_container">
+            <h3>{$detail.title}</h3>
+            <p><notempty name="detail.create_time">{$detail.create_time|date='Y-m-d',###}</notempty></p>
+        </div>
+        <div class="apply">
+            {$detail.content}
+        </div>
+        <style>
+            .file-div {
+                width: auto;
+                height: auto;
+                line-height: 50px;
+                position: relative;
+                padding: 5px;
+            }
+
+            .file-div a {
+                color: skyblue;
+                position: relative;
+                font-size: 14px;
+                width: auto;
+            }
+
+            .file-div label {
+                border-bottom: 1px solid #ccc;
+                display: inline-block;
+                height: 25px;
+                line-height: 25px;
+                border-radius: 3px;
+                padding: 0 5px;
+                margin-bottom: 10px;
+                margin-right: 15px;
+            }
+        </style>
+        <div class="apply" style="margin-top: 10px">
+            <span>附件:</span>
+            <form class="apply_left">
+                <div class="file-div">
+                    <volist name="files" id="item">
+                        <label>
+                            <input type="hidden" name="files[]" value="{$item.id}" />
+                            <a href="__ROOT__/{$item.path}">{$item.name}</a>
+                        </label>
+                    </volist>
+                </div>
+            </form>
+        </div>
+    </article>
+</div>
+</block>
+<block name="scripts">
+	<script src="__JS__/member_develop/partyDevelop.js"></script>
+</block>

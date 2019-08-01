@@ -1,0 +1,110 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+<div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <a href="#" onClick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg">规则管理</strong></a> /
+        <small>新增规则</small>
+      </div>
+    </div>
+
+    <hr>
+
+      <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+        <div class="am-tab-panel am-fade am-in am-active" >
+          <form class="am-form">
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                规则标识
+              </div>
+              <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" class="am-input-sm" name="name">
+              </div>
+              <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+            </div>
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                简述
+              </div>
+              <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" class="am-input-sm" name="name">
+              </div>
+              <div class="am-hide-sm-only am-u-md-4 am-form-help">长度不超过50字符。</div>
+            </div>
+            <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">文章类型</div>
+            <div class="am-u-sm-8 am-u-md-10">
+              <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="checkbox"> 允许评论
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="checkbox"> 置顶
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="checkbox"> 推荐
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="checkbox"> 热门
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="checkbox"> 轮播图
+                </label>
+              </div>
+            </div>
+          </div>
+
+            <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">是否显示在首页</div>
+            <div class="am-u-sm-8 am-u-md-10">
+              <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="radio" name="is_index" id="option1" checked="true"> 是
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                  <input type="radio" name="is_index" id="option2"> 否
+                </label>
+              </div>
+            </div>
+          </div>
+
+            <div class="am-g am-margin-top-sm">
+              <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+                文章内容
+              </div>
+              <div class="am-u-sm-12 am-u-md-10">
+              	<textarea rows="4"></textarea>
+              </div>
+            </div>
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否显示</div>
+              <div class="am-u-sm-8 am-u-md-10">
+                <div class="am-btn-group" data-am-button>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="options" id="option1" checked="true"> 是
+                  </label>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="options" id="option2"> 否
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+
+    <div class="am-margin">
+      <button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>
+      <button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>
+    </div>
+  </div>
+</block>
+<block name="scripts">
+
+</script>
+</block>

@@ -1,0 +1,406 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .sign-top{
+            height: 180px;
+            background: #00C2E5;
+            position: relative;
+            padding-top: 5px;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+        }
+        .sign-top p{
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+        #day-count{
+            font-size: 45px;
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .btn-sign{
+            height: 39px;
+            line-height: 39px;
+            width: 134px;
+            border-radius: 20px;
+            font-size: 15px;
+            margin: auto;
+            margin-top: 14px;
+            position: relative;
+        }
+        .btn-sign img{
+            width: 15px;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 40px;
+            margin: auto;
+        }
+        .btn-sign-enable{
+            background: #ffe600;
+            color: #1a1a1a;
+        }
+        .btn-sign-enable a{
+            color: #1a1a1a;
+        }
+        .btn-sign-disable{
+            /*background: #dce4e6;*/
+            /*color: #939899;*/
+            width: 140px;
+            height: 37px;
+            line-height: 37px;
+            background: white;
+            color: red;
+        }
+        .btn-sign-disable a{
+            /*color: #939899;*/
+            color: red;
+            font-size: 14px;
+        }
+
+        .year-month{
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+            height: 40px;
+            line-height: 40px;
+            background: #0098b3;
+            text-align: center;
+            font-size: 13px;
+            color: white;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        table{
+            width: 100%;
+            background: white;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        th{
+            text-align: center;
+            font-size: 13px;
+            color: #666666;
+            font-weight: 100;
+        }
+        td{
+            position: relative;
+        }
+
+        .sign-cell{
+            position: absolute;
+            top: 0px;left: 0px;right: 0px;bottom: 0px;
+            margin: auto;
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            font-size: 12px;
+            text-align: center;
+            padding-top: 6px;
+        }
+        .no-sign-cell{
+            background: white;
+            color: #cccccc;
+        }
+        .will-sign-cell{
+            background: white;
+            color: #1a1a1a;
+        }
+        .signed-cell{
+            background: #ffb400 !important;
+            color: white !important;
+        }
+
+        .sign-cell p{
+            padding: 0px;
+            margin: 0px;
+        }
+        .text{
+            font-size: 12px;
+            line-height: 12px;
+            height: 12px;
+        }
+        .number{
+            font-size: 15px;
+            line-height: 15px;
+        }
+
+        .calendar-title{
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            background: #dce4e6;
+        }
+
+        .calendar-row{
+            width: 100%;
+            height: 53px;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="sign-top">
+        <p id="day-count">{$continueSignInCount|fill_zero_before}</p>
+        <p>连续签到</p>
+
+        <if condition="$signState == true">
+            <div class="btn-sign btn-sign-disable">
+                <a href="__ROOT__/SignIn/prize" id="btn-sign-disable"><!--<img src="__IMG__icon_yiqiand.png">&nbsp;&nbsp;&nbsp;&nbsp;--> 已签到，去抽奖</a>
+            </div>
+        <else/>
+            <div id="btn-sign-div" class="btn-sign btn-sign-enable">
+                <a id="btn-sign"><img src="__IMG__icon_qiandao.png"> &nbsp;&nbsp;&nbsp;&nbsp;签到</a>
+            </div>
+            <div id="btn-sign-disable-div" class="btn-sign btn-sign-disable" style="display: none">
+                <a href="__ROOT__/SignIn/prize" id="btn-sign-disable"><!--<img src="__IMG__icon_yiqiand.png"> &nbsp;&nbsp;&nbsp;&nbsp;-->已签，去抽奖</a>
+            </div>
+        </if>
+
+        <div class="year-month">
+            <span id="year">{$yearMonth|substr=0,4}</span>
+            <span>年</span>
+            <span id="month">{$yearMonth|substr=5}</span>
+            <span>月</span>
+        </div>
+    </div>
+
+    <table>
+        <tr class="calendar-title">
+            <th>日</th>
+            <th>一</th>
+            <th>二</th>
+            <th>三</th>
+            <th>四</th>
+            <th>五</th>
+            <th>六</th>
+        </tr>
+        <tr style="height: 10px"></tr>
+
+        <volist name="list" id="item">
+            <if condition="$i % 7 == 1"> <tr class="calendar-row"> </if>
+
+            <if condition="$item['info']['type'] == 2">
+                <td>
+                    <div id="{$item['id']}" class="sign-cell {$item.dayClass} {$signStateList|getSignedClass=$item['id']}">
+                        <p class="text"> {$signStateList|getSignState=$item['id']} </p>
+                        <p class="number">{$item.info.day}</p>
+                    </div>
+                </td>
+            <else/>
+                <td>
+                    <div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>
+                </td>
+            </if>
+
+            <if condition="$i % 7 == 0"> </tr> </if>
+        </volist>
+        <!--<tr class="calendar-row">-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"> </p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">1</p> </div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr class="calendar-row">-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">2</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">3</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">4</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">5</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">6</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">7</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">8</p> </div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr class="calendar-row">-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">9</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">10</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">11</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">12</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">13</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">14</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">15</p> </div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr class="calendar-row">-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">16</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number">17</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">18</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">19</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">20</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">21</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">22</p> </div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr class="calendar-row">-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">23</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">24</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">25</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">26</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">27</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell signed-cell"> <p class="text">签到</p> <p class="number">28</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell will-sign-cell"> <p class="text"></p> <p class="number">29</p> </div>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr class="calendar-row">-->
+            <!--<td>-->
+                <!--<div class="sign-cell will-sign-cell"> <p class="text"></p> <p class="number">30</p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number"></p> </div>-->
+            <!--</td>-->
+            <!--<td>-->
+                <!--<div class="sign-cell no-sign-cell"> <p class="text"></p> <p class="number"></p> </div>-->
+            <!--</td>-->
+        <!--</tr>-->
+
+    </table>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        $("#btn-sign").click(function(){
+            $.ajax({
+                type: "post",
+                url: __root__+"/SignIn/Index/ajaxSignIn",
+                cache: false,
+                dataType: "json",
+                success: function (res) {
+                    if(res['status'] == 0){
+                        // 更新页面内容
+                        if(res['data']['continue_sign_in_count'] < 10){
+                            res['data']['continue_sign_in_count'] = "0" + res['data']['continue_sign_in_count'];
+                        }
+                        $('#day-count').html(res['data']['continue_sign_in_count']);
+                        $("#btn-sign-div").hide();
+                        $("#btn-sign-disable-div").show();
+                        $("#" + res['data']['id']).addClass("signed-cell");
+                        $("#" + res['data']['id'] + " .text").html("签到");
+//                        alert($("#" + res['data']['id'] + " .text").html());
+
+                        // 显示签到结果提示对话框
+                        $("#success-sign-tip").html(res['msg']);
+                        $("#my-confirm").modal();
+                    }else if(res['status'] == 1){
+//                        $("#tip-content").html(res['msg']);
+//                        $("#my-alert").modal();
+                        alert(res.msg)
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert("网络异常...");
+                }
+            });
+        });
+
+//        $("#btn-sign-disable").click(function(){
+//            $("#tip-content").html("你今天签到过了，明天再来吧...");
+//            $("#my-alert").modal();
+//        });
+
+        // 自定义对话框按钮事件
+        $(function() {
+            var $confirm = $('#my-confirm');
+            var $confirmBtn = $confirm.find('[data-am-modal-confirm]');
+            // 确认按钮事件
+            $confirmBtn.off('click.confirm.modal.amui').on('click', function() {
+//                alert("在此处添加跳转到抽奖界面");
+                window.location.href="__ROOT__/SignIn/prize/index.html";
+            });
+            // 取消按钮事件
+//            var $cancelBtn = $confirm.find('[data-am-modal-cancel]');
+//            $cancelBtn.off('click.cancel.modal.amui').on('click', function() {
+//                window.location.reload();
+//            });
+        });
+
+    </script>
+
+</block>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>领导积分大比拼</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/track/integral.css">
+</head>
+<body>
+<div class="page">
+    <header>
+        <a onclick="history.go(-1);"><div class="head_return"><i></i></div></a>
+    </header>
+    <!--柱状图-->
+    <div class="columnar">
+        <div class="title">各阶段积分人数</div>
+        <div class="canvas">
+            <div class="y-axial">
+                <!--<p>(人)</p>-->
+                <!--<div><i>400</i><span></span></div>-->
+                <!--<div><i>300</i><span></span></div>-->
+                <!--<div><i>200</i><span></span></div>-->
+                <!--<div><i>100</i><span></span></div>-->
+                <!--<div><i>0</i><span></span></div>-->
+            </div>
+            <div class="x-axis">
+                <!-- <div>
+                     <p class="p1"><span>110</span></p>
+                 </div>
+                 <div>
+                     <p class="p2"><span>120</span></p>
+                 </div>
+                 <div>
+                     <p class="p3"><span>130</span>
+                     <span class="me"><span class="head">您处在的阶段</span><img src="../images/track/3.png"></span>
+                     </p>
+                 </div>
+                 <div>
+                     <p class="p4"><span>150</span></p>
+                 </div>-->
+            </div>
+        </div>
+        <div class="axis">
+            <!--<div>0~500</div>
+            <div>500~1000</div>
+            <div>1000~1500</div>
+            <div>1500~2000</div>
+            <p>(分)</p>-->
+        </div>
+    </div>
+    <div class="icon"></div>
+    <!--曲线图-->
+    <div class="curve">
+        <div class="title">领导积分与领导平均积分的对比</div>
+        <canvas id="myChart" height="200%"></canvas><span class="date">(日期)</span>
+        <div class="foot">
+            <div class="max" id="leader-name">您本人<span></span><i></i></div>
+            <!--<div class="you"><span></span><i></i></div>-->
+            <div class="min">平均值<span></span><i></i></div>
+        </div>
+    </div>
+    <div class="icon"></div>
+    <div class="ranking">
+        <div class="title">积分排名（前十）</div>
+        <div class="item">
+            <div class="head"><img id="head1" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname1">侯亮平</h1>
+                <div id="percent1"><span></span><span id="score1" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item two">
+            <div class="head"><img id="head2" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname2">侯亮平</h1>
+                <div id="percent2"><span></span><span id="score2" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item three">
+            <div class="head"><img id="head3" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname3">侯亮平</h1>
+                <div id="percent3"><span></span><span id="score3" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="head"><img id="head4" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname4">侯亮平</h1>
+                <div id="percent4"><span></span><span id="score4" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item two">
+            <div class="head"><img id="head5" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname5">侯亮平</h1>
+                <div id="percent5"><span></span><span id="score5" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item three">
+            <div class="head"><img id="head6" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname6">侯亮平</h1>
+                <div id="percent6"><span></span><span id="score6" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="head"><img id="head7" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname7">侯亮平</h1>
+                <div id="percent7"><span></span><span id="score7" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item two">
+            <div class="head"><img id="head8" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname8">侯亮平</h1>
+                <div id="percent8"><span></span><span id="score8" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item three">
+            <div class="head"><img id="head9" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname9">侯亮平</h1>
+                <div id="percent9"><span></span><span id="score9" class="num">1245</span></div>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="head"><img id="head10" src="__IMG__/track/3.png" alt=""></div>
+            <div class="content">
+                <h1 id="realname10">侯亮平</h1>
+                <div id="percent10"><span></span><span id="score10" class="num">1245</span></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__STATICS__/awesomechart/Chart.js"></script>
+<script src="__JS__/track/integral.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    $(document).ready(function(){
+        ajaxData();
+    });
+
+    function ajaxData(){
+//        loading();
+        $.ajax({
+            url: "__ROOT__/Mob/Track/ajaxIntegralLeader",
+            type: "post",
+            data: {
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log("ajax success = " + JSON.stringify(data));
+//                close_loading();
+                if (data.status == 0) {
+                    drawBarChart(data.data.yDataBar);
+                    drawGraphChart(data.data.xDataGraph, data.data.leaderGraph, data.data.sumGraph, data.data.leaderCount, data.data.leaderName);
+                    drawHBarChart(data.data.topThreeUsers);
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function () {
+//                close_loading();
+                alert("服务器暂时无法访问，请稍后再试");
+            }
+        });
+    }
+
+    function drawHBarChart(topThreeUsers){
+        $("#head1").attr('src', "__ROOT__" + topThreeUsers[0]['headimgurl']);
+        $("#realname1").html(topThreeUsers[0]['realname']);
+        $("#score1").html(topThreeUsers[0]['score']);
+
+        $("#percent2").css("width", (topThreeUsers[1]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head2").attr('src', "__ROOT__" + topThreeUsers[1]['headimgurl']);
+        $("#realname2").html(topThreeUsers[1]['realname']);
+        $("#score2").html(topThreeUsers[1]['score']);
+
+        $("#percent3").css("width", (topThreeUsers[2]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head3").attr('src', "__ROOT__" + topThreeUsers[2]['headimgurl']);
+        $("#realname3").html(topThreeUsers[2]['realname']);
+        $("#score3").html(topThreeUsers[2]['score']);
+
+        $("#percent4").css("width", (topThreeUsers[3]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head4").attr('src', "__ROOT__" + topThreeUsers[3]['headimgurl']);
+        $("#realname4").html(topThreeUsers[3]['realname']);
+        $("#score4").html(topThreeUsers[3]['score']);
+
+        $("#percent5").css("width", (topThreeUsers[4]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head5").attr('src', "__ROOT__" + topThreeUsers[4]['headimgurl']);
+        $("#realname5").html(topThreeUsers[4]['realname']);
+        $("#score5").html(topThreeUsers[4]['score']);
+
+        $("#percent6").css("width", (topThreeUsers[5]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head6").attr('src', "__ROOT__" + topThreeUsers[5]['headimgurl']);
+        $("#realname6").html(topThreeUsers[5]['realname']);
+        $("#score6").html(topThreeUsers[5]['score']);
+
+        $("#percent7").css("width", (topThreeUsers[6]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head7").attr('src', "__ROOT__" + topThreeUsers[6]['headimgurl']);
+        $("#realname7").html(topThreeUsers[6]['realname']);
+        $("#score7").html(topThreeUsers[6]['score']);
+
+        $("#percent8").css("width", (topThreeUsers[7]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head8").attr('src', "__ROOT__" + topThreeUsers[7]['headimgurl']);
+        $("#realname8").html(topThreeUsers[7]['realname']);
+        $("#score8").html(topThreeUsers[7]['score']);
+
+        $("#percent9").css("width", (topThreeUsers[8]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head9").attr('src', "__ROOT__" + topThreeUsers[8]['headimgurl']);
+        $("#realname9").html(topThreeUsers[8]['realname']);
+        $("#score9").html(topThreeUsers[8]['score']);
+
+        $("#percent10").css("width", (topThreeUsers[9]['score'] * 100 / topThreeUsers[0]['score']) + "%");
+        $("#head10").attr('src', "__ROOT__" + topThreeUsers[9]['headimgurl']);
+        $("#realname10").html(topThreeUsers[9]['realname']);
+        $("#score10").html(topThreeUsers[9]['score']);
+    }
+
+    function drawBarChart(yData){
+        var y_axis=[0,20,40,60,80,100].reverse();//Y轴
+        var x_axis=[0,500,1000,1500,5000];//X轴
+        console.log("ydata = " + yData);
+        var data=yData;//积分各阶段的人数
+//        var me=my.score;//个人积分数
+        var html='';//画Y轴
+        $.each(y_axis,function(index,item){
+            html+='<div><i>'+(item+20)+'</i><span></span></div>';
+        });
+        $(".y-axial").html('<p>(人)</p>'+html);
+//计算Y轴的间距
+        var space=$(".y-axial>div").height();
+        var p_height='',p1='',p2='',p3='',p4='';
+//判断我所处的阶段
+//        if(me<=500){
+//            p1='<span class="me"><span class="head">您处在的阶段</span><img src="__ROOT__' + my.headimgurl + '"></span>';
+//        }else if(me>500&&me<=1000){
+//            p2='<span class="me"><span class="head">您处在的阶段</span><img src="__ROOT__' + my.headimgurl + '"></span>';
+//        }else if(me>1000&&me<=1500){
+//            p3='<span class="me"><span class="head">您处在的阶段</span><img src="__ROOT__' + my.headimgurl + '"></span>';
+//        }else if(me>1500){
+//            p4='<span class="me"><span class="head">您处在的阶段</span><img src="__ROOT__' + my.headimgurl + '"></span>';
+//        }
+//柱状图p的高度
+        $.each(data,function(index,item){
+            var text=index==0?p1:index==1?p2:index==2?p3:p4;
+            p_height+='<div><p style="height:'+space/20*item+'px;" class="p'+(index+1)+'"><span>'+item+'</span>'+text+'</p></div>';
+        });
+        $(".x-axis").html(p_height);
+//画X轴
+        var axis='';
+        $.each(x_axis,function(index,item){
+            if(index<x_axis.length-1){
+                axis+=' <div>'+item+'~'+x_axis[index+1]+'</div>';
+            }
+        });
+        $(".axis").html(axis+"<p>(分)</p>");
+        $("#myChart").attr("width",document.body.clientWidth-40);
+    }
+
+    function drawGraphChart(xdata, line1, line2, userCount, leaderName){
+        console.log("line1 = " + JSON.stringify(line1));
+        $('#leader-name').html(leaderName + "领导<span></span><i></i>");
+        for(var i=0; i<6; i++){
+            line2[i] = line2[i]/userCount;
+        }
+        console.log("line2 = " + JSON.stringify(line2));
+        var data = {
+            labels : xdata,
+            datasets : [
+                {
+                    fillColor : "transparent",
+                    strokeColor : "#ffb258",
+                    pointColor : "#ffb258",
+                    pointStrokeColor : "#fff",
+                    data : line1
+                },
+                {
+                    fillColor : "transparent",
+                    strokeColor : "#5ab3f1",
+                    pointColor : "#5ab3f1",
+                    pointStrokeColor : "#fff",
+                    data : line2
+                },
+
+//                {
+//                    fillColor : "transparent",
+//                    strokeColor : "#ce3d3a",
+//                    pointColor : "#ce3d3a",
+//                    pointStrokeColor : "#fff",
+//                    data : [65,59,90,81,56,55,40]
+//                }
+            ]
+        };
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myNewChart =new Chart(ctx).Line(data,optinos);
+    }
+
+</script>
+</body>
+</html>

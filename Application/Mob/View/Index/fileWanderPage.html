@@ -1,0 +1,202 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+<link rel="stylesheet" href="__CSS__/reset.css" />
+<style>
+    .header {
+        display: flex;
+        background: #ce3d37;
+        padding: 1rem 0.6rem;
+        justify-content: space-between;
+    }
+
+    .header .back {
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    .header .header-title {
+        font-size: 18px;
+        color: #ffffff;
+    }
+
+    .header-add>img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contrainer .title {
+        color: #ffffff;
+        height: 6rem;
+        background: url("__IMG__/branch/head_bg3.png") no-repeat 85% 20%;
+        display: flex;
+        align-items: center;
+    }
+
+    .contrainer .title .title-topic {
+        margin-left: 1.2rem;
+    }
+
+    .contrainer .nav {
+        padding: 0.5rem;
+        vertical-align: middle;
+        position: relative;
+    }
+
+    .contrainer .nav::after {
+        position: absolute;
+        bottom: -5px;
+        left: 15px;
+        right: 15px;
+        height: 1px;
+        content: '';
+        background-color: #E0E0E0;
+        box-shadow: 0px 2px 2px #E0E0E0;
+    }
+
+    .contrainer .nav img {
+        width: 1.2rem;
+        margin: 10px 5px 0 20px;
+    }
+
+    .contrainer .content {
+        margin-top: 1.6rem;
+    }
+
+    .contrainer .content .item {
+        display: flex;
+        margin: 0 0 3rem 3.5rem;
+        width: 75%;
+    }
+
+    .item .item-left {
+        white-space: nowrap;
+        color: #9D9D9E;
+    }
+
+    .item .item-right {
+        word-wrap: break-word;
+        word-break: break-all;
+        margin-left: 1.5rem;
+        color: #383838;
+    }
+
+    .appendix {
+        padding: 0 0 0 2rem;
+    }
+
+    .appendix-contrainer {
+        margin: 1.2rem 0 0 1rem;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .appendix-content {
+        width: 4rem;
+        margin-right: 2.5rem;
+        margin-top: 2rem;
+    }
+
+    .appendix-content p {
+        width: 100%;
+        word-wrap: break-word;
+        word-break: break-all;
+
+    }
+
+    .appendix-content>a>img {
+        width: 4rem;
+    }
+
+    .nocontent {
+        text-align: center;
+        color: #9D9D9E;
+        margin-top: 2rem;
+        /* margin: 1rem auto; */
+    }
+</style>
+
+<body>
+    <div class="header">
+        <a href="#">
+            <div class="back">
+                &lt;
+            </div>
+        </a>
+        <div class="header-title">
+            文件详情
+        </div>
+        <div class="header-add">
+            <img src="__IMG__/index/file-add.png" alt="" />
+        </div>
+    </div>
+    <div class="contrainer">
+        <div class="title">
+            <div class="title-topic">
+                {$detail.title}
+            </div>
+        </div>
+        <div class="nav">
+            <img src="__IMG__/index/file.png" alt="" />
+            <span style="color:#565656">文件内容</span>
+        </div>
+        <div class="content">
+            <div class="item">
+                <div class="item-left">文件标题:</div>
+                <div class="item-right">标题标题</div>
+            </div>
+            <div class="item">
+                <div class="item-left">文件标题:</div>
+                <div class="item-right">标题标题</div>
+            </div>
+            <div class="item">
+                <div class="item-left">文件标题:</div>
+                <div class="item-right">
+                    dsdsdsdsdsdsdsdsdsdsdsdsddsdsdsdsdsdsdsdsdsdsdsdsdfsdfdsfsdfsdfsdfsdfasdfdsfsdfsdfsdfsdf
+                </div>
+            </div>
+            <div class="item">
+                <div class="item-left">文件标题:</div>
+                <div class="item-right">标题标题</div>
+            </div>
+        </div>
+        <div class="appendix">
+            <div>附件</div>
+            <div class="appendix-contrainer">
+                <div class="appendix-content">
+                    <a href=""><img src="__IMG__/index/file.png" alt=""></a>
+                    <p>eqweqwedsdsdsds
+                    </p>
+                </div>
+                <div class="appendix-content">
+                    <a href=""><img src="__IMG__/index/file.png" alt=""></a>
+                    <p>eqweqweqw</p>
+                </div>
+                <div class="appendix-content">
+                    <a href=""><img src="__IMG__/index/file.png" alt=""></a>
+                    <p>eqweqweqw</p>
+                </div>
+                <div class="appendix-content">
+                    <a href=""><img src="__IMG__/index/file.png" alt=""></a>
+                    <p>eqweqweqw</p>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="nocontent">没有更多内容</div>
+    </div>
+</body>
+
+</html>

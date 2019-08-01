@@ -1,0 +1,137 @@
+<extend name="./Application/Mob/View/Common/base.html" />
+<block name="styles">
+
+	<link rel="stylesheet" type="text/css" href="__CSS__/activity/general-activity.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/activity/list-management.css" />
+	<style>
+		header.head {
+			background: url(__IMG__/branch/head_bg.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.banner .head .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .title .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .search {
+			background: url(__IMG__/branch/search@2x.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.friend_list li>.right>.like>i {
+			background: url(__IMG__/friend_list/like.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.friend_list li>.right>.comment>i {
+			background: url(__IMG__/friend_list/ledger.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.friend_list li>.detail>.name>span.woman {
+			background: url(__IMG__/friend_list/woman.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		.choose-button{
+			display: none;
+		}
+	</style>
+</block>
+<block name="content">
+	<div class="page">
+		<header class="head">
+			<div class="header"><span>名单浏览</span>
+				<a onclick="history.go(-1);"><span></span></a>
+			</div>
+		</header>
+	</div>
+	<div class="list-management">
+		<div class="heart">
+
+			<php>$lastId = -1;</php>
+			
+			
+			<volist name="list" id="item">
+				<php>
+					 $organization_id = $item['branch_id']? $item['branch_id']:0; 
+					if($lastId > -1 && $lastId != $organization_id){
+				 			$lastId = $organization_id;
+				</php>
+					</ul>
+					</div>
+				<div>
+					<div>
+					<div class="title"><img class="drop" src="__IMG__/activity/down.png" />
+						<php>if($organization_id > 0){echo $item['branch_name'];}else{echo "其他";}</php>(<span class="t-count">0</span>)</div>
+					<ul>
+				<php>}elseif($lastId != $organization_id){
+				$lastId = $organization_id;</php>
+				<div>
+					<div class="title"><img class="drop" src="__IMG__/activity/down.png" />
+						<php>if($organization_id > 0){echo $item['branch_name'];}else{echo "其他";}</php>(<span class="t-count"></span>)</div>
+					<ul>
+					<php>}</php>
+					
+				<li><img class="logo" src="{$item.user_headimgurl|get_head_url}" /><span>{$item.name}</span></li>
+
+			</volist>
+			<php>
+				if(count($list)>0){
+			</php>
+				</ul>
+				</div>
+				<php>}</php>
+		</div>
+	</div>
+
+</block>
+<block name="scripts">
+	<script>
+		$('.heart .t-count').each(function() {
+			var chird = $(this).parent().next().find('li');
+			var count = chird.length;
+				$(this).text(count)		
+		})
+	</script>
+	<script>
+		//------------初始化
+		$(".list-management ul").hide();
+		$(".list-management .drop").addClass("rotate");
+		$(".list-management .confirm").addClass("hide");
+		//------------点击横岗收缩
+		$(".list-management ").on('click','.title',function() {
+			$(this).siblings().toggle();
+			$(this).find(".drop").toggleClass("rotate");
+		})
+		$(".list-management .title .conf").click(function() {
+			if($(this).parent().siblings().find(".confirm").is(".hide")) {
+				$(this).parent().siblings().find(".confirm").removeClass("hide");
+				$(this).find(".confirm").removeClass("hide");
+			} else {
+				$(this).parent().siblings().find(".confirm").addClass("hide");
+				$(this).find(".confirm").addClass("hide");
+			}
+			return false;
+		})
+		$(".list-management").on('click','li',function() {
+			$(this).find(".confirm").toggleClass("hide");
+			var bur = true;
+			$.each($(this).parent().find(".confirm"), function(index, val) {
+				if($(val).is(".hide")) {
+					bur = false;
+				}
+			})
+			if(bur) {
+				$(this).parent().siblings().find(".confirm").removeClass("hide");
+			} else {
+				$(this).parent().siblings().find(".confirm").addClass("hide");
+			}
+		});
+	</script>
+</block>

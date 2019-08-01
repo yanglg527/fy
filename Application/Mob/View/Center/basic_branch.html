@@ -1,0 +1,309 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/grassroots/personal/polity.css">
+
+    <link rel="stylesheet" href="__CSS__/ledger_list/list.css">
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        html{
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link href="__STATICS__/mui/mui.min.css" rel="stylesheet" />
+    <link href="__STATICS__/mui/mui.picker.min.css" rel="stylesheet" />
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a onclick="history.go(-1);">
+                <div class="head_return"><i></i></div>
+                <div class="xinnav">政治面貌</div>
+            </a>
+            <a class = "save">保存</a>
+        </header>
+    </div>
+    <div class="personal-edit">
+        <div class="heart">
+            <div class="block">
+                <ul>
+                    <style>
+                        .mui-btn.select-btn{
+                            display: inline-block;
+                            position: absolute;
+                            top: 0;
+                            font-size: 100%;
+                            height: 1.5rem;
+                            line-height: 0.5rem;
+                            color: black;
+                            background: none;border: 0;box-shadow: 0;
+                            text-align: left;
+                        }
+                    </style>
+                    <li>
+                        <a id="unit"><!--判断进入页面是添加还是修改内容，给图片添加样式hide控制图片的显示或隐藏-->
+                            <img class="addto " src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png" />
+                            所属单位：
+                            <button id='work_unit' class="mui-btn mui-btn-block select-btn" data-id="{$user.work_unit_id}" style="" type='button'><empty name="user.work_unit_name">选择单位<else/>{$user.work_unit_name}</empty>
+                            </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="unit_time" href="#">
+                            迁入时间：<span><php>if($user['work_unit_entry_time']){</php>{$user.work_unit_entry_time|date='Y-m',###}<php>}</php></span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="branch"  >
+                            <img class="addto" src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png"/>
+                            所属支部：<button id='showUserPicker' class="mui-btn mui-btn-block select-btn" data-id="{$user.branch_id}" style="" type='button'><empty name="user.branch_name">选择支部<else/>{$user.branch_name}</empty>
+                        </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="branch_time"  href="#">
+                            迁入时间：<span><php>if($user['branch_entry_time']){</php>{$user.branch_entry_time|date='Y-m',###}<php>}</php></span>
+                        </a>
+                    </li>
+                    <li class="hide">
+                        <a id="judge" onclick="remind('remind_judge','judge','swiper-judge',0)">
+                            <img class="addto" src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png"/>
+                            是否为市局党委委员纪委委员：<span></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="position" >
+                            <img class="addto" src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png"/>
+                            当前行政职位和职级：<button id='adm_post' class="mui-btn mui-btn-block select-btn" data-id="{$user.adm_id}" style="" type='button'><empty name="user.adm_post_name">选择行政职位<else/>{$user.adm_post_name}</empty>
+                        </button>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a id="political">
+                            <img class="addto" src="__IMG__/grassroots/personal/addTo.png"/>
+                            <img class="modify hide" src="__IMG__/grassroots/personal/modify.png"/>
+                            政治身份：
+                            <button id='role_id' class="mui-btn mui-btn-block select-btn" data-id="{$user.role_id}" style="" type='button'><empty name="user.role_name">选择政治身份<else/>{$user.role_name}</empty>
+                            </button>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a id="political_time" href="#">
+                            迁入时间：<span><php>if($user['role_entry_time']){</php>{$user.role_entry_time|date='Y-m',###}<php>}</php></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--当前职务-->
+    <div class="remind remind_pos" onclick="remind_text(this,'position',event)">
+        <div class="remind_title position">
+            <section><a onclick="cancel('remind_pos','position')" class="cancel">取消</a><a onclick="save_remind('remind_pos','position')" class="determine">确定</a></section>
+            <div class="swiper-container swiper_position">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide " data-id="">无</div>
+                    <volist name="adms" id="item">
+                        <php>if($item['id'] == $user['adm_id']){</php>
+                        <div class="swiper-slide swiper-slide-active" data-id="{$item.id}">{$item.name}</div>
+                        <php>}else{</php>
+                        <div class="swiper-slide " data-id="{$item.id}">{$item.name}</div>
+                        <php>}</php>
+                    </volist>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <!--是否为市局党委委员纪委委员-->
+    <div class="remind remind_judge" onclick="remind_text(this,'judge',event)">
+        <div class="remind_title judge">
+            <section><a onclick="cancel('remind_judge','judge')" class="cancel">取消</a><a onclick="save_remind('remind_judge','judge')" class="determine">确定</a></section>
+            <div class="swiper-container swiper-judge">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">是</div>
+                    <div class="swiper-slide">否</div>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <!--所属单位-->
+    <div class="remind remind_unit" onclick="remind_text(this,'unit',event)">
+        <div class="remind_title unit" style=" overflow: hidden!important">
+            <section><a onclick="cancel('remind_unit','unit')" class="cancel">取消</a><a onclick="save_remind('remind_unit','unit')" class="determine">确定</a></section>
+            <div class="swiper-container swiper_unit" style="">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide " data-id="">无</div>
+                    <volist name="units" id="item">
+                        <php>if($item['id'] == $user['work_unit_id']){</php>
+                        <div class="swiper-slide swiper-slide-active" data-id="{$item.id}">{$item.name}</div>
+                        <php>}else{</php>
+                        <div class="swiper-slide " data-id="{$item.id}">{$item.name}</div>
+                        <php>}</php>
+                    </volist>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <!--政治身份-->
+    <div class="remind remind_poli" onclick="remind_text(this,'political',event)">
+        <div class="remind_title political">
+            <section><a onclick="cancel('remind_poli','political')" class="cancel">取消</a><a onclick="save_remind('remind_poli','political')" class="determine">确定</a></section>
+            <div class="swiper-container swiper-poli">
+                <div class="swiper-wrapper">
+                    <volist name="roles" id="item">
+                        <php>if($item['id'] == $user['role_id']){</php>
+                        <div class="swiper-slide swiper-slide-active" data-id="{$item.id}">{$item.name}</div>
+                        <php>}else{</php>
+                        <div class="swiper-slide " data-id="{$item.id}">{$item.name}</div>
+                        <php>}</php>
+                    </volist>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+    <!--所属支部-->
+    <div class="remind remind_branch" onclick="remind_text(this,'branch',event)">
+        <div class="remind_title branch">
+            <section><a onclick="cancel('remind_branch','branch')" class="cancel">取消</a><a onclick="save_remind('remind_branch','branch')" class="determine">确定</a></section>
+            <div class="swiper-container swiper-branch">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide " data-id="">无</div>
+                    <volist name="branchs" id="item">
+                        <php>if($item['id'] == $user['branch_id']){</php>
+                        <div class="swiper-slide swiper-slide-active" data-id="{$item.id}">{$item.name}</div>
+                        <php>}else{</php>
+                        <div class="swiper-slide " data-id="{$item.id}">{$item.name}</div>
+                        <php>}</php>
+                    </volist>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <!--出生年月插件-->
+    <script src="__STATICS__/datePicker/datePicker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__JS__/grassroots/personal/polity.js" type="text/javascript" charset="utf-8"></script>
+    <include file="Common/_loading"/>
+    <script src="__STATICS__/mui/mui.min.js"></script>
+    <script src="__STATICS__/mui/mui.picker.min.js"></script>
+    <script>
+        (function($, doc) {
+            $.init();
+            $.ready(function() {
+                var _getParam = function(obj, param) {
+                    return obj[param] || '';
+                };
+                var userPicker = new $.PopPicker();
+                userPicker.setData({$branchs|to_json_string});
+                var showUserPickerButton = doc.getElementById('showUserPicker');
+                showUserPickerButton.addEventListener('tap', function(event) {
+                    userPicker.show(function(items) {
+                        showUserPickerButton.innerText = items[0].text;
+                        showUserPickerButton.setAttribute('data-id', items[0].value);
+                    });
+                }, false);
+
+                var unitPicker = new $.PopPicker();
+                unitPicker.setData({$units|to_json_string});
+                var unitPickerButton = doc.getElementById('work_unit');
+                unitPickerButton.addEventListener('tap', function(event) {
+                    unitPicker.show(function(items) {
+                        unitPickerButton.innerText = items[0].text;
+                        unitPickerButton.setAttribute('data-id', items[0].value);
+                    });
+                }, false);
+
+                var rolePicker = new $.PopPicker();
+                rolePicker.setData({$roles|to_json_string});
+                var rolePickerButton = doc.getElementById('role_id');
+                rolePickerButton.addEventListener('tap', function(event) {
+                    rolePicker.show(function(items) {
+                        rolePickerButton.innerText = items[0].text;
+                        rolePickerButton.setAttribute('data-id', items[0].value);
+                    });
+                }, false);
+
+                var admPicker = new $.PopPicker({
+                    layer: 2
+                });
+                admPicker.setData({$adms|to_json_string});
+                var admPickerButton = doc.getElementById('adm_post');
+                admPickerButton.addEventListener('tap', function(event) {
+                    admPicker.show(function(items) {
+                        admPickerButton.innerText = items[1].text;
+                        admPickerButton.setAttribute('data-id', items[1].value);
+                    });
+                }, false);
+            })
+        })(mui, document);
+    </script>
+    <script>
+        $('.save').click(function () {
+            loading();
+
+            var work_unit_id =  $('#work_unit').attr('data-id');
+            var work_unit_entry_time = $('#unit_time span').text();
+            var branch_id = $('#showUserPicker').attr('data-id');
+            var branch_entry_time = $('#branch_time span').text();
+            var adm_id = $('#adm_post').attr('data-id');
+            var role_id = $('#role_id').attr('data-id');
+            var role_entry_time = $('#political_time span').text();
+            var data = {
+                work_unit_id:work_unit_id,
+                work_unit_entry_time:work_unit_entry_time,
+             branch_id:branch_id,
+             branch_entry_time:branch_entry_time,
+             adm_id:adm_id,
+             role_id:role_id,
+             role_entry_time :role_entry_time,
+            }
+            var url = "__ROOT__/Mob/Center/ajax_save_zzmm";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location.href = "__ROOT__/Mob/Center/edit";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+            return false;
+        })
+    </script>
+</block>

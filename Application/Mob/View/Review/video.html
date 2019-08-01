@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>学习交流</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/video.css" />
+	</head>
+
+	<body>
+		<div class="page">
+			<header class="head">
+				<a onclick="history.go(-1);">
+					<div class="head_return"><i></i>{$detail.title}</div>
+				</a>
+			</header>
+			<div class="video">
+				<video controls="controls" src="{$detail.video|show_img}" autoplay></video>
+				<div class="title " style="display: none;">
+					<span class="like"></span>
+					<span class="comment"></span>
+					<span class="collect"></span>
+				</div>
+			</div>
+		</div>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/notes/exchange/video.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

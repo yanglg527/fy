@@ -1,0 +1,23 @@
+<form class="user-score" id="scoreForm-{$item.id}">
+    <input name="examPaperId" value="{$examPaper.id}" type="hidden"/>
+    <input name="subjectId" value="{$item.id}" type="hidden"/>
+        <php>for($i = 0; $i < $item['answer_count']; $i++){</php>
+        <span class="user-score-title">{$i+1}. 得分:</span>
+        <select class="form-control form-score" name="score[]" max-score="{$item.score}">
+            <php>for($j = 0; $j < $item['score'] + 1; $j++){</php>
+            <php>if($j == $item['user_score'][$i]){</php>
+            <option value="{$j}" selected>{$j}</option>
+            <php>}else{</php>
+            <option value="{$j}">{$j}</option>
+            <php>}</php>
+            <php>}</php>
+        </select>
+        <span class="user-score-fen">分</span>
+        <php>}</php>
+    <!--<div class="show-answer">-->
+        <!--<span class="right-answer">正确答案：</span>-->
+
+        <!--<div class="right-answer-show">{$item.right_answer_str}</div>-->
+        <!--<div class="clearfix"></div>-->
+    <!--</div>-->
+</form>

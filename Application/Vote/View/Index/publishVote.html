@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__CSS__publish/style.css" />
+        <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+        <script src="__JS__/create.js"></script>
+        <script src="__PUBLIC__/Mob/js/tasks/wangEditor.min.js"></script>
+
+
+        <title>优秀党员投票活动</title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn"></div>
+                <span class="nav-title">优秀党员投票活动</span>
+            </div>
+
+            <div class="nav-box">
+                <i class="ico" style="background-image:url('__PUBLIC__/Common/img/like.png')"></i>
+                <!-- <img src="__PUBLIC__/Common/img/like.png"> -->
+                <span class="nav-text">投票活动</span>
+            </div>
+
+            <div class="g-content-container record-book-create">
+            <form method="post" id="form-data">
+                <input type="hidden" name="cover" id="cover" value=" ">
+                <!-- 查看权限 -->
+                <input type="hidden" name="roles" id="roles">
+                <!-- 可见支部 -->
+                <input type="hidden" name="branchs" id="branchs" value="{$init.branchId}">
+                <!-- 候选 -->
+                <input type="hidden" name="selective" id="selective">
+                <!-- 可见范围 -->
+                <input type="hidden" name="visiblerange" id="visiblerange" value="1">
+                <!-- 监督员 -->
+                <input type="hidden" name="supervisor" id="supervisor">
+
+                <div class="form-item">
+                    <span class="title">投票主题:</span>
+                    <div class="value">
+                        <input type="text" id="title" name="title" class="text-input" maxlength="20" value="{$init.m}"/>
+                    </div>
+                </div>
+
+                <!-- 附件 -->
+                <div class="form-item">
+                    <span class="title">封面:</span>
+                    <div class="g-attachment-list">
+                        <div class="item">
+                            <i class="img clickCover" style="background-image: url('{$init.cover}')"></i>
+                            <!-- <span class="name">fdsfdsfsfsadfsadfsa</span> -->
+                            <!-- <i class="remove"></i> -->
+                        </div>
+                        <!-- 上传按钮 -->
+                        <div class="item hidden" style="margin-bottom:0;"><i class="img add"></i><input type="file" class="add-input"/></div>
+                    </div>
+                </div>
+
+                <!-- 富文本编辑器 name="content"-->
+                <div class="form-item">
+                    <span class="title">内容简介：</span>
+                    <input type="hidden" name="content" id="editor-content">
+                </div>
+                <div id="editor"></div>
+
+                <div class="form-item">
+                    <span class="title">参与投票范围:</span>
+                    <div class="value arrow" onclick="onShowChange('.form-range', true)">
+                        <p class="form-range-value-text">{$init.branchName}</p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title"></span>
+                    <div class="value arrow" onclick="onShowChange('.form-roles', true)">
+                        <p class="form-roles-value-text"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">投票对象:</span>
+                    <div class="value arrow" onclick="onShowChange('.form-object', true)">
+                        <p class="form-object-value-text">{$init.branchName}</p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title"></span>
+                    <div class="value arrow" onclick="onShowChange('.form-object-user', true)">
+                        <p class="form-object-user-value-text"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">可见范围:</span>
+                    <div class="value arrow" onclick="onShowChange('.form-visiblerange', true)">
+                        <p class="form-visiblerange-value-text"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">监督员:</span>
+                    <div class="value arrow" onclick="onShowChange('.form-supervisor', true)">
+                        <p class="form-supervisor-value-text"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title"> 党员投票数:</span>
+                    <div class="value">
+                        <input type="number" id="multiply_count" name="multiply_count" class="text-input" maxlength="20"/>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">是否启用:</span>
+                    <div class="radio-value" style="padding: 5px;">
+                        <input type="radio"  value="1" name="status" checked> 是
+                        <input type="radio"  value="0" name="status"> 否
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">截止日期</span>
+                    <div class="value">
+                        <p class="value-text start-date-text"></p>
+                        <input type="date" name="limited_time" id="start-date-input" />
+                    </div>
+                </div>
+
+                <!-- 可见范围 -->
+                <div class="form-visiblerange">
+                    <div class="content-body">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, 1, '正常完成时显示', '.form-visiblerange')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">正常完成时显示</span>
+                        </div>
+                        <div class="check-item"
+                        onclick="onCheckChange(this, 2, '投票结束后显示', '.form-visiblerange')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">投票结束后显示</span>
+                        </div>
+                        <div class="check-item"
+                        onclick="onCheckChange(this, 3, '管理员可见', '.form-visiblerange')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">管理员可见</span>
+                        </div>
+                        <div class="check-item"
+                        onclick="onCheckChange(this, 4, '党委办可见', '.form-visiblerange')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">党委办可见</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 投票范围 -->
+                <div class="form-range">
+                    <div class="content-body">
+                        <if condition="empty($branchs)"><div class="g-no-data"></div></if>
+                        <volist name="branchs" id="vo">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, {$vo.id}, '{$vo.name}', '.form-range')">
+                                <i class="check-ico <if condition="$init['branchId'] eq $vo['id']">active</if>"></i>
+                                <span class="check-text">{$vo.name}</span>
+                        </div>
+                    </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowChange('.form-range', false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 查看权限 -->
+                <div class="form-roles">
+                    <div class="content-body">
+                        <!-- 无数据提醒框 -->
+                        <if condition="empty($roles)"><div class="g-no-data"></div></if>
+                        <volist name="roles" id="vo">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, {$vo.id}, '{$vo.name}', '.form-roles')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">{$vo.name}</span>
+                        </div>
+                        </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowChange('.form-roles', false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 投票对象 -->
+                <div class="form-object">
+                    <div class="content-body">
+                        <if condition="empty($branchs)"><div class="g-no-data"></div></if>
+                        <volist name="branchs" id="vo">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, {$vo.id}, '{$vo.name}', '.form-object')">
+                                <i class="check-ico <if condition="$init['branchId'] eq $vo['id']">active</if>"></i>
+                                <span class="check-text">{$vo.name}</span>
+                        </div>
+                    </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowChange('.form-object', false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 已选对象 -->
+                <div class="form-object-user">
+                    <div class="content-body">
+                        <if condition="empty($initUser)"><div class="g-no-data"></div></if>
+                        <volist name="initUser" id="vo">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, {$vo.uid}, '{$vo.realname}', '.form-object-user')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">{$vo.realname}</span>
+                        </div>
+                        </volist>
+                    </div>
+                    <div class="bottom-bar">
+                        <span class="select-all"><i class="check-ico"></i>全选</span>
+                        <span class="save-btn" onclick="onShowChange('.form-object-user', false)">确定</span>
+                    </div>
+                </div>
+
+                <!-- 监督员 -->
+                <div class="form-supervisor">
+                    <div class="content-body">
+                        <if condition="empty($initUser)"><div class="g-no-data"></div></if>
+                        <volist name="initUser" id="vo">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, {$vo.uid}, '{$vo.realname}', '.form-supervisor')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">{$vo.realname}</span>
+                        </div>
+                        </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowChange('.form-supervisor', false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+            </form>
+            <!-- 底部按钮 -->
+            <div class="bottom-bar">
+                <span class="item publish">确认发布</span>
+            </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        const DOMAIN = "__ROOT__";
+        // const DOMAIN = "http://"+window.location.host;
+        // 查看权限
+        const rolesValue = []
+        const rolesText = []
+        // 投票范围
+        const branchsValue = [{$init.branchId}]
+        const branchsText = ['{$init.branchName}']
+        // 备选支部
+        const backupBranchValue = [{$init.branchId}]
+        const backupBranchText = ['{$init.branchName}']
+        // 备选项
+        let backupValue = []
+        let backupText = []
+        // 可见范围
+        let visiblerangeValue
+        let visiblerangeText
+        // 监督员
+        let supervisorValue = []
+        let supervisorText = []
+        // 初始化全选状态
+        let isSelect = false
+    </script>
+</html>

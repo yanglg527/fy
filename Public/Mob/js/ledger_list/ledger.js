@@ -1,0 +1,1 @@
+$(".page>.banner>.title").html('<i onclick="history.go(-1);"></i>'+sessionStorage.getItem("like_star"));

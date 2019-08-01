@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>新增台帐</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta name="flexible" content="initial-dpr=2" />
+	<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+	<script src="__STATICS__/flexible/flexible.js"></script>
+	<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+	<link rel="stylesheet" href="__CSS__/reset.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/truth/truth_edit.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/index/list-management.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="__CSS__/index/general-activity.css" /> -->
+	<style>
+		.img_content img {
+			width: 32.2%;
+			height: 2.9rem;
+			margin-right: 3px;
+			margin-bottom: 3px;
+		}
+		.cd-nav{
+			background: #ffffff;
+			border: 1px solid #E2E2E2;
+			width: 100%;
+		
+			position: absolute;
+			top: 1.2rem;
+			z-index: 999999;
+			left:-500px;
+			transition: left 1s;
+-moz-transition: left 1s; /* Firefox 4 */
+-webkit-transition: left 1s;/* Safari 和 Chrome */
+-o-transition: left 1s; /* Opera */
+		}
+	</style>
+	<style>
+.mui-checkbox {
+  /* -webkit-appearance: none; */
+  position: relative;
+  width: 53px;
+  height: 25px;
+  margin-right: 10px;
+  background-color: #FFFFFF;
+  border: solid 1px #d9d9d9;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-clip: padding-box;
+  display: inline-block; }
+  .mui-checkbox:focus {
+    outline: 0 none;
+    outline-offset: -2px; }
+  .mui-checkbox:checked {
+    background-color: #18b4ed;
+    border: solid 1px #FFFFFF; }
+    .mui-checkbox:checked:before {
+      display: inline-block;
+      margin-top: 1px;
+      margin-left: 2px;
+      font-family: iconfont;
+      content: "\e667";
+      color: #FFFFFF;
+      font-size: 18px; }
+  .mui-checkbox:disabled {
+    background-color: #d9d9d9;
+    border: solid 1px #d9d9d9; }
+    .mui-checkbox:disabled:before {
+      display: inline-block;
+      margin-top: 1px;
+      margin-left: 2px;
+      font-family: iconfont;
+      content: "\e667";
+      color: #FFFFFF;
+      font-size: 18px; }
+  .mui-checkbox.checkbox-green:checked {
+    background-color: #5cb85c; }
+  .mui-checkbox.checkbox-orange:checked {
+    background-color: #f0ad4e; }
+  .mui-checkbox.checkbox-s {
+    width: 19px;
+    height: 19px; }
+    .mui-checkbox.checkbox-s:before {
+      display: inline-block;
+      margin-top: 1px;
+      margin-left: 2px;
+      font-family: iconfont;
+      content: "\e667";
+      color: #FFFFFF;
+      font-size: 13px; }
+ 
+.mui-checkbox-anim {
+  -webkit-transition: background-color ease 0.2s;
+          transition: background-color ease 0.2s; }
+
+	</style>
+</head>
+
+<body>
+
+	<div id="cd-nav" class="cd-nav">
+
+		<div class="list-management">
+			<div class="list-heart">
+				<div style="margin-top:10px;border:1px solid #E2E2E2;">
+					<a href="javascript:void(0)" onclick="back()"><img src="__IMG__/index/back.png" alt=""></a>
+					<a style="float:right;" href="javascript:void(0)" onclick="person_confirm()"><img src="__IMG__/index/submit.png" alt=""></a>
+				</div>
+						<volist name="branch_list" id="item">
+							<div>
+								<div class="title"><img class="drop" src="__IMG__/activity/down.png" />
+									  {$item.name}(<span class="t-count">0</span>)</div>
+									<ul>
+									<volist name="item['member']" id="citem">	
+											<li>
+												<input type="checkbox" class="mui-checkbox" name="people-checked" value="{$citem.uid}-{$citem.realname}"/>
+												<img class="logo" src="{$citem.headimgurl|get_head_url}" />
+												<span>{$citem.realname}</span>
+												
+											</li>
+
+									</volist>
+									</ul>
+							</div>
+						</volist>		
+			</div>
+		</div>
+	</div>
+	<!-- <div style="position: fixed;width: 58px;height: 58px;top: 38%;left: 40%;z-index: 999;display: none;" id="loadding">
+		<img src="__IMG__/newversion/spinning-circles.svg" alt="">
+	</div> -->
+	<div >
+	<div class="page">
+		<header class="head">
+			<div class="header">
+				<span>新增台帐</span>
+				<a onclick="history.go(-1);">
+					<span></span>
+				</a>
+				<a id="btn-submit" style="left:8.8rem;">提交</a>
+				<!-- <a onclick="submit_taizhang()" style="left:8.8rem;">提交</a> -->
+			</div>
+
+		</header>
+	</div>
+	<div class="truth_edit">
+		<div class="heart">
+			<header>主题
+				<input id="taizhang-title" type="text" maxlength="37" />
+			</header>
+			<div id="party-work-temp" style="display:none">
+				<header>日期
+					<input type="date"  id="publish-date">
+				</header>
+			</div>
+			<div id="normal-temp">
+				<header>发布人姓名
+					<input id="publish-name" type="text" value="{$user.realname}" style="width: 75%" maxlength="37" />
+				</header>
+
+				<header>单位
+					<input id="taizhang-branch" type="text" value="{$user.branch_name}" maxlength="37" />
+				</header>
+				<header>主持人<input id="compere" type="text"  maxlength="37"   style="width: 75%" />
+				</header>
+				<header>地点<input id="taizhang-address" type="text"  maxlength="37" />
+				</header>
+					<header>台账类型:
+						<span>{$type_name}</span>
+				</header>
+			</header>
+			<header>台账标签:
+				<span>{$tag_name}</span>
+		</header>
+				
+				<!-- <header>选择多人
+					<input type="hidden" id="more-people" >
+					<input class="cd-nav-trigger" id="to-more-people" type="button"  maxlength="37" value="选择"  style="width: 75%;background: #ffffff;"/>
+				</header> -->
+				<div class="words">
+					<header>正文</header>
+					<div class="text" id="taizhang-content" contentEditable="true" style="overflow:scroll;height: 4rem;">
+
+					</div>
+				</div>
+			</div>
+			<div class="words">
+			<header>上传图片</header>
+
+			<div class="img_content"   style="margin: 0 auto;width: 100%" id="imgcontent">
+
+				<!--<img class="chang" src="__IMG__/index/home.png" alt="" >-->
+
+
+			</div>
+			<div style="position: relative;">
+				<!--<button id="usewximg">点击吧吧吧</button>-->
+				<img src="__IMG__/newversion/circle-add.png" id="usewximg">
+			</div>
+		</div>
+
+
+
+		</div>
+
+	</div>
+
+	<include file="Common/_loading" />
+	</div>
+	<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+	<script src="__STATICS__/zepto/zepto.js"></script>
+	<script src="__STATICS__/zepto/event.js"></script>
+	<script src="__STATICS__/zepto/touch.js"></script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__STATICS__/jquery/jquery-2.1.1.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<!-- <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+</body>
+
+<script>
+	function person_confirm(){
+		obj = document.getElementsByName("people-checked");
+		check_val = [];
+		for(k in obj){
+			if(obj[k].checked)
+				check_val.push(obj[k].value);
+		}
+		console.log(check_val);
+		//拆开
+		var  id_arr = Array();
+		var str = '';
+		for(i in check_val){
+		temp = check_val[i].split("-")
+		id_arr.push(temp[0])
+		str += temp[1]+','
+		}
+		$('#to-more-people').val(str)
+		$("#more-people").val(id_arr)
+		$('#cd-nav').css('left','-500px');
+	}
+	function back(){
+		
+			// var list = {};
+			$('#cd-nav').css('left','-500px');
+	
+	}
+    $('#to-more-people').on('click', function(event) {
+		var list = {'left':'0px'};
+		$('#cd-nav').css(list);
+	})
+
+
+	//
+	$('.list-heart .t-count').each(function() {
+			var chird = $(this).parent().next().find('li');
+			var count = chird.length;
+				$(this).text(count)		
+		})
+		//------------初始化
+		$(".list-management ul").hide();
+		$(".list-management .drop").addClass("rotate");
+		$(".list-management .confirm").addClass("hide");
+		//------------点击横岗收缩
+		$(".list-management ").on('click','.title',function() {
+			$(this).siblings().toggle();
+			$(this).find(".drop").toggleClass("rotate");
+		})
+		$(".list-management .title .conf").click(function() {
+			if($(this).parent().siblings().find(".confirm").is(".hide")) {
+				$(this).parent().siblings().find(".confirm").removeClass("hide");
+				$(this).find(".confirm").removeClass("hide");
+			} else {
+				$(this).parent().siblings().find(".confirm").addClass("hide");
+				$(this).find(".confirm").addClass("hide");
+			}
+			return false;
+		})
+		$(".list-management").on('click','li',function() {
+			$(this).find(".confirm").toggleClass("hide");
+			var bur = true;
+			$.each($(this).parent().find(".confirm"), function(index, val) {
+				if($(val).is(".hide")) {
+					bur = false;
+				}
+			})
+			if(bur) {
+				$(this).parent().siblings().find(".confirm").removeClass("hide");
+			} else {
+				$(this).parent().siblings().find(".confirm").addClass("hide");
+			}
+		});
+
+</script>
+<script>
+	// function loadding($type) {
+	// 	$('#loadding').css('display', $type);
+	// }
+	function GetRequest() {  
+   var url = location.search; //获取url中"?"符后的字串  
+   var theRequest = new Object();  
+   if (url.indexOf("?") != -1) {  
+      var str = url.substr(1);  
+      strs = str.split("&");  
+      for(var i = 0; i < strs.length; i ++) {  
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);  
+      }  
+   }  
+   return theRequest;  
+} 
+	window.onload = function(){
+		var obj = GetRequest();
+		if(obj.temp == 2){
+			$('#party-work-temp').css('display','block');
+			$('#normal-temp').css('display','none')
+		}
+	}
+
+	$(function () {
+		var test = window.location.href;
+
+		$.fn.longPress = function (fn) {
+			var timeout = undefined;
+			var $this = this;
+			for (var i = 0; i < $this.length; i++) {
+				$this[i].addEventListener('touchstart', function (event) {
+					timeout = setTimeout(fn, 800);  //长按时间超过800ms，则执行传入的方法
+				}, false);
+				$this[i].addEventListener('touchend', function (event) {
+					clearTimeout(timeout);  //长按时间少于800ms，不会执行传入的方法
+				}, false);
+			}
+		}
+
+	});
+	var t = null;
+	$('#imgcontent').on('touchstart.longPress', 'img', function (e) {
+		e = e || event || window.event;
+		//			console.log(e.target);
+		var timeout = 8;
+		t = setInterval(function () {
+			timeout--;
+			if (!timeout) {
+				clearInterval(t);
+				if (confirm('shanqu')) {
+					$(e.target).remove();
+				}
+			}
+		}, 100);
+	}).on('touchend.longPress', 'img', function () {
+		clearInterval(t);
+	});
+
+
+
+
+
+</script>
+<script>
+	// var spec_id = {$spec_id};
+	var tag_id = {$tag_id};
+	// var group_id = {$group_id};
+	 var type_id = {$type_id};
+	var mission_id = {$mission_id};
+	//access_token
+	var result = {};
+	result.appId = '{$wxpic_session.appId}'; // 必填，公众号的唯一标识
+	result.timestamp = '{$wxpic_session.expire_time}'; // 必填，生成签名的时间戳
+	result.signature = '{$wxpic_session.signature}';// 必填，签名，见附录1
+	result.noncestr = '{$wxpic_session.noncestr}';
+	//	console.log(result);
+	wx.config({
+		debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+		appId: result.appId, // 必填，公众号的唯一标识
+		timestamp: result.timestamp, // 必填，生成签名的时间戳
+		signature: result.signature,// 必填，签名，见附录1
+		nonceStr: result.noncestr, // 必填，生成签名的随机串
+		jsApiList: [
+			"chooseImage",
+			"getLocalImgData",
+			"previewImage",
+			"uploadImage",
+			"downloadImage"
+		] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+	wx.error(function (res) {
+		console.log(res);
+	});
+	$(function () {
+
+		// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，
+		// 也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+		wx.ready(function () {
+			//微信配置成功执行此函数
+			//localIdsArr 用来存放localIds，serverIdsArr用来存放serverIds
+			var localIds = [];
+			var serverIdsArr = [];
+			var localsaveId = [];
+			var localarr = [];
+			$("#usewximg").click(function () {
+
+				//点击事件触发微信拍照
+				wx.chooseImage({
+					//调用微信拍照功能
+					count: 9, // 默认9
+					sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+					success: function (res) {
+						localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+						for (let i = 0; i < localIds.length; i++) {
+							var localId = localIds[i];
+							addImg(localId);
+							// wx.uploadImage({
+							// 	//用户预览的同时，上传至微信服务器
+							// 	localId: "" + localId,
+							// 	success: function (res) {
+							// 		localIdsArr[i] = localId;//将此图片的localIds存入数组
+							// 		serverIdsArr[i] = res.serverId;//将此图片在微信服务器上的serverID存入数组
+							// 	}
+							// })
+						}
+					}
+				})
+			});
+
+			$('#btn-submit').click(function () {
+				loading();
+				if ($('#imgcontent').find('img').length > 0) {
+					var i = 0;
+					var  localIdsArrLength = localIds.length;
+					getLocalImg()
+						function  getLocalImg(){
+							// alert(i)
+							wx.getLocalImgData({
+								localId: localIds[i], // 图片的localID
+								success: function (res) {
+								//	alert(res.localData)
+									localarr.push(res.localData) ; // localData是图片的base64数据，可以用img标签显示
+									i++;
+									if (i < localIdsArrLength) {
+										getLocalImg();
+									}else{
+										var data = {'imgarr':localarr,'type_id':type_id};
+
+
+															$.post('__ROOT__/Mob/Index/ajaxGetTaiZhangImg',data,function(res){
+																submit_taizhang(1)//判断是否有图片
+																//}
+															})
+									}
+								}
+							});
+						}
+					// downloadImg();
+					// function downloadImg() {
+					// 	wx.downloadImage({
+					// 		serverId: '' + serverIdsArr[i], // 需要下载的图片的服务器端ID，由uploadImage接口获得
+					// 		isShowProgressTips: 1, // 默认为1，显示进度提示
+					// 		success: function (res) {
+					// 			i++;
+					// 			//                  alert('已下载：' + i + '/' + serverIdsArrLength);
+					// 			localsaveId.push(res.localId);
+					// 			if (i < serverIdsArrLength) {
+					// 				downloadImg();
+					// 			}
+					// 			else {
+					// 				var j = 0, localsaveLength = localsaveId.length;
+					// 				function getLocalImg() {
+					// 					wx.getLocalImgData({
+					// 						localId: '' + localsaveId[j], // 图片的localID
+					// 						success: function (res) {
+					// 							j++;
+					// 							//                          alert('已获取：' + j + '/' + localsaveLength);
+					// 							localarr.push(res.localData);
+					// 							if (j < localsaveLength) {
+					// 								getLocalImg();
+					// 							}
+					// 							else {
+					// 								if (localarr.length < 1) {
+					// 									alert('localarr miss')
+					// 								}
+					// 								else {
+					// 									var data = { 'imgarr': localarr, 'type_id': type_id };
+
+
+					// 									$.post('__ROOT__/Mob/Index/ajaxGetTaiZhangImg', data, function (res) {
+					// 										submit_taizhang(1)//判断是否有图片
+					// 										//}
+					// 									})
+					// 								}
+					// 							}
+					// 						}
+					// 					});
+					// 				}
+					// 				getLocalImg();
+					// 			}
+					// 		}
+					// 	})
+					// }
+
+				}
+				else {
+					submit_taizhang(0);
+				}
+
+
+			})
+		});//wx.ready
+
+	});
+
+	function submit_taizhang(imgistrue) {
+
+		var address = $('#taizhang-address').val();
+		var truthTitle = $("#taizhang-title").val();
+		var branchName = $('#taizhang-branch').val();
+		var truthContent = $("#taizhang-content").html();
+		var publishName = $("#publish-name").val();
+		var publishDate = $('#publish-date').val();
+		var morePeople = $('#more-people').val();
+		var compere = $('#compere').val();
+		//console.log(morePeople)
+	
+		var type_id = {$type_id};
+		if (truthTitle.replace(/(^s*)|(s*$)/g, "").length == 0) {
+			alert('标题不能为空');
+			return false;
+		}
+		if (truthContent == '') {
+			alert('内容不能为空');
+			return false;
+		}
+		// 'spec_id':spec_id,
+		// 'tag_id' :tag_id,
+		// 'group_id':group_id,
+
+	
+		 $.ajax({
+			data: {
+				"title": truthTitle,
+				"content": truthContent,
+				'imgistrue': imgistrue,
+				'publish_date':publishDate,
+				'address': address,
+				'more_people':morePeople,
+				'branch_name': branchName,
+				'mission_id': mission_id,
+				'publish_name': publishName,
+				'type_id':type_id,
+				'tag_id' :tag_id,
+				'compere':compere,
+			},
+			type: 'POST',
+			dataType: 'json',
+			url: '__ROOT__/Mob/Index/ajaxSaveTaizhang',
+			success: function (data) {
+				close_loading()
+				//console.log(data)
+				if (data['status'] == 0) {
+					alert(data['msg']);
+
+				}
+				else {
+					alert(data['msg']);
+					var localto = '';
+					  switch(type_id){
+						  case 1:localto = 'PartyMember'; break;
+						  case 2:localto = 'PartyGroup'; break;
+						  case 4:localto = 'BranchGroup'; break;
+						  case 5:localto = 'SmallGroup'; break;
+					  }
+					 window.location.href = '__ROOT__/Mob/'+localto+'/index';
+				}
+			},
+			error: function (data) {
+				alert('网络异常');
+			}
+		});
+	}
+
+	function addImg(localId) {
+		$('#imgcontent').append('<img class="chang" style="width:32.2%" src="' + localId + '" />');
+
+	}
+</script>
+
+</html>

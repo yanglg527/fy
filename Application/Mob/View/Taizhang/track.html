@@ -1,0 +1,202 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/track/track.css">
+    <style>
+    </style>
+</block>
+<block name="content">
+<div class="bg"></div>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide">
+            <div class="page1">
+                <div class="content login">
+                    <if condition="$user['first_login_time']">
+                    <h1>{$user['first_login_time']|date="Y-m-d",###}</h1>
+                    <p>第一次登录</p>
+                    <else/>
+                       <p>他还没有登陆过哦</p>
+                    </if>
+                    <!-- <p>获得了我的第一次积分</p>
+                    <p><span>5</span>分</p>
+ -->                    <div class="login_bg">
+                        <div class="pei3"></div>
+                        <div class="dashed1"><img src="__IMG__/track/dashed1.png" alt=""></div>
+                        <div class="pei2"></div>
+                        <div class="pei1"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                        <div class="line"><img src="__IMG__/track/line.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="content right">
+                    <if condition="$taizhang">
+                    <h1>{$taizhang['create_time']|date="Y-m-d",###}</h1>
+                    <p>发布了第一条台账</p>
+                    <p>向党组织靠拢</p>
+                    <else/>
+                    <if condition="$is_other eq 1">
+                        <p>他还没发过台账哦</p>
+                       <else/>
+                       <p>您还没发过台账哦</p>
+                       </if>
+                    </if>
+                    <div class="right_bg">
+                        <div class="pei3"></div>
+                        <div class="dashed1"><img src="__IMG__/track/dashed1.png" alt=""></div>
+                        <div class="pei2"></div>
+                        <div class="pei1"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                        <div class="line"><img src="__IMG__/track/like_line.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="like">
+                    <div class="head"><img src="{$user.headimgurl|get_head_url}" alt=""></div>
+                    <div class="text">
+                        <h1>{$user['realname']}</h1>
+                        <p>共有{$user['score']}积分</p>
+                        <p>排名{$score_sort}</p>
+                    </div>
+                    <div class="like_bg">
+                        <div class="dashed1"><img src="__IMG__/track/dashed1.png" alt=""></div>
+                        <div class="pei1"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                        <div class="bg_pei">
+                            <img src="__IMG__/track/spot.png" alt="">
+                        </div>
+                        <div class="line"><img src="__IMG__/track/like_line2.png" alt=""></div>
+                        <div class="center_line"><img src="__IMG__/track/line.png" alt=""></div>
+                    </div>
+                </div>
+                <div class="content center">
+                    <h1>{$now|date="Y-m-d",###}</h1>
+                    <if condition="$is_other eq 1">
+                       <p>他的台账共得到{$dz_sort}个点赞</p>
+                    <else/>
+                       <p>您的台账共得到{$dz_sort}个点赞</p>
+                    </if>
+                    <p>谢谢大家的认可</p>
+                    <div class="center_bg">
+                        <div class="pei3"></div>
+                        <div class="dashed1"><img src="__IMG__/track/dashed1.png" alt=""></div>
+                        <div class="pei1"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="swiper-slide">
+            <div class="page2">
+                <div class="content login">
+                    <div class="title">登录时间</div>
+                    <h1>2017.05.16</h1>
+                    <p>共登录了</p>
+                    <p><span>24</span>天</p>
+                    <div class="login_bg">
+                        <div class="trigon"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                        <div class="login_img">
+                            <img src="__IMG__/track/d.png" alt="">
+                        </div>
+                    </div>
+                    <div class="center_bg">
+                        <div class="bg_pei">
+                            <img src="__IMG__/track/spot.png" alt="">
+                        </div>
+                        <div class="trigon"></div>
+                        <div class="pei1"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                    </div>
+                </div>
+                <div class="content right">
+                    <div class="right_bg">
+                        <div class="trigon"></div>
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                    </div>
+                    <div class="title">积分和点赞</div>
+                    <p>获得了</p>
+                    <p><span>325</span>积分</p>
+                    <p>和</p>
+                    <p><span>48</span>赞</p>
+                </div>
+                <div class="content center">
+                    <div class="title">评论</div>
+                    <p>同志们给我</p>
+                    <p><span>108</span>条评论</p>
+                    <p>PS：谢谢他们的关注</p>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div class="page3">
+                <div class="content login">
+                    <div class="title">今天</div>
+                    <p>我的积分在</p>
+                    <p><span>697</span>名党员中</p>
+                    <p>是第<span>172</span>名</p>
+                    <p>ps：还需要努力哦</p>
+                    <div class="login_bg">
+                        <div class="pei-bg"></div>
+                        <div class="dashed"></div>
+                        <div class="pei"></div>
+                        <div class="login_img">
+                            <img src="__IMG__/track/polygon.png" alt="">
+                            <div class="body_bg">
+                                <img src="__IMG__/track/rhombus.png" alt="">
+                            </div>
+                            <div class="body_bg2">
+                                <img src="__IMG__/track/rhombus.png" alt="">
+                            </div>
+                            <div class="body_bg3">
+                                <img src="__IMG__/track/rhombus.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content right">
+                    <div class="title">今天</div>
+                    <p>我的点赞在</p>
+                    <p><span>697</span>名党员中</p>
+                    <p>是第<span>224</span>名</p>
+                    <p>ps：还需要努力哦</p>
+                    <div class="right_bg">
+                        <div class="dashed"></div>
+                        <div class="pei-bg"></div>
+                        <div class="pei"></div>
+                    </div>
+                </div>
+                <div class="content center">
+                    <div class="center_bg">
+                        <div class="pei1"></div>
+                        <div class="dashed"></div>
+                        <div class="pei"></div>
+                    </div>
+                    <div class="title">今天</div>
+                    <p>我的评论在</p>
+                    <p><span>697</span>名党员中</p>
+                    <p>是第<span>13</span>名</p>
+                    <p>PS：还需要努力哦</p>
+
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+</block>
+<block name="scripts">
+	
+    <script src="__JS__/track/track.js"></script>
+</block>

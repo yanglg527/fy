@@ -1,0 +1,334 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .sign-sum-title {
+            border-left: 5px solid #999999;
+            color: #999999;
+            font-size: 14px;
+            height: 18px;
+            line-height: 18px;
+            padding-left: 5px;
+        }
+
+        .sign-sum {
+            color: #5eb95e;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .unit {
+            color: #999999;
+            font-size: 14px;
+            height: 18px;
+            line-height: 18px;
+        }
+
+        .am-form-field{
+            height: 33px !important;
+        }
+
+        .am-datepicker-date .am-btn{
+            height: 33px;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+                <if condition="$auth == 1">{$branch.name} -</if>
+                微心得</strong></div>
+        </div>
+        <hr>
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-3">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <div style="line-height: 33px; padding-left: 5px">
+                            <span class="sign-sum-title">本部心得总量：</span>
+                            <span class="sign-sum">{$page.pageInfo.size}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="am-u-sm-12 am-u-md-9" id="search-form">
+                <input type="hidden" name="branch_id" value="{$search.branch_id}">
+
+                <div style="width: 200px;float: right;margin-left: 20px">
+                    <button type="button" style="height:32px" class="am-btn am-btn-secondary" id="export-excel">导出 word</button>
+                </div>
+                <div class="am-input-group am-input-group-sm" style="width: 200px; float: right; margin-left: 15px">
+                    <input type="text" class="am-form-field" name="keyword" value="{$search.keyword}" placeholder="请输入文章标题">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" type="submit">搜索</button>
+                        </span>
+                </div>
+                <div style="width: 200px;float: right;" class="am-input-group am-datepicker-date">
+                    <input type="text" name="end_date" class="am-form-field" placeholder="结束日期" readonly
+                           value="{$search['end_date']}">
+					    <span class="am-input-group-btn am-datepicker-add-on">
+					        <button class="am-btn am-btn-default" type="button" id="my-end">
+                                <span class="am-icon-calendar"></span>
+                            </button>
+					  	    <button class="am-btn am-btn-default btn-cancel-date" type="button"
+                                    style="padding: 5px 10px;">
+                                <span class="am-icon-remove"></span>
+                            </button>
+					    </span>
+                </div>
+
+                <span style="float: right; margin: 0 5px; line-height: 33px;"> 至 </span>
+
+                <div style="width: 200px;float: right;" class="am-input-group am-datepicker-date">
+                    <input readonly type="text" name="start_date" class="am-form-field" placeholder="开始日期"
+                           value="{$search['start_date']}">
+					    <span class="am-input-group-btn am-datepicker-add-on">
+					        <button class="am-btn am-btn-default" type="button" style="padding: 5px 10px;"
+                                    id="my-start">
+                                <span class="am-icon-calendar"></span></button>
+					        <button class="am-btn am-btn-default btn-cancel-date" type="button"
+                                    style="padding: 5px 10px;">
+                                <span class="am-icon-remove"></span></button>
+					    </span>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <!-- <th class="table-check"><input type="checkbox" /></th> -->
+                            <th class="table-title">ID</th>
+                            <th class="table-title">标题</th>
+                            <th class="table-author am-hide-sm-only">发布者</th>
+                            <!--<th class="am-hide-sm-only">所在支部</th>-->
+                            <!--<th class="am-hide-sm-only">活动举办日期</th>-->
+                            <!--<th class="am-hide-sm-only">支持人</th>-->
+                            <th class="am-hide-sm-only">点赞数</th>
+                            <th class="am-hide-sm-only">评论数</th>
+                            <th class="am-hide-sm-only">收藏数</th>
+                            <th class="table-date am-hide-sm-only">发布日期</th>
+                            <th class="am-hide-sm-only">操作</th>
+                            <!--<th class="am-hide-sm-only" style="width:60px;">状态</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="vo">
+                            <tr>
+                                <!-- <td><input type="checkbox" /></td> -->
+                                <td>{$vo.id}</td>
+                                <td><a href="#">{$vo.title}</a></td>
+                                <td>{$vo.user_realname}</td>
+                                <!--<td>{$vo.branch_name}</td>-->
+                                <td>{$vo.dz}</td>
+                                <td>{$vo.pl}</td>
+                                <td>{$vo.sc}</td>
+                                <td class="am-hide-sm-only">{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                                    onclick="loading_page('__ROOT__/Admin/WeiXinDe/detail?id={$vo.id}');"
+                                                    type="button"><span class="am-icon-pencil-square-o"></span> 详情
+                                            </button>
+                                            <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec"
+                                               type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <!--<hr />-->
+                </form>
+            </div>
+
+        </div>
+
+        <div class="am-popup" id="my-popup">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title" id="detail-title">心得详情</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd">
+                    <div style="width: 100%; text-align: center; font-size: 14px; color: #00a0e9">
+                        <span id="detail-info1">吉大支部</span>
+                        <span> - </span>
+                        <span id="detail-info2">林嘉焕</span>
+                        <span style="margin-left: 15px">发布于：</span>
+                        <span id="detail-info3">2016-01-05</span>
+                    </div>
+
+                    <div><span class="am-badge am-badge-success">活动举办日期</span></div>
+                    <p style="font-size: 18px;margin: 5px 0px 10px 5px" id="detail-info4">2016-01-01</p>
+
+                    <div><span class="am-badge am-badge-success">主 持 人</span></div>
+                    <p style="font-size: 16px;margin: 5px 0px 10px 5px" id="detail-info5">某某某</p>
+
+                    <div><span class="am-badge am-badge-success">出席人数</span></div>
+                    <p style="font-size: 18px;margin: 5px 0px 10px 5px" id="detail-info6">3人</p>
+
+                    <div><span class="am-badge am-badge-success">出席名单</span></div>
+                    <p style="font-size: 16px;margin: 5px 0px 10px 5px" id="detail-info7">某某某、某某某、某某某</p>
+
+                    <div><span class="am-badge am-badge-success">心得内容</span></div>
+                    <div id="detail-content" style="font-size: 16px"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</block>
+
+<block name="scripts">
+    <script>
+        $('#my-start').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $(this).parent().prev().val($('#my-start').data('date'));
+            $(this).datepicker('close');
+        });
+        $('#my-end').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $(this).parent().prev().val($('#my-end').data('date'));
+            $(this).datepicker('close');
+        });
+        $('.btn-cancel-date').click(function(){
+            $(this).parent().prev().val('');
+
+            return false
+        })
+
+
+        $('.btn-dec').click(function () {
+            id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/WeiXinDe/ajaxDelete',
+                        type: 'POST', //GET
+                        data: {id: id},
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+        $('.btn-detail').click(function () {
+            id = $(this).attr('data-id');
+            loading();
+            $.ajax({
+                url: '__ROOT__/Admin/WeiXinDe/ajaxDetail',
+                type: 'POST', //GET
+                data: {id: id},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+//          alert_modal(JSON.stringify(data.data));
+                        var detail = data.data;
+                        $('#detail-title').html(detail['title']);
+                        $('#detail-info1').html(detail.branch_name);
+                        $('#detail-info2').html(detail.user_realname);
+                        var createTimeString = new Date(detail.create_time * 1000).Format("yyyy-MM-dd");
+                        $('#detail-info3').html(createTimeString);
+
+                        var attendTimeString = new Date(detail.attend_time * 1000).Format("yyyy-MM-dd");
+                        $('#detail-info4').html(attendTimeString);
+                        $('#detail-info5').html(detail.host);
+                        $('#detail-info6').html(detail.attendance + "人");
+                        $('#detail-info7').html(detail.attendee);
+
+                        $('#detail-content').html(detail.content);
+
+                        $('#my-popup').modal();
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                closeOnConfirm: false,
+                error: function (xhr, textStatus) {
+                    close_loading();
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+
+    <script type="text/javascript">
+        // $(function(){
+        //     //导出名单
+        //     $('#export-excel').click(function () {
+        //         $('#confirm-text').text("是否导出列表");
+        //         $('#my-confirm').modal({
+        //             relatedTarget: this,
+        //             onConfirm: function (options) {
+        //                 location.href = "__ROOT__/Admin/WeiXinDe/WeiXindeListToExcel?data={$page.list}";
+        //             },
+        //             onCancel: function () {
+        //
+        //             }
+        //         });
+        //     });
+        //
+        // });
+
+        $(function(){
+            //导出名单
+            $('#export-excel').click(function () {
+                $('#confirm-text').text("是否导出word");
+                $('#my-confirm').modal({
+                    relatedTarget: this,
+                    onConfirm: function (options) {
+                        location.href = "__ROOT__/Admin/WeiXinDe/phpwordDemo";
+                    },
+                    onCancel: function () {
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</block>

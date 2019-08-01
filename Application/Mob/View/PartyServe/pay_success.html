@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="__CSS__/global.css" />
+    <link rel="stylesheet" href="__CSS__/party_serve/help/styles.css" />
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <script src="__STATICS__/jquery/jquery.js"></script>
+    <script src="//cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+
+    <title>济困捐款-详情页面</title>
+</head>
+<style>
+    .logo{
+        display: block;
+        margin: 10px auto;
+        margin-top: 100px;
+        width: 100px;
+        height: 100px;
+        background: url(/Public/Mob/images/party_serve/pay_success.png);
+        background-size: 100%;
+    }
+    .success{
+        color:#0caf0c;
+        font-size: 20px;
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bolder;
+    }
+    .btn-fin{
+        margin-left: 20px;
+        margin-right: 20px;
+        margin-top: 20px;
+    }
+</style>
+
+<body class="g-full-flex">
+    <div class="g-nav-bar" style="background-color: #0caf0c">
+        <a href="javascript:history.back(-1)"> <div class="back-btn"></div></a>
+        <span class="nav-title"></span>
+    </div>
+    <input type="hidden" name="donation_log_id" value="{$donation_log_id}">
+    <div class="logo"></div>
+    <div class="success">支付成功</div>
+    <div class="am-btn am-btn-success btn-fin" style="background-color: #0caf0c"> <a href="__ROOT__/Mob/PartyServe/supportDetail?id={$donation_log_id}" style="color: white">完成</a></div>
+</body>
+</html>
+<script type="text/javascript">
+    onload=function(){
+        setTimeout(go, 3000);
+    };
+    function go(){
+        var donation_log_id = $('input[name="donation_log_id"]').val();
+        var url = "__ROOT__/Mob/PartyServe/supportDetail?id=" + donation_log_id;
+        window.location.href = url;
+    }
+</script>
+
+
+
+
+

@@ -1,0 +1,262 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">本部成员信息管理</strong></div>
+        </div>
+        <hr>
+        <form id="uploadForm" action="" method="post" enctype="multipart/form-data" >
+            <input type="file" name="file" style="display: none" id="file-upload"/>
+        </form>
+        <form class="am-g" id="search-form" action="__ROOT__/Admin/PartyBranch/member">
+            <if condition="$auth == 3">
+                <div class="am-u-sm-12 am-u-md-2 right-align" >
+                    <!-- <button class="am-btn am-btn-sm am-btn-success"style="position: relative;top: 12px;" type="button" id="btn-import">导入通讯录(xls)</button> -->
+                </div>
+            </if>
+            <div class="am-u-sm-12 am-u-md-12 right-align" style="text-align: right">
+                <!--<if condition="$auth == 1">-->
+                    <!--<select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="branch_id">-->
+                        <!--<option value="0">支部选择</option>-->
+                        <!--<volist name="branchs" id="item">-->
+                            <!--<if condition="$item[id] == $search['branch_id']">-->
+                                <!--<option value="{$item.id}" selected>{$item.name}</option>-->
+                            <!--<else/>-->
+                                <!--<option value="{$item.id}">{$item.name}</option>-->
+                            <!--</if>-->
+                        <!--</volist>-->
+                    <!--</select>-->
+                <!--</if>-->
+                <!--<if condition="$auth == 2">-->
+                    <!--<select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="branch_id">-->
+                        <!--<option value="0">支部选择</option>-->
+                        <!--<volist name="branchs" id="item">-->
+                            <!--<if condition="$item[id] == $search['branch_id']">-->
+                                <!--<option value="{$item.id}" selected>{$item.name}</option>-->
+                                <!--<else/>-->
+                                <!--<option value="{$item.id}">{$item.name}</option>-->
+                            <!--</if>-->
+                        <!--</volist>-->
+                    <!--</select>-->
+                <!--</if>-->
+                <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="role_id">
+                    <option value="0">角色选择</option>
+                    <volist name="roles" id="item">
+                        <if condition="$item[id] == $search['role_id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                            <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+                <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="post_id">
+                    <option value="0">职务选择</option>
+                    <volist name="posts" id="item">
+                        <if condition="$item[id] == $search['post_id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                            <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+                <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" placeholder="输入姓名关键词" name="keyword" value="{$search.keyword}">
+                </div></div>
+
+                <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+            </div>
+            <!--<div class="am-u-sm-12 am-u-md-1">-->
+
+            <!--</div>-->
+        </form>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form" action="__ROOT__/Admin/PartyBranch/users">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-title" id="btn-dec">uid</th>
+                            <th class="table-type">姓名</th>
+                            <th class="table-author am-hide-sm-only">电话</th>
+                            <!-- <th class="table-author am-hide-sm-only">邮箱</th> -->
+                            <th class="table-author am-hide-sm-only">性别</th>
+
+                            <th class="table-author am-hide-sm-only">学历</th>
+                            <th class="table-author am-hide-sm-only">籍贯</th>
+                            <th class="table-author am-hide-sm-only">身份</th>
+                            <th class="table-author am-hide-sm-only">入党时间</th>
+
+                            <th class="table-date am-hide-sm-only">角色</th>
+                            <th class="table-date am-hide-sm-only">党内职务</th>
+                            <!--<th class="table-date am-hide-sm-only">所属支部</th>-->
+                            <th class="table-date am-hide-sm-only">积分</th>
+                            <th class="table-date am-hide-sm-only">学习时间</th>
+                            <!-- <th class="table-date am-hide-sm-only">上次登录时间</th> -->
+                            <th class="table-date am-hide-sm-only">状态</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.uid}</td>
+                                <td>{$item.realname}</td>
+                                <td class="am-hide-sm-only">{$item.mobile}</td>
+                                <!-- <td class="am-hide-sm-only">{$item.email}</td> -->
+                                <td class="am-hide-sm-only">
+                                    {$item.gender|get_sex}
+                                </td>
+                                <td class="am-hide-sm-only">{$item.education}</td>
+                                <td class="am-hide-sm-only">{$item.native_place}</td>
+                                <td class="am-hide-sm-only">{$item.work_status}</td>
+                                <td class="am-hide-sm-only"><if condition="$item.role_id lt 2">{$item.activist_date|date='Y-m-d',###}</if></td>
+
+
+
+                                <td class="am-hide-sm-only">{$item.role_name}</td>
+                                <td class="am-hide-sm-only">{$item.post_name}</td>
+                                <!--<td class="am-hide-sm-only">{$item.branch_name} <notempty name="item.branch_hq_name"> / {$item.branch_hq_name}</notempty></td>-->
+                                <td class="am-hide-sm-only">{$item.score}</td>
+                                <td class="am-hide-sm-only">{$item.study_time_sum}</td>
+                                <!-- <td class="am-hide-sm-only"><notempty name="item.last_login_time">{$item.last_login_time|date="Y-m-d H:i:s",###}</notempty></td> -->
+                                <td class="am-hide-sm-only">
+                                    <if condition="$item.status == 1"><span class="am-badge am-badge-success am-radius">启用</span>
+                                        <else/>
+                                        <span class="am-badge am-badge-warning am-radius">禁用</span></if>
+                                </td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs btn-link "
+                                                    onclick="loading_page('__ROOT__/Admin/PartyBranch/developInfo?tab=1&uid={$item.uid}');">
+                                                <span class="am-icon-book"></span> 发展信息
+                                            </button>
+                                            
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary "
+                                                    onclick="loading_page('__ROOT__/Admin/PartyBranch/userEdit?p={$page.pageInfo.pageNo}&uid={$item.uid}');">
+                                                <span class="am-icon-pencil-square-o"></span> 编辑
+                                            </button>
+                                           <!--  <if condition="$item.role_id lt 5">
+                                                <button type="button"
+                                                        class="am-btn am-btn-default am-btn-xs btn-link "
+                                                        onclick="loading_page('__ROOT__/Admin/PartyBranch/branchOut?p={$page.pageInfo.pageNo}&uid={$item.uid}');">
+                                                    <span class="am-icon-mail-forward"></span> 调出
+                                                </button>
+                                            </if>
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-status"
+                                                    data-id="{$item.uid}"><span class="am-icon-archive"></span>
+                                                <if condition="$item.status == 1"> 禁用
+                                                    <else/>
+                                                     启用
+                                                </if>
+                                            </button> -->
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+        var id = 0;
+        $('.btn-status').click(function () {
+            id = $(this).attr('data-id');
+            $.ajax({
+                url: '__ROOT__/Admin/PartyBranch/ajaxSaveUserStatus',
+                type: 'POST', //GET
+                data: {id: id},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+        <eq name="auth" value="1">
+        $("#btn-async").click(function(){
+            loading();
+            $.ajax({
+                url: '__ROOT__/Weixin/QY/ajaxAsyncUser',
+                timeout : 120000, //超时时间设置，单位毫秒
+                type: 'POST', //GET
+                data: {id: id},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    close_loading();
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+
+        });
+        </eq>
+
+    </script>
+    <eq name="auth" value="1">
+    <script>
+
+        $('#btn-import').click(function () {
+            $('#file-upload').click();
+        })
+
+        $("#uploadForm").on('change', '#file-upload', function () {
+            var formData = new FormData($("#uploadForm")[0]);
+            $.ajax({
+                url: '__ROOT__/Admin/PartyBranch/ajaxImportUser',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert(data.msg);
+                    window.location.reload();
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+					 alert(console.log(XMLHttpRequest));
+					 alert(console.log(errorThrown));
+       				alert("服务暂时无法连接");
+                }
+            });
+        });
+    </script>
+        </eq>
+
+</block>

@@ -1,0 +1,297 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">支部党员台账</strong></div>
+        </div>
+        <hr>
+        <form id="uploadForm" action="" method="post" enctype="multipart/form-data" >
+            <input type="file" name="file" style="display: none" id="file-upload"/>
+        </form>
+        <form class="am-g" id="search-form" action="__ROOT__/Admin/StandingBook/index">
+            <!--<div class="am-u-sm-12 am-u-md-2 right-align" >-->
+                <!--<eq name="auth" value="1">-->
+                <!--<button class="am-btn am-btn-sm am-btn-success"style="position: relative;top: 12px;" type="button" id="btn-async">同步通讯录</button>-->
+                <!--</eq>-->
+                <!--<button class="am-btn am-btn-sm am-btn-success"style="position: relative;top: 12px;" type="button" id="btn-import">导入通讯录(xls)</button>-->
+            <!--</div>-->
+            <div class="am-u-sm-12 am-u-md-12 right-align" style="text-align: right">
+                <!--<if condition="$auth == 1">-->
+                <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="branch_id">
+                    <option value="0">支部选择</option>
+                    <volist name="branchs" id="item">
+                        <if condition="$item[id] == $search['branch_id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                        <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+
+
+                <select id="type_select" data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="content_type">
+                    <option value="-1" >内容选择</option>
+                    <option value="1" >思想汇报</option>
+                    <option value="2" >心得体会</option>
+                    <option value="3" >活动展现</option>
+                    <option value="0" >其它</option>
+                </select>
+
+                <select id="classify_select" data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="classify">
+                    <option value="-1" >分类选择</option>
+                    <option value="1" >规定动作</option>
+                    <option value="2" >自主创新</option>
+                </select>
+
+                <!--<select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="role_id">-->
+                    <!--<option value="0">角色选择</option>-->
+                    <!--<volist name="roles" id="item">-->
+                        <!--<if condition="$item[id] == $search['role_id']">-->
+                            <!--<option value="{$item.id}" selected>{$item.name}</option>-->
+                            <!--<else/>-->
+                            <!--<option value="{$item.id}">{$item.name}</option>-->
+                        <!--</if>-->
+                    <!--</volist>-->
+                <!--</select>-->
+                <!--<select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="post_id">-->
+                    <!--<option value="0">职务选择</option>-->
+                    <!--<volist name="posts" id="item">-->
+                        <!--<if condition="$item[id] == $search['post_id']">-->
+                            <!--<option value="{$item.id}" selected>{$item.name}</option>-->
+                            <!--<else/>-->
+                            <!--<option value="{$item.id}">{$item.name}</option>-->
+                        <!--</if>-->
+                    <!--</volist>-->
+                <!--</select>-->
+                <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" placeholder="输入发布者姓名关" name="keyword" value="{$search.keyword}">
+                </div></div>
+
+                <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+            </div>
+            <!--<div class="am-u-sm-12 am-u-md-1">-->
+
+            <!--</div>-->
+        </form>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form" action="__ROOT__/Admin/PartyBranch/users">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                            <tr>
+                                <th class="table-title" id="btn-dec">id</th>
+                                <th class="table-type">标题</th>
+                                <th class="table-type">内容</th>
+                                <th class="table-type">分类</th>
+                                <th class="table-author am-hide-sm-only">作者</th>
+                                <th class="table-author am-hide-sm-only">所在支部</th>
+                                <th class="table-author am-hide-sm-only">举办时间</th>
+                                <th class="table-author am-hide-sm-only">发布时间</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <!-- 引入 javascript 实现存储对象于hash中 -->
+                        <script src="__STATICS__/hashmap.js"></script>
+                        <script>
+                            var hash = new HashMap();
+                        </script>
+
+                        <volist name="page.list" id="item">
+                            <script>
+                                //自己定义 key+id ，value为 json 格式字符串
+                                hash.put("item-{$item.id}", {$item | to_json_string});
+                            </script>
+                            <tr>
+                                <td>{$item.id}</td>
+                                <td>{$item.theme}</td>
+                                <td class="am-hide-sm-only">
+                                    <if condition="$item.content_type == 0">
+                                        <span class="am-badge am-badge-success am-radius">其它</span>
+                                    <elseif condition="$item.content_type == 1"/>
+                                        <span class="am-badge am-badge-warning am-radius">思想汇报</span>
+                                    <elseif condition="$item.content_type == 2"/>
+                                        <span class="am-badge am-badge-warning am-radius">心得体会</span>
+                                    </if>
+                                </td>
+                                <td class="am-hide-sm-only">
+                                    <if condition="$item.classify == 1">
+                                        <span class="am-badge am-badge-success am-radius">规定动作</span>
+                                    <elseif condition="$item.classify == 2"/>
+                                        <span class="am-badge am-badge-warning am-radius">自主创新</span>
+                                    </if>
+                                </td>
+                                <td class="am-hide-sm-only">{$item.user_realname}</td>
+                                <td class="am-hide-sm-only">{$item.branch_name}</td>
+                                <td class="am-hide-sm-only"><notempty name="item.attend_time">{$item.attend_time|date="Y-m-d H:i:s",###}</notempty></td>
+                                <td class="am-hide-sm-only"><notempty name="item.create_time">{$item.create_time|date="Y-m-d H:i:s",###}</notempty></td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-success btn-detail" data-am-modal="{target: '#detail-popup'}" data-key="item-{$item.id}"><span class="am-icon-bars"></span> 详情</button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" data-id="{$item.id}"><span class="am-icon-trash-o" ></span> 删除</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="am-popup" id="detail-popup" style="width: 500px; height: 80%">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title" id="detail-title">详情</h4>
+                    <span data-am-modal-close class="am-close">&times;</span>
+                </div>
+                <div class="am-popup-bd" style="font-size: 15px;line-height: 30px;padding: 0px 10px">
+                    <!-- 作者信息 -->
+                    <div style="height: 40px; line-height: 40px; margin-top: 10px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">创建日期</span>
+                        <span id="val_create_time" style="margin-left: 15px">2016-12-12</span>
+                    </div>
+                    <div style="height: 40px; line-height: 40px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">内容类型</span>
+                        <span id="val_content_type" style="margin-left: 15px">思想汇报</span>
+                    </div>
+                    <div style="height: 40px; line-height: 40px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">发&nbsp;&nbsp;布&nbsp;&nbsp;者</span>
+                        <span id="val_user_realname" style="margin-left: 15px">林嘉焕</span>
+                    </div>
+                    <div style="height: 40px; line-height: 40px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">所在支部</span>
+                        <span id="val_branch_name" style="margin-left: 15px">吉大支部</span>
+                    </div>
+
+                    <!-- 会议信息 -->
+                    <div style="line-height: 40px; margin-top: 20px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">主&nbsp;&nbsp;持&nbsp;&nbsp;人</span>
+                        <span id="val_host" style="margin-left: 15px">杨志伟</span>
+                    </div>
+                    <div style="height: 40px; line-height: 40px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">举办日期</span>
+                        <span id="val_attend_time" style="margin-left: 15px">2016-12-12</span>
+                    </div>
+                    <div style="line-height: 40px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">出席人数</span>
+                        <span id="val_attendance" style="margin-left: 15px">3</span> 人
+                    </div>
+                    <div style="line-height: 40px;padding-left: 10px">
+                        <span class="am-badge am-badge-secondary am-text-sm">出席名单</span>
+                        <span id="val_attendee" style="margin-left: 15px">林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华</span>
+                    </div>
+
+                    <span style="margin-top: 20px; margin-left: 10px" class="am-badge am-badge-secondary am-text-sm">内容详情</span>
+                    <div style="padding: 5px 15px; margin-bottom: 20px" id="val_content">
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                        林嘉安、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华、杨志伟、刘德华
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</block>
+<block name="scripts">
+
+    <!-- 引入 javascript 时间戳转换工具 -->
+    <script src="__STATICS__/dateUtil.js"></script>
+
+    <script>
+        var id = 0;
+
+        // 动态设置台账内容类型筛选条件的选中值
+        var contentType = "{$search.content_type}";
+//        alert("contentType = " + contentType);
+        if(contentType > -1){
+//            alert("contentType2 = " + contentType);
+            $("#type_select option[value='" + contentType + "']").attr("selected","selected");
+        }
+
+        // 动态设置台账分类筛选条件的选中值
+        var classify = "{$search.classify}";
+        //        alert("contentType = " + contentType);
+        if(classify > -1){
+//            alert("contentType2 = " + contentType);
+            $("#classify_select option[value='" + classify + "']").attr("selected","selected");
+        }
+
+        $('.btn-dec').click(function(){
+            id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url:'__ROOT__/Admin/StandingBook/ajaxDecStandingBook',
+                        type:'POST', //GET
+                        data:{id:id},
+                        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success:function(data){
+                            if(data.status == 0){
+                                window.location.reload();
+                            }else{
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error:function(xhr,textStatus){
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('.btn-detail').click(function(){
+            var hashKey = $(this).attr('data-key');
+            var standingBook = hash.get(hashKey);
+//            alert("key = " + JSON.stringify(hash.get(hashKey)));
+            $("#detail-title").html(standingBook.theme);
+            var createTimeString = new Date(standingBook.create_time*1000).Format("yyyy-MM-dd");
+            $("#val_create_time").html(createTimeString);
+            if(standingBook.content_type == 0){
+                $("#val_content_type").html("其它");
+            }else if(standingBook.content_type == 1){
+                $("#val_content_type").html("思想汇报");
+            }else if(standingBook.content_type == 2){
+                $("#val_content_type").html("心得体会");
+            }
+            $("#val_user_realname").html(standingBook.user_realname);
+            $("#val_branch_name").html(standingBook.branch_name);
+
+            $("#val_host").html(standingBook.host);
+            var attendTimeString = new Date(standingBook.attend_time*1000).Format("yyyy-MM-dd");
+            $("#val_attend_time").html(attendTimeString);
+            $("#val_attendance").html(standingBook.attendance);
+            $("#val_attendee").html(standingBook.attendee);
+
+            $("#val_content").html(standingBook.content);
+        });
+
+    </script>
+
+</block>

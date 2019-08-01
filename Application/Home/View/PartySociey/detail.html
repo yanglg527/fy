@@ -1,0 +1,84 @@
+<extend name="./Application/Home/View/Common/base.html" xmlns="http://www.w3.org/1999/html"/>
+<block name="styles">
+    <style>
+        .item {
+            position: relative;
+            width: 100%;
+            min-height: 40px;
+            line-height: 40px;
+            border-top:1px solid #e8e8e8;
+            border-bottom: 1px solid #e8e8e8;
+            background: white;
+        }
+
+        .item-left {
+            position: absolute;
+            height: 40px;
+            line-height: 40px;
+            left: 15px;
+            color: #1a1a1a;
+            font-size: 16px;
+        }
+
+        .item-right {
+            position: absolute;
+            min-height: 40px;
+            line-height: 40px;
+            height: auto;
+            left: 110px;
+            color: #1a1a1a;
+            right: 15px;
+            font-size: 16px;
+            bottom: 0;
+            top: 0;
+        }
+
+
+
+        .text-content{
+            padding: 5px 15px;
+            font-size: 14px;
+            color: #666666;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            min-height: 100px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+
+
+    <div class="item">
+        <span class="item-left">组织名称：</span>
+        <span class="item-right">{$detail.name}</span> <!-- 我是标题我是标题我是标题我是标题 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">主要负责人：</span>
+        <span class="item-right">{$detail.main_in_charge}</span> <!-- 2016-12-12 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">组织人数：</span>
+        <span class="item-right">{$detail.people_count}人</span>
+    </div>
+    <div class="item" style="margin-top: 10px;">
+        <span class="item-left">其他负责人</span>
+    </div>
+    <div class="text-content">{$detail.other_in_charge}</div>
+    <div class="item" style="margin-top: 10px;">
+        <span class="item-left">概况说明</span>
+    </div>
+    <div class="text-content">{$detail.intro}</div>
+    <div class="item" style="margin-top: 10px;">
+        <span class="item-left">主要荣誉</span>
+    </div>
+    <div class="text-content">{$detail.honors}</div>
+    <!--1.我是要求我是要求我是要求我是要求</br>2.我是要求我是要求我是要求我是要求</br>3.我是要求我是要求我是要求我是要求</br>4.我是要求我是要求我是要求我是要求</br>-->
+
+
+</block>
+<block name="scripts">
+
+
+</block>

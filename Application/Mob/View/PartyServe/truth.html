@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我向组织说句话</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/truth/truth.css"/>
+	</head>
+    <style type="text/css">
+      .truth .words {
+          background: url(__IMG__/party_serve/bg.png) no-repeat;
+          background-size: cover;
+       }
+
+		/*#btn-edit{*/
+			/*width:2.4rem;*/
+			/*height:0.8rem;*/
+			/*line-height:0.8rem;*/
+			/*text-align:center;*/
+			/*position:absolute;*/
+			/*top:0;right:0;*/
+			/*background-color:#ce3d3a;*/
+			/*font-size:0.34rem;*/
+			/*color:#fff;*/
+		/*}*/
+    </style>
+	<body>
+		
+		<div class="page">
+			<header class ="head">
+				<div class="header"><span>我向组织说句话</span><a onclick="history.go(-1);"><span></span></a></div>
+			</header>
+		</div>
+		<!--<div style="position: absolute; top: 60px; right: 20px; z-index: 10000000; background: blue"><a id="btn-edit" href="truth_edit.html">我的心里话</a></div>-->
+	</body>
+	<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+	<script src="__STATICS__/mui/mui.min.js"></script>
+	<script src="__STATICS__/zepto/zepto.js"></script>
+	<script src="__STATICS__/zepto/event.js"></script>
+	<script src="__STATICS__/zepto/touch.js"></script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__JS__/party_serve/truth/truth.js" type="text/javascript" charset="utf-8"></script>
+	<!-- <include file="Common/_menu"/> -->
+	<script type="text/javascript">
+		//启用双击监听
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'_sub_truth.html',
+				id:'_sub_truth.html',
+				styles:{
+					top: '45px',
+					bottom: '0px',
+				},
+			}]
+		});
+
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+
+
+	</script>
+
+</html>

@@ -1,0 +1,20 @@
+<div lass="am-u-sm-12 am-u-md-12 ">
+    <section class="am-panel am-panel-success " style="margin: 0 2%;border-radius: 5px">
+        <header class="am-panel-hd">
+            <h3 class="am-panel-title">答题统计</h3>
+        </header>
+        <div class="am-panel-bd">
+            <div class="am-g">
+                <div class="am-u-sm-4"><span>答题人数：{$detail.exam_count}</span></div>
+                <div class="am-u-sm-4"><span>满分：{$detail.score}</span></div>
+                <div class="am-u-sm-4"><span>平均分：<php>echo sprintf( "%.1f ",$detail['avg_score']);</php></span></div>
+                <!--<div class="am-u-sm-3"><span>优秀人数：{$detail.good_count}</span></div>-->
+                <div class="am-u-sm-4"><span>及格人数：{$detail.pass_count}</span></div>
+                <div class="am-u-sm-4"><span>不及格人数：{$detail['corrected_count']|template_sub=$detail['pass_count']}</span></div>
+                <div class="am-u-sm-4"><span>及格率：{$detail['pass_count']|template_percent=$detail['corrected_count']}</span></div>
+                <!--<div class="am-u-sm-3"><span>优秀率：{$detail['good_count']|template_percent=$detail['corrected_count']}</span></div>-->
+            </div>
+
+        </div>
+    </section>
+</div>

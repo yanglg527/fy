@@ -1,0 +1,338 @@
+html,
+body {
+    margin: 0;
+    font-size: 14px;
+}
+a{
+    text-decoration:none;
+    color:#333;
+}
+
+.default-font-color{
+    color: #333;
+}
+
+.no-data {
+    position: relative;
+    margin: 10px auto 30px;
+    width: 120px;
+    height: 120px;
+    background: url("./icons/no-data.png") center/cover;
+}
+
+.no-data::after {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    display: block;
+    width: 100%;
+    text-align: center;
+    content: "无数据";
+    line-height: 20px;
+    color: #999;
+}
+
+/* 页面容器 */
+.g-full-flex {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+/* 顶部导航 */
+.g-nav-bar {
+    position: relative;
+    display: flex;
+    height: 42px;
+    background-color: #ce3d37;
+}
+
+.g-nav-bar .back-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 42px;
+    height: 42px;
+}
+
+.g-nav-bar .back-btn::before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.g-nav-bar .nav-title {
+    display: block;
+    width: 60%;
+    height: 42px;
+    line-height: 42px;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.g-nav-bar .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 42px;
+}
+
+/* 主内容容器 */
+.g-content-container {
+    flex: 1 1;
+    overflow-y: auto;
+}
+
+
+/* 搜索框 */
+.g-search-box-with-bg {
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    background: url("./icons/search-bg.png") center/cover no-repeat;
+    padding: 1px 0;
+}
+
+.g-search-box-with-bg .content {
+    display: flex;
+    width: 70%;
+    height: 36px;
+    border-radius: 18px;
+    padding: 0 18px;
+    background-color: #fefefe;
+    margin: 25px auto;
+}
+
+.g-search-box-with-bg .message{
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+
+.g-search-box-with-bg .message .message-item{
+    text-align: center;
+}
+
+.g-search-box-with-bg .message .message-item .numeral{
+    color: #FFD56FFF;
+    font-size: 30px;
+    margin: 0 auto;
+}
+
+.g-search-box-with-bg .message .message-item .text{
+    color: #FFBBBBFF;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.g-search-box-with-bg .search-input {
+    flex: 1 1;
+    min-width: 100px;
+    height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.g-search-box-with-bg .search-btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background: url("./icons/search-btn.png") center/ 50% 50% no-repeat;
+}
+
+.g-search-box-with-bg .search-btn::before {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 20px;
+    background-color: #ccc;
+}
+/* 全宽tabs */
+.g-fill-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.g-fill-tabs .item {
+    flex: 1 1;
+    padding: 15px 0;
+    color: #383838;
+    border-bottom: 2px solid transparent;
+    font-size: 20px;
+}
+
+.g-fill-tabs .right {
+    text-align: right;
+    margin-right: 10px;
+}
+
+.g-fill-tabs i {
+    border-left: 5px #CE3D37 solid;
+    margin: 0 15px 0 15px;
+}
+
+
+.g-fill-tabs .item .num, .branch-num{
+    color: #CE3D37;
+}
+
+/* 列表 */
+.branch-list{}
+.branch-item{
+    margin: 10px;
+    padding: 5px 0;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.middle-content{
+    display: flex;
+    margin: 0 10px;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.middle-content .info{
+    flex:1 1;
+}
+
+.branch-item .img{
+    width: 15vw;
+    height: 15vw;
+    border-radius: 50%;
+    background: #eee center/cover no-repeat;
+    margin: auto 15px
+}
+
+.branch-name{
+    font-size: 18px;
+    margin:auto;
+}
+
+.branch-sj span, .branch-member{
+    color: #999999;
+}
+
+.member-item{
+    margin-right: 5px;
+}
+
+.bottom-text{
+    margin:auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 支部任务列表页 */
+.content-left .branch-member,
+.right-text-box p{
+    margin: 0 auto;
+    margin-bottom: 5px;
+}
+
+/* 多色按钮 */
+.content-right .right-btn { color: #fff; }
+.middle-content .orange{
+    background: linear-gradient(#fdcd8e, #ff8e31);
+}
+
+.middle-content .gray{
+    background: linear-gradient(#DADADA, #DADADA);
+}
+
+.red {
+    background: linear-gradient(#CE3D37, #CE3D37);
+}
+
+.content-right{
+    display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+    text-align: right;
+}
+
+.right-btn{
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-top: 18px;
+}
+
+.right-text-box{
+
+}
+
+.branch-tasks-title{
+    color: #CE3D37;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+
+.center{
+    margin: 10px auto;
+}
+
+/* 任务审核部分 */
+
+.branch-tasks-status_txt{
+    color: #fff;
+    font-size: 12px;
+    margin-left: 5px;
+    border-radius: 5px;
+    padding: 1px;
+}
+
+.content-right .action-btn{
+    margin-top: 18px;
+    display: flex;
+}
+
+.content-right .action-btn div{
+    width: 50px;
+    text-align: center;
+    border-radius: 12px;
+    padding: 1px;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.background-red{
+    background-color: red;
+    color: #fff;
+}
+
+.background-white{
+    color: red;
+    border: 1px solid red;
+}
+
+.text-box-inline-block{
+    display: inline-block;
+    width: 2em;
+}

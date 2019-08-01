@@ -1,0 +1,184 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .topic-block{
+            background: rgb(255,255,255);
+            margin-bottom: 20px;
+        }
+        .topic-header{
+            border-top: 1px solid rgb(240,240,241);
+            display: block !important;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+            color: rgb(120,120,120);
+        }
+        .topic-header:active{
+            background: white !important;
+        }
+        .list-area{
+            border-bottom: 1px solid rgb(240,240,241);
+            display: table;
+            padding-left: 30px;
+        }
+        .list-area:active{
+            background: rgb(243,243,243);
+        }
+        .list-area li{
+            display: table-cell;
+            height: 80px;
+            vertical-align: middle;
+            padding-top: 15px;
+            padding-bottom: 15px;
+
+        }
+        .icon-item{
+            width: 55px;
+        }
+        .icon-item img{
+            width: 100%;
+        }
+        .text-item{
+            padding-left: 20px;
+        }
+        .text-item span{
+            font-size: 18px;
+            color: rgb(59,59,59);
+        }
+    </style>
+</block>
+<block name="content">
+    <!--<div>-->
+        <!--<img style="width: 100%;" src="__IMG__/bg_03.png">-->
+    <!--</div>-->
+
+    <div style="background: white; ">
+        <ul class="am-comments-list am-comments-list-flip" style="padding: 0px 10px 30px 10px; background: white">
+            <!--am-comment:头像在左-->
+            <article class="am-comment" style="padding-top: 20px">
+                <a href="#link-to-user-home">
+                    <img src="__IMG__headImg.jpg" alt="" class="am-comment-avatar"/>
+                </a>
+
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <!--<h3 class="am-comment-title">评论标题</h3>-->
+                        <div class="am-comment-meta">
+                            <a href="#link-to-user" class="am-comment-author">某人</a>
+                            发表于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
+                        </div>
+                    </header>
+
+                    <div class="am-comment-bd">
+                        这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会。
+                    </div>
+                </div>
+            </article>
+            <article class="am-comment" style="padding-top: 20px">
+                <a href="#link-to-user-home">
+                    <img src="__IMG__headImg.jpg" alt="" class="am-comment-avatar"/>
+                </a>
+
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <!--<h3 class="am-comment-title">评论标题</h3>-->
+                        <div class="am-comment-meta">
+                            <a href="#link-to-user" class="am-comment-author">某人</a>
+                            发表于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
+                        </div>
+                    </header>
+
+                    <div class="am-comment-bd">
+                        这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会。
+                    </div>
+                </div>
+            </article>
+            <article class="am-comment" style="padding-top: 20px">
+                <a href="#link-to-user-home">
+                    <img src="__IMG__headImg.jpg" alt="" class="am-comment-avatar"/>
+                </a>
+
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <!--<h3 class="am-comment-title">评论标题</h3>-->
+                        <div class="am-comment-meta">
+                            <a href="#link-to-user" class="am-comment-author">某人</a>
+                            发表于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
+                        </div>
+                    </header>
+
+                    <div class="am-comment-bd">
+                        这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会。这是大家发表的心得体会，这是大家发表的心得体会。
+                    </div>
+                </div>
+            </article>
+            <article class="am-comment" style="padding-top: 20px">
+                <a href="#link-to-user-home">
+                    <img src="__IMG__headImg.jpg" alt="" class="am-comment-avatar"/>
+                </a>
+
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <!--<h3 class="am-comment-title">评论标题</h3>-->
+                        <div class="am-comment-meta">
+                            <a href="#link-to-user" class="am-comment-author">某人</a>
+                            发表于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
+                        </div>
+                    </header>
+
+                    <div class="am-comment-bd">
+                        这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会。
+                    </div>
+                </div>
+            </article>
+            <!--am-comment-flip:头像在右-->
+            <article class="am-comment-flip" style="padding-top: 20px">
+                <a href="#link-to-user-home">
+                    <img src="__IMG__headImg.jpg" alt="" class="am-comment-avatar"/>
+                </a>
+
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <!--<h3 class="am-comment-title">评论标题</h3>-->
+                        <div class="am-comment-meta">
+                            <a href="#link-to-user" class="am-comment-author">某人</a>
+                            发表于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
+                        </div>
+                    </header>
+
+                    <div class="am-comment-bd">
+                        这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会，这是大家发表的心得体会。这是大家发表的心得体会，这是大家发表的心得体会。
+                    </div>
+                </div>
+            </article>
+        </ul>
+
+    </div>
+
+    <div class="am-panel-group" id="accordion" style="z-index: 100; position: fixed;bottom: 0px; width: 100%">
+        <div class="am-panel am-panel-default">
+            <div class="am-panel-hd" style="padding: 0px">
+                <div class="am-panel-title am-collapsed" data-am-collapse="{parent: '#accordion', target: '#do-not-say-1'}" style="margin: 0px;background: #00C2E5; color: white; width: 100%; height: 40px; line-height: 40px; text-align: center">
+                    我要发表
+                </div>
+            </div>
+            <div id="do-not-say-1" class="am-panel-collapse am-collapse" style="height: 0px">
+                <div class="am-panel-bd">
+                    <form class="am-form">
+                        <fieldset style="padding: 0px; margin: 0px">
+                            <div class="am-form-group">
+                                <textarea class="" rows="5" id="doc-ta-1"></textarea>
+                            </div>
+
+                            <p style="margin-bottom: 0px; text-align: end"><button type="submit" class="am-btn am-btn-default">提交</button></p>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="scripts">
+
+</block>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>党员服务</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/help/help_all.css"/>
+	</head>
+		
+	<body>
+		
+		<div class="page">
+			<header class ="head">
+				<div class="header"><span>困难帮扶</span><a onclick="history.go(-1);"><span></span></a></div>
+			</header>
+		</div>
+
+	</body>
+
+	<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+	<script src="__STATICS__/mui/mui.min.js"></script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__STATICS__/zepto/zepto.js"></script>
+	<!--<script src="__JS__/party_serve/help/help_all.js" type="text/javascript" charset="utf-8"></script>-->
+	<script>
+		var detail = {$detail|to_json_string};
+		var truthId = detail.id;
+		var title = detail.title;
+		var content = detail.content;
+		var date = "{$detail.create_time|date='Y-m-d',###}";
+		var agreeCount = "{$agreeCount}";
+		var commentCount = "{$commentCount}";
+		var agreeFlag = "{$agreeFlag}";
+
+		mui.init({
+			subpages:[{
+				url:'_sub_helpinfo.html',
+				id:'_sub_helpinfo.html',
+				styles:{
+					top: '45px',
+					bottom: '0px',
+				},
+			}]
+		});
+
+	</script>
+
+</html>

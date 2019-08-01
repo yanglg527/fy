@@ -1,0 +1,77 @@
+<form action="" method="post" class="exam_inner">
+    <input type="hidden" name="id" value="{$detail.id}">
+    <volist name="subjects" id="item">
+        <if condition="$item['type_id'] == 1">
+            <div class="content-block-title header-I">
+                <h4>{$item['title']}</h4>
+            </div>
+            <elseif condition="$item['type_id'] == 2" dis="多选"/>
+            <div>
+                <div class="content-block-title header-II">
+                    {$item['title']}　
+                </div>
+                <div class="card">
+
+                    <label class="card-footer">
+                        <span><input type="checkbox" class="answer-check" name="subject-{$item.id}[]" value="0"> A {$item['answer'][0]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="checkbox" class="answer-check" name="subject-{$item.id}[]" value="1"> B {$item['answer'][1]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="checkbox" class="answer-check" name="subject-{$item.id}[]" value="2"> C {$item['answer'][2]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="checkbox" class="answer-check" name="subject-{$item.id}[]" value="3"> D {$item['answer'][3]}</span>
+                    </label>
+                </div>
+            </div>
+            <br/>
+            <elseif condition="$item['type_id'] == 3" dis="单选"/>
+            <div>
+                <div class="content-block-title header-II">
+                    {$item['title']} 
+                </div>
+                <div class="card">
+                    <label class="card-footer">
+                        <span><input type="radio" class="answer-check" name="subject-{$item.id}[]" value="0"> A {$item['answer'][0]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" class="answer-check" name="subject-{$item.id}[]" value="1"> B {$item['answer'][1]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" class="answer-check" name="subject-{$item.id}[]" value="2"> C {$item['answer'][2]}</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" class="answer-check" name="subject-{$item.id}[]" value="3"> D {$item['answer'][3]}</span>
+                    </label>
+
+                </div>
+            </div>
+            <br/>
+            <elseif condition="$item['type_id'] == 4" dis="判断"/>
+            <div>
+                <div class="content-block-title header-II">
+                    {$item['title']}　
+                </div>
+                <div class="card">
+                    <label class="card-footer">
+                        <span><input type="radio" class="answer-check" name="subject-{$item.id}[]" value="0"> 正确</span>
+                    </label>
+                    <label class="card-footer">
+                        <span><input type="radio" class="answer-check" name="subject-{$item.id}[]" value="1"> 错误</span>
+                    </label>
+
+                </div>
+            </div>
+            <br/>
+        </if>
+    </volist>
+</form>
+<div style="text-align: center;padding-bottom: 20px">
+    <notempty name="subjects">
+    <button class="am-btn am-btn-primary am-btn-xs" type="button" id="btn-hand"
+            style="padding: 10px 50px;font-size: 16px;margin: 0 auto;border-radius: 5px">提交
+    </button>
+        </notempty>
+</div>

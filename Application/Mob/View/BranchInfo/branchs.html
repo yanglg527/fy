@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>支部列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/branch_info/branch.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/branch_info/branchs.css"/>
+
+		<style>
+			header.head .head_return>i {
+				background: url("__IMG__/branch/left.png") no-repeat 100%;
+				background-size: 100%;
+			}
+
+			.city ul {
+				overflow: visible;
+			}
+		</style>
+
+	</head>
+		
+	<body>
+		
+		<div class="page">
+			<header class="head">
+				<a onclick="history.go(-1);">
+					<div class="head_return"><i></i></div>
+				</a>
+			</header>
+		</div>
+		<img src="__IMG__/branch_info/di.png" alt="#" />
+		<div class="branch city">
+			<div class="brancher">
+				<!-- <nav>
+					<a class = "yanse list" href="#">列表</a>
+					<a class = "statistics" href="#">统计信息</a>
+				</nav> -->
+				<ul>
+					<volist name="list" id="item">
+						<li>
+							<a href="__ROOT__/Mob/BranchInfo/branchInfo?id={$item.id}">
+								<img src="{$item.cover|show_img}"/>
+								<div>
+									<section>{$item.name}</section>
+									<p>{$item.party_count}名党员</p>
+								</div>
+							</a>
+						</li>
+					</volist>
+				</ul>
+			</div>
+		</div>
+		<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/branch_info/party.js" type="text/javascript" charset="utf-8"></script>
+		<include file="Common/_menu"/>
+	</body>
+
+</html>

@@ -1,0 +1,902 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <style>
+        .uplosd_image {
+            height: 120px !important;
+            width: 180px !important;
+        }
+
+        .info-cover {
+            width: 180px;
+            height: 120px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        .info-cover-span {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            bottom: 0px;
+            margin: 0 !important;
+            /* margin-left: 10px !important; */
+            font-size: 14px !important;
+            width: 180px;
+            text-align: center;
+            color: white !important;
+            cursor: pointer;
+        }
+        .item-cover{
+            width: 50px;
+            height: 50px;
+        }
+
+        .item-cover-div{
+            width: 60px;
+            height: 60px;
+            position: relative;
+        }
+        .item-cover-div .item-cover{
+            width: 60px;
+            height: 60px;
+            top: 0;
+            left: 0;
+        }
+        .item-cover-upload{
+            margin-top: 5px;
+            width: 60px;
+            line-height: 20px;
+            font-size: 10px;
+            text-align: center;
+        }
+        .webuploader-pick{
+            padding: 3px 0px;
+            width: 60px;
+            text-align: center;
+        }
+        .item-cover-div .item-cover-process{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 0;
+            background: rgba(121, 114, 121, 0.22);
+        }
+        .item-cover-div .item-cover-tip{
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            line-height: 60px;
+            width: 60px;
+            height: 60px;
+            font-size: 10px;
+        }
+
+    </style>
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">投票活动</strong></a> /
+                <small><empty name="detail">新增投票<else/>编辑投票《{$detail.title}》</empty></small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form">
+                    <div class="am-g am-margin-top">
+                        <input type="hidden" name="id" value="{$detail.id}">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            投票主题
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" name="title" value="{$detail.title}" <notempty name="detail">disabled</notempty> class="am-input-sm">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">封面</div>
+                        <div class="am-u-sm-8 am-u-md-3">
+                            <div class="am-form-group am-form-file">
+                                <input type="hidden" name="cover" value="{$detail.cover}">
+                                <div class="uplosd_image" id="info-cover">
+                                    <img src="{$detail.cover|show_img}" class="info-cover"/>
+                                    <empty name="detail">
+                                    <span class="info-cover-span">点击选择封面</span>
+                                        </empty>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-7 am-form-help"><empty name="detail">请上传大小小于2M的图片</empty></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">参与投票范围</div>
+                        <!-- <button type="button" id="select-all">0000</button> -->
+                        <empty name="detail['branchs']">
+                        <div class="am-u-sm-6 am-u-md-6">
+                            <select  name="branchs[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:300}"
+                                    id="branchs" multiple>
+
+                                <foreach name="branchs" item="v">
+
+                                    <option value="{$v.id}" >{$v.name}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right"></div>
+                        <else/>
+                        <div class="am-u-sm-8 am-u-md-10">{$detail['branchs']}</div>
+                    </empty>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">查看权限</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <notempty name="detail">
+                                    <volist name="roles" id="vo">
+                                    <php>
+                                        foreach($vote_roles as $role){
+                                        if($role['role_id'] == $vo['id']){
+                                        echo $vo['name'].' | ';
+                                        }
+                                        }
+                                    </php>
+                                        </volist>
+                                    <else/>
+                                    <volist name="roles" id="vo">
+                                    <label class="am-btn am-btn-default am-btn-xs" style="margin-top:5px;">
+                                        <input type="checkbox" name="roles" value="{$vo.id}"
+                                        <php>
+                                            foreach($vote_roles as $role){
+                                            if($role['role_id'] == $vo['id']){
+                                            echo 'checked';
+                                            }
+                                            }
+                                        </php>
+
+                                        > {$vo.name}  <php>
+                                    </php>
+                                    </label>
+                                </volist>
+                            </notempty>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top" id="lxBox">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">监督员</div>
+                        <empty name="detail['supervisor']">
+                        <div class="am-u-sm-6 am-u-md-6">
+                            <select name="jd[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:300}"
+                                    id="jdSelect" multiple>
+                                <foreach name="allUser" item="v">
+                                    <option value="{$v.uid}">{$v.realname}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right"></div>
+                        <else/>
+                        <div class="am-u-sm-8 am-u-md-10">{$detail['supervisor']}</div>
+                    </empty>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">可见范围</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <empty name="detail['visiblerange']">
+                            <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" id="visiblerange" name="visiblerange">
+                                <!-- 禁用 disabled 默认选中 selected-->
+                              <option value="1" selected>正常完成时显示</option>
+                              <option value="2">投票结束后显示</option>
+                              <option value="3">管理员可见</option>
+                              <option value="4">党委办可见</option>
+                            </select>
+                            <else/>{$visiblerange[$detail['visiblerange']]}</empty>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">可选择数量</div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" id="multiply_count" name="multiply_count" value="{$detail.multiply_count|default=1}" <notempty name="detail.multiply_count">disabled</notempty> class="am-input-sm">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+                    </div>
+
+                    <div class="am-g am-margin-top-sm">
+                        <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+                            内容简介
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-8">
+                            <script id="editor" type="text/plain">{$detail.content}</script>
+
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-2 am-form-help">
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">是否启用</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="status" id="option1" value=1
+                                    <if condition="$detail.status == 1 || $detail.status == null ">checked</if>
+                                    > 是
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="status" id="option2" value=0
+                                    <eq name="detail.status" value="0">checked</eq>
+                                    > 否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            投票结束
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                                <button type="button" class="am-btn am-btn-default am-margin-right" id="btn-end-date">结束日期</button><span id="limited_time"><notempty name="detail">{$detail.limited_time|date='Y-m-d',###}</notempty></span>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top" id="vote-items">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">投票项</div>
+                        <div class="am-u-sm-8 am-u-md-10" id='vote-items-list'>
+
+                            <empty name="detail">
+
+                                <div class="am-g am-margin-top" id="div-add">
+                                    <div class="am-u-sm-7 am-u-md-77">
+                                        <a class="am-btn am-btn-sm am-btn-success" id="btn-add-tiem">添加选项</a>
+
+                                        <a class="am-btn am-btn-sm am-btn-success btn-add" id="branch">添加支部选项</a>
+
+                                        <a class="am-btn am-btn-sm am-btn-success btn-add" id="dw">添加党务工作者选项</a>
+
+                                        <a class="am-btn am-btn-sm am-btn-success btn-add" id="role">添加人员选项</a>
+                                    </div>
+
+                                </div>
+
+
+
+                                <else/>
+                            <volist name="items" id="item">
+                                <div class="am-g am-margin-top">
+                                    <div class="am-u-sm-1 am-u-md-1">
+                                        选项：
+                                    </div>
+                                    <div class="am-u-sm-6 am-u-md-6">
+                                        <input type="text" name="item" value="{$item.title}" class="am-input-sm vote-item" data-sort="2" disabled>
+                                    </div>
+
+                                    <div class="am-u-sm-1 am-u-md-1">
+                                        <notempty name="item.image">
+                                        <input type="hidden"  value="" class="am-input-sm vote-item-cover" data-sort="2">
+                                        <img src="{$item.image|show_img}" class="item-cover" disabled onclick="return false;" >
+                                    </notempty>
+                                    </div>
+                                    <div class="am-u-sm-4 am-u-md-4">
+                                    </div>
+                                </div>
+                            </volist>
+
+                            </empty>
+
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+        <form style="display: none" id="img-file-form">
+            <input type="file" id="img-file" name="file">
+        </form>
+
+        <!--dom结构部分-->
+        <div id="uploader-demo" style="display: none">
+            <!--用来存放item-->
+            <div id="fileList" class="uploader-list"></div>
+            <div id="filePicker">选择图片</div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+
+        <empty name="detail">
+        <include file="_add_upload"/>
+            </empty>
+    </div>
+
+    <!-- branch弹出层 -->
+    <div class="am-popup" id="branch-popup">
+            <div class="am-popup-inner">
+              <div class="am-popup-hd">
+                <h4 class="am-popup-title" id="detail-title">投票项</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+              </div>
+        
+                    <div class="am-u-sm-12 am-u-md-12">
+                            <select id='branch-select'  name="branchs[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:300}"
+                                     multiple>
+                             
+                                <foreach name="branchs" item="v">
+                                        
+                                    <option value="{$v.name}" >{$v.name}</option>
+                                </foreach>
+                            </select>
+                    </div>
+                   
+            
+    
+                    <div class="am-u-sm-12 am-u-md-12" style="text-align:center;margin-top: 400px;" id="branch">
+                            <button type="button" class="am-btn am-btn-danger select-submit"  >确定</button>
+                            <button type="button" class="am-btn am-btn-secondary select-all">全选</button>
+                        
+                           
+                    </div>    
+            </div>
+          </div>
+          <!-- end -->
+
+            <!-- dw弹出层 -->
+    <div class="am-popup" id="dw-popup">
+            <div class="am-popup-inner">
+              <div class="am-popup-hd">
+                <h4 class="am-popup-title" id="detail-title">投票项</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+              </div>
+        
+                    <div class="am-u-sm-12 am-u-md-12">
+                            <select id='dw-select'  name="dw[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:300}"
+                                     multiple>
+                             
+                                <foreach name="dw_list" item="v">
+                                        
+                                    <option value="{$v.name}" >{$v.name}</option>
+                                </foreach>
+                            </select>
+                    </div>
+                   
+            
+    
+                    <div class="am-u-sm-12 am-u-md-12" style="text-align:center;margin-top: 400px;" id="dw">
+                       
+                            <button type="button" class="am-btn am-btn-danger select-submit"  >确定</button>
+                            <button type="button" class="am-btn am-btn-secondary select-all">全选</button>
+                           
+                    </div>    
+            </div>
+          </div>
+          <!-- end -->
+
+ <!-- role弹出层 -->
+    <div class="am-popup" id="role-popup">
+            <div class="am-popup-inner">
+              <div class="am-popup-hd">
+                <h4 class="am-popup-title" id="detail-title">投票项</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+              </div>
+        
+                    <div class="am-u-sm-12 am-u-md-12">
+                            <select id='role-select'  name="role[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:300}"
+                                    id="branchs" multiple>
+                             
+                                <foreach name="role_list" item="v">
+                                        
+                                    <option value="{$v.name}" >{$v.name}</option>
+                                </foreach>
+                            </select>
+                    </div>
+                   
+            
+    
+                    <div class="am-u-sm-12 am-u-md-12" style="text-align:center;margin-top: 400px;" id="role">
+                            <button type="button" class="am-btn am-btn-danger select-submit"  >确定</button>
+                            <button type="button" class="am-btn am-btn-secondary select-all">全选</button>
+                        
+                           
+                    </div>    
+            </div>
+          </div>
+<!-- end -->
+<!--弹出层 -->
+    <!-- <div class="am-popup" id="my-popup">
+        <div class="am-popup-inner">
+          <div class="am-popup-hd">
+            <h4 class="am-popup-title" id="detail-title">投票项</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+          </div>
+
+          <div class="am-popup-bd" style="overflow: hidden;">
+
+            <div class="am-input-group am-input-group-sm">
+                <input type="text" name="keyword" value="{$keyword}" class="am-form-field" placeholder="投票项搜索">
+              <span class="am-input-group-btn">
+                <button class="am-btn am-btn-default" type="submit">搜索</button>
+              </span>
+              </div>
+
+
+              <div class='select-list' style="margin-top:20px;padding-left: 10px;overflow-y:scroll;height: 442px;" >
+<<<<<<< HEAD
+                  
+                  
+                 
+              </div>
+              <div style="text-align:center;">
+               
+              <button type="button" class="am-btn am-btn-danger select-submit">确定</button>
+             
+              </div>    
+=======
+                    <!-- <div>
+                        <input type="checkbox"  id="" onclick="onAll()">
+                            全选
+                    </div> -->
+
+
+              </div>
+              <div style="text-align:center;">
+
+              <button type="button" class="am-btn am-btn-danger" id="select-submit">确定</button>
+
+              </div>
+>>>>>>> 31463fed54703608c9d5af817a474d0d29b64efb
+
+          </div>
+        </div>
+      </div> -->
+<!--弹出层end -->
+
+</block>
+<block name="scripts">
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.all.min.js"></script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+
+    <!--引入JS-->
+    <script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/webuploader-0.1.5/uploadImage.js"></script>
+
+    <script>
+        //全局排序号 添加投票项用到的
+        var sort = $('#vote-items-list').find('.am-margin-top').length
+    //触发弹出层
+    $('.btn-add').click(function(){
+        var type = $(this).attr('id')
+        console.log(type)
+             $('#'+type+'-popup').modal();
+  
+            })
+    
+    //弹出框中的全选按钮
+    $(".select-all").click(function(){
+          
+        type = $(this).parent().attr('id');
+        console.log(type)
+            $("#"+type+'-select').siblings('.am-dropdown').find('.am-selected-list').find('li').each(function(i,e){
+
+                console.log("li", $(e).trigger('click') ) //模拟点击
+            })
+           
+            if($(this).html() == '全选')
+            $(this).html('取消全选');
+            else
+            $(this).html('全选');
+        })
+        
+    //确定按钮
+    $('.select-submit').click(function(){
+       type = $(this).parent().attr('id');
+        
+        //删除之前已经存在同类型的投票选项
+        if($('#vote-items-list').find('.append-'+type+'-div').length){
+            $('#vote-items-list').find('.append-'+type+'-div').each(function(){
+                $(this).remove();
+            });
+        }
+        var html = '';
+        var select_arr= $("#"+type+'-select').val()
+        if(select_arr){
+            select_arr .forEach(v => {
+            var sortid = "uploader" + sort;
+                //加进去选项
+                  html = "<div class='am-g am-margin-top append-"+type+"-div' >" +
+                    "<div class='am-u-sm-1 am-u-md-1'>选项：</div>" +
+                    "<div class='am-u-sm-6 am-u-md-6'>" +
+                    "<input type='text'  value='"+trim(v)+"' class='am-input-sm vote-item' data-sort='" + sort + "'>" +
+                    "</div>" +
+                    "<div class='am-u-sm-2 am-u-md-2'>" +
+                   "<div class='item-cover-div '><input type='hidden'  value='' class='am-input-sm vote-item-cover' data-sort='" + sort + "'><img src='__ROOT__/Public/Common/img/common.png' class='item-cover'><div class='item-cover-process'></div><div class='item-cover-tip' ></div></div><div class='item-cover-upload'  id='" +
+                    sortid + "'>点击上传</div>"
+                    +"</div> " +
+                    " <div class='am-u-sm-2 am-u-md-2'>"+
+                    "<a class='am-btn am-btn-danger am-btn-sm btn-item-delete'>删除</a>"+
+                    "</div>"+
+                    "</div>";
+
+                $('#div-add').before(html);
+                createImageByEdit("#" +sortid);
+                sort++;       
+            });
+        }
+         $('#'+type+'-popup').modal('close');
+       
+    
+    })
+    //删除左右两端的空格
+    function trim(str){ 
+　　     return str.replace(/(^\s*)|(\s*$)/g, "");
+　　 }
+
+    </script>
+    <script>
+        var swfUrl = '__STATICS__/webuploader-0.1.5/Uploader.swf';
+        var serverUrl = '__ROOT__/Admin/Image/ajaxSaveVoteItemImage';
+        function createImageByEdit(pick){
+            createImageUploader(swfUrl, serverUrl,pick , function(obj){
+                //开始
+                obj.parent().find('.item-cover-tip').text('0%');
+            }, function(obj,file, percentage){
+                //过程
+                obj.parent().find('.item-cover-process').css('height',percentage * 100 + '%');
+                obj.parent().find('.item-cover-tip').text(percentage * 100 + '%');
+            }, function(obj, file, data){
+                //成功
+                if (data['status'] == 0) {
+                    obj.parent().find('.item-cover-process').css('height','0%');
+                    obj.parent().find('.item-cover').attr('src', data.data.show_path);
+                    obj.parent().find('.vote-item-cover').val(data.data.save_path);
+                    obj.parent().find('.item-cover-tip').text('');
+                } else {
+                    obj.parent().find('.vote-item-cover').val("");
+                    obj.parent().find('.item-cover-tip').text('上传失败');
+                    alert_modal(data.msg);
+                }
+            }, function(obj,file){
+                //失败
+                obj.parent().find('.vote-item-cover').val("");
+                obj.parent().find('.item-cover-tip').text('上传失败');
+            });
+        }
+        createImageByEdit("#uploader1");
+        createImageByEdit("#uploader2");
+
+
+
+    </script>
+    <script>
+
+        $('#btn-add-tiem').click(function(){
+            
+            console.log($('#vote-items-list').find('div'))
+            console.log(sort)
+            var sortid = "uploader" + sort;
+            var html = "<div class='am-g am-margin-top'>" +
+                    "<div class='am-u-sm-1 am-u-md-1'>选项：</div>" +
+                    "<div class='am-u-sm-6 am-u-md-6'>" +
+                    "<input type='text'  value='' class='am-input-sm vote-item' data-sort='" + sort + "'>" +
+                    "</div>" +
+                    "<div class='am-u-sm-2 am-u-md-2'>" +
+                   "<div class='item-cover-div '><input type='hidden'  value='' class='am-input-sm vote-item-cover' data-sort='" + sort + "'><img src='__ROOT__/Public/Common/img/common.png' class='item-cover'><div class='item-cover-process'></div><div class='item-cover-tip' ></div></div><div class='item-cover-upload'  id='" +
+                    sortid + "'>点击上传</div>"
+                    +"</div> " +
+                    " <div class='am-u-sm-2 am-u-md-2'>"+
+                    "<a class='am-btn am-btn-danger am-btn-sm btn-item-delete'>删除</a>"+
+                    "</div>"+
+                    "</div>";
+            sort++;
+            $('#div-add').before(html);
+            createImageByEdit("#" +sortid);
+        })
+
+        $('#vote-items').on('click', '.btn-item-delete', function(){
+            $(this).parent().parent().remove();
+
+        })
+
+
+    </script>
+
+    <script>
+        var nowTemp = new Date();
+        var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+        var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+        var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+        var $myend = $('#btn-end-date');
+        var checkin = $myend .datepicker({
+            onRender: function(date, viewMode) {
+                // 默认 days 视图，与当前日期比较
+                var viewDate = nowDay;
+
+                switch (viewMode) {
+                    // moths 视图，与当前月份比较
+                    case 1:
+                        viewDate = nowMoth;
+                        break;
+                    // years 视图，与当前年份比较
+                    case 2:
+                        viewDate = nowYear;
+                        break;
+                }
+                return date.valueOf() < viewDate ? 'am-disabled' : '';
+            }
+        }).on('changeDate.datepicker.amui', function(event) {
+            $('#limited_time').text($('#btn-end-date').data('date'));
+            $(this).datepicker('close');
+        });
+
+
+    </script>
+    <script type="text/javascript">
+
+        var ue = UE.getEditor('editor', {
+            // autoHeight: true,
+            initialFrameHeight: 400,
+                <notempty name="detail">
+            readonly:true,
+                </notempty>
+            // retainOnlyLabelPasted: true
+        });
+//        ue.ready(function () {
+//            ue.setContent("");
+//        });
+
+        function submit_info() {
+
+            // if (is_cer != 1) {
+            //     toastError('你还没通过认证');
+            //      return false;
+            // };
+            var id = $('input[name="id"]').val();
+            var jd = $('#jdSelect').val();
+            // 参与投票范围
+            var branchs = $('#branchs').val();
+            var title = $('input[name="title"]').val();
+            var limited_time = $('#limited_time').text();//limited_time
+            var roles = new Array();
+            var multiply_count = $('#multiply_count').val();
+            var status = $('input[name="status"]:checked').val();
+            var cover = $('input[name="cover"]').val();
+            var visiblerange = $('#visiblerange').val();
+            <empty name="detail">
+            var content = ue.getContent();
+                </empty>
+            $('input[name="roles"]:checked').each(function () {
+                roles.push($(this).val());
+            });
+            var items = new Array();
+            var pass = true;
+            var count = 0;
+            $('.vote-item').each(function (index) {
+                count ++;
+                var title = $(this).val()
+                if(title == ''){
+                    pass = false;
+                    return false;
+                }
+
+                var img_path = $(this).parent().parent().find('.vote-item-cover').val();
+                items.push({
+                    image:img_path,
+                    title:title,
+                    sort:index + 1
+                });
+            });
+            if(!branchs){
+                alert_modal("请选择参与投票的支部");
+                return
+            }
+            if(!pass){
+                alert_modal("选项不能为空");
+                return false;
+            }
+            if(count < 2){
+                alert_modal("至少设置2个选项");
+                return false;
+            }
+            if( multiply_count < 1){
+                alert_modal("值不能小于1");
+                return
+            }
+
+            if( multiply_count > items.length){
+                multiply_count = items.length
+            }
+
+            var data = {
+                'id': id,
+                'jd': jd,
+                'branchs':branchs,
+                'limited_time':limited_time,
+                'title': title,
+                'roles': roles,
+                'cover': cover,
+                'multiply_count': multiply_count,
+                'status': status,
+                'items': items,
+                'visiblerange': visiblerange,
+            <empty name="detail">
+                'content': content,
+                </empty>
+            };
+           // console.log('data',data);
+           // return false;
+            $.ajax({
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Vote/ajaxSave',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    console.log('data', data)
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/Vote/index?p={$p}');
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+        /*****************弹窗里面的 js*********************/
+            //弹出封面裁剪界面
+        $('#info-cover').click(function () {
+            $('#doc-modal-1').modal();
+        })
+
+        var options = {
+            aspectRatio: 18 / 12,
+            strict: false,
+            preview: '.img-preview',
+            crop: function (e) {
+                $('input[name="avatar_data"]').val(JSON.stringify(e));
+            }
+        };
+
+        var $image = $('#show_img');
+        var console = window.console || {
+                    log: function () {
+                    }
+                };
+
+        var URL = window.URL || window.webkitURL;
+        var blobURL;
+        $image.on({}).cropper(options);
+
+        $('#avatarInput').change(function () {
+
+
+            var files = this.files;
+            var file;
+
+            if (!$image.data('cropper')) {
+                return;
+            }
+
+            if (files && files.length) {
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    blobURL = URL.createObjectURL(file);
+                    $image.one('built.cropper', function () {
+
+                        // Revoke when load complete
+                        URL.revokeObjectURL(blobURL);
+                    }).cropper('reset').cropper('replace', blobURL);
+//                    $(this).val('');
+                } else {
+                    window.alert('Please choose an image file.');
+                }
+            }
+
+
+        })
+        /*******************************************/
+
+
+        $('.avatar-save').click(function () {
+            var avatar = $('input[name="avatar_data"]').val();
+            // if (avatar == '') {
+            //     toastError('请先选择图片');
+            //     return false;
+            // }
+            var formData = new FormData($('.cover-form')[0]);
+//            var formData = $('.cover-form').serialize();
+            $.ajax({
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                url: __root__ + '/Admin/Image/ajaxSaveVoteCover',
+                beforeSend: function() {
+                    console.log("before");
+                },
+                uploadProgress: function(event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    console.log("progress=" +percentVal);
+                 },
+
+            success: function (data) {
+                console.log("success=");
+                    if (data['status'] == 0) {
+                        $('input[name="cover"]').val(data.data.save_path);
+                        $('.info-cover').attr('src', data.data.show_path);
+                        $('#doc-modal-1').modal('close');
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {con
+                    alert_modal('网络异常,请稍候重试');
+                }
+
+
+            })
+        })
+        function closeUploader(uploader) {
+            // 移除所有缩略图并将上传文件移出上传序列
+            for (var i = 0; i < uploader.getFiles().length; i++) {
+                // 将图片从上传序列移除
+                uploader.removeFile(uploader.getFiles()[i]);
+                //uploader.removeFile(uploader.getFiles()[i], true);
+                //delete uploader.getFiles()[i];
+                // 将图片从缩略图容器移除
+                var $li = $('#' + uploader.getFiles()[i].id);
+                $li.off().remove();
+            }
+
+            setState('pedding');
+
+            // 重置uploader，目前只重置了文件队列
+            uploader.reset();
+            // 更新状态等，重新计算文件总个数和总大小
+        }
+
+   
+
+    </script>
+</block>

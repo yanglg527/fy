@@ -1,0 +1,205 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .hide{
+            display: none
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">规则管理</strong></a> /
+                <small><empty name="detail">新增<else/>编辑</empty>规则</small>
+            </div>
+        </div>
+        <hr>
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form">
+
+                    <empty name="detail"><else/><input type="hidden" name="id" value="{$detail.uid}"/></empty>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            帐号
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="username" value="{$detail.username}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            密码
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="password" value="">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">6~15位</div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            姓名
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="realname" value="{$detail.realname}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">启用</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <empty name="detail">
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="status" value="1" checked="true"> 是
+                                    </label>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="status" value="0"> 否
+                                    </label>
+                                    <else/>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="status" value="1" <if condition="$detail.status == 1"> checked="true" </if>> 是
+                                    </label>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="status" value="0" <if condition="$detail.status == 0"> checked="true" </if>> 否
+                                    </label>
+                                </empty>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">管理员角色</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <empty name="detail">
+                                    <volist name="groups" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="group_id" value="{$item.id}"
+                                            <if condition="$i == 1">checked="true"</if>> {$item.title}
+                                        </label>
+                                    </volist>
+                                    <else/>
+                                    <volist name="groups" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="group_id" value="{$item.id}"
+                                            <if condition="$item['id'] == $detail['group_id']">checked="true"</if>> {$item.title}
+                                        </label>
+                                    </volist>
+                                </empty>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="am-g am-margin-top <if condition="$detail.group_id == 8"><else/> hide</if>" id="hq-div" >
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">总支</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <empty name="detail">
+                                    <volist name="hqs" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="hq" value="{$item.id}" > {$item.name}
+                                        </label>
+                                        </volist>
+                                    <else/>
+                                    <volist name="hqs" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="hq" value="{$item.id}" <if condition="$detail['admin_branch_hq_id'] == $item['id']"> checked="true" </if> > {$item.name}
+                                        </label>
+                                    </volist>
+                                </empty>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top <if condition="$detail.group_id == 4"><else/> hide</if>" id="branch-div" >
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right" >支部</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <empty name="detail">
+                                    <volist name="branchs" id="item" >
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="branch" value="{$item.id}" > {$item.name}
+                                        </label>
+                                    </volist>
+                                    <else/>
+                                    <volist name="branchs" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="branch" value="{$item.id}" <if condition="$detail['admin_branch_id'] == $item['id']"> checked="true" </if> > {$item.name}
+                                        </label>
+                                    </volist>
+                                </empty>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save" >提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+</block>
+<block name="scripts">\
+    <script>
+        $('input[name="group_id"]').change(function() {
+            if($(this).val() == 8){
+                //总支 隐藏支部
+                $('#branch-div').addClass("hide");
+                $('#hq-div').removeClass("hide");
+            }else if($(this).val() == 4){
+                //总支 隐藏支部
+                $('#branch-div').removeClass("hide");
+                $('#hq-div').addClass("hide");
+            }else{
+                //总支 隐藏支部
+                $('#branch-div').addClass("hide");
+                $('#hq-div').addClass("hide");
+            }
+        });
+    </script>
+    <script>
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('#btn-save').click(function(){
+
+            $.ajax({
+                url:'__ROOT__/Admin/System/ajaxSaveAdmin',
+                type:'POST', //GET
+                data:$('.am-form').serialize(),
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                    if(data.status == 0){
+                        loading_page('__ROOT__/Admin/System/adminList?p={$p}');
+                    }else{
+                        alert_modal(data.msg);
+                    }
+                },
+                error:function(xhr,textStatus){
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+    </script>
+</block>

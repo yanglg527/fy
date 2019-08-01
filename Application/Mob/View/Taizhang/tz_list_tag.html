@@ -1,0 +1,165 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/ledger_list/ledger_list.css">
+    <style>
+        .banner .title1{
+            width:100%;
+            height:1rem;
+            line-height: 1rem;
+            position: relative;
+            z-index: 10;
+            background-color: #CE3D3A;
+            color:#ffffff;
+            font-size:12px;
+            text-align: center;
+        }
+        .banner .title1>i{
+            display: inline-block;
+            width:0.5rem;
+            height:0.5rem;
+            background:url("__IMG__/ledger_list/return.png") no-repeat 100%;
+            background-size: 100%;
+            position: absolute;
+            left:0.26rem;
+            top:25%;
+        }
+
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .title_img .title {
+            background: url(__IMG__/branch/title@2x.png) no-repeat 100% 100%;
+            background-size: 100%;
+        }
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        html{
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <div class="banner">
+            <div class="title1"><i onclick="history.go(-1);"></i>
+                    {$webTitle}
+            </div>
+            <div class="banner_bg"><img src="__IMG__/ledger_list/bg.png" alt=""></div>
+        </div>
+        <div class="content">
+            <div class="search">
+                <input type="search" placeholder="请输入关键字"><i id="search-btn"></i>
+            </div>
+            <div class="list" style="margin-top: 40px">
+
+
+            </div>
+        </div>
+    </div>
+    <include file="Common/_loading"/>
+    <include file="Taizhang/_item"/>
+</block>
+<block name="scripts">
+	<script>var __root__ = "__ROOT__";</script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__JS__/ledger_list/ledger_list.js"></script>
+    <script src="__JS__/ledger_list/dz.js"></script>
+    <script>
+
+		var listItemHtmlArray1 = $('#listItem').html().split("##");
+
+        refresh();
+
+        function refresh() {
+            var keyword = $('.search input').val();
+
+            $('.list').html('');
+            $('.list').append("<div class='div-loading' style='font-size: 12px;text-align: center;height: 30px;line-height: 30px;color: dimgrey'>加载中...</div>");
+            ajaxLoading(keyword);
+        }
+
+        function  ajaxLoading(keyword) {
+            $.ajax({
+                data: {
+                    keyword: keyword,
+                    tag_id:'{$detail.id}',
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Mob/Taizhang/ajax_loading_tz',
+                success: function (data) {
+                    $('.div-loading').remove()
+                    if (data['status'] == 0) {
+                        
+                        if (data.data && data.data.length > 0) {
+                            var listItem = "";
+							var itemTemp = "";
+                            $.each(data['data'], function (i, vo) {
+                                
+                                listItemHtmlArray1[1] = vo['id'];
+								listItemHtmlArray1[3] = vo['template_id'];
+								listItemHtmlArray1[5] = get_tz_img_url(vo['cover']);
+								listItemHtmlArray1[7] = vo['title'];
+								listItemHtmlArray1[9] = get_content(vo['content']);
+								if(check_null(vo.tag_name)){
+                                    listItemHtmlArray1[11] = "";
+                                }else{
+                                	listItemHtmlArray1[11] = "<span>" + vo.tag_name + "</span>";
+                                }
+								listItemHtmlArray1[13] = get_head_url(vo.user_headimgurl)
+								listItemHtmlArray1[15] = show_name(vo.user_realname);
+								listItemHtmlArray1[17] = show_name(vo.organization_name);
+								listItemHtmlArray1[19] = get_time(vo.create_time);
+								listItemHtmlArray1[21] = vo['id'];
+								listItemHtmlArray1[23] = show_count(vo.sc_count);
+								listItemHtmlArray1[25] = vo['id'];
+								listItemHtmlArray1[27] = show_count(vo.pl_count);
+								listItemHtmlArray1[29] = vo['id'];
+								listItemHtmlArray1[31] = show_count(vo.dz_count);
+                                
+                               itemTemp = "";
+								for(var j = 0; j < listItemHtmlArray1.length; j++) {
+									itemTemp += listItemHtmlArray1[j];
+								}
+								listItem += itemTemp;
+							})
+                            $('.list').append(listItem);
+                            
+                        } else {
+                        	
+                            $('.list').append("<div class='div-loading' style='font-size: 12px;text-align: center;height: 30px;line-height: 30px;color: dimgrey'>没有更多了</div>");
+                        }
+                    } else {
+                    	
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    $('.div-loading').remove()
+                    alert('网络异常');
+                }
+            })
+        }
+        $('#search-btn').click(function () {
+            refresh()
+        })
+
+    </script>
+</block>
+

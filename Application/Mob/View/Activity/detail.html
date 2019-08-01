@@ -1,0 +1,125 @@
+<extend name="./Application/Mob/View/Common/base.html" />
+<block name="styles">
+
+	<link rel="stylesheet" type="text/css" href="__CSS__/activity/introduction.css" />
+	<style>
+		header.head {
+			background: url(__IMG__/branch/head_bg.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.banner .head .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .title .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .search {
+			background: url(__IMG__/branch/search@2x.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.friend_list li>.right>.like>i {
+			background: url(__IMG__/friend_list/like.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.friend_list li>.right>.comment>i {
+			background: url(__IMG__/friend_list/ledger.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.friend_list li>.detail>.name>span.woman {
+			background: url(__IMG__/friend_list/woman.png) no-repeat 100%;
+			background-size: 100%;
+		}
+	</style>
+</block>
+<block name="content">
+	<include file="Common/_nav1"/>
+	<div class="introduction" style="padding-bottom: 20px;">
+		<div class="heart">
+			<img src="{$detail.cover|show_img}" />
+			<ul>
+				<li><pre>活动名称：</pre><span> {$detail.title}</span><i></i></li>
+				<li><pre>活动地点：</pre><span>{$detail.address}</span><i></i></li>
+				<li><pre>活动时间：</pre><span>{$detail.start_time|date='Y-m-d',###} 至 {$detail.end_time|date='Y-m-d',###}</span><i></i></li>
+				<li><pre>报名时间：</pre><span>{$detail.entry_start_time|date='Y-m-d',###} 至 {$detail.entry_end_time|date='Y-m-d',###}</span><i></i></li>
+				
+				<li><pre>活动内容：</pre><i></i></li>
+				<div style="width:100$;"><p>{$detail.content}</p></div>
+				<!--<li><pre>相关要求：</pre><span>{$detail.require_content}</span><i></i></li>-->
+				<li><pre>发布人电话：</pre><span>{$detail.mobile} {$detail.name}</span><i></i></li>
+				<li><pre>发布人单位：</pre><span>{$detail.unit_name}</span><i></i></li>
+			</ul>
+			<div class="box" style="margin-bottom: 20px;">
+				<empty name="attend">
+					<a class="sign signno"><span class="no">我要报名</span></a>
+
+					<else/>
+					<a class="sign signyes"><span class="yes">取消报名</span></a>
+				</empty>
+				<if condition="$detail['uid'] == $user['uid']">
+					<!-- <a href="__ROOT__/Mob/Activity/attends?id={$detail.id}" class="list">名单浏览</a> -->
+					<a href="__ROOT__/Mob/Activity/attends_management?id={$detail.id}" class="list">名单浏览</a>
+					<else/>
+					<a href="__ROOT__/Mob/Activity/attends?id={$detail.id}" class="list">名单浏览</a>
+				</if>
+<br>
+			</div>
+			<br>
+		</div>
+	</div>
+</block>
+<block name="scripts">
+	<script>
+		$('.introduction .signno').click(function() {
+			$.ajax({
+				url: '__ROOT__/Mob/Activity/ajaxAttend',
+				type: 'POST', //GET
+				data: {
+					id:"{$detail.id}"
+				},
+				dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+				success: function(data) {
+					if(data.status == 0) {
+						alert("报名成功")
+						window.location.reload();
+					} else {
+						alert(data.msg);
+					}
+				},
+				error: function(xhr, textStatus) {
+					alert("服务器暂时无法连接，请稍候再试");
+				}
+			})
+		})
+		$('.introduction .signyes').click(function() {
+
+			$.ajax({
+				url: '__ROOT__/Mob/Activity/ajaxCancelAttend',
+				type: 'POST', //GET
+				data: {
+					id: "{$detail.id}"
+				},
+				dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+				success: function(data) {
+					if(data.status == 0) {
+						alert("已取消报名")
+						window.location.reload();
+					} else {
+						alert(data.msg);
+					}
+				},
+				error: function(xhr, textStatus) {
+					alert("服务器暂时无法连接，请稍候再试");
+				}
+			})
+
+		})
+	</script>
+</block>

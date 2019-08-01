@@ -1,0 +1,97 @@
+.group-name{
+    display:none;
+}
+.close{
+    display:none;
+}
+#vld-tooltip {
+    position: absolute;
+    z-index: 1000;
+    padding: 5px 10px;
+    background: #F37B1D;
+    min-width: 150px;
+    color: #fff;
+    transition: all 0.15s;
+    box-shadow: 0 0 5px rgba(0,0,0,.15);
+    display: none;
+  }
+#vld-tooltip:before {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    content: "";
+    border-width: 0 8px 8px;
+    border-color: transparent transparent #F37B1D;
+    border-style: none inset solid;
+}
+.g-attachment-list .img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: center/75% 75% no-repeat;
+}
+.checkbox-item{
+    line-height: 22px;
+    font-size: 0;
+}
+
+.checkbox-item:not(:last-child){
+    margin-right: 10px;
+}
+
+.checkbox-input{
+    margin-top: 0;
+}
+
+.checkbox-title{
+    display: inline-block;
+    min-width: 6em;
+    margin-left: 10px;
+    font-size: 14px;
+    /*font-weight: normal;*/
+}
+.g-attachment-list .img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: center/75% 75% no-repeat;
+}
+.ctrl-row::after{
+    display: block;
+    content:"";
+    clear: both;
+}
+.ctrl-col{
+    float: left;
+    width: 33.33%;
+}
+.ctrl-button{
+    width: 4em;
+    margin: 5px auto;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+}
+#easyContainer>.easy_upload-container{
+    width: 100% !important;
+}
+
+.first-checkbox{
+    margin-left: 10px;
+}
+@media only screen and (max-width: 1400px){
+    .ctrl-button{
+        width:3em;
+    }
+    .ctrl-text{
+        display: none;
+    }
+}

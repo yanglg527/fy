@@ -1,0 +1,124 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+
+<block name="styles">
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__STATICS__/datetimepicker/css/amazeui.datetimepicker.css"/>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">问卷管理</strong></a> /
+                <small>
+                    <empty name="detail">新建问卷
+                        <else/>
+                        编辑{$detail.event_title}
+                    </empty>
+                </small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <include file="_edit"/>
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+    <include file="_edit_upload"/>
+
+
+</block>
+<block name="scripts">
+    <script src="__STATICS__/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"
+            charset="UTF-8"></script>
+    <script>
+        $(function () {
+            var today= new Date();
+            $('#my-end').datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd hh:00',
+                minView: 1,
+                startDate:today
+            }).on('changeDate.datetimepicker.amui', function (event) {
+                $('#my-endDate').text($('#my-end').data('date'));
+                $(this).datetimepicker('hide');
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+
+
+        function submit_info() {
+//            alert($('input[name="status"]:checked').val());
+
+            var id = $('input[name="id"]').val();
+            var type = $('input[name="type"]').val();
+            var title = $('input[name="title"]').val();
+            var role_limit = new Array();
+            var intro = $('textarea[name="intro"]').val();
+            $('input[name="role_limit[]"]:checked').each(function () {
+                role_limit.push($(this).val());
+            });
+
+            $.ajax({
+                data: {
+                    'id': id,
+                    'title': title,
+                    'end_time':$('#my-endDate').text(),
+                    'role_limit': role_limit,
+                    'people_limit': $('input[name="people_limit"]').val(),
+                    'type': type,
+                    'status': $('input[name="status"]:checked').val(),
+                    'branch_id':$("#branch_id").find('option:selected').val(),
+                    'intro': intro,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Questionnaire/ajaxSaveTest',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    close_loading();
+                    console.log(data);
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/Questionnaire/index?p={$p}');
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal("服务器暂时无法连接");
+                }
+            })
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

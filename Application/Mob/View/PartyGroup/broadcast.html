@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/party_group/public.css">
+    <link rel="stylesheet" href="__CSS__/party_group/broadcast.css">
+
+</head>
+
+<body>
+<div class="page">
+    <div class="content">
+        <div class="qiang"></div>
+        <if condition="$isGroup">
+            <div class="contenter">
+                <div class="cont-head">
+                    <img src="__IMG__/party_group/broad.png" alt="小广播" /><span>录入小广播：</span><a id="btn-send">发布</a>
+                </div>
+                <textarea id="msg" name="broadcast" placeholder="(不超过50个字)" maxlength="100"></textarea>
+            </div>
+        </if>
+    </div>
+</div>
+</body>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<!--<script src="__STATICS__/zepto/zepto.js"></script>-->
+<!--<script src="__STATICS__/zepto/event.js"></script>-->
+<!--<script src="__STATICS__/zepto/touch.js"></script>-->
+<include file="Common/_menu"/>
+<script type="text/javascript">
+    //启用双击监听
+    mui.init({
+//        gestureConfig:{
+//            doubletap:true
+//        },
+        subpages:[{
+            url:'_sub_broadcast.html',
+            id:'_sub_broadcast.html',
+            styles:{
+                top: '0px',
+                bottom: '0px',
+            },
+        }]
+    });
+
+//    var contentWebview = null;
+//    document.querySelector('header').addEventListener('doubletap',function () {
+//        if(contentWebview==null){
+//            contentWebview = plus.webview.currentWebview().children()[0];
+//        }
+//        contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+//    });
+</script>
+
+</html>

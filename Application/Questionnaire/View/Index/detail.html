@@ -1,0 +1,94 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/Index/sm.min.css">
+    <link rel="stylesheet" href="__CSS__/Index/detail.css">
+    <style>
+        .content {
+            background: #fefefe;
+        }
+
+        .content img {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="page-group" style="top:45px;background: #fefefe;">
+        <div class="page page-current" style="top:0px">
+            <!-- 你的html代码 -->
+            <!--&lt;!&ndash; 标题栏 &ndash;&gt;-->
+            <!--<header class="header bar bar-nav">-->
+            <!--<h1 class="title" style="color: white;">员工满意度调查问卷</h1>-->
+            <!--</header>-->
+            <!-- 这里是页面内容区 -->
+
+            <div class="content" style="bottom: 45px;">
+                <div class="content-block-title" style="margin-top: 10px">
+                    <h3 style="font-size: 18px;text-align: center;height: 30px;line-height: 30px;margin: 0 !important;">
+                        {$detail.title}</h3>
+                    <notempty name="detail.role_limit">
+                        <p style="line-height: 15px;height: 15px">参与限制:{$detail.role_limit}</p>
+                    </notempty>
+                    <notempty name="examPaper">
+                        <p style="line-height: 15px;height: 15px;margin-top: 20px">你本次问卷中的选择：</p>
+                    </notempty>
+                    </p>
+                </div>
+
+                <notempty name="detail">
+                    <notempty name="examPaper">
+                        <include file="_detail_show"/>
+                        <else/>
+                        <include file="_detail_form"/>
+                    </notempty>
+                </notempty>
+            </div>
+
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        $('#btn-hand').click(function () {
+            loading();
+
+            var bool = true;
+            $('.card').each(function(){
+                var value = $(this).find('input:checked').val();
+                if(value == undefined){
+
+                    alert("选项不能为空");
+                    $(this).find('input').first().focus();
+                    bool = false;
+                    return false;
+                }
+
+            });
+            if(!bool){
+                return false;
+            }
+            $.ajax({
+                url: "__ROOT__/Questionnaire/Index/ajaxHand",
+                type: "post",
+                data: $('.exam_inner').serialize(),
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+            return false;
+        })
+        ;
+    </script>
+</block>

@@ -1,0 +1,683 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .topic-block {
+            background: rgb(255, 255, 255);
+            margin-bottom: 20px;
+        }
+
+        .topic-header {
+            border-top: 1px solid rgb(240, 240, 241);
+            display: block !important;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+            color: rgb(120, 120, 120);
+        }
+
+        .topic-header:active {
+            background: white !important;
+        }
+
+        .list-area {
+            border-bottom: 1px solid rgb(240, 240, 241);
+            display: table;
+            padding-left: 30px;
+        }
+
+        .list-area:active {
+            background: rgb(243, 243, 243);
+        }
+
+        .list-area li {
+            display: table-cell;
+            height: 80px;
+            vertical-align: middle;
+            padding-top: 15px;
+            padding-bottom: 15px;
+
+        }
+
+        .icon-item {
+            width: 55px;
+        }
+
+        .icon-item img {
+            width: 100%;
+        }
+
+        .text-item {
+            padding-left: 20px;
+        }
+
+        .text-item span {
+            font-size: 18px;
+            color: rgb(59, 59, 59);
+        }
+    </style>
+    <style>
+        .no-border-bottom {
+            border-bottom: 0 !important;
+        }
+
+        .title {
+            margin: .4em 0 0 0;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .content {
+        }
+
+        .content .cover-box {
+            background: white;
+            height: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .cover-box .cover {
+
+            background: rgba(160, 160, 160, 0.35);
+            width: 100%;
+            height: 2.3em;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .content .cover-box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .cover .cover-left,
+        .cover-right {
+            position: absolute;
+            bottom: .5em;
+        }
+
+        .cover span {
+            color: #F9F9F9;
+        }
+
+        .cover-left {
+            left: .8em;
+        }
+
+        .cover-right {
+            right: .8em;
+        }
+
+        .content .edit-row input {
+            font-size: 1.1em;
+            outline: 0;
+            color: #666;
+            border: none;
+            height: 3.7em;
+            vertical-align: top;
+            width: 100%;
+            position: absolute;
+            padding-left: 2.4em;
+            background: transparent;
+            box-sizing: border-box;
+        }
+
+        .content .edit-row input.input-right {
+            text-align: right;
+            padding-right: 2.6em;
+        }
+
+        .content .edit-row {
+            margin-left: 1.2em;
+            padding-right: 1.2em;
+            line-height: 4em;
+            min-height: 4em;
+            box-sizing: content-box;
+            position: relative;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f2;
+        }
+
+        .content .edit-row .form_datetime:focus {
+            cursor: not-allowed;
+        }
+
+        .content .edit-row span.glyphicon {
+            font-size: 1.3em;
+            color: #aaa;
+            position: absolute;
+            vertical-align: top;
+            margin-top: 1em;
+        }
+
+        .content .edit-row .row-inline {
+            position: absolute;
+            display: inline-block;
+            width: 100%;
+            padding-left: 1em;
+            font-size: 14px;
+
+        }
+
+
+        .content .edit-row span.glyphicon.glyphicon-menu-right {
+            position: absolute;
+            right: 1em;
+            font-size: 1em;
+            margin-top: 1.3em;
+            vertical-align: top;
+        }
+
+        .content .edit-row .visible-list {
+            display: none;
+        }
+
+        .content .background-gray {
+            height: .5em;
+            background-color: #f0f0f2;
+        }
+
+        .content .rich-text-editor textarea {
+            width: 100%;
+            border: none;
+            padding: .9em;
+        }
+
+        .content .rich-text-editor textarea:hover,
+        .content .rich-text-editor textarea:focus,
+        .content .rich-text-editor textarea:active {
+            border: none;
+            outline: none;
+        }
+
+        .content .font-gray {
+            color: #888;
+        }
+
+        .content .font-gray-st {
+            color: #888;
+        }
+
+        .content .no-icon {
+            width: 35px;
+            height: 18px;
+            position: absolute;
+            top: -1px;
+            z-index: 1;
+            background: white;
+        }
+
+        .content .no-border-bottom {
+            border-bottom: 0 !important;
+        }
+
+        .content .no-border-top {
+            border-top: 0 !important;
+        }
+
+        .content p {
+            margin: 0;
+        }
+
+
+        a.publish {
+            position: fixed;
+            z-index: 10000;
+            bottom: 0;
+            width: 100%;
+            line-height: 50px;
+            background: #47b785;
+            color: #fff;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .mr5 {
+            margin-right: .5em;
+        }
+
+        .fs12 {
+            font-size: .8em
+        }
+
+        .gray {
+            color: #ABABAB;
+        }
+
+        /*-------------------------*/
+        .row-inline-right {
+            position: absolute;
+            right: 1em;
+        }
+
+
+        .avatar {
+            width: 3em;
+            height: 3em;
+            border-radius: 1.5em;
+            vertical-align: top;
+        }
+
+        .organizer-avatar-box {
+            display: inline-block;
+        }
+
+
+        .avatar-box {
+            display: inline-block;
+            width: 4em;
+            line-height: 1.5;
+        }
+
+        .avatar-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 12px;
+            padding-top: .3em
+        }
+
+        .avatar-row {
+            line-height: 1.5;
+            white-space: nowrap;
+            overflow: auto;
+        }
+
+        .comment {
+            position: absolute;
+            top: .3em;
+            left: 0;
+            line-height: 2em;
+            padding-left: 4em;
+            width: 98%;
+            box-sizing: border-box;
+        }
+
+        .row-inline .comment input {
+            width: 81%;
+            margin-top: .3em;
+            padding-left: 1em;
+            height: 2.4em;
+            line-height: 2.4em;
+            font-size: .9em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .cover span.is-favorite {
+            color: #fff04a !important;
+        }
+
+        .edit-row-icon {
+            color: #bcbcbc;
+            font-size: 18px;
+        }
+
+
+        footer {
+            display: none !important;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="content" style="background-color: white !important;">
+        <empty name="detail.cover">
+            <else/>
+        <div class="cover-box" style="background-color: white !important;">
+            <img src="{$detail.cover|show_img}"
+                 style="width: 100%;height: auto;">
+
+            <!--<div class="cover">-->
+                <!--<span class="cover-left">-->
+                    <!--<span class="glyphicon glyphicon-book mr5"></span>-->
+                    <!--<i class="am-icon-eye"></i> 阅读 34 </span>-->
+                <!--<a id="addFavorite"> <span class="cover-right favorite ">-->
+                    <!--<span class="glyphicon glyphicon-heart-empty mr5 favorite "></span>-->
+                    <!--<span class="favorite " id="count-fav"><i class="am-icon-bookmark"></i> 收藏 0</span>-->
+                <!--</span>-->
+                <!--</a>-->
+            <!--</div>-->
+        </div>
+        </empty>
+
+        <div class="edit-row no-border-bottom" style="background-color: white !important;">
+            <h4 class="title"> {$detail.title} </h4>
+        </div>
+        <div class="edit-row">
+            <p class="row-inline" style="padding-left:2px">
+                <span>{$detail.count}人投票</span>
+                <span class="row-inline-right gray"> <i class="am-icon-eye"></i>{$detail.visited_count}</span>
+            </p>
+        </div>
+
+
+        <div class="background-gray"></div>
+
+        <div class="edit-row">
+            <span class="edit-row-icon"><i class="am-icon-clock-o" aria-hidden="true"></i> </span>
+
+            <p class="row-inline" style="width: auto">
+                截止日期 {$detail.limited_time|date='Y年m月d日',###} </p>
+        </div>
+        <notempty name="detail.role_limit">
+            <div class="edit-row" style="height: auto">
+                <span class="edit-row-icon" ><i class="am-icon-leaf"></i> </span>
+
+                <p class="row-inline" style="width:auto;height:4em;line-height: 1.3;padding-top: 1.1em;padding-bottom: 1.1em;padding-right: 1.1em">
+                    限制 {$detail.role_limit} 参与 </p>
+            </div>
+        </notempty>
+        <notempty name="detail.visiblerange">
+            <div class="edit-row" style="height: auto">
+                <span class="edit-row-icon" ><i class="am-icon-leaf"></i></span>
+                <p class="row-inline" style="width:auto;height:4em;line-height: 1.3;padding-top: 1.1em;padding-bottom: 1.1em;padding-right: 1.1em">
+                    {$visiblerange[$detail['visiblerange']]}
+                </p>
+            </div>
+        </notempty>
+        <notempty name="detail.supervisor">
+            <div class="edit-row" style="height: auto">
+                <span class="edit-row-icon" ><i class="am-icon-leaf"></i></span>
+                <p class="row-inline" style="width:auto;height:4em;line-height: 1.3;padding-top: 1.1em;padding-bottom: 1.1em;padding-right: 1.1em">
+                    监督员 {$detail['supervisor']}
+                </p>
+            </div>
+        </notempty>
+
+        <!--<div class="edit-row">-->
+            <!--<span class="edit-row-icon" ><i class="am-icon-phone"></i> </span>-->
+            <!--<a href="tel:021-51953217"><p class="row-inline" style="width: auto">-->
+                <!--0756-1234567-->
+            <!--</p></a>-->
+        <!--</div>-->
+        <div class="background-gray"></div>
+
+        <div class="edit-row no-border-bottom">
+            <p class="row-inline" style="padding-left:2px">
+                投票介绍
+            </p>
+        </div>
+
+        <style>
+            .item-content img {
+                width: 100% !important;
+                height: auto !important;
+            }
+        </style>
+        <div class="edit-row item-content" style="line-height: 1.5;">
+            <p class="MsoNormal" style="text-align: left; color: rgb(51, 51, 51); line-height: 20pt;">
+                {$detail.content}
+            </p>
+
+        </div>
+
+        <div class="background-gray"></div>
+        <div class="edit-row no-border-bottom">
+            <p class="row-inline" style="padding-left:2px">
+                投票选项（下面可选{$detail.multiply_count}个） </p>
+        </div>
+        <form id="vote_form">
+            <input type="hidden" name="id" value="{$detail.id}">
+        <div class="edit-row avatar-row" style="overflow: visible">
+            <div class="am-form-group">
+                <div data-am-widget="list_news" class="am-list-news am-list-news-default" style="margin: 0" >
+
+                    <div class="am-list-news-bd">
+                        <ul class="am-list">
+                            <if condition="$detail.is_multiply == 1">
+                                <input type="hidden" name="multiply" value="1">
+                                <volist name="list" id="item">
+                                    <li class="am-g" style="padding: 5px 10px">
+                                        <label class="am-radio-inline am-u-sm-12" style="margin-top: 10px;margin-bottom: 10px">
+                                            <div class="am-g">
+                                                <empty name="item.image">
+                                                    <!-- 无权投票的去除选择样式 -->
+                                                    <if condition="$admGroup['isAction']">
+                                                    <input type="checkbox" name="vote[]" value="{$item.id}" data-am-ucheck <notempty name="voteLog">disabled='disabled'
+                                                    <php>
+                                                        foreach($voteLogs as $voteLog){
+
+                                                            if($voteLog['item_id'] == $item['id']){
+                                                                echo "checked";
+                                                                break;
+                                                            }
+                                                        }
+                                                    </php>  </notempty>></if>
+                                                    {$item.title}
+                                                    <else/>
+                                                    <!-- 无权投票的去除选择样式 -->
+                                                    <if condition="$admGroup['isAction']">
+                                                    <img src="{$item.image|show_img}"  style="width: 40px">
+                                                    <input type="checkbox" name="vote[]" value="{$item.id}" data-am-ucheck <notempty name="voteLog">disabled='disabled'
+                                                    <php>
+                                                        foreach($voteLogs as $voteLog){
+                                                        if($voteLog['item_id'] == $item['id']){
+                                                        echo "checked";
+                                                        break;
+                                                        }
+                                                        }
+                                                    </php>    </notempty>> </if>
+                                                    {$item.title}
+                                                </empty>
+                                            </div>
+                                            <!--显示投票详情条件：正常完成时显示 或 是监督员并没投票权 或 是监督员有投票权并且还没投票 -->
+                                            <if condition="$detail['visiblerange'] === '1' AND $admGroup['isAction'] AND $voteLog OR $admGroup['isSupervisor'] AND !$admGroup['isAction'] OR $admGroup['isSupervisor'] AND $admGroup['isAction'] AND $voteLog">
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            <!-- 投票结束后显示、 结束时间小于当前时间-->
+                                            <elseif condition="$detail['visiblerange'] eq '2' AND $detail['limited_time'] lt time()"/>
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            <!-- 管理员可见-->
+                                            <elseif condition="$detail['visiblerange'] eq '3' AND $admGroup['branchParam']"/>
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            <!-- 党建办可见-->
+                                            <elseif condition="$detail['visiblerange'] eq '4' AND $admGroup['partyBuildOffice']"/>
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            </if>
+                                        </label>
+                                    </li>
+                                </volist>
+                                <else/>
+                                <volist name="list" id="item">
+                                    <input type="hidden" name="multiply" value="0">
+                                    <li class="am-g" style="padding: 5px 10px">
+                                        <label class="am-radio-inline am-u-sm-12" style="margin-top: 10px;margin-bottom: 10px">
+                                            <div class="am-g">
+                                                <empty name="item.image">
+                                                    <!-- 无权投票的去除选择样式 -->
+                                                    <if condition="$admGroup['isAction']">
+                                                    <input type="radio" name="vote[]"  value="{$item.id}" data-am-ucheck <notempty name="voteLog">disabled='disabled'
+                                                    <php>
+                                                    foreach($voteLogs as $voteLog){
+                                                        if($voteLog['item_id'] == $item['id']){
+                                                        echo "checked";
+                                                        break;
+                                                        }
+                                                        }
+                                                </php>   </notempty>> </if>
+                                                {$item.title}
+                                                    <else/>
+                                                    <!-- 无权投票的去除选择样式 -->
+                                                    <if condition="$admGroup['isAction']">
+                                                    <img src="{$item.image|show_img}" style="width: 40px">
+                                                    <input type="radio" name="vote[]"  value="{$item.id}" data-am-ucheck <notempty name="voteLog">disabled='disabled' <php>
+                                                    foreach($voteLogs as $voteLog){
+                                                    if($voteLog['item_id'] == $item['id']){
+                                                    echo "checked";
+                                                    break;
+                                                    }
+                                                    }
+                                                </php>   </notempty>> </if>
+                                                {$item.title}
+                                                </empty>
+                                            </div>
+                                            <!--显示投票详情条件：正常完成时显示 或 是监督员并没投票权 或 是监督员有投票权并且还没投票 -->
+                                            <if condition="$detail['visiblerange'] === '1' AND $admGroup['isAction'] AND $voteLog OR $admGroup['isSupervisor'] AND !$admGroup['isAction'] OR $admGroup['isSupervisor'] AND $admGroup['isAction'] AND $voteLog">
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            <!-- 投票结束后显示、 结束时间小于当前时间-->
+                                            <elseif condition="$detail['visiblerange'] eq '2' AND $detail['limited_time'] lt time()"/>
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            <!-- 管理员可见-->
+                                            <elseif condition="$detail['visiblerange'] eq '3' AND $admGroup['branchParam']"/>
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            <!-- 党建办可见-->
+                                            <elseif condition="$detail['visiblerange'] eq '4' AND $admGroup['partyBuildOffice']"/>
+                                            <div class="am-g am-form-horizontal" style="margin-top: 10px">
+                                                <div class="am-u-sm-8" style="padding-left: 0em;">
+                                                    <div class="am-progress" style="height: 5px;margin-top: 10px;">
+                                                        <div class="am-progress-bar" style="width: {$item['count']|template_percent=$detail['people_count']}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item.count}票</span>
+                                                </div>
+                                                <div class="am-u-sm-2 am-text-right">
+                                                    <span>{$item['count']|template_percent=$detail['people_count']}</span>
+                                                </div>
+                                            </div>
+                                            </if>
+                                        </label>
+                                    </li>
+                                </volist>
+                            </if>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+        <div class="background-gray"></div>
+        <div class="blank" style="height: 50px"></div>
+    </div>
+    <notempty name="voteLog">
+        <else/>
+        <if condition="$admGroup['isAction']">
+            <a class="publish" href="#">投票</a>
+        </if>
+    </notempty>
+
+
+</block>
+<block name="scripts">
+
+<script>
+    var maxCount = {$detail.multiply_count};
+    $(".am-radio-inline").click(function() {
+        var checkedCount = $("input[type='checkbox']:checked").length;
+        if(checkedCount > maxCount){
+            alert("最多只能选中"+ maxCount + "个");
+            return false;
+        }
+
+    });
+
+    $('.publish').click(function () {
+        $.ajax({
+            url: '__ROOT__/Vote/Index/ajaxVote',
+            type: 'POST', //GET
+            data: $('#vote_form').serialize(),
+            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success: function (data) {
+                if (data.status == 0) {
+                    window.location.reload();
+                } else {
+                    alert(data.msg);
+                }
+            },
+            error: function (xhr, textStatus) {
+                alert("服务器暂时无法连接，请稍候再试");
+            }
+        })
+    })
+</script>
+
+</block>

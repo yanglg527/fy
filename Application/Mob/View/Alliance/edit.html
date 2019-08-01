@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta>
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" href="__CSS__/alliance/edit.css">
+	</head>
+
+	<body>
+		<div class="page">
+			<header class="head">
+				<a onclick="history.go(-1);">
+					<div class="head_return"><i></i>
+						<empty name="detail">添加
+							<else/>编辑</empty>
+					</div>
+				</a>
+			</header>
+			<article>
+				<form id="upload-form">
+					<div class="article_container">
+						<span>标题</span>
+						<input type="text" name="title" value="{$detail.title}">
+					</div>
+					<div class="apply">
+						<span>正文</span>
+						<div class="apply_left">
+							<input type="hidden" name="content" value="{$detail.content}">
+								<input type="hidden" name="type" value="{$type}">
+							<div id="edit" contentEditable="true" style="min-height: 200px">
+								{$detail.content}
+							</div>
+						</div>
+					</div>
+				</form>
+			</article>
+			<form class="apply_right">
+				<p>添加</p>
+				<div class="addPicture">
+					<div class="pictureBox">
+						<input type="file"  accept="image/*" onchange="InsertImage(this)">
+					</div>
+					<p>图片</p>
+				</div>
+			</form>
+			<button class="submitButton">提交</button>
+		</div>
+		<include file="Common/_loading"/>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/alliance/edit.js"></script>
+		<script src="__JS__/member_develop/base64.js"></script>
+		<script src="__JS__/member_develop/edit.js"></script>
+		<script>
+			$('.submitButton').click(function() {
+				$('input[name="content"]').val($('#edit').html());
+				var data = $('#upload-form').serialize();
+				var url = "__ROOT__/Mob/Alliance/ajaxAdd";
+				loading();
+				$.ajax({
+					url: url,
+					type: "post",
+					data: data,
+					dataType: "json",
+					success: function(data) {
+						if(data.status == 0) {
+							window.location.href = "__ROOT__/Mob/Alliance/index";
+						} else {
+							alert(data.msg);
+						}
+						close_loading()
+					},
+					error: function() {
+						close_loading()
+						alert("服务器暂时无法访问，请稍后再试");
+					}
+				});
+				return false;
+			})
+		</script>
+	</body>
+
+</html>

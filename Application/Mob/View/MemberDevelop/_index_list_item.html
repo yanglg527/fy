@@ -1,0 +1,21 @@
+<li>
+    <a href="__ROOT__/Mob/MemberDevelop/zone?id={$item.uid}">
+        <div class="left_container">
+            <div class="left_img">
+                <div class="bg">
+                    <img src="{$item.headimgurl|get_head_url}" alt="">
+                </div>
+            </div>
+            <div class="detail">
+                <div class="name">
+                    {$item.realname}
+                    <span class="icon"></span>
+                    <if condition="$user['uid'] == $item['uid']"><span class="icon_sign"></span></if>
+                </div>
+                <p>{$item.branch_name}</p>
+            </div>
+            <p class="right">{$item.score}积分</p>
+        </div>
+
+    </a>
+</li>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="../global.css" />
+        <link rel="stylesheet" href="styles.css" />
+
+        <title>济困捐款-详情页面</title>
+    </head>
+    <body class="g-full-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">标题</span>
+        </div>
+
+        <div class="g-content-container">
+            <header class="header"><span class="categories-title">【学党章党规】</span> <span class="title">党支部组织观看“两学一做”专题教育片</span></header>
+
+            <div class="g-sub-info"><span>发布人：王小春 第一支部</span> <span>开始日期：2018/12/05 21:22</span></div>
+
+            <div class="log-panel">
+                <div class="title"><span>我已捐款</span> <span>共计：1500.00元</span></div>
+                <div class="log-line"></div>
+                <div class="log-item"><span>2018-12-10</span> <span>50.00元</span></div>
+                <div class="log-item"><span>2018-12-10</span> <span>50.00元</span></div>
+                <div class="log-item"><span>2018-12-10</span> <span>50.00元</span></div>
+                <div class="log-item"><span>2018-12-10</span> <span>50.00元</span></div>
+                <div class="log-item"><span>2018-12-10</span> <span>50.00元</span></div>
+            </div>
+        </div>
+
+        <div class="contribution-bottom-box">
+            <div class="info-line">
+                <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i> <span>已捐款：50人</span>
+                <div class="g-empty-ele"></div>
+                <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i> <span>收到善款：50000.00元</span>
+            </div>
+
+            <div class="bottom-line">
+                <div class="time-out">倒计时:<span class="day">50</span>天</div>
+                <div class="contribution-btn">我要捐款</div>
+            </div>
+        </div>
+
+        <!-- 弹出层 -->
+        <div class="pay-cover">
+            <div class="shadow-layer"></div>
+            <div class="content-container">
+                <div class="pay-cover__header">
+                    <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i>
+                    <span class="title">我要捐款</span>
+                    <span class="sub-title">传递爱心，传递温暖</span>
+                    <i class="close-btn" style="background-image:url('../icons/contribution-1.png')"></i>
+                </div>
+
+                <div class="pay-cover__price-wrapper">
+                    <div class="item active">
+                        <span class="price-text">10元</span>
+                    </div>
+                    <div class="item">
+                        <span class="price-text">50元</span>
+                    </div>
+                    <div class="item">
+                        <span class="price-text">100元</span>
+                    </div>
+
+                    <!-- 自定义金额 -->
+                    <div class="item">
+                        <div class="custom-price">
+                            <input type="number" id="custom-price" placeholder="自定义金额" min="10" max="10000" />
+                            <span>元</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pay-cover__submit-btn">爱心捐款</div>
+
+                <p class="pay-cover__tips">捐赠需跳转微信支付完成支付</p>
+            </div>
+        </div>
+    </body>
+</html>

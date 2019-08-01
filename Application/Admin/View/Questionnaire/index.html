@@ -1,0 +1,205 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">问卷管理</strong></div>
+        </div>
+        <hr>
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-2 ">
+                <button onclick="loading_page('__ROOT__/Admin/Questionnaire/testEdit?p={$page.pageInfo.pageNo}');"
+                        type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增
+                </button>
+            </div>
+            <form class="am-u-sm-12 am-u-md-10 right-align" style="text-align: right" action="__ROOT__/Admin/Questionnaire/index">
+                <!--<select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="post_id">-->
+                <!--<option value="0">活动类型</option>-->
+                <!--<volist name="posts" id="item">-->
+                <!--<if condition="$item[id] == $search['post_id']">-->
+                <!--<option value="{$item.id}" selected>{$item.name}</option>-->
+                <!--<else/>-->
+                <!--<option value="{$item.id}">{$item.name}</option>-->
+                <!--</if>-->
+                <!--</volist>-->
+                <!--</select>-->
+                <div style="position: relative;top: 12px;display: inline-block;">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" class="am-form-field" placeholder="输入测试标题关键词" name="keyword"
+                               value="{$search.keyword}">
+                    </div>
+                </div>
+
+                <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+            </form>
+            <!--<div class="am-u-sm-12 am-u-md-1">-->
+
+            <!--</div>-->
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-type">标题</th>
+
+                            <th class="table-author am-hide-sm-only">参与限制</th>
+                            <th class="table-author am-hide-sm-only">参与数量</th>
+                            <th class="table-author am-hide-sm-only">测试结束时间</th>
+                            <th class="table-author am-hide-sm-only">状态</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.title}</td>
+
+                                <td class="am-hide-sm-only">
+                                    <notempty name="item.role_limit">
+                                        <span class="limit">
+                                            <volist name="item.role_limit" id="vo">
+                                                <if condition="$vo['role_id'] == 1">
+                                                    <span class="am-badge am-badge-secondary am-round">{$vo['role_name']}</span>
+                                                    <elseif condition="$vo['role_id'] == 2"/>
+                                                    <span class="am-badge am-badge-warning am-round">{$vo['role_name']}</span>
+                                                    <elseif condition="$vo['role_id'] == 3"/>
+                                                    <span class="am-badge am-badge-danger am-round">{$vo['role_name']}</span>
+                                                    <elseif condition="$vo['role_id'] == 4"/>
+                                                    <span class="am-badge am-badge-primary am-round">{$vo['role_name']}</span>
+                                                    <elseif condition="$vo['role_id'] == 5"/>
+                                                    <span class="am-badge am-badge-success am-round">{$vo['role_name']}</span>
+                                                    <else/>
+                                                    <span class="am-badge am-badge-secondary am-round">{$vo['role_name']}</span>
+                                                </if>
+                                            </volist>
+                                        </span>
+                                    </notempty>
+                                </td>
+                                <td class="am-hide-sm-only">{$item.exam_count}</td>
+                                <td class="am-hide-sm-only">{$item.end_time|date='Y-m-d h:i',###}</td>
+                                <td class="am-hide-sm-only">
+                                    <if condition="$item.status == 1"><span
+                                            class="am-badge am-badge-success am-radius">启用</span>
+                                            <php>
+                                                if($item['end_time'] < time()){
+                                                    echo "<br>";
+                                                    echo "<span class='am-badge am-badge-primary am-radius'>测试已结束</span>";
+                                                }
+                                            </php>
+                                        <else/>
+                                            <span class="am-badge am-badge-warning am-radius">禁用</span>
+                                    </if>
+
+                                </td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary "
+                                                    onclick="loading_page('__ROOT__/Admin/Questionnaire/manage?id={$item.id}');">
+                                                <span class="am-icon-bar-chart"></span>统计
+                                            </button>
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary "
+                                                    onclick="loading_page('__ROOT__/Admin/Questionnaire/subjectManage?p={$page.pageInfo.pageNo}&id={$item.id}');">
+                                                <span class="am-icon-pencil-square-o"></span>题目
+                                            </button>
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary "
+                                                    onclick="loading_page('__ROOT__/Admin/Questionnaire/testEdit?p={$page.pageInfo.pageNo}&id={$item.id}');">
+                                                <span class="am-icon-pencil-square-o"></span>编辑
+                                            </button>
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary btn-status"
+                                                    data-id="{$item.id}"><span class="am-icon-archive"></span>
+                                                <if condition="$item.status == 1">禁止
+                                                    <else/>
+                                                    开启
+                                                </if>
+                                            </button>
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec"
+                                                    data-id="{$item.id}"><span class="am-icon-trash-o"></span> 删除
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <hr/>
+                    <p>注：.....</p>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+        var id = 0;
+        $('.btn-status').click(function () {
+            id = $(this).attr('data-id');
+            $.ajax({
+                url: '__ROOT__/Admin/Questionnaire/ajaxChangeTextStatus',
+                type: 'POST', //GET
+                data: {id: id},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    console.log(data);
+                    if (data.status == 0) {
+                        window.location.reload();
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+        $('.btn-dec').click(function () {
+            id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/Questionnaire/ajaxDelTest',
+                        type: 'POST', //GET
+                        data: {id: id},
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+    </script>
+
+</block>

@@ -1,0 +1,264 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/branch/public.css">
+    <link rel="stylesheet" href="__CSS__/leader/public.css">
+    <!-- <link rel="stylesheet" href="__CSS__/branch/branchZone.css"> -->
+    <link rel="stylesheet" href="__CSS__/common/zonePublic.css">
+    <link rel="stylesheet" href="__CSS__/branch/public.css">
+    <link rel="stylesheet" href="__CSS__/branch/branchZone.css">
+    <link rel="stylesheet" href="__CSS__/index_list1.css">
+
+    <style>
+        /*header.head {*/
+            /*background: url(__IMG__/branch/head_bg.png) no-repeat;*/
+            /*background-size: 100%;*/
+        /*}*/
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        .target-box>p {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.4rem;
+    display: inline-block;
+    width: 92%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.collect,.comment,.like{
+            position:relative;
+            padding-left: 16px;
+        } 
+.collect:before,.comment::before,.like::before{
+            position: absolute;
+            display: block;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            background-size:16px 16px;
+        }
+        .collect::before{
+            background-image: url('__IMG__/collection-o.png');
+        }
+        .comment::before{
+            background-image: url('__IMG__/comment-o.png');
+        }
+        .like::before{
+            background-image: url('__IMG__/like-o.png');
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <div class="head_title" style="margin-bottom: 0.3rem;padding: 10px;text-align: center;">
+                <img src="__IMG__/branch/toptitle.png" alt="" style="width: 70%;">
+            </div>
+            <div class="title_img">
+                <div class="img-bg">
+                    <img src="{$detail.cover|show_img='cover'}" alt="">
+                </div>
+                <div class="title-name"
+                     style="font-size: 25px;font-weight: 900;margin-top: 10px;color: white;margin-bottom: 10px">
+                    {$detail.name}
+                </div>
+            </div>
+
+                <div class="inwrap" style="margin-top: 0.5rem;" >
+                <a style="text-align: center;display:block;margin:0 auto;" href="__ROOT__/Mob/Branch/branchMemberRank?id={$detail.id}">
+                    <span style="color: white;border:1px solid white;border-radius: 6px;font-size: 14px;">支部成员排名</span>
+                </a>
+                </div>
+
+            <div class="head_message">
+                <div class="item">
+                    <a href="__ROOT__/Mob/Taizhang/pei_branch?id={$branch.id}">
+                        <if condition = "$partyBranch[0]['score_all']">
+                    <span>{$partyBranch.0.score_all}</span>
+                            <else />
+                            <span>0</span>
+                        </if>
+                    <p style="color: #C2C2C2">支部积分</p>
+                        </a>
+                </div>
+                <div class="item">
+                    <a href="__ROOT__/Mob/Taizhang/branch_contrast">
+                    <span>{$partyBranch.0.pm}</span>
+                    <p style="color: #C2C2C2">支部积分排名</p>
+                        </a>
+                </div>
+
+                <div class="item last">
+                    <span>{$branch['tz']}</span>
+                    <p>支部累计台账</p>
+                </div>
+            </div>
+        </header>
+        <?php if($party_group){
+        ?>
+
+        <div class="banner">
+            <div class="head">
+                <div class="title"><span></span>党小组列表</div>
+                <!--<div class="right">&lt;!&ndash; <img src="__IMG__/branch/all.png" alt=""> &ndash;&gt;</div>-->
+            </div>
+
+            <div class="swiper-container nav_list">
+                <div class="swiper-wrapper">
+                    <volist name="party_group" id="item">
+                        <div class="swiper-slide">
+                            <a href="__ROOT__/Mob/SmallGroup/index?pg_id={$item.id}">
+                                <div class="swiper_img"><img src="{$item.cover|get_head_url}" alt=""></div>
+                                <p><span>{$item.name}</span></p>
+                            </a>
+                        </div>
+                    </volist>
+
+
+                </div>
+            </div>
+        </div>
+       <?php }
+        ?>
+        <if condition="!empty($users)">
+        <div class="banner">
+            <div class="head">
+                <div class="title"><span></span>所有成员</div>
+                <!--<div class="right">&lt;!&ndash; <img src="__IMG__/branch/all.png" alt=""> &ndash;&gt;</div>-->
+            </div>
+
+            <div class="swiper-container nav_list">
+                <div class="swiper-wrapper">
+                    <volist name="users" id="item">
+                        <div class="swiper-slide">
+                            <a href="__ROOT__/Mob/PartyMember/zone?uid={$item.uid}">
+                                <div class="swiper_img"><img src="{$item.headimgurl|get_head_url}" alt=""></div>
+                                <p>{$item.post_name} <span>{$item.realname}</span></p>
+                            </a>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </if>
+    </div>
+
+    <!-- <div class="ledger">
+        <div class="head">
+            <div class="title four-target">
+                <span></span>支部堡垒四个指标
+            </div>
+        </div>
+        <div class="target">
+            <volist name="norms" id="item">
+                <a href="__ROOT__/Mob/Taizhang/tz_listf_norm?id={$branch.id}&norm_id={$item.id}&type=4">
+                    <div class="target-box">
+                        <p>{$item.title}
+                        </p>
+                        <div class="target-display">
+                            <img src="__IMG__/branch/right.png" alt="" class="titleRight">
+                        </div>
+                    </div>
+                </a>
+            </volist>
+        </div>
+    </div> -->
+    <div class="ledger ledgerTrack">
+        <div class="head">
+            <div class="title four-target ">
+                <span></span>轨迹
+            </div>
+            <div class="track">
+                <span></span>成长轨迹
+                <span></span>
+            </div>
+        </div>
+        <div class="swiper-container grow-container">
+            <div class="swiper-wrapper">
+                <!-- <div class="swiper-slide grow-slide">
+                    <img src="__IMG__/index/home.png" alt=""></div> -->
+                <div class="swiper-slide grow-slide">
+                	<a href="__ROOT__/Mob/Taizhang/pei_branch?id={$branch.id}">
+                	<img src="__IMG__/branch/grow.png" alt="">
+                	</a>
+                    <!-- <span class="bg"></span> --></div>
+            </div>
+            <img src="__IMG__/branch/growBottom.png" alt="" class="growBottom">
+            <div class="swiper-button-prev swiper-button-gray"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <div class="ledger">
+        <a >
+            <div class="head">
+                <div class="title">
+                    <span></span>台账列表
+                    <img src="__IMG__/branch/all.png" alt="" class="titleRight">
+                </div>
+                <!-- <div class="search"><img src="__IMG__/branch/search@2x.png" alt=""></div> -->
+            </div>
+        </a>
+        <!-- <div class="swiper-container ledger_list">
+            <div class="swiper-wrapper">
+                <volist name="taizhang" id="item">
+                    <a href="__ROOT__/Mob/TaiZhang/show?id={$item.id}&t_id={$item.template_id}">
+                    <div class="swiper-slide newSlide">
+                        <img width="100%" height="100%" src="{$item.cover|show_tz_img}" alt="" class="firstImg"
+                             style="overflow: hidden">
+                    </div>
+                    </a>
+                </volist>
+            </div>
+        </div> -->
+        <div class="list">
+            <volist name="taizhang" id="item" key="index">
+                <dl>
+                    <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                        <dt><img src="{$item.cover|show_img='middle'}" style="height: 85px;width:105px;"></dt></a>
+                    <dd class="content">
+                        <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                            <h2 class="title">{$item.title}</h2>
+                            <div class="content">{$item.content|show_sub_title=10}</div>
+                            <div class="overview">
+                                <img class="userhead" src="__IMG__/party_group/party.png" alt="">
+                                <span>{$item.tag_name}</span>
+                            </div>
+                        </a>
+                        <div style="margin-bottom:5px;">
+                            <span class="collect name" data-id="{$item.id}" >收藏(<span class="count">{$item.sc_count}</span>)&nbsp;&nbsp;</span>
+                            <span class="comment name" ><a href="__ROOT__/Mob/Taizhang/tz_comment?id={$item.id}">评论({$item.pl_count})</a>&nbsp;&nbsp;</span>
+                            <span class="like name" data-id="{$item.id}">点赞(<span class="count">{$item.dz_count}</span>)</span>
+                        </div>
+                        <!-- <div class="icon"><img style="width:20px;" src="__IMG__/ledger_list/{$index}.png"></div> -->
+                    </dd>
+                </dl>
+            </volist>
+        </div>
+
+    </div>
+
+
+</block>
+<block name="scripts">
+    <script src="__JS__/branch/branchZone.js"></script>
+    <script src="__JS__/ledger_list/dz.js"></script>
+    <script type="text/javascript">
+
+
+    </script>
+</block>

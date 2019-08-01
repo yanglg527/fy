@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>地区组织</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/branch_info/organizations.css" />
+
+		<style>
+			.branch dl {
+				overflow: visible;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="page">
+			<header class="head">
+				<a onclick="history.go(-1);">
+					<div class="head_return"><i></i></div>
+				</a>
+			</header>
+		</div>
+		<div>
+			
+		</div>	
+		<!-- <div class="branch">
+			<div class="brancher">
+
+				<dl>
+					<volist name="list" id="item" key="index">
+						<if condition="$index == 1">
+							<if condition="$item.type == 'hq'">
+								<dt>
+									<a>
+										<div class="left">
+											<img src="__IMG__/branch_info/dang.jpg" alt="#"/>
+										</div>
+										<div class="right">
+											<section>{$item.name}</section>
+											<p>{$item.branch_count}支部&nbsp;&nbsp;{$item.party_count}党员</p>
+										</div>
+									</a>
+								</dt>
+							<else/>
+								<dt>
+									<a href="__ROOT__/Mob/BranchInfo/branchInfo?id={$item.id}">
+										<div class="left">
+											<img src="__IMG__/branch_info/dang.jpg" alt="#" />
+										</div>
+										<div class="right">
+											<section>{$item.name}</section>
+											<p>{$item.party_count}个党员</p>
+										</div>
+									</a>
+								</dt>
+							</if>
+						<else/>
+							<if condition="$item.type == 'hq'">
+								<dd>
+									<a href="__ROOT__/Mob/BranchInfo/branchs?id={$item.id}">
+										<div class="left">
+											<img src="__IMG__/branch_info/dang.jpg" alt="#"/>
+										</div>
+										<div class="right">
+											<section>{$item.name}</section>
+											<p>{$item.branch_count}支部&nbsp;&nbsp;{$item.party_count}党员</p>
+										</div>
+									</a>
+								</dd>
+							<else/>
+								<dd>
+									<a href="__ROOT__/Mob/BranchInfo/branchInfo?id={$item.id}">
+										<div class="left">
+											<img src="__IMG__/branch_info/dang.jpg" alt="#" />
+										</div>
+										<div class="right">
+											<section>{$item.name}</section>
+											<p>{$item.party_count}个党员</p>
+										</div>
+									</a>
+								</dd>
+							</if>
+						</if>
+					</volist>
+				</dl>
+			</div>
+		</div>
+		 -->
+		<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/branch_info/party.js" type="text/javascript" charset="utf-8"></script>
+		<include file="Common/_menu"/>
+	</body>
+
+</html>

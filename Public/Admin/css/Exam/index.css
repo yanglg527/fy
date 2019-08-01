@@ -1,0 +1,209 @@
+.body{
+    font-family: "微软雅黑","Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: center;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+    color: #6a6a6a;
+    font-size: 12px;
+    display: block;
+}
+
+.content{
+    width: auto;
+    padding-top: 0px;
+    margin: 0 auto;
+    display: block;
+}
+
+.exam_paper{
+    background: white;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+
+.exam_inner{
+    width: 100%;
+    line-height: 20px;
+    word-wrap: break-word;
+    padding: 0;
+    margin: 0px auto;
+    display: block;
+}
+
+.exam_head{
+    line-height: 20px;
+    text-align: center;
+    width: 100%;
+    padding: 40px 2% 30px;
+    border: 0px;
+}
+
+.exam_head h1{
+    display: block;
+    color: #19a8ee;
+    font-size: 24px !important;
+    font-weight: bold;
+    vertical-align: middle;
+    margin: 0;
+    padding: 15px 0;
+    line-height: 24px;
+
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.exam_info{
+    color: #555555;
+    font-size: 16px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+    margin-left: 0px;
+    margin-top: 20px;
+}
+
+.exam_info p{
+    margin: 0px;
+}
+
+.exam_content{
+    display: block;
+    margin: 0;
+    width: 100%;
+}
+
+.exam_subject {
+    display: block;
+    -webkit-margin-start: 2px;
+    -webkit-margin-end: 2px;
+    -webkit-padding-before: 0.35em;
+    -webkit-padding-start: 0.75em;
+    -webkit-padding-end: 0.75em;
+    -webkit-padding-after: 0.625em;
+    min-width: -webkit-min-content;
+}
+
+.subject_title {
+    display: block;
+    font-size: 14px;
+    padding: 2px 0;
+    width: 97%;
+    margin: 20px auto;
+    line-height: 20px;
+}
+
+.subject {
+    display: block;
+    border: 2px solid white;
+    padding: 4px;
+    clear: both;
+    margin: 2px auto 10px;
+    width: 100%;
+    height: auto;
+}
+
+.question{
+    text-align: left;
+    padding-top: 2px;
+    font-size: 15px;
+    color: #444444;
+    font-weight: bold;
+    height: auto;
+    line-height: 20px;
+}
+
+.options{
+    text-align: left;
+    clear: both;
+    padding-top: 5px;
+    padding-left: 24px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #EFEFEF;
+    font-size: 14px;
+    color: #333333;
+}
+
+.options ul{
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    border: none;
+}
+
+.options ul li label{
+    line-height: 30px;
+    font-weight: normal;
+}
+
+.answer_input{
+    text-align: left;
+    clear: both;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #EFEFEF;
+    font-size: 14px;
+    color: #333333;
+}
+
+.input_box{
+    margin: 10px 0px;
+    padding: 0px 5px;
+    width: 300px;
+    height: 30px;
+}
+
+.input_box_big{
+    margin: 10px 0px;
+    padding: 5px 5px;
+    width: 200px;
+    height: 100px;
+}
+
+.submit{
+    padding-top: 6px;
+    padding-bottom:10px;
+    clear:both;
+}
+
+.submit_table{
+    margin: 20px auto;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+.submit_button{
+    border: 1px solid #0492d6;
+    background: #13a5ec;
+    padding: 0 24px;
+    height: 32px;
+    font-family: "微软雅黑","Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    display: inline-block;
+    line-height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    border-radius: 5px;
+    overflow: visible;
+}
+
+.submit_button:hover{
+    background: #0492d6;
+}
+
+.footer_dividing_line{
+    border-top: 1px solid #bbbbbb;
+    font-size: 0;
+    height: 55px;
+    line-height: 1px;
+    width: 100%;
+    margin: 30px auto;"
+}
+
+

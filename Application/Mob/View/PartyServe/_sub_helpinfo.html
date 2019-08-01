@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Hello MUI</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+	<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+	<script src="__STATICS__/flexible/flexible.js"></script>
+	<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+	<link rel="stylesheet" href="__CSS__/reset.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/help/help_all.css"/>
+
+	<style>
+		#truth-content img{
+			max-width: 100%!important;
+		}
+	</style>
+</head>
+
+<body>
+<!--下拉刷新容器-->
+
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper help_all" style="top: 0px; background: white">
+	<div class="mui-scroll comment heart" style="height: auto; padding: 0px">
+		<div class="words">
+			<header>
+				<h4 id="truth-title"></h4>
+				<div class="time" id="truth-date"></div>
+			</header>
+			<div class="text" style="word-wrap:break-word" id="truth-content">
+
+			</div>
+			<div class="like">
+				<img class="ledger" id="btn-like" src="__IMG__/ledger_list/default_like.png"/>
+				<img class="clicked hide" id="btn-like-disable" src="__IMG__/ledger_list/like.png"/>
+				点赞(<span id="truth-agree-count"> </span>)
+			</div>
+		</div>
+
+		<div style="width: 100%; height: 20px; background: #f7f7f7"></div>
+		<header style="padding-left: 0.3rem">评论(<span id="truth-comment-count">{$commentCount}</span>)</header>
+		<!--数据列表-->
+		<ul class="mui-table-view mui-table-view-chevron"  style="background-color: transparent; padding: 0px 0.3rem">
+
+		</ul>
+		<div id="list-template" style="display: none">
+			<li>
+				<div class="logo"><img src="##headimgurl##" alt="logo"/></div>
+				<article>
+					<header><span class="name">##name##</span><time><span>##5分钟##</span></time></header>
+					<p>##非常精彩，非常有深度，棒棒棒极了。非常精彩，非常有深度，棒棒棒极了。非常精彩，非常有深度，棒棒棒极了。##</p>
+				</article>
+			</li>
+		</div>
+	</div>
+	<div class="enter" style="z-index: 10000">
+		<div class = "enter_heart">
+			<input id="input-comment" type="text" placeholder="请输入评论" /> <a id="btn-send" class = "enter_bt">发送</a>
+		</div>
+	</div>
+</div>
+<include file="Common/_loading"/>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/dateUtil.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+<script>
+
+	var elementTitle = mui("#truth-title")[0];
+	var elementDate = mui("#truth-date")[0];
+	var elementContent = mui("#truth-content")[0];
+	var elementAgreeCount = mui("#truth-agree-count")[0];
+	var elementCommentCount = mui("#truth-comment-count")[0];
+	elementTitle.innerText = parent.title;
+	elementDate.innerText = parent.date;
+	elementContent.innerHTML = parent.content;
+	elementAgreeCount.innerText = parent.agreeCount;
+	elementCommentCount.innerText = parent.commentCount;
+	console.log("parent.agreeCount = " + parent.agreeFlag);
+	var elementBtnAgree = mui("#btn-like")[0];
+	var elementBtnAgree2 = mui("#btn-like-disable")[0];
+	if(parent.agreeFlag == 1){
+		elementBtnAgree.className += " hide";
+		elementBtnAgree2.className = " clicked";
+	}
+
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			up: {
+				contentrefresh: '',
+				callback: pullupRefresh
+			}
+		}
+	});
+
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			}, 10);
+		});
+	} else {
+		mui.ready(function() {
+			mui('#pullrefresh').pullRefresh().pullupLoading();
+		});
+	}
+
+	/**
+	 * 上拉加载具体业务实现
+	 */
+	function pullupRefresh() {
+		ajaxGetHelpCommentList();
+	}
+
+	var list = mui('.mui-table-view')[0];
+	var lastItem = 0;
+	var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+	function ajaxGetHelpCommentList() {
+		mui.ajax({
+			data:{
+				id : parent.truthId,
+				lastItem : lastItem
+			},
+			type: 'POST',
+			dataType: 'json',
+			url: '__ROOT__/Mob/PartyServe/ajaxGetHelpCommentList',
+			success: function (data) {
+				if (data['status'] == 0) {
+//                    console.log("data = aaaaaaaaaaaaaaaa");
+					var listData = data.data;
+//                    console.log("data = " + JSON.stringify(listData));
+					if(listData && listData.length > 0){
+						var listItem = "";
+						var itemTemp = "";
+						for (var i=0; i < listData.length; i++) {
+							lastItem = listData[i]['create_time'];
+
+							listItemHtmlArray[1] = get_head_url(listData[i]['headimgurl']);
+							listItemHtmlArray[3] = listData[i]['realname'];
+							var createTimeStr = new Date(listData[i]['create_time']*1000).Format("yyyy-MM-dd");
+							listItemHtmlArray[5] = createTimeStr;
+							listItemHtmlArray[7] = listData[i]['content'];
+
+							itemTemp = "";
+							for(var j=0; j<listItemHtmlArray.length; j++){
+								itemTemp += listItemHtmlArray[j];
+							}
+							listItem += itemTemp;
+						}
+						list.innerHTML += listItem;
+
+						if(listData.size < 10){ // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}else{
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+						}
+					}else{
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					}
+				}else{
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					alert(data.msg);
+				}
+			},
+			error: function (data) {
+				alert('网络异常');
+			}
+		});
+	}
+
+	mui('.enter_heart').on('tap', '#btn-send', function () {
+		var id = parent.truthId;
+		var comment = mui("#input-comment")[0].value;
+//		alert("comment = " + comment + "   id = " + id);
+		if (comment.replace(/(^s*)|(s*$)/g, "").length == 0){
+			alert('内容不能为空');
+		}else{
+			mui.ajax({
+				data: {
+					"id" : id,
+					"content" : comment
+				},
+				type: 'POST',
+				dataType: 'json',
+				url: '__ROOT__/Mob/PartyServe/ajaxSaveHelpComment',
+				success: function (data) {
+					console.log("success");
+					if (data['status'] == 0) {
+						alert('评论已提交，待审核后发布')
+						parent.window.location.href = parent.window.location.href;
+					}
+				},
+				error: function (data) {
+					alert('网络异常');
+				}
+			});
+		}
+	});
+
+	mui(".words").on('tap','.like', function () {
+		var id = parent.truthId;
+			loading()
+		mui.ajax({
+			data: {
+				"id" : id,
+			},
+			type: 'POST',
+			dataType: 'json',
+			url: '__ROOT__/Mob/PartyServe/ajaxHelpAgree',
+			success: function (data) {
+				close_loading()
+				alert(data['msg']);
+				if (data['status'] == 0) {
+					parent.window.location.reload();
+				}
+			},
+			error: function (data) {
+				close_loading()
+				alert('网络异常');
+			}
+		});
+	});
+
+	function get_head_url(url){
+		if (url == '' || url == null || url == undefined ) {
+			return   '__ROOT__/Public/Common/img/common-head.png';
+		} else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+			return url;
+		} else if(url.indexOf('/Uploads')>-1) {
+			return　'__ROOT__' +　url;
+		}else{
+			return   '__ROOT__/Uploads/' +　url;
+		}
+	}
+
+</script>
+</body>
+
+</html>

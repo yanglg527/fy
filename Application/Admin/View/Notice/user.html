@@ -1,0 +1,58 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <a href="#" onClick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg">代办事项</strong></a> /
+        <small>完成情况</small>
+      </div>
+    </div>
+      <hr>
+        <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table  am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-title" style="max-width:350px;">接收者</th>
+                <th class="table-type" style="mix-width:80px;">党组</th>
+                <th class="table-type" style="mix-width:80px;">支部</th>
+                <th class="table-type" style="mix-width:80px;">台账录入者</th>
+                <!-- <th class="table-type" style="mix-width:80px;">是否已读</th> -->
+                <th class="table-type" style="mix-width:80px;">是否完成</th>
+                <th class="table-date am-hide-sm-only" >完成日期</th>
+              </tr>
+              </thead>
+              <tbody>
+              <include file="_user_list"/>              
+              </tbody>
+            </table>
+            <div class="page">
+              {$notice_user.show}
+            </div>
+            <hr />
+          </form>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+
+
+</block>
+<block name="scripts">
+
+    <script>
+
+
+    </script>
+
+</block>

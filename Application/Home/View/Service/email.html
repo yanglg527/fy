@@ -1,0 +1,41 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+	    .container{
+	        	background-color: #ffffff;
+	        }
+    </style>
+</block>
+<block name="content">
+<for start="0" end="5">
+    <article class="am-comment" style='padding:10px;'>
+      <a href="#link-to-user-home">
+        <img src="__IMG__/headImg.jpg" alt="" class="am-comment-avatar" width="48" height="48"/>
+      </a>
+
+      <div class="am-comment-main">
+        <header class="am-comment-hd">
+          <!--<h3 class="am-comment-title">评论标题</h3>-->
+          <div class="am-comment-meta">
+            <a href="#link-to-user" class="am-comment-author">我</a>
+            发表于 <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
+          </div>
+        </header>
+
+        <div class="am-comment-bd">
+          请问书记什么时候开党会，需要带什么资料，具体时间地点在那里？
+          <blockquote style="color:#7CCD7C">书记：明天会议室开，不用带资料。</blockquote>
+        </div>
+      </div>
+    </article>
+    </for>
+    <form class="am-form" style="margin:10px;"> 
+        <textarea rows="4" style=""></textarea></br>
+        <div class="btn-submit">
+            <button type="button" class="am-btn am-btn-success am-btn-block">回 复</button>
+        </div>
+    </form>
+</block>
+<block name="scripts">
+
+</block>

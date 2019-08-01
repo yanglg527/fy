@@ -1,0 +1,199 @@
+<form class="am-form">
+
+  <!-- <div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">代办类型</div>
+  <div class="am-u-sm-8 am-u-md-10">
+
+    <select id="type" style="width:150px;">
+      <volist name="notice_types" id="vo">
+        <option value="{$vo['id']}">{$vo['name']}</option>
+      </volist>
+    </select>
+  </div>
+</div>
+-->
+<input type="hidden" name="mission_type" id="mission_type" value="<?php echo $type_id;?>">
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">任务类型(生成方式)</div>
+    <div class="am-u-sm-8 am-u-md-10">
+        <label>
+        <?php if($type_id=='1'){?>
+          根据工作安排
+        <?php }else if($type_id=='2'){?>
+          按频率
+        <?php }else{?>
+          指定时间
+        <?php }?>
+        </label>
+    </div>
+</div>
+
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">责任事项</div>
+  <div class="am-u-sm-8 am-u-md-6">
+    <textarea class="" rows="5" id="title" name="title"></textarea>
+  </div>
+  <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过250个字。</div>
+</div>
+
+<!-- <div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">协助落实单位</div>
+  <div class="am-u-sm-8 am-u-md-10">
+    <select id="assist_unit_id" name="assist_unit_id" style="width:245px;">
+      <volist name="assist_list" id="vo">
+        <option value="{$vo['id']}">{$vo['name']}</option>
+      </volist>
+    </select>
+  </div>
+</div> -->
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">协助落实单位</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+              <?php foreach($assist_list as $k=>$v){?>  
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="checkbox" name="assist_unit_id[]" value="<?php echo $v['id'];?>"><?php echo $v['name'];?>
+                </label>
+              <?php }?> 
+          </div>
+    </div>
+</div>
+
+<?php if($type_id=='2'){?>
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">频率生成方式</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="pinlv_type" value="1">从年初1月1日开始生成
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="pinlv_type" value="2">从启动日期开始生成
+                </label>
+          </div>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">频率</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="1">周报
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="2">月报
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="3">季度
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="4">半年
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="frequency_type" value="5">年度
+                </label>
+          </div>
+    </div>
+</div>
+<?php }?>
+
+<?php if($type_id == '3'){?>
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">开始日期</div>
+  <div class="am-u-sm-8 am-u-md-10">
+
+    <button type="button" class="am-btn am-btn-default am-margin-right" id="btn-start-date">开始日期</button>
+    <span id="start_time" name="start_time">
+      <notempty name="start_time"></notempty>
+    </span>
+  </div>
+</div>
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">结束日期</div>
+  <div class="am-u-sm-8 am-u-md-10">
+
+    <button type="button" class="am-btn am-btn-default am-margin-right" id="btn-end-date">结束日期</button>
+    <span id="end_time" name="end_time">
+      <notempty name="start_time"></notempty>
+    </span>
+  </div>
+</div>
+<?php }?>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">见证资料</div>
+  <div class="am-u-sm-8 am-u-md-6">
+    <textarea class="" rows="5" id="content" name="content"></textarea>
+  </div>
+  <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过250个字。</div>
+</div>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">任务分值</div>
+  <div class="am-u-sm-8 am-u-md-6">
+    <input type="text" id="mission_score" name="mission_score" value="" class="am-input-sm" />
+  </div>
+  <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+</div>
+
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">推送对象</div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+              <?php foreach($adms as $k=>$v){?>  
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="checkbox" name="push_person[]" value="<?php echo $v['id'];?>"><?php echo $v['name'];?>
+                </label>
+              <?php }?> 
+          </div>
+    </div>
+</div>
+<div class="am-g am-margin-top">
+    <div class="am-u-sm-4 am-u-md-2 am-text-right"></div>
+    <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+          <?php foreach($person_adm as $k=>$v){?>  
+            <label class="am-btn am-btn-default am-btn-xs">
+                <input type="checkbox" name="person_admin[]" value="<?php echo $v['id'];?>" <?php if(in_array($v['id'],$detail['person_adm_id'])){?>checked<?php }?>><?php echo $v['name'];?>
+            </label>
+          <?php }?>             
+          </div>
+    </div>
+</div>
+
+<div class="am-g am-margin-top">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">任务规范1.0章节</div>
+  <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group standard_ex" data-am-button>
+          </div>
+  </div>
+</div>
+
+<!--一级目录-->
+<div class="am-g am-margin-top" id="first_ml">
+  <div class="am-u-sm-4 am-u-md-2 am-text-right">一级目录</div>
+  <div class="am-u-sm-8 am-u-md-10">
+    <select id="frist_standard" name="frist_standard" style="width:245px;">
+        <option value="">请选择</option>
+      <volist name="frist_standard" id="vo">
+        <option value="{$vo['id']}">{$vo['label']}</option>
+      </volist>
+    </select>
+  </div>
+</div>
+<!--二级目录-->
+<div class="am-g am-margin-top" id="secend_ml" style="display: none;">
+</div>
+
+<style>
+  .th_ml{
+    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width: 250px;
+  }
+</style>
+<!--三级目录-->
+<div class="am-g am-margin-top" id="third_ml" style="display: none;">
+</div>
+
+</form>

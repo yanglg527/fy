@@ -1,0 +1,84 @@
+.top-banner {
+    padding: 10px;
+    background: url("../../static/images/volunteer-bg.png") center/cover no-repeat;
+}
+
+.banner-image {
+    display: block;
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    background: url("../../static/images/volunteer-logo.png") center/cover no-repeat;
+}
+
+.volunteer-item {
+    margin-bottom: 20px;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.volunteer-item .top {
+    padding: 10px;
+}
+
+.volunteer-item .title {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.volunteer-item .sub-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.volunteer-item .main-content {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.volunteer-item .main-content .info {
+    flex: 1 1;
+}
+
+.volunteer-item .main-content .info-text {
+    margin: 0;
+    line-height: 1.5;
+    color: #999;
+    font-size: 12px;
+}
+
+.volunteer-item .main-content .btn {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.volunteer-item .main-content .btn.red {
+    background: linear-gradient(#fb7a73, #d3231a);
+    color: #fff;
+}
+
+.volunteer-item .main-content .btn.orange {
+    background: linear-gradient(#fdcd8e, #ff8e31);
+    color: #fff;
+}
+
+.volunteer-item .main-content .btn.yellow {
+    background: linear-gradient(#ffd051, #e8af00);
+    color: #fff;
+}
+
+.volunteer-item .main-content .btn.purple {
+    background: linear-gradient(#be97fd, #906eff);
+    color: #fff;
+}
+
+.volunteer-item .main-content .btn.grey {
+    background: linear-gradient(#f2f2f1, #cfcfcf);
+    color: #999;
+}

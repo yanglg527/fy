@@ -1,0 +1,27 @@
+<if condition="$item.type eq 2">
+    <div class="am-g am-margin-top-sm"> 
+    <div class="am-u-sm-4 am-u-md-2 am-text-right">
+      党组 
+    </div> 
+    <div class="am-u-sm-6 am-u-md-4"> 
+       <select id="party_organization">
+        <volist name="party_organization" id="vo">
+          <option value="{$vo.id}" <if condition="$item.organization_id eq $vo['id']">selected = "selected"</if>>{$vo.name}</option>
+         </volist>
+        </select>
+    </div> 
+   </div> 
+    <else/>
+   <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">台账主体人员</div>
+        <div class="am-u-sm-8 am-u-md-10">
+            <button type="button" data-name="{$item.name}" data-id="{$item.id}"
+                        class="am-btn am-btn-xs am-btn-primary btn-post"
+                        data-am-modal="{target: '#user-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                        style="width: 150px">
+                        <if condition="$item.uid == null || $item.uid == ''">点击选择台账主体人员<else/>{$item.user_realname}</if>
+                </button>
+        </div>
+    </div>
+        <input type="hidden" id="user_uid" value="{$item.uid}">
+/if>

@@ -1,0 +1,12 @@
+.questionnaire .header .header-inner {
+    color: #ffffff;
+    font-size: 0.33rem;
+
+    display: flex;
+    height: 0.75rem;
+    padding: 0.2rem;
+    justify-content: space-between;
+    align-items: center;
+    /* background: linear-gradient(-10deg, #d42018 40%, #ff7d1d 85%); */
+    background-color: #ce3d37;
+}

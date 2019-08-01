@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__CSS__Tasks/tasksPool.css" />
+        <script src="__JS__tasks/tasksPool.js"></script>
+        <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+        <title>任务审核</title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+
+            <div class="g-nav-bar">
+                <div class="back-btn" onclick="goback()"></div>
+                <span class="nav-title">任务审核</span>
+            </div>
+
+            <div class="g-content-container">
+                <div class="g-search-box-with-bg">
+                    <div class="message">
+                        <!-- <a href="__ROOT__/Mob/Tasks/tasksVerify?status=-1"> -->
+                            <div class="message-item">
+                                <p class="numeral">{$count.total}</p>
+                                <p class="text">任务总数</p>
+                            </div>
+                        <!-- </a> -->
+                        <!-- <a href="__ROOT__/Mob/Tasks/tasksVerify?status=2"> -->
+                            <div class="message-item">
+                                <p class="numeral">{$count.overdue}</p>
+                                <p class="text">未完成</p>
+                            </div>
+                        <!-- </a> -->
+                        <!-- <a href="__ROOT__/Mob/Tasks/tasksVerify?status=1"> -->
+                            <div class="message-item">
+                                <p class="numeral">{$count.complete}</p>
+                                <p class="text">已完成</p>
+                            </div>
+                        <!-- </a> -->
+                    </div>
+                </div>
+
+                <div class="g-fill-tabs">
+                    <div class="item left"><i></i>任务列表</div>
+                    <div class="item right"><span class="num">{$count.rightNum}</span>个任务</div>
+                </div>
+
+                <div class="branch-list">
+                    <foreach name="branchTasks" item="vo">
+                    <div class="branch-item">
+                        <div class="middle-content">
+                            <a href="__ROOT__/Mob/Tasks/detail?id={$vo.id}">
+                            <div class="content-left">
+                                <p class="branch-tasks-title">{$vo.tasks_title}
+                                    <span class="branch-tasks-status_txt {$vo.status_style}">
+                                        {$statusTxt[$vo['status']]}
+                                    </span>
+                                </p>
+                                <p class="branch-member" style="text-indent: 14px;">发布人：<span class="default-font-color">{$vo.PublishUser}</span></p>
+                                <p class="branch-member">发布日期：<span class="default-font-color">{$vo.create_at}</span></p>
+                                <p class="branch-member">开始时间：<span class="default-font-color">{$vo.start_date}</span></p>
+                                <p class="branch-member">结束时间：<span class="default-font-color">{$vo.end_date}</span></p>
+                            </div>
+                            </a>
+                            <div class="content-right">
+                               <div class="action-btn">
+                                   <if condition="$vo['status'] eq 2">
+                                       <div onclick="onStatus({$vo['id']}, 'end', '结办')" class="background-red">结办</div>
+                                       <div onclick="onStatus({$vo['id']}, 'stop', '终止')" class="background-white">终止</div>
+                                   </if>
+                                   <if condition="$vo['status'] eq 1">
+                                       <div onclick="onStatus({$vo['id']}, 'del', '删除')" class="background-white">删除</div>
+                                   </if>
+                               </div>
+                               <a href="__ROOT__/Mob/Tasks/detail?id={$vo.id}">
+                               <div class="right-text-box">
+                                   <p>
+                                       <span class="branch-member">参与人数:</span>
+                                       <span class="branch-num text-box-inline-block">{$vo['complete'] + $vo['overdue']}</span>
+                                   </p>
+                                   <p>
+                                       <span class="branch-member">已完成:</span>
+                                       <span class="branch-num text-box-inline-block">{$vo.complete}</span>
+                                   </p>
+                                   <p>
+                                       <span class="branch-member">未完成:</span>
+                                       <span class="branch-num text-box-inline-block">{$vo.overdue}</span>
+                                   </p>
+                               </div>
+                               </a>
+                            </div>
+                        </div>
+                    </div>
+                    </foreach>
+                </div>
+
+                <if condition="empty($branchTasks)">
+                    <div class="no-data"></div>
+                </if>
+            </div>
+    </body>
+    <script type="text/javascript">
+        const url = "__ROOT__"
+    </script>
+</html>

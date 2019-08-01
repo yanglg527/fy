@@ -1,0 +1,117 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">党费统计</strong></a> /
+                <small>编辑缴纳</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;min-height: 300px'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="uploadform">
+
+                    <input type="hidden" name="id" value="{$detail.id}">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-3 am-text-right">
+                            姓名
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-5">
+                            {$detail.user_realname}
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                    <div class="am-u-sm-4 am-u-md-3 am-text-right">
+                        金额
+                    </div>
+                    <div class="am-u-sm-8 am-u-md-5">
+                        <input type="number" class="am-input-sm" name="fee" value="{$detail.fee}">
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+            </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-3 am-text-right">
+                            缴纳状态
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-5">
+                            <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="status">
+                                <option value="0"  <if condition="$detail.order_status == 0"> selected </if>  >未缴纳</option>
+                                <option value="1"  <if condition="$detail.order_status == 1"> selected </if>  >已缴纳</option></select>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+        <form style="display: none" id="excel-form">
+            <input type="file" id="file" name="file">
+        </form>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save">保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃操作</button>
+        </div>
+    </div>
+    <include file="PartyBranch/_user_selecter"/>
+</block>
+<block name="scripts">
+    <script>
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('#btn-save').click(function () {
+            $('#confirm-text').text('确认编辑用户缴费账单吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/Cost/ajaxSaveInfoUser',
+                        type: 'POST', //GET
+                        data: $('#uploadform').serialize(),
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                loading_page('{$url}');
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+
+        });
+    </script>
+</block>

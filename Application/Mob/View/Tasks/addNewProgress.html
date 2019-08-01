@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__CSS__Tasks/create.css" />
+        <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+        <script src="__PUBLIC__/Mob/js/axios.min.js"></script>
+
+        <title>新增进度</title>
+    </head>
+    <body>
+        <div class="g-full-flex">
+            <div class="g-nav-bar">
+                <!--<a href="__ROOT__/Mob/Tasks/detail?id={$id}" style="color: black"><div class="back-btn"></div></a>-->
+                <div class="back-btn"></div>
+                <span class="nav-title">新增进度</span>
+            </div>
+
+            <div class="g-content-container todo-create">
+                <div class="todo-create__form">
+                    <input type="hidden" name="id" id="id" value="{$id}"/>
+                    <input type="hidden" name="status" id="status"/>
+                    <input type="hidden" name="file_id" id="file_id"/>
+                    <input type="hidden" name="surplus_file_id" id="surplus_file_id"/>
+
+                    <div class="todo-create__form-item">
+                        <div class="title">办理时间</div>
+                        <div class="value">
+                            <span class="date-text">{$date}</span>
+                            <input type="date" class="date-input" />
+                        </div>
+                    </div>
+                    <div class="todo-create__form-item">
+                        <div class="title">办理情况</div>
+                        <div class="value">
+                            <textarea class="text-area" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="todo-create__form-item">
+                        <div class="title">附件</div>
+                    </div>
+                    <div class="g-attachment-list">
+                        <!-- <div class="item">
+                            <i class="img jpg"></i>
+                            <span class="name">尼古拉斯</span><i class="remove"></i>
+                        </div> -->
+
+                        <!-- loading -->
+                        <div class="item loading hidden"><i class="img"></i>
+                            <div class="progress"><span class="progress-tips">0</span>
+                                <div class="progress-bar">
+                                    <div class="progress-percent" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <span class="name">sdfff.png</span>
+                        </div>
+                        <!-- 上传按钮 -->
+                        <div class="item add-ele">
+                            <input type="file" name="file" id="file" ref="eleFile" class="add-input" onchange="importFile()" />
+                            <i class="img add" onclick="return selectFile()"></i>
+                            <span class="name"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="todo-create__bottom-box">
+                    <div class="btn orange" onclick="ajaxSave(1)">办结</div>
+                    <div class="btn red" onclick="ajaxSave(2)">提交</div>
+                </div>
+            </div>
+        </div>
+        <script>
+        var isLoading=false
+        var axiosIns = axios.create({
+        baseURL: '__ROOT__',
+        timeout: 100000,
+        headers: { "Content-Type": "multipart/form-data" }
+        })
+
+        function selectFile() {
+            // var loadingHtml = '';
+            // loadingHtml += '<div class="item loading"><i class="img"></i>';
+            // loadingHtml += '<div class="progress"><span class="progress-tips">90</span>';
+            // loadingHtml += '<div class="progress-bar"><div class="progress-percent" style="width: 90%;"></div>'
+            // loadingHtml += '</div></div><span class="name">sdfff.png</span></div>';
+            // $('.g-attachment-list').append(loadingHtml);
+            // console.log('selectFile');
+            $("#file").trigger("click");
+        }
+
+        // 附件上传
+        function importFile() {
+            var Html = '';
+            var form = new FormData();
+            form.append('file', $('#file')[0].files[0])
+            isLoading=true
+            axiosIns.post(
+                "/Mob/Tasks/ajaxUploadAnnex", form,
+                {onUploadProgress (s){
+                    var int = Math.round(100 * ( s.loaded / s.total ));
+                    $('.loading').removeClass('hidden');
+                    $('.progress-tips').html(int);
+                    $('.progress-percent').css('width', int+'%');
+                    console.log(int)
+                }}
+            ).then(res => {
+                if (res.data.status === 0) {
+                    Html = '<div class="item" data-id="'
+                    +res.data.data.id+'"><i class="img '
+                    +res.data.data.type+'"></i><span class="name">'
+                    +res.data.data.name+'</span><i class="remove"></i></div>';
+                    $('.g-attachment-list').prepend(Html);
+                    addFiles(res.data.data['id']);
+                    $('.loading').addClass('hidden');
+                    console.log('上传成功', res.data.data);
+                }else {
+                    // $('.loading .name').html(res.data.msg);
+                    alert(res.data.msg);
+                    $('.progress-tips').html(0);
+                    $('.progress-percent').css('width', '1%');
+                    var loadingtxt = window.setTimeout(function(){
+                        $('.loading').addClass('hidden');
+                    },2000);
+                }
+            }).catch(function(error){
+                console.log(error);
+            })
+        }
+
+        // 添加文件
+        function addFiles(fileid){
+            var fileId = $('#file_id').val();
+            fileId = fileId ? fileId.split(',') : [];
+            fileId.push(fileid);
+            $('#file_id').val(fileId);
+        }
+
+        function delFiles(fileid){
+            var fileId = $('#surplus_file_id').val();
+            fileId = fileId ? fileId.split(',') : [];
+            fileId.push(fileid);
+            $('#surplus_file_id').val(fileId);
+        }
+
+        // 保存
+        function ajaxSave(status){
+            var id = $('#id').val();
+            var fileId = $('#file_id').val();
+            var surplusFileId = $('#surplus_file_id').val();
+            var createAt = $('.date-input').val();
+            var content = $('.text-area').val();
+            $.post(
+                "__ROOT__/Mob/Tasks/addNewProgress",
+                {'id':id,'status':status,'file_id':fileId,'surplus_file_id':surplusFileId,'create_at':createAt,'content':content},
+                function(result){
+                    if (0 == result.status) {
+                        console.log('ajaxSave', '保存成功');
+                        window.location.href = "__ROOT__/Mob/Tasks/detail?id=" + id;
+                        // history.go(-1);
+                    }else {
+                        console.log(result);
+                    }
+           },'JSON');
+        }
+
+        // 删除 remove
+        $('.g-attachment-list').on('click','.remove',function(){
+            console.log(event);
+            var fileID = $(this).parent('.item').attr('data-id');
+            if (fileID) {
+                delFiles(fileID);
+            }
+            $(this).parent('.item').remove();
+        })
+
+        //返回按钮
+        $('.back-btn').click(function(e) {
+            history.go(-1)
+        })
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,121 @@
+.banner {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.categories {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.categories .item {
+    display: flex;
+    align-items: center;
+    padding: 20px 10px;
+    box-shadow: 0px 3px 14px 0px rgba(79, 79, 79, 0.1);
+    border-radius: 10px;
+}
+
+.categories .ico {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: center/cover no-repeat;
+}
+
+.categories .title {
+    color: #333;
+}
+
+.learn-and-do-data-item {
+    margin: 10px 0;
+    padding: 5px 0;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.learn-and-do-data-item .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.learn-and-do-data-item .date {
+    color: #999;
+    font-size: 12px;
+}
+
+.learn-and-do-data-item .type {
+    height: 24px;
+    border-radius: 12px;
+    padding: 0 12px;
+    line-height: 24px;
+    color: #fff;
+    font-size: 12px;
+    background-color: rgb(117, 157, 241);
+}
+
+.learn-and-do-data-item .type.one {
+    background: linear-gradient(#fb7a73, #d3231a);
+}
+.learn-and-do-data-item .type.two {
+    background: linear-gradient(#fdcd8e, #ff8e31);
+}
+.learn-and-do-data-item .type.three {
+    background: linear-gradient(#ffd051, #e8af00);
+}
+
+.learn-and-do-data-item .middle-content {
+    display: flex;
+    margin: 10px;
+}
+
+.learn-and-do-data-item .middle-content .img {
+    flex-shrink: 0;
+    width: 25vw;
+    height: 25vw;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: #ccc center/cover no-repeat;
+}
+
+.learn-and-do-data-item .middle-content .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.learn-and-do-data-item .middle-content .info .title {
+    margin: 0;
+    color: #333;
+}
+
+.learn-and-do-data-item .middle-content .info .bottom-text {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    color: #999;
+    font-size: 12px;
+}
+
+.learn-and-do-data-item .middle-content .avatar {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    background: center/cover no-repeat;
+}
+
+.learn-and-do-data-item .middle-content .author {
+    flex: 1 1;
+}
+
+.learn-and-do-data-item .middle-content .ico-read {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    background: center/cover no-repeat;
+}

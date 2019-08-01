@@ -1,0 +1,426 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .main{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            background: #00c2e5;
+        }
+
+        .bottom-img{
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+        }
+
+        .top-img{
+            width: 100%;
+            position: absolute;
+            top: 45px;
+        }
+
+        .header-div{
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            border-radius:60px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+        }
+        .header-div img{
+            width:60px;
+            height:60px;
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        .user-name{
+            margin-top: 10px;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-point{
+            width: 100px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 9px;
+            background: #00A6C4;
+            font-size: 12px;
+            color: white;
+            margin: auto;
+            margin-top: 5px;
+            padding: 0px 20px;
+            position: relative;
+            text-align: center;
+        }
+        .user-point img{
+            width: 12px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 5px;
+            margin: auto;
+        }
+
+        .point-ranking{
+            text-align: center;
+            color: #FFE600;
+            font-size: 14px;
+            margin-top: 13px;
+        }
+
+        .title-img{
+            position: absolute;
+            width: 63%;
+            left: 0px;
+            right: 0px;
+            margin: auto;
+            margin-top: 30%;
+        }
+        
+        .zhuan-pan{
+            width: 301px;
+            height: auto;
+            padding: 20px;
+            padding-bottom: 37px;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            margin: auto;
+            margin-top: 19px;
+            margin-bottom: 20px;
+            background: url("__IMG__icon_gezibg_36.png");
+            background-size: 100% 100%;
+        }
+
+        .prize-cell{
+            width: 83px;
+            height: 83px;
+            border-radius: 15px;
+            border-bottom: 7px solid #FFC940;
+            float: left;
+            margin: 2px;
+            background: #FFF071;
+            padding-top: 15px;
+            position: relative;
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 22px;
+        }
+
+        .win-prize{
+            background: white !important;
+            box-shadow:-2px 0 2px white, /*左边阴影*/
+            2px 0 2px white, /*右边阴影*/
+            0 -2px 2px white;, /*顶部阴影*/
+            /*0 2px 2px white; !*底边阴影*!*/
+        }
+
+        .prize-cell img{
+            width: 70px;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            margin: auto;
+        }
+
+        .prize-cell .jifen-big{
+            width: 100%;
+            font-size: 23px;
+            color: white;
+            z-index: 100;
+            text-align: center;
+            line-height: 30px;
+            position: absolute;
+        }
+        .prize-cell .jifen{
+            width: 100%;
+            position: absolute;
+            bottom: 3px;
+            text-align: center;
+            color: #1a1a1a;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-prize{
+            width: 83px;
+            height: 83px;
+            background: url("__IMG__icon_lijichoujiang_03.png");
+            background-size: 100%;
+            border-radius: 15px;
+            border-bottom: 7px solid #C02C1F;
+            float: left;
+            margin: 1px;
+        }
+
+        .btn-prize-disable{
+            width: 83px;
+            height: 83px;
+            background: url("__IMG__icon_lijichoujiang_04.png");
+            background-size: 100%;
+            border-radius: 15px;
+            border-bottom: 7px solid #333333;
+            float: left;
+            margin: 1px;
+        }
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="main">
+        <img class="top-img"  src="__IMG__icon_caidai_03.png">
+        <img class="bottom-img"  src="__IMG__icon_huangsbg_03.png">
+
+        <div style="margin-top: 60px">
+            <div class="header-div">
+                <!--<img src="{$user.headimgurl|get_head_url}">-->
+                <img src="__IMG__icon_head.jpg">
+            </div>
+            <div class="user-name">{$user.realname}</div>
+            <div class="user-point"> <img src="__IMG__icon_point.png"/> <span>积分 </span> <span id="user-point">{$user.score}</span> </div>
+            <div class="point-ranking">您已超过<span id="rankingPercent">{$rankingPercent}</span>%的用户</div>
+        </div>
+
+        <div class="zhuan-pan">
+            <if condition="$prizeConfigList[0]['point'] gt 0">
+                <div class="prize-cell" id="cell0">
+                    <img src="__IMG__icon_jifen_03.png"/>
+                    <div class="jifen-big">{$prizeConfigList[0].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[0].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell0">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$prizeConfigList[1]['point'] gt 0">
+                <div class="prize-cell" id="cell1">
+                    <img src="__IMG__icon_jifen_05.png"/>
+                    <div class="jifen-big">{$prizeConfigList[1].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[1].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell1">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$prizeConfigList[2]['point'] gt 0">
+                <div class="prize-cell" id="cell2">
+                    <img src="__IMG__icon_jifen_08.png"/>
+                    <div class="jifen-big">{$prizeConfigList[2].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[2].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell2">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$prizeConfigList[7]['point'] gt 0">
+                <div class="prize-cell" id="cell7">
+                    <img src="__IMG__icon_jifen_19.png"/>
+                    <div class="jifen-big">{$prizeConfigList[7].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[7].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell7">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$signInPrize.prize_chance_count gt 0">
+                <div id="btn-prize" class="btn-prize"></div>
+                <!--<div class="btn-prize-disable" style="display: none"></div>-->
+            <else/>
+                <div  class="btn-prize-disable"></div>
+            </if>
+
+
+            <if condition="$prizeConfigList[3]['point'] gt 0">
+                <div class="prize-cell" id="cell3">
+                    <img src="__IMG__icon_jifen_22.png"/>
+                    <div class="jifen-big">{$prizeConfigList[3].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[3].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell3">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$prizeConfigList[6]['point'] gt 0">
+                <div class="prize-cell" id="cell6">
+                    <img src="__IMG__icon_jifen_26.png"/>
+                    <div class="jifen-big">{$prizeConfigList[6].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[6].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell6">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$prizeConfigList[5]['point'] gt 0">
+                <div class="prize-cell" id="cell5">
+                    <img src="__IMG__icon_jifen_31.png"/>
+                    <div class="jifen-big">{$prizeConfigList[5].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[5].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell5">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+            <if condition="$prizeConfigList[4]['point'] gt 0">
+                <div class="prize-cell" id="cell4">
+                    <img src="__IMG__icon_jifen_29.png"/>
+                    <div class="jifen-big">{$prizeConfigList[4].point}</div>
+                    <div class="jifen"><span>{$prizeConfigList[4].point}</span><span>积分</span></div>
+                </div>
+            <else/>
+                <div class="prize-cell" id="cell4">
+                    谢谢<br>参与
+                </div>
+            </if>
+
+        </div>
+
+    </div>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        var cellCount=0; // 方格计数
+        var winPrizeCell = 5;
+        var roundCount = 0; // 旋转圈数计数
+        var returnState = 0; // 抽奖结果是否已经返回(0未返回，1已返回)
+        var prizeChanceCount = 0; // 抽奖机会次数
+        var prize = null;
+        var userScore;
+        var rankingPercent;
+        var resultTip;
+
+        var isBtnPrizeEnable = true;
+
+
+
+        $('#btn-prize').click(function(){
+            if(isBtnPrizeEnable){
+                isBtnPrizeEnable = false;
+                returnState = 0;
+                roundCount = 0;
+                $('#btn-prize').addClass("btn-prize-disable");
+                cellCount=0;
+                $.ajax({
+                    type: "post",
+                    url: __root__+"/SignIn/prize/ajaxGetPrize",
+                    cache: false,
+                    dataType: "json",
+                    success: function (res) {
+                        if(res['status'] == 0){
+//                        alert("抽中后积分为"+res['data']['userScore']);
+                            prizeChanceCount = res['data']['prizeChanceCount'];
+                            userScore = res['data']['userScore'];
+                            rankingPercent = res['data']['rankingPercent'];
+                            prize = res['data']['prize'];
+                            winPrizeCell = prize['code'];
+//                            console.log("winPrizeCell = " + winPrizeCell);
+                            resultTip = res['msg'];
+                            returnState = 1;
+                        }else if(res['status'] == 1){
+                            alert(res['msg']);
+                        }
+                    },
+                    error: function () {
+                        alert("网络异常...");
+                    }
+                });
+                startRotating();
+            }
+        });
+        // 一次性点击事件
+//        $('.btn-prize').one("click",function(){
+//            // 在此处添加修改抽奖按钮的背景图片为灰色不可点击
+//            $('.btn-prize-disable').show();
+//            $('.btn-prize').hide();
+//
+//            cellCount=0;
+//            $.ajax({
+//                type: "post",
+//                url: __root__+"/SignIn/prize/ajaxGetPrize",
+//                cache: false,
+//                dataType: "json",
+//                success: function (res) {
+//                    if(res['status'] == 0){
+////                        alert("抽中后积分为"+res['data']['userScore']);
+//                        userScore = res['data']['userScore'];
+//                        rankingPercent = res['data']['rankingPercent'];
+//                        prize = res['data']['prize'];
+//                        winPrizeCell = prize['code'];
+//                        returnState = 1;
+//                    }else if(res['status'] == 1){
+//                        alert(res['msg']);
+//                    }
+//                },
+//                error: function () {
+//                    alert("网络异常...");
+//                }
+//            });
+//            startRotating();
+//        });
+
+        function startRotating(){
+            if(cellCount == 0){
+                $('#cell7').removeClass('win-prize')
+            }else{
+                $('#cell'+(cellCount - 1)).removeClass('win-prize')
+            }
+            $('#cell'+cellCount).addClass('win-prize');
+            if(roundCount > 2 && returnState == 1){
+                if(cellCount == winPrizeCell){
+                    // 更新用户的积分值
+                    $('#user-point').html(userScore);
+                    // 更新用户积分排名百分比
+                    $('#rankingPercent').html(rankingPercent);
+                    // 提示抽奖结果
+                    setTimeout(function(){
+                        if(prizeChanceCount > 0){
+                            isBtnPrizeEnable = true;
+                            $('#btn-prize').removeClass("btn-prize-disable");
+                        }
+                        $("#tip-content").html(resultTip);
+                        $("#my-alert").modal();
+                    },500);
+                }else{
+                    setTimeout(startRotating,200);
+                }
+            }else{
+                setTimeout(startRotating,50);
+            }
+
+            cellCount++;
+            if(cellCount > 7){
+                cellCount = 0;
+                roundCount++;
+            }
+        }
+
+
+
+    </script>
+
+</block>

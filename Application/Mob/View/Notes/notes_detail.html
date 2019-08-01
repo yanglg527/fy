@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>学习交流</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <!--<link rel="stylesheet" href="../plugin/swiper/css/swiper-3.3.1.min.css">-->
+    <link rel="stylesheet" type="text/css" href="__CSS__/notes/notes_detail.css"/>
+    <style>
+        .title .type{
+            display: inline;
+            font-size: 13px;
+            color: limegreen;
+            border: 1px solid limegreen;
+            border-radius: 3px;
+            padding: 1px 8px;
+            margin-left: 20px;
+            text-align: center;
+            line-height: 1.5rem;
+        }
+        .title .type2{
+            display: inline;
+            font-size: 13px;
+            color: orangered;
+            border: 1px solid orangered;
+            border-radius: 3px;
+            padding: 1px 8px;
+            margin-left: 20px;
+            text-align: center;
+            line-height: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+<div class="page">
+    <div class="icon"><img src="__IMG__/notes/bookmark.png" alt=""></div>
+    <h1 class="title">个人学习笔记
+        <if condition="$detail.type == 0">
+            <span class="type">自学</span>
+        <else/>
+            <span class="type2">集体学习</span>
+        </if></h1>
+    <p class="time"><i></i>{$detail.create_time|date="Y.m.d  H:i",###}  共<span id="study-time">{$detail.study_time}</span> 小时</p>
+    <div class="swiper-container content" style="position: absolute; top: 90px; bottom: 15px; right: 25px; left: 55px; width: auto; overflow-y: scroll">
+        <div class="swiper-wrapper">
+            <div style="color: #0a8ddf; font-size: 15px; line-height: 30px">{$detail.title}</div>
+            <div class="swiper-slide">{$detail.content}</div>
+        </div>
+    </div>
+</div>
+<script src="../plugin/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="../plugin/zepto/zepto.js"></script>
+<script src="../plugin/zepto/event.js"></script>
+<script src="../plugin/zepto/touch.js"></script>
+<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/notes/notes_detail.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>

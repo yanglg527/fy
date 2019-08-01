@@ -1,0 +1,117 @@
+.article {
+    margin: 10px;
+}
+
+.section-wrapper {
+    margin: 10px;
+}
+
+.section-title {
+    color: #969696;
+}
+
+.block-title {
+    position: relative;
+    margin: 10px;
+    padding-left: 20px;
+}
+
+.block-title::before {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 10px;
+    height: 10px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.block-title.red::before {
+    background-color: #d3231a;
+}
+
+.block-title.orange::before {
+    background-color: #ff9000;
+}
+
+.block-title.grey::before {
+    background-color: #999;
+}
+
+.avatar-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.avatar-list .item {
+    width: 20vw;
+    text-align: center;
+}
+
+.avatar-list .img {
+    display: block;
+    width: 20vw;
+    height: 20vw;
+    padding: 10px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-clip: content-box;
+    background-color: #ccc;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+.avatar-list .name {
+    display: block;
+    width: 100%;
+    padding: 0 10px;
+    line-height: 2;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.volunteer-detail__bottm-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0px -3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.volunteer-detail__bottm-bar .red-text {
+    color: #ce3d37;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.volunteer-detail__bottm-bar .right {
+    min-width: 10em;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+}
+
+.volunteer-detail__bottm-bar .right.red {
+    background-color: #ce3d37;
+}
+
+.volunteer-detail__bottm-bar .right.orange {
+    background-color: #ff8e31;
+}
+
+.volunteer-detail__bottm-bar .right.yellow {
+    background-color: #e8af00;
+}
+
+.volunteer-detail__bottm-bar .right.purple {
+    background-color: #906eff;
+}
+
+.volunteer-detail__bottm-bar .right.grey {
+    background-color: #ccc;
+    color: #999;
+}

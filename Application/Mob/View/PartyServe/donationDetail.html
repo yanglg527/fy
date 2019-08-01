@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta>
+		<title>党员服务</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" href="__CSS__/party_serve/relief/relief_detail.css">
+	</head>
+
+	<script>
+        var detail = {$detail|to_json_string};
+	</script>
+
+	<body style="height: 100%!important;">
+		<div class="page">
+			<header>
+				<h2>{$detail.title}</h2>
+			</header>
+
+		</div>
+		<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<script>
+
+			mui.init({
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					url: '_sub_donationDetail.html',
+					id: '_sub_donationDetail.html',
+					styles: {
+						top: '0',
+						left: '0px',
+						right: '0px',
+						bottom: '0px',
+					},
+				}]
+			});
+
+			var contentWebview = null;
+			document.querySelector('header').addEventListener('doubletap', function() {
+				if(contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+			});
+		</script>
+	</body>
+
+</html>

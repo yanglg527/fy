@@ -1,0 +1,27 @@
+<div class="footer-btn g-image-upload-box">
+    <php>if(strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone')|| strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')){</php>
+    <div class="upload-button">
+        <div class="am-form-group am-form-file am-g" style="background-color: white; padding: 20px 0px; margin: 0px">
+            <div class="am-u-sm-12 am-u-md-12">
+                <a type="button" class="am-btn am-btn-default am-btn-sm " style="width: 90%;position: relative" >
+                    <i class="am-icon-image"></i> 添加图片</a>
+                <input class="input-file" id="imageUpload2" type="file" name="fileInput" capture="camera" accept="image/*" style="position:absolute;left:4%;opacity:0;width:92%;height: 35px">
+            </div>
+        </div>
+    </div>
+    <php> } else { </php>
+    <div class="upload-button">
+        <div class="am-form-group am-form-file am-g" style="background-color: white; padding: 20px 0px; margin: 0px">
+            <div class="am-u-sm-6 am-u-md-6">
+                <button type="button" class="am-btn am-btn-default am-btn-sm " style="width: 90%;position: relative" >
+                    <i class="am-icon-image"></i> 添加图片</button>
+                <input class="input-file" id="imageUpload2" type="file" name="fileInput" capture="camera" accept="image/*" style="position:absolute;left:4%;opacity:0;width:100%;height: 35px"/>
+            </div>
+            <div class="am-u-sm-6 am-u-md-6"  >
+                <a type="button" class="am-btn am-btn-default am-btn-sm " id="fileUploadA2" style="width: 90%;z-index: 999999;position: relative" >
+                    <i class="am-icon-cloud-upload"></i> 添加附件</a>
+            </div>
+        </div>
+    </div>
+    <php> }</php>
+</div>

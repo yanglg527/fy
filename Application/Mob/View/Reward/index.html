@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>奖励机制</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/party_serve/nav.css" />
+    <link rel="stylesheet" href="/Statics/assets/css/amazeui.min.css">
+    <script src="__STATICS__/assets/js/jquery.min.js"></script>
+    <script src="__STATICS__/assets/js/amazeui.min.js"></script>
+
+</head>
+<style type="text/css">
+    header.head .head_return>i {
+        background: url("__IMG__/member_develop/return.png") no-repeat 100%;
+        background-size: 100%;
+    }
+    .head {
+        width: 100%;
+        height: 2.8rem;
+        line-height: 2.8rem;
+        position: relative;
+        z-index: 10;
+        background-color: #ce3d37;
+        color: #ffffff;
+        font-size: 12px;
+        text-align: center;
+    }
+    .head>i {
+        display: inline-block;
+        width: 0.9rem;
+        height: 3rem;
+        background: url(__IMG__/ledger_list/return.png) no-repeat 100%;
+        background-size: 100%;
+        position: absolute;
+        left: 1.2rem;
+        /*top: 25%;*/
+    }
+
+    .bg_img{
+        width: 100%;
+        background: url(../../Public/Mob/images/branch/reward_head.jpg) center/cover no-repeat;
+        background-size: cover;
+    }
+    .btn_right{
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 50%;
+    }
+
+
+    .parentElement{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    /* 无数据 */
+    .g-no-data {
+        position: relative;
+        margin: 10px auto 30px;
+        width: 120px;
+        height: 120px;
+        background: url(../../Public/Mob/images/reward/no-data.png) center/cover;
+    }
+
+    .OneChildElement {
+    }
+    .TwoChildElement{
+
+    }
+    .childElement {
+    }
+
+
+</style>
+
+<body>
+    <div class="banner">
+        <div class="head">
+            <i onclick="history.go(-1);"></i>
+            <p style="font-size:18px;margin-top: 0px">奖励机制</p>
+        </div>
+    </div>
+    <input type="hidden" name="type" value="{$type}">
+    <div class="bg_img">
+        <div class="am-g">
+            <div class="am-u-sm-5">
+                <div style="margin-top: 30px;text-align: center;"><img src="{$branch.cover|show_img='cover'}" alt="" width="70" height="70" style="border-radius:50%!important;"></div>
+            </div>
+            <div class="am-u-sm-7" style="color: white;margin-top: 35px;margin-left: 0px">
+               <div style="font-size: 18px">{$user.realname}</div>
+               <div style="margin-top: 10px;font-size: 15px">
+                   <span>{$branch_name.name}</span>
+                   <span>{$group_name.name}</span>
+               </div>
+            </div>
+        </div>
+        <div class="am-g am-text-center" style="margin-top: 10px">
+            <div class="am-u-sm-6">
+               <div style="font-size: 18px;color: #fff000;font-weight: 500">{$user.able_score}</div>
+                <div style="color:white;margin-bottom: 10px">可用积分</div>
+            </div>
+            <div class="am-u-sm-6">
+                <div style="font-size: 18px;color: #fff000;font-weight: 500">{$user.score}</div>
+                <div style="color:white;margin-bottom: 10px">总积分</div>
+            </div>
+        </div>
+    </div>
+    <div data-am-widget="tabs" class="am-tabs am-tabs-d2">
+        <ul class="am-tabs-nav am-cf">
+            <if condition="$type == 1">
+                <li class="am-active"><a href="[data-tab-panel-0]">可兑换</a></li>
+                <li class=""><a href="[data-tab-panel-1]">已领取</a></li>
+                <li class=""><a href="[data-tab-panel-2]">我的申请</a></li>
+                <elseif condition="$type == 2"/>
+                <li class=""><a href="[data-tab-panel-0]">可兑换</a></li>
+                <li class="am-active"><a href="[data-tab-panel-1]">已领取</a></li>
+                <li class=""><a href="[data-tab-panel-2]">我的申请</a></li>
+                <else />
+                <li class=""><a href="[data-tab-panel-0]">可兑换</a></li>
+                <li class=""><a href="[data-tab-panel-1]">已领取</a></li>
+                <li class="am-active"><a href="[data-tab-panel-2]">我的申请</a></li>
+            </if>
+        </ul>
+        <div class="am-tabs-bd">
+            <div data-tab-panel-0 class="zero am-tab-panel am-active">
+                <if condition="$allow">
+                    <volist name="allow" id="vo">
+                        <div class="parentElement">
+                            <div class="OneChildElement">
+                                <div style="margin-left: 10px" style="margin: auto"><img src="{$vo.img_url|show_img='reward','middle'}"  height="70px" width="70px"  alt=""></div>
+                            </div>
+                            <div class="TwoChildElement">
+                                <div class="name am-text-sm" style="margin-top: 5px;margin-left: 5px" >{$vo.name}</div>
+                                <div class="point" style="margin-left: 5px"><span class="am-text-danger">{$vo.point}积分</span></div>
+                                <div class="am-fr am-text-sm">剩余<span class="am-text-danger am-text-lg">{$vo.stock}</span>件</div>
+                            </div>
+                            <div class="childElement">
+                                <div class="parent" >
+                                    <if condition="$vo['stock'] lT 1">
+                                        <div style="background: linear-gradient(#f2f2f1, #cfcfcf);color: #999;font-size: 8px" class="btn_right">库存不足</div>
+                                        <else />
+                                        <div style="background: linear-gradient(#fb7a73, #d3231a);color: #fff;font-size: 14px;" class="btn_right btn_reward" data-id="{$vo.id}">兑换</div>
+                                    </if>
+                                </div>
+
+                                <!--<div style="background: linear-gradient(#ffd051, #e8af00);color: #fff;font-size: 14px" class="btn_right">撤销</div>-->
+                                <!--<div style="background: linear-gradient(#f2f2f1, #cfcfcf);color: #999;font-size: 13px" class="btn_right">已兑换</div>-->
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px"><hr></div>
+                    </volist>
+                    <else /><div class="g-no-data"></div>
+                </if>
+            </div>
+            <div data-tab-panel-1 class="one am-tab-panel ">
+                <if condition="$already">
+                <volist name="already" id="vo">
+                    <div class="am-g">
+                        <div class="am-u-sm-4">
+                            <div class="am-margin-top-sm"><img src="{$vo.img_url|show_img='reward','middle'}" height="70px" width="70px"  alt=""></div>
+                        </div>
+                        <div class="am-u-sm-8 am-margin-top-xs">
+                            <div class="am-text-sm">{$vo.name}</div>
+                            <div class="am-text-danger am-margin-top-xs">{$vo.point}积分</div>
+                            <div class="am-fr am-margin-top-xs">
+                                <span class="am-text-xs">领取日期</span>
+                                <span class="am-text-danger">{$vo.receive_time|date="Y.m.d",###}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px"><hr></div>
+                </volist>
+                    <else /> <div class="g-no-data"></div>
+                </if>
+            </div>
+            <div data-tab-panel-2 class="two am-tab-panel ">
+                <if condition="$apply">
+                <volist name="apply" id="vo">
+                    <div class="am-g">
+                        <div class="am-u-sm-3">
+                            <div class="am-margin-top-sm"><img src="{$vo.img_url|show_img='reward','middle'}"  height="70px" width="70px"  alt=""></div>
+                        </div>
+                        <div class="am-u-sm-6" style="padding-left: 15px">
+                            <div class="am-text-sm">{$vo.name}</div>
+                            <div class="am-text-danger am-margin-top-xs">{$vo.point}积分</div>
+                            <div class="am-fr am-margin-top-xs">
+                                <span class="am-text-xs">申请日期</span>
+                                <span class="am-text-sm am-text-danger">{$vo.create_time|date="Y.m.d",###}</span>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-3">
+                            <if condition="$vo['status'] == -1">
+                                <div style="margin-top: 20px;margin-left:5px;background: linear-gradient(#fb7a73, #d3231a);color: #fff;font-size: 14px;" class="btn_right" data-id="{$vo.id}">不通过</div>
+                                <elseif condition="$vo['status'] == 1"/>
+                                <div style="margin-top: 20px;margin-left:5px;background: linear-gradient(#16fb8b, #65d31c);color: #fff;font-size: 12px;" class="btn_right" data-id="{$vo.id}">审核通过</div>
+                                <elseif condition="$vo['status'] == -2"/>
+                                <div style="margin-top: 20px;margin-left:5px;background: linear-gradient(#fb7a73, #d3231a);color: #fff;font-size: 14px;" class="btn_right" data-id="{$vo.id}">弃领</div>
+                                <else />
+                                <div style="margin-top: 20px;margin-left:5px;background: linear-gradient(#f2f2f1, #cfcfcf);color: #999;font-size: 14px" class="btn_right">审核中</div>
+                            </if>
+                            <!--<div style="background: linear-gradient(#ffd051, #e8af00);color: #fff;font-size: 14px" class="btn_right">撤销</div>-->
+                            <!--<div style="background: linear-gradient(#f2f2f1, #cfcfcf);color: #999;font-size: 13px" class="btn_right">已兑换</div>-->
+                        </div>
+                     </div>
+                    <div style="margin-top: 10px"><hr></div>
+                </volist>
+                    <else /> <div class="g-no-data"></div>
+                </if>
+            </div>
+        </div>
+    </div>
+
+    <!--弹出框提示-->
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示</div>
+            <div class="am-modal-bd">
+                确定要兑换此商品吗？
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+    <!--弹出框提示-->
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="un_stock">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示</div>
+            <div class="am-modal-bd">
+               库存不足
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+    <!--弹出框提示-->
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="un_score">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示</div>
+            <div class="am-modal-bd">
+                积分不足
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+    <!--弹出框提示-->
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="apply">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示</div>
+            <div class="am-modal-bd">
+              兑换申请已提交
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+   var type = $('input[name="type"]').val();
+   if(type == 0){
+       $('.zero').removeClass('am-active');
+       $('.two').addClass('am-active');
+   }
+
+    var id=0;
+    $('.btn_reward').click(function(){
+       id = this.getAttribute("data-id");
+        console.log('item',id);
+        $('#my-confirm').modal({
+            relatedTarget: this,
+            onConfirm: function(options) {
+                onConfirm(id);
+            },
+            onCancel: function() {
+
+            }
+        });
+    });
+    function  onConfirm(id) {
+        $.ajax({
+            url:'__ROOT__/Mob/Reward/ajaxReward',
+            type:'POST', //GET
+            data:{
+                id:id,
+            },
+            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success:function(data){
+                if(data.status == 1){
+                    $('#un_stock').modal();
+                }else if(data.status == 2){
+                    $('#un_score').modal();
+                }else{
+                    $('#apply').modal();
+                    window.location.href = '__ROOT__/Mob/Reward/index?type=0';
+                }
+            },
+            closeOnConfirm: false,
+            error:function(xhr,textStatus){
+                alert_modal("网络连接有误");
+            }
+        })
+    }
+
+
+</script>

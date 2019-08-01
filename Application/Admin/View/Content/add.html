@@ -1,0 +1,302 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+
+<block name="styles">
+  <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="__STATICS__/datetimepicker/css/amazeui.datetimepicker.css"/>
+    <style>
+        .uplosd_image{
+            height: 120px !important;
+            width: 180px !important;
+        }
+        .info-cover{
+          width: 180px;
+          height: 120px;
+          cursor: pointer;
+          position: absolute;
+        }
+        .info-cover-span{
+          background-color: rgba(0,0,0,0.3);
+          position: absolute;
+          bottom: 0px;
+          margin: 0 !important;
+          /* margin-left: 10px !important; */
+          font-size: 14px !important;
+          width: 180px;
+          text-align: center;
+          color: white !important;
+          cursor: pointer;
+        }
+        .hidden_div{
+            display:none;
+        }
+    </style>
+</block>
+<block name="content">
+<div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <a href="#" onClick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg">内容管理</strong></a> /
+        <small>新增内容</small>
+      </div>
+    </div>
+
+    <hr>
+
+      <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+        <div class="am-tab-panel am-fade am-in am-active" >
+          <include file="_add"/>
+        </div>
+    </div>
+
+    <div class="am-margin">
+      <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+      <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+    </div>
+  </div>
+  <include file="_add_upload"/>
+
+
+</block>
+<block name="scripts">
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="__STATICS__/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"
+            charset="UTF-8"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script type="text/javascript">
+    var ue = UE.getEditor('editor', {
+            // autoHeight: true,
+            initialFrameHeight: 400,
+//            readonly:true,
+            // retainOnlyLabelPasted: true
+        });
+    ue.ready(function() {
+        ue.setContent('{$article.content}');
+    });
+
+    function submit_info() {
+            // if (is_cer != 1) {
+            //     toastError('你还没通过认证');
+            //      return false;
+            // };
+            var id = $('input[name="id"]').val();
+            var title = $('input[name="title"]').val();
+            var article_tag = new Array();
+            // var is_index = $('input[name="is_index"]:checked').val();
+            var hidden = $('input[name="hidden"]:checked').val();
+            var img_url = $('input[name="img_url"]').val();
+            var content = ue.getContent();
+            // var qt_tag = $('input[name="qt_second_tag"]:checked').val();
+            // var shyk_tag = $('input[name="shyk_second_tag"]:checked').val();
+            // var mzshh_tag = $('input[name="mzshh_second_tag"]:checked').val();
+            // var meeting_at = $('input[name="meeting_at"]').val();
+            $('input[name="article_tag"]:checked').each(function(){    
+             article_tag.push($(this).val());  
+            });
+            var is_url = $('input[name="is_url"]:checked').val();
+            var spider_url = $('input[name="spider_url"]').val();
+            // var avatar = $('input[name="img_url"]').val();
+            // if (avatar == '') {
+            //     toastError('请上传图片');
+            //     return false;
+            // }
+            // alert(article_tag);
+            if (title == '') {
+                alert_modal("请录入文章标题");
+            }else if(is_url == 1 && spider_url == ''){
+                alert_modal("请录入文章链接");
+            }else{
+            $.ajax({
+                data: {
+                    'id': id,
+                    'title': title,
+                    'tags': article_tag,
+                    'img_url':img_url,
+                    // 'is_index': is_index,
+                    'hidden': hidden,
+                    'content': content,
+                    'is_url':is_url,
+                    'spider_url':spider_url,
+                    // 'qt_tag':qt_tag,
+                    // 'shyk_tag':shyk_tag,
+                    // 'mzshh_tag':mzshh_tag,
+                    // 'meeting_at':meeting_at,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Content/ajaxAdd',
+                beforeSend: function () {
+                  loading();
+                },
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/Content/index?p={$p}');
+                    } else {
+                      close_loading();
+                      alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+            };
+        };
+
+        $("input:radio[name='is_url']").change(function(){
+            var value = $(this).val();
+            if (value == 1) {
+                $('#url').css('display','block');
+            }else if(value == 0){
+                $('#url').css('display','none'); 
+            };
+        })
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+
+       /*****************弹窗里面的 js*********************/
+       //弹出封面裁剪界面
+        $('#info-cover').click(function () {
+             $('#doc-modal-1').modal();
+        })
+
+        var options = {
+            aspectRatio: 18 / 12,
+            strict: false,
+            preview: '.img-preview',
+            crop: function (e) {
+                $('input[name="avatar_data"]').val(JSON.stringify(e));
+            }
+        };
+
+        var $image =  $('#show_img');
+        var console = window.console || { log: function () {} };
+
+        var URL = window.URL || window.webkitURL;
+        var blobURL;
+        $image.on({
+        }).cropper(options);
+
+        $('#avatarInput').change(function () {
+
+
+            var files = this.files;
+            var file;
+
+            if (!$image.data('cropper')) {
+                return;
+            }
+
+            if (files && files.length) {
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    blobURL = URL.createObjectURL(file);
+                    $image.one('built.cropper', function () {
+
+                        // Revoke when load complete
+                        URL.revokeObjectURL(blobURL);
+                    }).cropper('reset').cropper('replace', blobURL);
+//                    $(this).val('');
+                } else {
+                    window.alert('Please choose an image file.');
+                }
+            }
+
+
+
+        })
+/*******************************************/
+
+
+
+        $('.avatar-save').click(function () {
+            var avatar = $('input[name="avatar_data"]').val();
+            // if (avatar == '') {
+            //     toastError('请先选择图片');
+            //     return false;
+            // }
+            var formData = new FormData($('.cover-form')[0]);
+//            var formData = $('.cover-form').serialize();
+            $.ajax({
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                url: __root__ + '/Admin/Image/ajaxSaveArticleCover',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        $('input[name="img_url"]').val(data.data.save_path);
+                        $('.info-cover').attr('src', data.data.show_path);
+                        $('#doc-modal-1').modal('close');
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常,请稍候重试');
+                }
+
+
+            })
+        });
+
+        // $("#4").on("change", function () {
+        //     $("#qt_second_tags").toggle(); 
+        // });
+
+        // $("#15").on("change", function () {
+        //     $("#shyk_second_tags").toggle(); 
+        //     if($('#15').is(':checked')) {
+        //         $('#meeting_at').show();
+        //     }else if($('#15').is(':checked') == false && $('#16').is(':checked') == false && $('#17').is(':checked') == false){
+        //         $('#meeting_at').hide();
+        //     }
+        // });
+
+        // $("#16").on("change", function () {
+        //     if($('#16').is(':checked')) {
+        //         $('#meeting_at').show();
+        //     }else if($('#15').is(':checked') == false && $('#16').is(':checked') == false && $('#17').is(':checked') == false){
+        //         $('#meeting_at').hide();
+        //     }
+        // });
+
+        // $("#17").on("change", function () {
+        //     $("#mzshh_second_tags").toggle(); 
+        //      if($('#17').is(':checked')) {
+        //         $('#meeting_at').show();
+        //     }else if($('#15').is(':checked') == false && $('#16').is(':checked') == false && $('#17').is(':checked') == false){
+        //         $('#meeting_at').hide();
+        //     }
+        // });
+
+        // $(".article_tag").change(function() {
+        //  alert("checked");
+        //  });
+
+        $('#datetimepicker').datetimepicker({
+          format: 'yyyy-mm-dd hh:ii',
+          language:  'zh-CN'
+        });
+    </script>
+</block>

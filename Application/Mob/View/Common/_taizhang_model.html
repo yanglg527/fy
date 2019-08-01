@@ -1,0 +1,145 @@
+            <style type="text/css">
+            /********************请选择党组遮罩层，请选择标签遮罩层****************/
+.blackgroup_box,.blacktag_box,.blackspec_box{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7,17,27,0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: none;
+}
+.blackgroup_box>.blackgroup_content,.blacktag_box>.blacktag_content,.blackspec_box>.blackspec_content{
+    width: 85%;
+    margin: 39% auto;
+    font-size: 12px;
+    color: #333333;
+    background-color: #ffffff;
+}
+ h3.group_h3,h3.tag_h3,h3.spec_h3{
+    background: #ce3d2a;
+    color: #fff;
+    text-align: center;
+    line-height: 1.5rem;
+    font-size: 0.38rem;
+}
+.group_content,.tag_content,.spec_content{
+
+}
+.group_classify,.tag_classify{
+    margin: 0.3rem auto 0.5rem;
+    width: 90%;
+}
+.spec_classify{
+    margin: 0.3rem auto 2.7rem;
+    width: 90%;
+}
+.group_classify span,.tag_classify span{
+    border: 1px solid #ce3d2a;
+    border-radius: 36px;
+    color: #ce3d2a;
+    display: inline-block;
+    line-height: 0.6rem;
+    padding: 0rem 0.15rem;
+    margin-top: 3%;
+    margin-left: 0.6%;
+}
+.spec_classify>p{
+    border: 1px solid #ce3d2a;
+    border-radius: 36px;
+    color: #ce3d2a;
+    text-align: center;
+    line-height: 0.6rem;
+    padding: 0rem 0.15rem;
+    width: 33%;
+    margin: 7% auto 0;
+}
+.group_classify>p,.tag_classify>p{
+    padding-left: 6%;
+}
+.group_classify span.active,.tag_classify span.active,.spec_classify>p.active{
+    background-color: #ce3d2a;
+    color: #fff;
+}
+.group_submit,.tag_submit,.spec_submit{
+    border-top: 1px solid #e3e9ef;
+}
+.group_submit>button,.tag_submit>button,.spec_submit>button{
+    width: 50%;
+    float: left;
+    border: 1px solid #e3e9ef;
+    border-top: none;
+    border-bottom: none;
+    background-color: #fff;
+    line-height: 1.2rem;
+    font-size: 0.36rem;
+}
+.group_submit button:nth-child(1),.tag_submit button:nth-child(1),.spec_submit button:nth-child(1){
+    color: #c2c2c2;
+}
+.group_submit button:nth-child(2),.tag_submit button:nth-child(2),.spec_submit button:nth-child(2){
+    border-left: none;
+    color: #ce3d3a;
+}
+            </style>
+            <!--请选择规定或创新-->
+            <div class="blackspec_box">
+                <div class="blackspec_content">
+                    <h3 class="spec_h3">请选择</h3>
+                    <div class="spec_content">
+                        <div class="spec_classify">
+                            <p data-id="0" class="active">创新动作</p>
+                            <p data-id="1" >规定动作</p>
+                        </div>
+                        <div class="spec_submit">
+                            <button type="reset" class="spec_cancle">取消</button>
+                            <button type="submit" class="spec_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--选择标签弹出层-->
+            <div class="blacktag_box">
+                <div class="blacktag_content">
+                    <h3 class="tag_h3">请选择标签</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify">
+                            <volist name="tags" id="item">
+                                 <if condition="$i eq 1">
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                              <else/>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                              </if>
+                            </volist>
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="tag_cancle">取消</button>
+                            <button type="submit" class="tag_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--选择标指标-->
+            <div class="blackgroup_box">
+                <div class="blackgroup_content">
+                    <h3 class="group_h3">请选择指标</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify">
+                            <volist name="norms" id="item" >
+                              <if condition="$i eq 1">
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                              <else/>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                              </if>
+                             </volist>
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="group_cancle">取消</button>
+                            <button type="submit" class="group_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>中国共产党党员党费证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2"/>
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <link rel="stylesheet" href="/djptNew/public/common/css/pop.window.css">
+
+    <style>
+        .info-div{
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 16px;
+            color: #999;
+            position: absolute;
+            top: 330px; left: 0px; right: 0px;
+            /*background: palegreen;*/
+        }
+        .info-div span{
+            display: inline-block;
+            text-align: center;
+            background: #e7e7e7;
+            border-radius: 50px;
+            padding: 0px 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="banner">
+        <div class="head"><i onclick="history.go(-1);"></i></div>
+    </div>
+    <div style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; background-image: url('__IMG__party_work/bg_book.png'); background-size: 100%">
+        <div style="position: relative; width: 100%; height: 100%">
+            <img style="position: absolute; top: 0px; right: 40px; height: 80px" src="__IMG__party_work/icon_book_tag.png"/>
+            <img style="position: absolute; width: 130px; top: 130px; left: 0px; right: 0px; margin: auto" src="__IMG__party_work/icon_danghui.png"/>
+            <img style="position: absolute; width: 80px; top:50px; left: 50px; right: 0px; margin: auto" src="__IMG__party_work/icon_baige.png"/>
+            <div class="info-div">
+                <span>单位： {$user.work_unit_name}</span>
+            </div>
+            <a href="#" class="info-div" style="top: 400px">
+                <span style="background: #f00b0d; color: #fff">姓名： {$user.realname}</span>
+            </a>
+
+            <!--<div style="line-height: 50px; text-align: center; font-size: 16px; color: #fff; position: absolute; top: 400px; left: 0px; right: 0px; margin: auto; width: 60%; margin: auto; height: 50px; background: #f00b0d; border-radius: 50px">-->
+                <!---->
+            <!--</div>-->
+            <!--<div style="line-height: 50px; text-align: center; font-size: 16px; color: #999; position: absolute; top: 330px; left: 0px; right: 0px; margin: auto; width: 60%; margin: auto; height: 50px; background: #e7e7e7; border-radius: 50px">-->
+                <!--单位： 机关党委办-->
+            <!--</div>-->
+
+            <!--<div style="line-height: 50px; text-align: center; font-size: 16px; color: #fff; position: absolute; top: 400px; left: 0px; right: 0px; margin: auto; width: 60%; margin: auto; height: 50px; background: #f00b0d; border-radius: 50px">-->
+                <!--姓名： 赵虹飞-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+    <include file="Common/_menu"/>
+</body>
+</html>

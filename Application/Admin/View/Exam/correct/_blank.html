@@ -1,0 +1,25 @@
+<div class="subject">
+
+    <div class="pull-left subject-answer">
+        <div class="question">
+            <div class="form-inline subject-blank">
+                {$item.show_content} （{:template_multiply($item['score'], $item['answer_count'])}分）
+            </div>
+        </div>
+        <div class=" alert alert-success" style="margin-right: 30px;text-align: left">
+            <div class="pull-left question subject-score" style="display: block">
+                <include file="Exam/correct/_public_user_scores"/>
+            </div>
+            <div class="clearfix"></div>
+            <h5 style="margin-top: 15px;display: block">正确答案：</h5>
+            <php>
+                $answerss = to_json_obj($item['right_answer']);
+            </php>
+            <div><volist name="answerss" id="an">{$an}<br/></volist></div>
+
+            <h5 style="margin-top: 15px;display: block">解析：</h5>
+            <div>{$item.remark}</div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

@@ -1,0 +1,115 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><a href="#" onClick="javascript :history.back(1);"><strong
+                class="am-text-primary am-text-lg">党费统计及查询</strong></a> /
+          <small>
+            《{$detail.name}》各支部缴费情况
+          </small>
+        </div>
+      </div>
+      <hr>
+      <form class="am-g" action="__ROOT__/Admin/Cost/info">
+        <input type="hidden" name="id" value="{$detail.id}">
+        <div class="am-u-sm-12 am-u-md-4">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+            </div>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-8" style="text-align: right">
+          <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" placeholder="输入支部名称关键词" name="keyword" value="{$search.keyword}">
+          </div></div>
+
+          <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+
+          </div>
+      </form>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-title" >支部</th>
+                <th class="am-hide-sm-only" >缴费情况</th>
+                <th class="am-hide-sm-only" >缴费党员</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="page.list" id="item">
+                <tr>
+                  <td>{$item.branch_name}</td>
+                  <td class="am-hide-sm-only">{$item.has_pay}/{$item.total_pay}</td>
+                  <td class="am-hide-sm-only">{$item.has_pay_count}/{$item.total_count}</td>
+                  <td>
+                        <a type="button" href="__ROOT__/Admin/Cost/infoUsers?id={$item.id}&branch_id={$item.branch_id}"
+                                class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-status"
+                                data-id="{$item.uid}"><span class="am-icon-archive"></span>
+                          查看
+                        </a>
+                  </td>
+                </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </form>
+        </div>
+
+      </div>
+
+  </div>
+</block>
+<block name="scripts">
+  <script type="text/javascript">
+    var id = 0;
+    $('.btn-dec').click(function(){
+       id = $(this).attr('data-id');
+      $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+          $.ajax({
+            url:'__ROOT__/Admin/Content/ajaxDecContent',
+            type:'POST', //GET
+            data:{id:id},
+            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            beforeSend: function () {
+                  loading();
+                },
+            success:function(data){
+              if(data.status == 0){
+                window.location.reload();
+              }else{
+                close_loading();
+                alert_modal(data.msg);
+              }
+            },
+            closeOnConfirm: false,
+            error:function(xhr,textStatus){
+              close_loading();
+              alert_modal("服务器暂时无法连接，请稍候再试");
+            }
+          })
+        },
+        onCancel: function() {
+
+        }
+      });
+    });
+  </script>
+</block>

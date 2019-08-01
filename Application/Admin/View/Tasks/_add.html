@@ -1,0 +1,137 @@
+<form class="am-form am-form-horizontal" id="form-data" method="post">
+    <input type="hidden" name="id" value=""/>
+    <input type="hidden" id="file_id" name="file_id"/>
+    <input type="hidden" id="surplus_file_id" name="surplus_file_id"/>
+    <input type="hidden" id="status" name="status"/>
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">任务主体</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="tasks_type" required id="meetingType">
+                <option value="">请选择主体</option>
+                <foreach name="taskstype" item="vo" key="key">
+                    <option value="{$key}">{$vo}</option>
+                </foreach>
+            </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必选，指定任务推送对象</div>
+    </div>
+    <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
+      <p>开始日期应小于结束日期！</p>
+    </div>
+
+    <div class="am-form-group" id="branchs-box" style="display: none">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">党支部</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="branchs[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:500}"
+             minchecked="1" id="branchs-select" multiple></select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择党支部
+        </div>
+    </div>
+
+    <div class="am-form-group" id="group-box" style="display: none">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">党小组</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="group[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:500}"
+             minchecked="1" id="group-select" multiple></select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择党小组
+        </div>
+    </div>
+
+    <div class="am-form-group" id="target-box" style="display: none">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">实施人员</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="target[]" data-am-selected="{searchBox: 8,btnWidth: '100%', maxHeight:500}"
+             minchecked="1" id="target-select" multiple></select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择实施人员
+        </div>
+    </div>
+
+    <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
+      <p>开始日期应小于结束日期！</p>
+    </div>
+
+    <!-- disabled="disabled" -->
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">开始时间</label>
+        <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+          <input type="text" readonly="readonly" name="start_date" id="start_time" class="am-form-field" placeholder="选择开始时间" required>
+          <span class="am-input-group-btn am-datepicker-add-on">
+            <button class="am-btn am-btn-default" type="button" id="startDate">
+                <span class="am-icon-calendar"></span></button>
+          </span>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择开始时间
+        </div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">结束时间</label>
+        <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+          <input type="text"  readonly="readonly" name="end_date" id="end_time" class="am-form-field" placeholder="选择结束时间" required>
+          <span class="am-input-group-btn am-datepicker-add-on">
+            <button class="am-btn am-btn-default" id="endDate"  type="button">
+                <span class="am-icon-calendar"></span></button>
+          </span>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择结束时间
+        </div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">任务标题</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="tasks_title" placeholder="输入任务标题(至少 3 个字符)" minlength="3" required/>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">任务内容</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="tasks_contents" placeholder="任务内容(至少 3 个字符)" required>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">具体工作事项</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <textarea name="work_item" rows="5" required placeholder="具体工作事项(至少 2 个字符)"></textarea>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <!-- <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">具体工作事项</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <textarea class="am-validate" name="work_item" id="content" required></textarea>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div> -->
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">附件</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <div id="easyContainer"></div>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <div class="am-u-sm-10 am-u-sm-offset-2">
+          <button type="submit"
+          class="am-btn am-btn-default btn-loading-example" onclick="onStatus(2)">提交</button>
+          <button type="submit"
+          class="am-btn am-btn-default btn-loading-example" onclick="onStatus(0)">保存</button>
+          <button type="button" class="am-btn am-btn-default" id="btn-cancel">放弃</button>
+        </div>
+    </div>
+</form>

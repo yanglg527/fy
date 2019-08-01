@@ -1,0 +1,283 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">台账评论列表</strong></div>
+      </div>
+      <hr>
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <!--<button  onclick="loading_page('__ROOT__/Admin/Donation/edit');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>-->
+              <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+            </div>
+          </div>
+        </div>
+        <form class="am-u-sm-12 am-u-md-3" id="search-form" action="__ROOT__/Admin/Speaking/index">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" name="keyword" value="{$keyword}" placeholder="请输入标题">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" type="submit">搜索</button>
+                        </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <div class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                  <th class="am-hide-sm-only">评论的帖子标题</th>
+                <th class="table-title">评论的内容</th>
+                <th class="table-author am-hide-sm-only">发布者</th>
+               
+                <th class="am-hide-sm-only">发布时间</th>
+                <th class="am-hide-sm-only">状态</th>
+                <th class="table-date am-hide-sm-only">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              	 <!-- 引入 javascript 实现存储对象于hash中 -->
+                        <script src="__STATICS__/hashmap.js"></script>
+                        <script>
+                            var hash = new HashMap();
+                        </script>
+              <volist name="page.list" id="vo">
+              	 <script>
+                                //自己定义 key+id ，value为 json 格式字符串
+                                hash.put("item-{$vo.id}", {$vo | to_json_string});
+                            </script>
+                <tr>
+                  <!-- <td><input type="checkbox" /></td> -->
+                  <td>{$vo.taizhang_title}</td>
+                  <td>{$vo.content}</td>
+                  <td>{$vo.user_realname}</td>
+                 
+                  <td class="am-hide-sm-only"><if condition="$vo.create_time gt 0">{$vo.create_time|date="Y-m-d H:i:s",###}</if></td>
+                  <td class="am-hide-sm-only">
+                  	<php>
+                  		if($vo['status'] == 1){
+                  			echo " <span class='am-badge am-badge-success am-radius'>通过</span>";
+                  		}elseif($vo['status'] == 2){
+                  			echo " <span class='am-badge am-badge-warning am-radius'>不通过</span>";
+                  		}else{
+                  			echo " <span class='am-badge am-badge-primary am-radius'>未审核</span>";
+                  		}
+                  	</php>
+                  </td>
+                  <td>
+                    
+                    <div class="am-btn-toolbar">
+                      <div class="am-btn-group am-btn-group-xs">
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary btn-detail" type="button" data-am-modal="{target: '#detail-popup'}" data-key="item-{$vo.id}"><span  class="am-icon-pencil-square-o"></span> 详情</button>
+                       <php>
+                  		if($vo['status'] == 0){
+                  		</php>
+                  		 <a class="am-btn am-btn-default am-btn-xs am-text-success am-hide-sm-only  btn-status" data-type='btn-pass' type="button" data-id="{$vo.id}"  data-status="1"><span class="am-icon-check"></span> 审核通过</a>
+                      	<a class="am-btn am-btn-default am-btn-xs am-text-warning am-hide-sm-only  btn-status" data-type='btn-unpass' type="button" data-id="{$vo.id}" data-status="2"><span class="am-icon-close"></span> 审核不通过</a>
+                      <php>
+                  		}
+                  	</php>
+                       
+                      
+                        <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only  btn-status" data-type='btn-dec' type="button" data-id="{$vo.id}" data-status="-1"><span class="am-icon-trash-o"></span> 删除</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+            <!--<hr />-->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="am-popup" id="my-popup">
+        <div class="am-popup-inner">
+          <div class="am-popup-hd">
+            <h4 class="am-popup-title" id="detail-title">台账评论详细页</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+          </div>
+          <style>
+          	.am-popup-bd p{
+          		font-size: 16px;
+          		color: #666;
+          	}
+          	#val_content{
+          		font-size: 16px;
+          		color: #666;
+          	}
+          </style>
+          <div class="am-popup-bd" style="overflow: auto;">
+
+            <div><span class="am-badge am-badge-success">发布者</span></div>
+            <p style="font-size: 16px;margin: 5px 0px 10px 5px" id="val_user_realname"></p>
+
+            <div><span class="am-badge am-badge-success">状态</span></div>
+            <p style="font-size: 16px;margin: 5px 0px 10px 5px" id="detail_status"></p>
+
+            <div>
+              <span class="am-badge am-badge-success">评论的帖子标题(点击查看帖子详细内容)</span>
+            </div>
+            <div id="val_title" style="font-size: 16px;"></div>
+
+            <div><span class="am-badge am-badge-success">评论的内容</span></div>
+            <div id="val_content" style="font-size: 16px;"></div>
+
+          </div>
+        </div>
+      </div>
+
+  </div>
+</block>
+
+<block name="scripts">
+<script>
+	var id =0;
+  $('.btn-status').click(function(){
+    id = $(this).attr('data-id');
+    status = $(this).attr('data-status');
+    type = $(this).attr('data-type');
+    console.log(status)
+    console.log(type)
+    var text = '';
+    switch(type){
+      case 'btn-pass':text = '是否通过审核'; break;
+      case 'btn-unpass':text = '是否不通过审核'; break;
+      case 'btn-dec':text = '是否删除这条数据？'; break;
+    }
+    $('#confirm-text').text(text)
+    $('#my-confirm').modal({
+      relatedTarget: this,
+      onConfirm: function(options) {
+      	loading()
+        $.ajax({
+          url:'__ROOT__/Admin/Comment/ajaxStatus',
+          type:'POST', //GET
+          data:{id:id,type:'TaizhangComment',status:status},
+          dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          success:function(data){
+            if(data.status == 0){
+              console.log(data)
+               window.location.reload();
+            }else{
+              alert_modal(data.msg);
+            }
+            close_loading()
+          },
+          closeOnConfirm: false,
+          error:function(xhr,textStatus){
+          	close_loading()
+            alert_modal("服务器暂时无法连接，请稍候再试");
+          }
+        })
+      },
+      onCancel: function() {
+
+      }
+    });
+  });
+  // $('.btn-pass').click(function(){
+  //   id = $(this).attr('data-id');
+  //   $('#confirm-text').text("是否通过审核")
+  //   $('#my-confirm').modal({
+  //     relatedTarget: this,
+  //     onConfirm: function(options) {
+  //     	loading()
+  //       $.ajax({
+  //         url:'__ROOT__/Admin/Speaking/ajaxPass',
+  //         type:'POST', //GET
+  //         data:{id:id,type:'TaizhangComment',},
+  //         dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+  //         success:function(data){
+  //           if(data.status == 0){
+  //             window.location.reload();
+  //           }else{
+  //             alert_modal(data.msg);
+  //           }
+  //           close_loading()
+  //         },
+  //         closeOnConfirm: false,
+  //         error:function(xhr,textStatus){
+  //         	close_loading()
+  //           alert_modal("服务器暂时无法连接，请稍候再试");
+  //         }
+  //       })
+  //     },
+  //     onCancel: function() {
+
+  //     }
+  //   });
+  // });
+  
+  //   $('.btn-unpass').click(function(){
+  //   id = $(this).attr('data-id');
+  //   $('#confirm-text').text("是否不通过")
+  //   $('#my-confirm').modal({
+  //     relatedTarget: this,
+  //     onConfirm: function(options) {
+  //     	loading()
+  //       $.ajax({
+  //         url:'__ROOT__/Admin/Speaking/ajaxUnpass',
+  //         type:'POST', //GET
+  //         data:{id:id},
+  //         dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+  //         success:function(data){
+  //           if(data.status == 0){
+  //             window.location.reload();
+  //           }else{
+  //             alert_modal(data.msg);
+  //           }
+  //           close_loading()
+  //         },
+  //         closeOnConfirm: false,
+  //         error:function(xhr,textStatus){
+  //         	close_loading()
+  //           alert_modal("服务器暂时无法连接，请稍候再试");
+  //         }
+  //       })
+  //     },
+  //     onCancel: function() {
+
+  //     }
+  //   });
+  // });
+
+
+
+  $('.btn-detail').click(function(){
+  	  var hashKey = $(this).attr('data-key');
+            var detailItem = hash.get(hashKey);
+            console.log(detailItem)
+//            alert("key = " + JSON.stringify(hash.get(hashKey)));
+            $("#detail-title").html(detailItem.title);
+            
+          	if(detailItem.status == 1){
+                $("#detail_status").html("审核通过");
+            }else if(detailItem.status == 2){
+                $("#detail_status").html("审核不通过");
+            }else{
+            	 $("#detail_status").html("未审核");
+            }
+            $("#val_user_realname").html(detailItem.user_realname);
+            $("#val_content").html(detailItem.content);
+            $("#val_title").html(`<a target='_blank' href='__ROOT__/Admin/Taizhang/edit?id=${detailItem.taizhang_id}&type=${detailItem.taizhang_type}'>${detailItem.taizhang_title}</a>`);
+          $('#my-popup').modal();
+  });
+
+</script>
+</block>

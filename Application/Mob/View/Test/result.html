@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>{$detail.title}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta name="flexible" content="initial-dpr=2"/>
+	<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+	<script src="__STATICS__/flexible/flexible.js"></script>
+	<link rel="stylesheet" href="__CSS__/reset.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css" />
+	<link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/test/results.css" />
+</head>
+<style>
+	input:disabled{
+		background-color:white;
+	}
+	.topic>p{
+		word-wrap:break-word; 
+        word-break:break-all; 
+	}
+	.right-blank{
+		border-bottom:1px solid black;
+		color:#30ce36;
+		padding:0 5px;
+		margin:0 5px;
+	}
+	.right-blank{
+		border-bottom:1px solid black;
+		color:#30ce36;
+		padding:0 5px;
+		margin:0 5px;
+	}
+	.wrong-blank{
+		border-bottom:1px solid black;
+		color:#CE3D3A;
+		padding:0 5px;
+		margin:0 5px;
+	}
+
+</style>
+<body>
+<div class="page">
+	<header class="head">
+		<div class="header">
+			<span>{$detail.title}</span>
+			<a onclick="history.go(-1);"><span></span></a>
+		</div>
+	</header>
+</div>
+<div class="results">
+	<div class="heart">
+		<style>
+			.topic p{
+				display: inherit;
+			}
+		</style>
+		<div class="all-question">
+			<volist name="subjects" id="item" key="index">
+				<if condition="$item['type_id'] == 3">
+					<php>
+						$answerCol1 = $item['user_answer'][0] == 0?"answer-col":"";
+						$answerCol2 = $item['user_answer'][1] == 1?"answer-col":"";
+						$answerCol3 = $item['user_answer'][2] == 2?"answer-col":"";
+						$answerCol4 = $item['user_answer'][3] == 3?"answer-col":"";
+
+						if($item['right_key'] == 0){
+						$rightCol1="rightanswer-col";
+						$air1 = "hide";
+						$choose1 ="rightchoose";
+						$radiochoose1 = $item['user_answer'][0] == 0? "" : "hide";
+						}else{
+						$rightCol1 = "";
+						$air1 =$item['user_answer'][0] == 0 ? "hide":"";
+						$choose1 = $item['user_answer'][0] == 0 ? "" : "hide";
+						}
+
+						if($item['right_key'] == 1){
+						$rightCol2="rightanswer-col";
+						$air2 = "hide";
+						$choose2="rightchoose";
+						$radiochoose2 = $item['user_answer'][0] == 1? "" : "hide";
+						}else{
+						$rightCol2="";
+						$air2 =$item['user_answer'][0] == 1 ? "hide":"";
+						$choose2 = $item['user_answer'][0] == 1 ? "" : "hide";
+						}
+
+						if($item['right_key'] == 2){
+						$rightCol3="rightanswer-col";
+						$air3 = "hide";
+						$choose3="rightchoose";
+						$radiochoose3 = $item['user_answer'][0] == 2? "" : "hide";
+						}else{
+						$rightCol3="";
+						$air3 =$item['user_answer'][0] == 2 ? "hide":"";
+						$choose3= $item['user_answer'][0] == 2 ? "" : "hide";
+						}
+
+						if($item['right_key'] == 3){
+						$rightCol4="rightanswer-col";
+						$air4 = "hide";
+						$choose4="rightchoose";
+						$radiochoose4 = $item['user_answer'][0] == 3? "" : "hide";
+						}else{
+						$rightCol4="";
+						$air4 =$item['user_answer'][0] == 3 ? "hide":"";
+						$choose4= $item['user_answer'][0] == 3 ? "" : "hide";
+						}
+
+
+					</php>
+					<div class="question">
+						<header class="top-left"><img src="__IMG__/notes/pie_bg.png"/><span class="number">{$index}</span></header>
+						<dl>
+							<dt><span class="topic" style="line-height: 20px">{$item.title}(&nbsp;<span class="fraction">{$item.score}</span>分&nbsp;)</span></dt>
+							<dd class="{$answerCol1}{$rightCol1}">
+								<div class="icon">
+									<div class="air {$air1}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose1}"><img class="confirm {$radiochoose1}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>A</p><span class="select">{$item['answer'][0]}</span></dd>
+							<dd class="{$answerCol2}{$rightCol2}">
+								<div class="icon">
+									<div class="air  {$air2}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose2}"><img class="confirm {$radiochoose2}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>B</p><span class="select">{$item['answer'][1]}</span></dd>
+							<dd class="{$answerCol3}{$rightCol3}">
+								<div class="icon">
+									<div class="air  {$air3}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose3}"><img class="confirm {$radiochoose3}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>C</p><span class="select">{$item['answer'][2]}</span></dd>
+							<dd class="{$answerCol4}{$rightCol4}">
+								<div class="icon">
+									<div class="air  {$air4}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose4}"><img class="confirm {$radiochoose4}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>D</p><span class="select">{$item['answer'][3]}</span></dd>
+						</dl>
+						<footer class="yes-no">
+							<php>
+								if($item['user_score'][0]>0){
+							</php>
+							<img class="true" src="__IMG__/notes/true.png"/>
+							<php>}else{</php>
+							<img class="error" src="__IMG__/notes/error.png"/>
+							<php>}</php>
+						</footer>
+					</div>
+					<elseif condition="$item['type_id'] == 2"/>
+					<php>
+
+						$sanswerCol1 = $item['user_answer'][0] == 1?"answer-col":"";
+						$sanswerCol2 = $item['user_answer'][1] == 1?"answer-col":"";
+						$sanswerCol3 = $item['user_answer'][2] == 1?"answer-col":"";
+						$sanswerCol4 = $item['user_answer'][3] == 1?"answer-col":"";
+						$sanswerCol5 = $item['user_answer'][4] == 1?"answer-col":"";
+
+						$air1 = ($item['right_array'][0] == 1 || $item['user_answer'][0] == 1) ? "hide" : "";
+						if($item['right_array'][0] == 1){
+						$choose1 = "rightchoose";
+						$sischoose1 = $item['user_answer'][0] == 1?"":"hide";
+						} else{
+						$choose1 = $item['user_answer'][0] == 1? "" : "hide";
+						}
+
+						$air2 = ($item['right_array'][1] == 1 || $item['user_answer'][1] == 1) ? "hide" : "";
+						if($item['right_array'][1] == 1){
+						$choose2 = "rightchoose";
+						$sischoose2 = $item['user_answer'][1] == 1?"":"hide";
+						} else{
+						$choose2 = $item['user_answer'][1] == 1? "" : "hide";
+						}
+
+						$air3 = ($item['right_array'][2] == 1 || $item['user_answer'][2] == 1) ? "hide" : "";
+						if($item['right_array'][2] == 1){
+						$choose3 = "rightchoose";
+						$sischoose3 = $item['user_answer'][2] == 1?"":"hide";
+						} else{
+						$choose3 = $item['user_answer'][2] == 1? "" : "hide";
+						}
+
+						$air4 = ($item['right_array'][3] == 1 || $item['user_answer'][3] == 1) ? "hide" : "";
+						if($item['right_array'][3] == 1){
+						$choose4 = "rightchoose";
+						$sischoose4 = $item['user_answer'][3] == 1?"":"hide";
+						} else{
+						$choose4 = $item['user_answer'][3] == 1? "" : "hide";
+						}
+
+						$air5 = ($item['right_array'][4] == 1 || $item['user_answer'][4] == 1) ? "hide" : "";
+						if($item['right_array'][4] == 1){
+						$choose5 = "rightchoose";
+						$sischoose5 = $item['user_answer'][4] == 1?"":"hide";
+						} else{
+						$choose5 = $item['user_answer'][4] == 1? "" : "hide";
+						}
+
+						$srightCol1 = $item['right_array'][0] == 1?"rightanswer-col":"";
+						$srightCol2 = $item['right_array'][1] == 1?"rightanswer-col":"";
+						$srightCol3 = $item['right_array'][2] == 1?"rightanswer-col":"";
+						$srightCol4 = $item['right_array'][3] == 1?"rightanswer-col":"";
+						$srightCol5 = $item['right_array'][4] == 1?"rightanswer-col":"";
+
+					</php>
+					<div class="question">
+						<header class="top-left"><img src="__IMG__/notes/pie_bg.png"/><span class="number">{$index}</span></header>
+						<dl>
+							<dt><span class="topic" style="line-height: 20px">{$item.title}(&nbsp;<span class="fraction">{$item.score}</span>分&nbsp;)</span></dt>
+							<dd class="{$sanswerCol1} {$srightCol1}">
+								<div class="icon">
+									<div class="air {$air1}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose1}"><img class="confirm {$sischoose1}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>A</p><span class="select">{$item['answer'][0]}</span></dd>
+							<dd class="{$sanswerCol2} {$srightCol2}">
+								<div class="icon">
+									<div class="air  {$air2}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose2}"><img class="confirm {$sischoose2}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>B</p><span class="select">{$item['answer'][1]}</span></dd>
+							<dd class="{$sanswerCol3} {$srightCol3}">
+								<div class="icon">
+									<div class="air  {$air3}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose3}"><img class="confirm {$sischoose3}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>C</p><span class="select">{$item['answer'][2]}</span></dd>
+							<dd class="{$sanswerCol4} {$srightCol4}">
+								<div class="icon">
+									<div class="air  {$air4}"></div>
+									<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+									<div class="choose {$choose4}"><img class="confirm {$sischoose4}" src="__IMG__/notes/hong.png"/></div>
+								</div>
+								<p>D</p><span class="select">{$item['answer'][3]}</span></dd>
+							<if condition="$item['answer'][4] != ''">
+								<dd class="{$sanswerCol5} {$srightCol5}">
+									<div class="icon">
+										<div class="air  {$air5}"></div>
+										<div class="conf conf-hide"><img class="confirm " src="__IMG__/notes/check.png" /></div>
+										<div class="choose {$choose5}"><img class="confirm {$sischoose5}" src="__IMG__/notes/hong.png"/></div>
+									</div>
+									<p>E</p><span class="select">{$item['answer'][4]}</span></dd>
+							</if>
+						</dl>
+						<footer class="yes-no">
+							<php>
+								if($item['user_score'][0]>0){
+							</php>
+							<img class="true" src="__IMG__/notes/true.png"/>
+							<php>}else{</php>
+							<img class="error" src="__IMG__/notes/error.png"/>
+							<php>}</php>
+						</footer>
+					</div>
+					<elseif condition="$item['type_id'] == 5"/>
+
+					<div class="question">
+						<header class="top-left"><img src="__IMG__/notes/pie_bg.png"/><span class="number">{$index}</span></header>
+						<dl>
+							<dt><span class="topic" style="line-height: 20px">{$item.show_content}</span>
+								(&nbsp;<span class="fraction">各{$item.score}</span>分&nbsp;)</span>
+							</dt>
+
+						</dl>
+						<dl style="padding-top:0px;">
+							<dt><span class="topic" style="line-height: 20px;">正确答案:<span style="color: #30ce36;display:block; padding-right: 87px;word-break: break-all;">{$item.right_answer_str}</span></dt>
+
+						</dl>
+
+						<footer class="yes-no">
+							<php>
+								if($item['user_score'][0]>0){
+							</php>
+							<img class="true" src="__IMG__/notes/true.png"/>
+							<php>}else{</php>
+							<img class="error" src="__IMG__/notes/error.png"/>
+							<php>}</php>
+						</footer>
+					</div>
+
+
+				</if>
+			</volist>
+		</div>
+		<div class="other">
+			<header class="header">看其他人</header>
+			<volist name="allPaper" id="item">
+				<dl>
+					<dt>{$item.name}</dt>
+					<volist name="item.list" id="paper">
+						<dd>
+							<img class="avatr" src="{$paper.headimgurl|get_head_url}"/>
+							<div class="words">
+								<header class="words-nav"><span class="name">{$paper.realname}</span><span class="position">{$paper.adm_post_name}</span></header>
+								<div class="progress-bar">
+									<img class="tilte_all" src="__IMG__/notes/title.png"/>
+									<img class="tilte" src="__IMG__/notes/tilte_hong.png"/>
+									<p>共<span>{$paper.total_count}</span>道题</p>
+								</div>
+								<footer class="correct-rate">答对<span class="words-yes">{$paper.right_count}</span>道题&nbsp;&nbsp;正确率：<span class="percentage"><php>
+		        						echo intval($paper['right_count']*100/$paper['total_count']);
+		        					</php></span>%</footer>
+							</div>
+						</dd>
+					</volist>
+				</dl>
+			</volist>
+		</div>
+	</div>
+</div>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/notes/exchange/test/results.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+	<script>
+
+	$('.input-blank').each(function(){
+		var blank_val = $(this).val();
+		var ra = $(this).attr('ra');
+		if(ra == blank_val){
+			var str = `<span class="right-blank">${blank_val}</span>`;
+		}else{
+			var str = `<span class="wrong-blank">${blank_val}</span>`;
+		
+		}
+
+		$(this).after(str)
+		$(this).attr('type','hidden')
+		
+	})
+    
+	</script>
+</html>

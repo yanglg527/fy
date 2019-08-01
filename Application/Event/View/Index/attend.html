@@ -1,0 +1,268 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .tip {
+            width: 100%;
+            height: 31px;
+            line-height: 31px;
+            background: #FDF6D5;
+            font-size: 12px;
+            color: #666666;
+            padding-left: 15px;
+        }
+
+        .item {
+            position: relative;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            border-bottom: 1px solid #e8e8e8;
+            background: white;
+        }
+
+        .item-left {
+            position: absolute;
+            height: 45px;
+            line-height: 45px;
+            left: 15px;
+            color: #1a1a1a;
+            font-size: 17px;
+        }
+
+        .item-right {
+            position: absolute;
+            height: 45px;
+            line-height: 45px;
+            left: 100px;
+            color: #1a1a1a;
+            right: 15px;
+            height: 45px;
+            font-size: 17px;
+        }
+
+        .item-icon {
+            position: absolute;
+            height: 45px;
+            line-height: 45px;
+            right: 15px;
+            font-size: 17px;
+            color: #999999;
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            font-size: 17px;
+            color: #1a1a1a;
+            background: none !important;
+            border: 0;
+            outline: none;
+        / / 去除选中时的蓝色边框
+        }
+
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 0px 0px;
+            font-size: 17px;
+            color: #1a1a1a;
+        }
+
+        .item-right .am-selected {
+            width: 90%;
+        }
+
+        .am-btn i {
+            display: none;
+        }
+
+        .btn-apply {
+            width: 274px;
+            min-width: 250px;
+            height: 40px;
+            line-height: 40px;
+            margin: 20px auto;
+            border-radius: 40px;
+            background: #FFB400;
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .disable {
+            background: #ff9f87 !important;
+        }
+
+        .disable-color {
+            color: #aaaaaa;
+            /*font-weight: bold;*/
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="tip">请根据实际情况填写内容</div>
+
+    <form class="uploadform">
+        <input type="hidden" name="id" value="{$detail.id}">
+
+        <div class="item">
+            <span class="item-left">姓 名</span>
+            <span class="item-right disable-color">{$user.realname}</span>
+        </div>
+        <div class="item">
+            <span class="item-left">性 别</span>
+            <empty name="attend">
+                <span class="item-right">
+
+                <select data-am-selected style="border: none" name="gender">
+                    <if condition="$user.gender == 0">
+                        <option value="0" selected>女</option>
+                        <option value="1">男</option>
+                        <else/>
+                        <option value="0">女</option>
+                        <option value="1" selected>男</option>
+                    </if>
+                </select>
+            </span>
+                <span class="item-icon"> > </span>
+                <else/>
+                <span class="item-right disable-color">
+                <if condition="$attend.gender == 0">
+                    女
+                    <else/>
+                    男
+                </if>
+                    </span>
+            </empty>
+
+        </div>
+        <div class="item">
+            <span class="item-left">生 日</span>
+            <empty name="attend">
+                <span class="item-right">
+                <input name="birthday" value="{$user.birthday}" type="text" class="am-form-field" readonly required
+                       data-am-datepicker="{format: 'yyyy-mm-dd', viewMode: 'years'}"/>
+                </span>
+                <span class="item-icon"> > </span>
+                <else/>
+                <span class="item-right disable-color">
+                    {$attend.birthday}
+                    </span>
+            </empty>
+
+        </div>
+        <div class="item">
+            <span class="item-left">职 务</span>
+            <empty name="attend">
+               <span class="item-right">
+                <input value="{$user.position}" name="position" placeholder="请填写你目前的工作职务"/>
+            </span>
+                <else/>
+                <span class="item-right disable-color">
+                    {$attend.position}
+                    </span>
+            </empty>
+
+        </div>
+        <div class="item">
+            <span class="item-left">单 位</span>
+            <empty name="attend">
+               <span class="item-right">
+                <input value="{$user.work_unit}" name="work_unit" placeholder="请填写你所在的单位" />
+                <!--<textarea name="workUnit" style="line-height: 23px; resize:none !important; padding:0px; width: 100%;border: none;">{$user.work_unit}</textarea>-->
+            </span>
+                <else/>
+                <span class="item-right disable-color">
+                    {$attend.work_unit}
+                    </span>
+            </empty>
+
+        </div>
+        <div class="item">
+            <span class="item-left">手 机</span>
+            <empty name="attend">
+               <span class="item-right">
+                <input value="{$user.mobile}" name="mobile" placeholder="请填写你当前的手机号"/>
+                <!--<textarea name="workUnit" style="line-height: 23px; resize:none !important; padding:0px; width: 100%;border: none;">{$user.work_unit}</textarea>-->
+            </span>
+                <else/>
+                <span class="item-right disable-color">
+                    {$attend.mobile}
+                    </span>
+            </empty>
+
+        </div>
+
+        <div class="item" style="margin-top: 10px">
+            <span class="item-left">所在支部</span>
+            <span class="item-right disable-color">
+                {$user.branch_name}
+            </span>
+        </div>
+
+        <div class="item" style="border-top: 1px solid #e8e8e8; margin-top: 10px; border-bottom: 0px">
+            <span class="item-left">备注信息</span>
+        </div>
+        <textarea name="remark" rows="3" <notempty name="attend"> disabled="disabled"</notempty>
+                  style="padding:15px; width: 100%;border: none;border-bottom: 1px solid #e8e8e8;">{$attend.remark}</textarea>
+
+
+    </form>
+<div style="padding-bottom: 20px">
+    <empty name="attend">
+        <div class="btn-apply" id="btn-submit">确认报名</div>
+        <else/>
+        <div class="btn-apply disable" id="btn-cancel" style="">取消报名</div>
+    </empty>
+</div>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        $('#btn-submit').click(function () {
+            $.ajax({
+                url: '__ROOT__/Event/Index/ajaxAttend',
+                type: 'POST', //GET
+                data: $('.uploadform').serialize(),
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.href = "__ROOT__/Event/Index/detail?id={$detail.id}";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+        $('#btn-cancel').click(function () {
+
+            $.ajax({
+                url: '__ROOT__/Event/Index/ajaxCancelAttend',
+                type: 'POST', //GET
+                data: {id:{$detail.id}},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.href = "__ROOT__/Event/Index/detail?id={$detail.id}";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+
+        })
+    </script>
+
+</block>

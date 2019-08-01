@@ -1,0 +1,337 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+
+<block name="styles">
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="__STATICS__/datetimepicker/css/amazeui.datetimepicker.css"/>
+    <style>
+        .uplosd_image {
+            height: 120px !important;
+            width: 180px !important;
+        }
+
+        .info-cover {
+            width: 180px;
+            height: 120px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        .info-cover-span {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            bottom: 0px;
+            margin: 0 !important;
+            /* margin-left: 10px !important; */
+            font-size: 14px !important;
+            width: 180px;
+            text-align: center;
+            color: white !important;
+            cursor: pointer;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">活动报名管理</strong></a> /
+                <small>
+                    <empty name="detail">新建活动
+                        <else/>
+                        编辑{$detail.event_title}
+                    </empty>
+                </small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <include file="_edit"/>
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+    <include file="_edit_upload"/>
+
+
+</block>
+<block name="scripts">
+    <script src="__STATICS__/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"
+            charset="UTF-8"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.all.min.js"></script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script>
+        $(function () {
+
+            var nowTemp = new Date();
+            var nowDay = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0).valueOf();
+            var nowMoth = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), 1, 0, 0, 0, 0).valueOf();
+            var nowYear = new Date(nowTemp.getFullYear(), 0, 1, 0, 0, 0, 0).valueOf();
+            $('#my-start').datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                minView: 2
+            }).on('changeDate.datetimepicker.amui', function (event) {
+             
+                $('#my-startDate').text($('#my-start').data('date'));
+
+                $('#my-end').datetimepicker('setStartDate', $('#my-start').data('date'));
+                $(this).datetimepicker('hide');
+            });
+
+            $('#my-end').datepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                minView: 2,
+                onRender: function(date, viewMode) {
+                    // 默认 days 视图，与当前日期比较
+                    var viewDate = nowDay;
+
+                    switch (viewMode) {
+                        // moths 视图，与当前月份比较
+                        case 1:
+                            viewDate = nowMoth;
+                            break;
+                        // years 视图，与当前年份比较
+                        case 2:
+                            viewDate = nowYear;
+                            break;
+                    }
+                    return date.valueOf() < viewDate ? 'am-disabled' : '';
+                }
+            }).on('changeDate.datepicker.amui', function (event) {
+                $('#my-endDate').text($('#my-end').data('date'));
+                $('#my-start').datetimepicker('setEndDate', $('#my-end').data('date'));
+                $(this).datepicker('hide');
+            });
+            
+
+            $('#my-start1').datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                minView: 2
+            }).on('changeDate.datetimepicker.amui', function (event) {
+                $('#my-startDate1').text($('#my-start1').data('date'));
+
+                $('#my-end1').datetimepicker('setStartDate', $('#my-start1').data('date'));
+                $(this).datetimepicker('hide');
+            });
+
+            $('#my-end1').datepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                minView: 2,
+                onRender: function(date, viewMode) {
+                    // 默认 days 视图，与当前日期比较
+                    var viewDate = nowDay;
+
+                    switch (viewMode) {
+                        // moths 视图，与当前月份比较
+                        case 1:
+                            viewDate = nowMoth;
+                            break;
+                        // years 视图，与当前年份比较
+                        case 2:
+                            viewDate = nowYear;
+                            break;
+                    }
+                    return date.valueOf() < viewDate ? 'am-disabled' : '';
+                }
+            }).on('changeDate.datepicker.amui', function (event) {
+                $('#my-endDate1').text($('#my-end1').data('date'));
+                $('#my-start1').datetimepicker('setEndDate', $('#my-end1').data('date'));
+                $(this).datetimepicker('hide');
+            });
+        });
+
+
+    </script>
+    <script type="text/javascript">
+
+
+        var ue = UE.getEditor('editor', {
+            // autoHeight: true,
+            initialFrameHeight: 400,
+//            readonly:true,
+            // retainOnlyLabelPasted: true
+        });
+        ue.ready(function () {
+            ue.setContent('{$detail.content}');
+        });
+
+        function submit_info() {
+//            alert($('input[name="status"]:checked').val());
+
+            var id = $('input[name="id"]').val();
+            var title = $('input[name="title"]').val();
+          var role_limit = new Array();
+            var content = ue.getContent();
+         $('input[name="role_limit[]"]:checked').each(function () {
+             role_limit.push($(this).val());
+         });
+// 'role_limit': role_limit,
+
+            $.ajax({
+                data: {
+                    'id': id,
+                    'title': title,
+                    'entry_start_time':$('#my-startDate').text(),
+                    'entry_end_time':$('#my-endDate').text(),
+                    'start_time':$('#my-startDate1').text(),
+                    'end_time':$('#my-endDate1').text(),
+                    'people_limit': $('input[name="people_limit"]').val(),
+                    'unit_name': $('input[name="unit_name"]').val(),
+                    'img_url': $('input[name="img_url"]').val(),
+                    'name': $('input[name="name"]').val(),
+                    'mobile': $('input[name="mobile"]').val(),
+                    'address': $('input[name="address"]').val(),
+                    'type_id': $('input[name="type_id"]:checked').val(),
+                    'status': $('input[name="status"]:checked').val(),
+                    'branch_id':$("#branch_id").find('option:selected').val(),
+                    'content': content,
+                    'role_limit': role_limit
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Event/ajaxSaveEvent',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    close_loading();
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/Event/index?p={$p}');
+                    } else {
+
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal("服务器暂时无法连接");
+                }
+            })
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+        /*****************弹窗里面的 js*********************/
+            //弹出封面裁剪界面
+        $('#info-cover').click(function () {
+            $('#doc-modal-1').modal();
+        })
+
+        var options = {
+            aspectRatio: 20 / 11,
+            strict: false,
+            preview: '.img-preview',
+            crop: function (e) {
+                $('input[name="avatar_data"]').val(JSON.stringify(e));
+            }
+        };
+
+        var $image = $('#show_img');
+        var console = window.console || {
+                    log: function () {
+                    }
+                };
+
+        var URL = window.URL || window.webkitURL;
+        var blobURL;
+        $image.on({}).cropper(options);
+
+        $('#avatarInput').change(function () {
+
+
+            var files = this.files;
+            var file;
+
+            if (!$image.data('cropper')) {
+                return;
+            }
+
+            if (files && files.length) {
+                file = files[0];
+
+                if (/^image\/\w+$/.test(file.type)) {
+                    blobURL = URL.createObjectURL(file);
+                    $image.one('built.cropper', function () {
+
+                        // Revoke when load complete
+                        URL.revokeObjectURL(blobURL);
+                    }).cropper('reset').cropper('replace', blobURL);
+//                    $(this).val('');
+                } else {
+                    window.alert('Please choose an image file.');
+                }
+            }
+
+
+        })
+        /*******************************************/
+
+
+        $('.avatar-save').click(function () {
+            loading();
+            var avatar = $('input[name="avatar_data"]').val();
+            // if (avatar == '') {
+            //     toastError('请先选择图片');
+            //     return false;
+            // }
+            var formData = new FormData($('.cover-form')[0]);
+//            var formData = $('.cover-form').serialize();
+
+            $.ajax({
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                url: __root__ + '/Admin/Image/ajaxSaveEventCover',
+                success: function (data) {
+                    close_loading()
+                    if (data['status'] == 0) {
+                        $('input[name="img_url"]').val(data.data.save_path);
+                        $('.info-cover').attr('src', data.data.show_path);
+                        $('#doc-modal-1').modal('close');
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading()
+                    alert_modal('网络异常,请稍候重试');
+                }
+
+
+            })
+        })
+
+    </script>
+</block>

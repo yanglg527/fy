@@ -1,0 +1,142 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .container {
+            background-color: #f7f8f8;
+            padding-bottom: 40px;
+        }
+
+        .info-block{
+            margin-top: 15px;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            border-top: 1px solid #e8e8e8;
+            padding-left: 15px;
+        }
+
+        .info-block .item{
+            margin-left: 15px;
+            border-bottom: 1px solid #e8e8e8;
+            height: 45px;
+            line-height: 45px;
+            position: relative;
+        }
+
+        .no-bottom-border{
+            border-bottom: 0px !important;
+        }
+
+        .info-block .title{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            left: 2px;
+            margin: auto;
+            font-size: 14px;
+            color: black;
+        }
+
+        .info-block .detail{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            right: 40px;
+            margin: auto;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .icon-right{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            right: 15px;
+            margin: auto;
+            color: #00a2d4;
+        }
+
+        /*隐藏select的下拉小三角*/
+        .am-btn i{
+            display: none;
+        }
+        /*隐藏select边框*/
+        .am-btn-default{
+            border: 0px;
+            color: #999999;
+            font-size: 14px;
+        }
+        /*隐藏select选中背景色*/
+        .am-btn-default.am-active, .am-btn-default:active, .am-dropdown.am-active .am-btn-default.am-dropdown-toggle{
+            background-color: transparent !important;
+        }
+        .am-form-field[readonly]{
+            background-color: transparent !important;
+            height: 100%;
+            text-align: right;
+            border: 0px;
+        }
+        /*select文本居右*/
+        .am-selected-status{
+            text-align: right;
+        }
+        .am-btn{
+            padding: 0px;
+        }
+
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="info-block">
+        <div class="item no-bottom-border">
+            <span class="title">出生日期</span>
+            <span class="detail">
+                <input id="doc-datepicker" value="{$user.birthday}" type="text" class="am-form-field" placeholder="选择日期"  data-am-datepicker="{format: 'yyyy-mm-dd', viewMode: 'years'}" data-am-datepicker readonly required />
+            </span>
+            <span class="am-icon-chevron-right icon-right"></span>
+        </div>
+    </div>
+
+    </div>
+
+</block>
+
+<block name="scripts">
+    <script>
+        var a =  $('#doc-datepicker').datepicker();
+        var hasopen = false;
+        a.on('open.datepicker.amui', function(event) {
+            console.log("open");
+            hasopen = true;
+        });
+
+        a.on('close.datepicker.amui', function(event) {
+            console.log("close");
+            if(hasopen){
+                hasopen = false;
+                loading();
+                var birthday = $('#doc-datepicker').val();
+//                alert($('#doc-datepicker').val());
+                $.ajax({
+                    url: '__ROOT__/Home/User/ajaxSaveBirthday',
+                    type: 'POST', //GET
+                    data: {
+                        birthday:birthday,
+                    },
+                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                    success: function (data) {
+                        close_loading();
+                        alert_modal(data.msg);
+                    },
+                    error: function (xhr, textStatus) {
+                        close_loading();
+                        alert("服务器暂时无法连接，请稍候再试");
+                    }
+                })
+            }
+        });
+
+    </script>
+</block>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>扶贫专项</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/notes/learn.css"/>
+</head>
+<body>
+<div class="page">
+    <include file="Common/_nav1"/>
+
+    <div class="content learn">
+        <foreach name='list' item='vo'>
+            <a href="{$vo.url}" class="item">
+                <div class="book">
+                    <if condition="empty($vo['img'])">
+                        <img src="__IMG__/party_serve/dc.jpg" alt="">
+                        <else/>
+                        <img src="{$vo.img}" width="120px" height="157px">
+                    </if>
+                </div>
+                <div class="name">{$vo.name}</div>
+            </a>
+        </foreach>
+        <!-- <a href="https://weidian.com/?userid=1212175383&share_relation=518b4b5a49750029_820024376_1&wfr=c_wxh5" class="item">
+            <div class="book"><img src="__IMG__/party_serve/dc.jpg" alt=""></div>
+            <div class="name">百鲜优品</div>
+        </a> -->
+    </div>
+    <div class="exchange hide" style="margin-top: 1.2rem;"></div>
+</div>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/notes/learn.js"></script>
+</body>
+</html>

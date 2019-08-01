@@ -1,0 +1,167 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/User/prize.css">
+</block>
+<block name="content">
+    <div style="position: absolute; top: 49px; bottom: 0px; left: 0px; right: 0px; background-image: url('__IMG__bg_prize.png'); background-size: 100% 100%; padding: 30px 0px;">
+        <div style="padding-left: 20px; text-align: left; font-size: 16px; color: white; ">恭喜你获得一次翻牌机会,</div>
+        <div style="padding-left: 20px; text-align: left; font-size: 16px; color: white; ">每张牌后面都有积分，翻到多少就看你的了...</div>
+
+        <div class="prize-table" style="background-image: url('__IMG__bg_prize_table.png'); background-size: 100% 100%">
+            <ul id="prize-ul">
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.png">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon-point.jpg">
+                            <div class="point">100积分</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <style>
+        .element-item {
+            background-color: white !important;
+        }
+
+        .element-item:active,
+        .element-item:focus {
+            background-color: rgb(243, 243, 243) !important;
+        }
+
+        .list-item {
+            display: block;
+        }
+
+        .list-item > a:after,
+        .am-parent > a:after {
+            content: "\f054" !important;
+            position: absolute;
+            right: 1.5rem;
+            top: 1.3rem;
+            color: rgb(151, 151, 151);
+        }
+    </style>
+</block>
+<block name="scripts">
+    <script type="text/javascript">
+
+        //        var __root__ = "__ROOT__";
+        //        var getPopup_url = __root__ + '/Home/User/ajax_popup';
+        //        $.initPopups({
+        //            list_node: '.popup-item',
+        //            url: getPopup_url,
+        //            header_node: '.element-item',
+        //            show_confirm: false
+        //        })
+
+        function toggleTable(obj){
+            $(obj).find('a').find('div').next().css('background','#d7342e'); //设置选中的北京为红色
+            $(obj).find('a').find('div').first().addClass('close');
+            $(obj).find('a').find('div').next().addClass('open');
+            setTimeout(function () {
+                $('#prize-ul').find('li').each(function(){
+                    if($(this).index() != $(obj).index()){
+                        $(this).find('a').find('div').first().addClass('close'); // 翻转原正面为背面
+                        $(this).find('a').find('div').next().addClass('open'); // 翻转原背面为正面
+                    }
+                    $(this).removeAttr('onclick');
+                })
+            }, 500);
+        }
+
+    </script>
+</block>

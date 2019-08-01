@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>学习交流</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link href="__STATICS__/mui/mui.min.css" rel="stylesheet" />
+		<link href="__STATICS__/mui/mui.picker.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/issue.css" />
+		<link rel="stylesheet" href="__CSS__/grassroots/personal/polity.css">
+
+	</head>
+
+	<body>
+		<form class="page">
+			<header class="head">
+				<a onclick="history.go(-1);">
+					<div class="head_return"><i></i>微党课上传</div>
+				</a>
+			</header>
+			<!--<div class="title">微党课第<input type="text" name="class_index">讲</div>-->
+			<div class="headline">
+				<input type="text" placeholder="请输入标题...." name="title">
+				<div class="vpppideo hide">
+					<video preload src=""></video>
+				</div>
+
+				<input type="hidden" name="video">
+				<input type="hidden" name="cover">
+				<input type="hidden" name="branch_id" id="branch_id">
+
+				<div class="img_con">
+
+					<img src="__IMG__/notes/viedo_bg.png" />
+				</div>
+				<span class="video-text">上传视频</span>
+
+				<div class="video hide">
+					<img><i></i>
+				</div>
+				
+			</div>
+
+			<div class="people">
+				<i></i>主讲人 <input type="text" placeholder="请输入主讲人" name="speaker" style="width: 70%" value="{$user.realname}">
+			</div>
+			<div class="branch">
+				<i></i>所属支部
+				<button id='showUserPicker' class="mui-btn mui-btn-block" data-id="" style="background: none;border: 0;box-shadow: 0;width: 70%;display:inline-block;text-align:left;    margin-left: 0.3rem;padding-left: 10px;text-shadow: none;font-size: 100%;color: #c2c2c2" type='button'>选择支部
+        </button>
+			</div>
+			<div class="submit" id="upload">提交</div>
+		</form>
+		<div id="picker" style="display: none"></div>
+		<include file="Common/_loading"/>
+		<script src="__STATICS__/mui/mui.min.js"></script>
+		<script src="__STATICS__/mui/mui.picker.min.js"></script>
+		<script>
+
+
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					var userPicker = new $.PopPicker();
+
+					var branchs={$branchs};
+					userPicker.setData(branchs);
+					// var branchs=$branchs;
+                    // userPicker.setData({ $branchs|to_json_string });
+
+                    var showUserPickerButton = doc.getElementById('showUserPicker');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							showUserPickerButton.innerText = items[0].text;
+							 var branch_id = doc.getElementById('branch_id')
+							 branch_id.value = items[0].value;
+							showUserPickerButton.setAttribute('data-id', items[0].value);
+						});
+					}, false);
+				})
+			})(mui, document);
+		</script>
+		<script src="__STATICS__/assets/js/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+		<script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+		<script>
+			var uploader = WebUploader.create({
+				// swf文件路径
+				swf: '__STATICS__/webuploader-0.1.5/Uploader.swf',
+				// 文件接收服务端。
+				//后台接口
+				//                        server: '__ROOT__/Admin/File/upload',
+				//前端接口
+				server: '__ROOT__/Mob/PartyClass/ajaxUploadVideo',
+				// 选择文件的按钮。可选。
+				// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+				pick: {
+					id: '#picker',
+					//只能选择一个文件上传
+					multiple: false
+				},
+				auto: true,
+				// 开起分片上传。
+				chunked: true,
+				chunkSize: 2 * 1024 * 1024,
+				// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+				resize: false,
+				// 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
+				disableGlobalDnd: true,
+				fileNumLimit: 1,
+				fileSizeLimit: 400 * 1024 * 1024,
+				// 550 M
+				fileSingleSizeLimit: 300 * 1024 * 1024,
+				// 55 M
+				accept: {
+					title: 'video',
+					extensions: 'mov,wmv,avi,mp4,flv,f4v,ogg,swf,rmvb,mkv,3gp,swf,asf,asx,rm,mpg,mpeg,mpe,m4v,vob,dat,DAT,VOB,M4V,MPE,MPEG,MPG,RM,ASX,ASF,RMVB,MKV,3GP,MOV,WMV,AVI,MP4,FLV,F4V,OGG,SWF',
+					mimeTypes: 'video/*'
+				},
+			});
+			// 当有文件被添加进队列的时候
+			uploader.on('fileQueued', function(file) {
+				console.log("fileQueued");
+				loading("开始上传");
+			});
+			// 文件上传过程中创建进度条实时显示。
+			uploader.on('uploadProgress', function(file, percentage) {
+				console.log("percentage = " + percentage * 100 + "%");
+				if(percentage.toFixed(2) * 100 == 100){
+					loading("正在转换...")
+				}else{
+					loading("正在上传" + percentage.toFixed(2) * 100 + "%")
+				}
+				
+
+			});
+			uploader.on('uploadSuccess', function(file, response) {
+				console.log("success" + JSON.stringify(response));
+				close_loading();
+				if(response.status == 0) {
+					$('input[name="cover"]').val(response.data.cover)
+					$('input[name="video"]').val(response.data.save_path)
+					$('.video img').attr('src', response.data.show_path);
+					$('.video').removeClass('hide');
+					$('.video-text').addClass('hide');
+					$('.img_con').addClass('hide');
+				} else {
+					alert(response.msg);
+				}
+
+			});
+
+		
+
+			function closeUploader(uploader) {
+				// 移除所有缩略图并将上传文件移出上传序列
+				for(var i = 0; i < uploader.getFiles().length; i++) {
+					// 将图片从上传序列移除
+					uploader.removeFile(uploader.getFiles()[i]);
+				}
+
+				// 重置uploader，目前只重置了文件队列
+				uploader.reset();
+				// 更新状态等，重新计算文件总个数和总大小
+			}
+
+			uploader.on('uploadError', function(file) {
+				closeUploader(uploader);
+				console.log("uploadError");
+				$("#loading-text").text("上传失败");
+				close_loading();
+				alert_modal("上传失败");
+
+			});
+
+			uploader.on('uploadComplete', function(file) {
+				console.log("uploadComplete");
+				closeUploader(uploader);
+				close_loading();
+
+			});
+			uploader.on('uploadAccept', function(file, response) {
+				console.log("uploadAccept" + JSON.stringify(response));
+			});
+			$('.video img').click(function() {
+				$('#picker input[name="file"]').click();
+			})
+
+			$('.img_con').click(function() {
+				$('#picker input[name="file"]').click();
+			})
+		</script>
+		<script>
+			 $('#upload').click(function(){
+			 var data = $('.page').serialize();
+			 var url = "__ROOT__/Mob/PartyClass/ajaxAddClass";
+			 $.ajax({
+			 url: url,
+			 type: "post",
+			 data: data,
+			 dataType: "json",
+			 success: function (data) {
+			 close_loading();
+			 if (data.status == 0) {
+			 window.location.href = "__ROOT__/Mob/PartyClass/index";
+			 } else {
+			 alert(data.msg);
+			 }
+			 },
+			 error: function () {
+			 close_loading();
+			 alert("服务器暂时无法访问，请稍后再试");
+			 }
+			 });
+			 return false;
+			 })
+		</script>
+		</body>
+
+		</html>

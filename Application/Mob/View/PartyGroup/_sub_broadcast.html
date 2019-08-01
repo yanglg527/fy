@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/party_group/public.css">
+    <link rel="stylesheet" href="__CSS__/party_group/broadcast.css">
+
+    <style>
+        .mui-table-view-chevron::before{
+            background-color: transparent !important;
+        }
+        .mui-table-view-chevron::after{
+            background-color: transparent !important;
+        }
+    </style>
+</head>
+
+<body>
+<!--下拉刷新容器-->
+<!--<input type="hidden" id="branch-id" value="{$branchId}">-->
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+    <div class="mui-scroll container">
+        <!--数据列表-->
+        <ul class="mui-table-view mui-table-view-chevron broad_list" style="background-color: transparent">
+
+        </ul>
+        <div id="list-template" style="display: none">
+            <li>
+                <div class="head"><img src="##header##" alt=""><p>##realname##</p></div>
+                <div class="text">##content##</div>
+            </li>
+        </div>
+    </div>
+</div>
+<include file="Common/_loading"/>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<!--<script src="__STATICS__/zepto/event.js"></script>-->
+<!--<script src="__STATICS__/zepto/touch.js"></script>-->
+<!--<script src="__JS__/temporary_talk/temporary_chat.js"></script>-->
+<script>
+    var list = mui('.mui-table-view')[0];
+    var lastItem = 0;
+    var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            down : {
+                height:30,//可选,默认50.触发下拉刷新拖动距离,
+                auto: false,//可选,默认false.自动下拉刷新一次
+                contentdown : "下拉刷新",//可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+                contentover : "释放立即刷新",//可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+                contentrefresh : "加载中...",//可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+                callback :pulldownRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            },
+            up: {
+                contentrefresh: '',
+                callback: pullupRefresh
+            }
+        }
+    });
+
+    if (mui.os.plus) {
+        mui.plusReady(function() {
+            setTimeout(function() {
+                mui('#pullrefresh').pullRefresh().pullupLoading();
+            }, 10);
+        });
+    } else {
+        mui.ready(function() {
+            mui('#pullrefresh').pullRefresh().pullupLoading();
+        });
+    }
+
+    /**
+     * 下拉刷新具体业务实现
+     */
+    function pulldownRefresh() {
+        console.log("下拉刷新");
+        lastItem = 0;
+        ajaxGetBroadcastList(1);
+    }
+
+
+
+    /**
+     * 上拉加载具体业务实现
+     */
+    function pullupRefresh() {
+        console.log("上拉加载");
+        ajaxGetBroadcastList();
+    }
+
+    function ajaxGetBroadcastList(requestType) {
+        $.ajax({
+            data: {
+                "lastItem" : lastItem
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/PartyGroup/ajaxGetBroadcastList',
+            success: function (data) {
+                if (data['status'] == 0) {
+                    var listData = data.data;
+                    console.log("data = " + JSON.stringify(listData));
+                    if(listData && listData.length > 0){
+                        var listItem = "";
+                        var itemTemp = "";
+                        for (var i=0; i < listData.length; i++) {
+                            lastItem = listData[i]['create_time'];
+
+                            listItemHtmlArray[1] = listData[i]['user_headimgurl'];
+                            listItemHtmlArray[3] = listData[i]['user_realname'];
+                            listItemHtmlArray[5] = listData[i]['content'];
+
+                            itemTemp = "";
+                            for(var j=0; j<listItemHtmlArray.length; j++){
+                                itemTemp += listItemHtmlArray[j];
+                            }
+                            listItem += itemTemp;
+                        }
+
+                        if(requestType == 1){
+                            list.innerHTML = listItem;
+                        }else{
+                            list.innerHTML += listItem;
+                        }
+                    }
+                }else{
+                    alert(data.msg);
+                }
+                if(requestType == 1){
+                    mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                }else{
+                    mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+                }
+            },
+            error: function (data) {
+                alert('网络异常');
+            }
+        });
+    }
+
+    $('#btn-send', window.parent.document).click(function () {
+        var msg = $("#msg", window.parent.document).val();
+        if(msg){
+            loading();
+            $.ajax({
+                data: {
+                    "msg" : msg,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '/djptNew/Mob/PartyGroup/ajaxSendBroadcast',
+                success: function (data) {
+                    close_loading();
+                    if (data['status'] == 0) {
+                        $("#msg", window.parent.document).val("");
+                        mui('#pullrefresh').pullRefresh().pulldownLoading();
+                    }else{
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    alert('网络异常');
+                }
+            });
+        }else{
+            close_loading();
+            alert("不能发送空白内容");
+        }
+    })
+
+
+
+
+</script>
+</body>
+
+</html>

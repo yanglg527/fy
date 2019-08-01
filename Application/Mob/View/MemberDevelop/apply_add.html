@@ -1,0 +1,297 @@
+<extend name="./Application/Mob/View/Common/base.html" />
+<block name="styles">
+	<link rel="stylesheet" href="__CSS__/member_develop/edit.css">
+	<style>
+		header.head {
+			background: url(__IMG__/branch/head_bg2.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.ledger .head .title .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .search {
+			background: url(__IMG__/branch/search@2x.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		html {
+			height: 100%;
+			/*background: white;*/
+			background: #e3e9ef;
+		}
+		
+		img {
+			max-width: 100%;
+		}
+	</style>
+	
+</block>
+<block name="content">
+	<header class="head">
+		<a onclick="history.go(-1);">
+			<div class="head_return"><i></i>编辑</div>
+		</a>
+	</header>
+	<article>
+		<div class="article_container">
+			<span>标题</span>
+			<input type="text" name="title" value="<empty name=" $detail.title ">入党申请书<else/>{$detail.title}</empty>">
+		</div>
+		<div class="apply">
+			<span>正文</span>
+			<div class="apply_left">
+				<div id="edit" contentEditable=true style="min-height: 200px">
+					{$detail.content}
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
+				</div>
+			</div>
+		</div>
+		
+		<style>
+		.file-div {
+			width: auto;
+			height: auto;
+			line-height: 50px;
+			position: relative;
+			padding: 5px;
+		}
+		
+		.file-div a {
+			color: skyblue;
+			padding-right: 20px;
+			position: relative;
+			font-size: 14px;
+			width: auto;
+		}
+		
+		.file-div .file-close {
+			color: #555;
+			position: relative;
+			font-size: 14px;
+			display: inline-block;
+			width: 30px;
+			text-align: center;
+		}
+		
+		.file-div label {
+			border: 1px solid #ccc;
+			display: inline-block;
+			height: 25px;
+			line-height: 25px;
+			border-radius: 3px;
+			padding: 0 5px;
+			margin-bottom: 10px;
+			margin-right: 15px;
+		}
+	</style>
+		<div class="file-item hide">
+			<label>
+							<input type="hidden" name="files[]" value="#id#" />
+								<a href="__ROOT__/#path#">#name#</a>
+								<span class="file-close">x</span>
+							</label>
+
+		</div>
+		<div class="apply">
+			<span>附件</span>
+			<form class="apply_left">
+				<div class="file-div">
+					<volist name="files" id="item">
+						<label>
+							<input type="hidden" name="files[]" value="{$item.id}" />
+								<a href="__ROOT__/{$item.path}">{$item.name}</a>
+								<span class="file-close">x</span>
+							</label>
+					</volist>
+				</div>
+			</form>
+		</div>
+	</article>
+
+	<form class="apply_right">
+		<p>添加</p>
+		<div class="addPicture">
+			<div class="pictureBox">
+				<input type="file" accept="image/*" onchange="InsertImage(this)">
+			</div>
+			<p>图片</p>
+		</div>
+		<div class="addFile">
+			<div class="documentBox">
+
+			</div>
+			<p>附件</p>
+		</div>
+	</form>
+	<button class="submitButton">提交</button>
+	</div>
+	<div class="hide" id="picker"></div>
+	<script type="text/javascript" src="__STATICS__/assets/js/jquery.min.js"></script>
+	<script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+	<script>
+		
+		var uploader = WebUploader.create({
+			// swf文件路径
+			swf: '__STATICS__/webuploader-0.1.5/Uploader.swf',
+			// 文件接收服务端。
+			//后台接口
+			//                        server: '__ROOT__/Admin/File/upload',
+			//前端接口
+			server: '__ROOT__/Mob/MemberDevelop/ajax_upload_file',
+			// 选择文件的按钮。可选。
+			// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+			pick: {
+				id: '#picker',
+				//只能选择一个文件上传
+				multiple: false
+			},
+			auto: true,
+			// 开起分片上传。
+			chunked: true,
+			chunkSize: 2 * 1024 * 1024,
+			// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+			resize: false,
+			// 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
+			disableGlobalDnd: true,
+			fileNumLimit: 1,
+			fileSizeLimit: 400 * 1024 * 1024,
+			// 550 M
+			fileSingleSizeLimit: 128 * 1024 * 1024,
+			// 55 M
+			accept: {
+				title: '附件',
+				extensions: 'doc,xls,docx,xlsx,zip,rar,jpg,bmp,gif,png,jpeg',
+				mimeTypes: ''
+			},
+		});
+		// 当有文件被添加进队列的时候
+		uploader.on('fileQueued', function(file) {
+			console.log("fileQueued");
+			loading("正在上传");
+		});
+		// 文件上传过程中创建进度条实时显示。
+		uploader.on('uploadProgress', function(file, percentage) {
+			loading(percentage.toFixed(2) * 100 + "%")
+			console.log("percentage = " + percentage * 100 + "%");
+			//                      $("#loading-text").text("正在上传"+percentage.toFixed(2) * 100 + "%");
+
+		});
+
+		var fileItem = $('.file-item').html();
+		uploader.on('uploadSuccess', function(file, response) {
+
+			console.log("success" + JSON.stringify(response));
+			// $("#mytest").append("<p>成功"+JSON.stringify(response)+"</p>");
+			if(response.status == 0) {
+				close_loading();
+				//插入文件
+				var obj = response.data;
+				var item = fileItem;
+				var item = item.replace('#id#', obj.id);
+				item = item.replace('#name#', obj.file_name);
+				item = item.replace('#path#', obj.save_path);
+				$('.file-div').append(item);
+			} else {
+				$("#loading-text").text("上传失败");
+				close_loading();
+				alert(response.msg);
+			}
+
+		});
+		$('.file-div').on('click','.file-close',function(){
+			$(this).parent().remove();
+			return false;
+		})
+
+		uploader.on('uploadError', function(file) {
+			closeUploader(uploader);
+			console.log("uploadError");
+			close_loading();
+			alert("上传失败，请上传png,jpg,jpeg,gif格式的照片");
+
+		});
+
+		uploader.on('uploadComplete', function(file) {
+			console.log("uploadComplete");
+			closeUploader(uploader);
+			close_loading();
+
+		});
+		uploader.on('uploadAccept', function(file, response) {
+			console.log("uploadAccept" + JSON.stringify(response));
+		});
+
+		function closeUploader(uploader) {
+			// 移除所有缩略图并将上传文件移出上传序列
+			for(var i = 0; i < uploader.getFiles().length; i++) {
+				// 将图片从上传序列移除
+				uploader.removeFile(uploader.getFiles()[i]);
+			}
+
+			// 重置uploader，目前只重置了文件队列
+			uploader.reset();
+			// 更新状态等，重新计算文件总个数和总大小
+		}
+		$('.addFile').click(function() {
+			$('#picker input[name="file"]').click();
+		})
+	</script>
+</block>
+<block name="scripts">
+	<script src="__JS__/member_develop/base64.js"></script>
+	<script src="__JS__/member_develop/edit.js"></script>
+
+	<script>
+		
+		$('.submitButton').click(function() {
+			var idArr = $('.apply_left').serializeArray();
+			var leg = idArr.length
+			var ids = '';
+			for (var i = 0; i < leg; i ++) {
+				var id = idArr[i]['value'];
+				if(i == leg-1){
+					ids += id
+				}else{
+					ids += (id +",")
+				}
+			}
+			loading();
+			var title = $('input[name="title"]').val();
+			var content = $('#edit').html();
+			var data = {
+				file_ids:ids,
+				title: title,
+				content: content,
+			}
+			var url = "__ROOT__/Mob/MemberDevelop/ajax_save_apply";
+			$.ajax({
+				url: url,
+				type: "post",
+				data: data,
+				dataType: "json",
+				success: function(data) {
+					close_loading();
+					if(data.status == 0) {
+						window.location = document.referrer;
+					} else {
+						alert(data.msg);
+					}
+				},
+				error: function() {
+					close_loading();
+					alert("服务器暂时无法访问，请稍后再试");
+				}
+			});
+			return false;
+		})
+	</script>
+
+</block>

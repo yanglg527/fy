@@ -1,0 +1,136 @@
+<extend name="./Application/Admin/View/Common/base.html" />
+<block name="styles">
+  <style>
+    .admin-content-list {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.6rem 0;
+    }
+
+    .admin-content-list li {
+      width: 20%;
+      list-style-type: none;
+    }
+
+    .admin-content-list li a {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 12rem;
+    }
+
+    .sidebar-span img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .bar-div {
+      display: flex;
+      height: 80%;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+  </style>
+</block>
+<block name="content">
+  <div class="admin-content-body">
+
+
+
+
+    <ul class="  am-margin am-padding am-text-center admin-content-list ">
+      <li>
+        <a href="#" class="am-text-danger  am-thumbnail ">
+          <span class="sidebar-span">
+            <img src="__PUBLIC__/Admin/img/index/tu1.png" alt="" style=" ">
+          </span>
+          <div class="bar-div">
+            <span>今日访问</span>
+
+            <span>{$today_count}</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="am-text-success am-thumbnail ">
+          <span class="sidebar-span">
+            <img src="__PUBLIC__/Admin/img/index/tu2.png" alt="" style=" ">
+          </span>
+          <div class="bar-div">
+            <span>支部数量</span>
+
+            <span>{$branch_count}</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="am-text-warning am-thumbnail ">
+          <span class="sidebar-span">
+            <img src="__PUBLIC__/Admin/img/index/tu3.png" alt="" style=" ">
+          </span>
+          <div class="bar-div">
+            <span>党员数量</span>
+
+            <span>{$party_count}</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="am-text-secondary am-thumbnail ">
+          <span class="sidebar-span">
+            <img src="__PUBLIC__/Admin/img/index/tu4.png" alt="" style=" ">
+          </span>
+          <div class="bar-div">
+            <span>用户数量</span>
+
+            <span>{$user_count}</span>
+          </div>
+        </a>
+      </li>
+      <!-- <li><a href="#" class="am-text-warning am-thumbnail"><span
+            class="am-icon-btn am-icon-briefcase"></span><br />支部数量<br />{$branch_count}</a></li>
+      <li><a href="#" class="am-text-danger am-thumbnail"><span
+            class="am-icon-btn am-icon-recycle"></span><br />党员数量<br />{$party_count}</a></li>
+      <li><a href="#" class="am-text-secondary am-thumbnail"><span
+            class="am-icon-btn am-icon-user-md"></span><br />用户数量<br />{$user_count}</a></li> -->
+    </ul>
+
+    <div class="am-g" style="background: #ffffff;
+    height: 100%;    width: 98%;">
+      <div class="am-u-sm-12">
+       
+        <table class="am-table am-table-bd am-table-striped admin-content-table">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>用户名</th>
+             
+              <th>所属支部</th>
+              <th>登录时间</th>
+              <th>积分</th>
+            </tr>
+          </thead>
+          <tbody>
+            <volist name="list" id="item">
+              <tr>
+                <td>{$item.uid}</td>
+                <td>{$item.realname}</td>
+             
+                <td>{$item.branch_name}</td>
+                <td>{$item.last_login_time|date="Y-m-d H:i:s",###}</td>
+
+                <td><span class="am-badge am-badge-success">{$item.score}</span></td>
+              </tr>
+            </volist>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</block>
+<block name="scripts">
+
+</block>

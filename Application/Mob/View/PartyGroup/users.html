@@ -1,0 +1,81 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+
+    <link rel="stylesheet" href="__CSS__/friend_list/friend_list.css">
+    <style>
+        body {
+            background: url("__IMG__/friend_list/bg.png") no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            min-height: 100%;
+            left: 0;
+            right: 0;
+        }
+        .page{
+            background: url("__IMG__/friend_list/bg.png") no-repeat;
+            background-size: 100% 100%;
+        }
+
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .friend_list li > .right > .like > i {
+            background: url(__IMG__/friend_list/like.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .friend_list li > .right > .comment > i {
+            background: url(__IMG__/friend_list/ledger.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .friend_list li > .detail > .name > span.woman {
+            background: url(__IMG__/friend_list/woman.png) no-repeat 100%;
+            background-size: 100%;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <ul class="friend_list">
+            <volist name="list" id="item">
+                <a href="__ROOT__/Mob/PartyMember/zone?uid={$item.uid}">
+                    <li>
+                        <div class="left">
+                            <div class="bg"><img src="{$item.headimgurl|show_img}" style="overflow: hidden"></div>
+                        </div>
+                        <div class="detail">
+                            <div class="name">{$item.realname} <span class="icon"></span></div>
+                            <div class="position">{$item.post_name}&nbsp&nbsp<span>{$item.branch_name}</span></div>
+                        </div>
+                        <div class="right">
+                            <span class="like"><i></i>{$item.uf_count}</span>
+                            <span class="comment"><i></i>{$item.tz_count}</span>
+                        </div>
+                    </li>
+                </a>
+            </volist>
+        </ul>
+    </div>
+</block>
+<block name="scripts">
+</block>

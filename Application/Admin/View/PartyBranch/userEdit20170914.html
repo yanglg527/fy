@@ -1,0 +1,377 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">用户信息管理</strong></a> /
+                <small><empty name="detail">新增<else/>编辑</empty>用户信息</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form">
+
+                    <empty name="detail"><else/><input type="hidden" name="uid" value="{$detail.uid}"></empty>
+
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            姓名
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="realname" value="{$detail.realname}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top-sm">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">头像</div>
+                        <div class="am-u-sm-8 am-u-md-3">
+                            <!--图片上传控件-->
+                            <div id="upload-image">
+                            </div>
+                            <!--图片上传控件-->
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-7 am-form-help">
+                            请上传后缀为.jpg,.png,.bmp,.gif的图片
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">启用</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="status" value="1" <if condition="$detail.status == 1"> checked="true" </if>> 是
+                                    </label>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="status" value="0" <if condition="$detail.status == 0"> checked="true" </if>> 否
+                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">性别</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="gender" value="1" <if condition="$detail.gender == 1"> checked="true" </if>> 男
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="gender" value="0" <if condition="$detail.gender == 0"> checked="true" </if>> 女
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            排序
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" class="am-input-sm" name="sort" value="{$detail.sort}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            手机
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="mobile" value="{$detail.mobile}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            邮箱
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="email" value="{$detail.email}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            工作职务
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="position" value="{$detail.position}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">学历</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="education" value="小学"
+                                        <if condition="$detail['education'] == '小学'">checked="true"</if> >小学
+                                    </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="初中"
+                                    <if condition="$detail['education'] == '初中'">checked="true"</if> >初中
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="中专"
+                                    <if condition="$detail['education'] == '中专'">checked="true"</if> >中专
+                                </label>
+
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="大专"
+                                    <if condition="$detail['education'] == '大专'">checked="true"</if> >大专
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="高中"
+                                    <if condition="$detail['education'] == '高中'">checked="true"</if> >高中
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="大学"
+                                    <if condition="$detail['education'] == '大学'">checked="true"</if> >大学
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="研究生"
+                                    <if condition="$detail['education'] == '研究生'">checked="true"</if> >研究生
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="博士"
+                                    <if condition="$detail['education'] == '博士'">checked="true"</if> >博士
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="education" value="其他"
+                                    <if condition="$detail['education'] == '其他'">checked="true"</if> >其他
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                           籍贯
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="native_place" value="{$detail.native_place}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                           入党日期
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+                                <input type="text" class="am-form-field" placeholder="日历组件" readonly name="activist_date" value="{$detail.activist_date|date='Y-m-d',###}">
+                                <span class="am-input-group-btn am-datepicker-add-on">
+    <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+  </span>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            生日
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <div class="am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+                                <input type="text" class="am-form-field" placeholder="日历组件" readonly name="birthday" value="{$detail.birthday}">
+  <span class="am-input-group-btn am-datepicker-add-on">
+    <button class="am-btn am-btn-default" type="button"><span class="am-icon-calendar"></span> </button>
+  </span>
+                            </div>
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <empty name="detail.post_id">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">所属支部</div>
+                            <div class="am-u-sm-8 am-u-md-10">
+                                <div class="am-btn-group" data-am-button>
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="branch_id" value="0" <empty name="detail.branch_id">checked="true"</empty> >不设置
+                                    </label>
+                                    <volist name="branchs" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="branch_id" value="{$item.id}"
+                                            <if condition="$detail['branch_id'] == $item['id']">checked="true"</if> >{$item.name}
+                                        </label>
+                                    </volist>
+
+                                </div>
+                            </div>
+                        </div>
+                        <else/>
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                所属支部
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-6">
+                                {$detail.branch_name}    职位:{$detail.post_name}
+                            </div>
+                            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                        </div>
+
+                    </empty>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">用户角色</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <volist name="roles" id="item">
+                                    <label class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="role_id" value="{$item.id}"
+                                        <if condition="$detail['role_id'] == $item['id']">checked="true"</if> >{$item.name}
+                                    </label>
+                                </volist>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">行政职务</div>
+                            <div class="am-u-sm-8 am-u-md-10">
+                                <div class="am-btn-group" data-am-button>
+                                    <empty name="detail.adm_id">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="adm_id" value="0"
+                                            checked="true"> 无
+                                        </label>
+                                        <volist name="adms" id="item">
+                                            <label class="am-btn am-btn-default am-btn-xs">
+                                                <input type="radio" name="adm_id" value="{$item.id}"> {$item.name}
+                                            </label>
+                                        </volist>
+                                        <else/>
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="adm_id" value="0"> 无
+                                        </label>
+                                        <volist name="adms" id="item">
+                                            <label class="am-btn am-btn-default am-btn-xs">
+                                                <input type="radio" name="adm_id" value="{$item.id}"
+                                                <if condition="$item['id'] == $detail['adm_id']">checked="true"</if>> {$item.name}
+                                            </label>
+                                        </volist>
+                                    </empty>
+                                </div>
+                            </div>
+                        </div>
+
+                    <notempty name="aaaa">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">用户操作权限</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <empty name="detail">
+                                    <volist name="groups" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="group_id" value="{$item.id}"
+                                            <if condition="$i == 1">checked="true"</if>> {$item.title}
+                                        </label>
+                                    </volist>
+                                    <else/>
+                                    <volist name="groups" id="item">
+                                        <label class="am-btn am-btn-default am-btn-xs">
+                                            <input type="radio" name="group_id" value="{$item.id}"
+                                            <if condition="$item['id'] == $detail['group_id']">checked="true"</if>> {$item.title}
+                                        </label>
+                                    </volist>
+                                </empty>
+                            </div>
+                        </div>
+                    </div>
+                        </notempty>
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save" >提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <!--图片上传控件-->
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+    <script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/onebit/upload-file.js"></script>
+    <script>
+        var uploader = OneBitImageUploader.create({
+            objDiv:'#upload-image',
+            inputFileName: 'cover_path',
+            uploadTitle:'点击上传头像',
+            inputFileDefault: '{$detail.headimgurl}',
+            inputCoverName: 'cover2',
+            inputCoverDefault: '{$detail.headimgurl}',
+            showSrcDefault: '{$detail.headimgurl|show_img}',
+            bgDefault: '{$detail.aaa|show_img}',
+            server:'__ROOT__/Admin/PartyBranch/ajaxUploadHead',
+            swfPath:'__STATICS__/webuploader-0.1.5/Uploader.swf',
+            crop:{
+                ratioWidth:25,
+                ratioHeight:25,
+                reset : true
+            },
+            width:'110px',
+            height:'110px',
+            accept: {
+                title: 'image',
+                extensions: '*',
+                mimeTypes: 'image/*'
+            }
+        })
+
+    </script>
+    <!--图片上传控件-->
+
+    <script>
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('#btn-save').click(function(){
+
+            $.ajax({
+                url:'__ROOT__/Admin/PartyBranch/ajaxSaveUser',
+                type:'POST', //GET
+                data:$('.am-form').serialize(),
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                    if(data.status == 0){
+                        if (data.msg == 1) {
+                            loading_page('__ROOT__/Admin/PartyBranch/member?p={$p}');
+                        }else{
+                            loading_page('__ROOT__/Admin/PartyBranch/users?p={$p}');
+                        };
+                        
+                    }else{
+                        alert_modal(data.msg);
+                    }
+                },
+                error:function(xhr,textStatus){
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+    </script>
+</block>

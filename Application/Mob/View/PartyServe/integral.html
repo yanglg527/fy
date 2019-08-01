@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta>
+    <title>积分管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <!--日期插件样式更换-->
+    <link rel="stylesheet" href="__STATICS__/date/calendar.css">
+    <link rel="stylesheet" href="__CSS__/party_serve/integral/integral.css">
+
+    <style type="text/css">
+        .header {
+            position: relative;
+            width: 100%;
+            height: 45px;
+            text-align: center;
+            box-sizing: border-box;
+            background-color: #CE3D3A;
+            color: #fff;
+
+        }
+
+        .header .left-img {
+            width: 15px;
+            margin: 0.2rem 0 0.2rem 0.1rem;
+            float: left;
+        }
+
+        .right-question {
+            position: absolute;
+            top: 15px;
+            right: 8px;
+        }
+
+        .header .right-img {
+            width: 16px;
+            /*   margin: 15px 8px 0 0;*/
+
+        }
+
+        .header h2 {
+            line-height: 45px;
+            margin: 0px;
+        }
+
+        .popup {
+            display: none;
+            word-break: break-all;
+            word-wrap: break-word;
+            width: 8rem;
+            background: #f5f5f5;
+            padding: 10px 20px;
+            color: #333;
+            border-radius: 4px;
+            position: absolute;
+            top: 0px;
+            right: 24px;
+            border: 1px solid #333;
+            z-index: 1000;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h2 {
+            font-size: 1.5em;
+            padding: 0.5rem;
+            margin: 0;
+            /*margin-bottom:1rem; */
+            line-height: 0px;
+            color: black;
+        }
+
+        .popup span {
+            display: block;
+            width: 0;
+            height: 0;
+            border-width: 10px 0 10px 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent #333;
+            position: absolute;
+            top: -1px;
+            right: -10px;
+            margin-left: -10px;
+            /* 三角形居中显示 */
+        }
+
+        .popup em {
+            display: block;
+            width: 0;
+            height: 0;
+            border-width: 8px 0 8px 8px;
+            border-style: solid;
+            border-color: transparent transparent transparent #f5f5f5;
+            position: absolute;
+            top: -8px;
+            left: -11px;
+        }
+
+        .popup a {
+            display: block;
+            text-align: center;
+            color: #42382e;
+            padding: 10px 0;
+            font-size: 1.3em;
+
+        }
+
+        .integral_list>li>.title {
+            text-align: center;
+        }
+
+        a .title {
+            color: #333;
+        }
+
+        .g-nav-bar {
+            position: relative;
+            display: flex;
+            height: 42px;
+            background-color: #ce3d37;
+        }
+
+        .g-nav-bar .back-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 42px;
+            height: 42px;
+        }
+
+        .g-nav-bar .back-btn::before {
+            display: block;
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            transform: translateY(-50%) rotate(-45deg);
+        }
+
+        .g-nav-bar .nav-title {
+            display: block;
+            width: 60%;
+            height: 42px;
+            line-height: 42px;
+            margin: 0 auto;
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .g-nav-bar .right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 42px;
+            height: 42px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page" style="background-color: #ffffff;">
+
+
+        <!--<div class="header">-->
+            <!--<img class="left-img" onclick="history.back(-1);" src="__IMG__/general/return.png">-->
+            <!--&lt;!&ndash; <div class="right-question ">-->
+         <!--<img  class="right-img" src="__IMG__/party_serve/question.png" alt="" onclick="popup()" >-->
+
+         <!--<div class="popup" id="popup-content" popup="none">-->
+          <!--<span><em></em></span>-->
+            <!--<h2 class="">积分规则</h2>-->
+            <!--<a href="{:U('PartyServe/article_score_manage')}">珠海国税党建智慧平台积分管理制度</a>-->
+         <!--</div>-->
+
+         <!--</div> &ndash;&gt;-->
+            <!--<h2>{$user.realname}个人积分</h2>-->
+
+        <!--</div>-->
+        <div class="g-nav-bar">
+            <div class="back-btn" onclick="history.go(-1);"></div>
+            <span class="nav-title">{$user.realname}个人积分</span>
+        </div>
+        <!-- <div id="sixChart" style="height: 14rem;margin-top: 1rem"></div> -->
+        <div id="lineChart" style="height: 14rem;margin: 1rem 0;width: 100%"></div>
+        <div style="position: relative;">
+            <div class="banner">
+                <div class="banner_bg"><img src="__IMG__/party_serve/e.png" alt=""></div>
+                <form method="Post">
+                    <div class="input" style="margin-top: 1rem;">
+                        <input id="uid" type="hidden" value="{$uid}" />
+                        <label>
+                            <input id="start-time" name="startTime" type="datetime" value="{$startTime}" placeholder="请选择时间"
+                                onfocus="blur()" class="calendars star" min-date="2010-05-10" format="yyyy-MM-dd"
+                                readonly="readonly">
+                            <i></i></label>
+                        <i>~</i>
+                        <label>
+                            <input id="end-time" name="endTime" type="datetime" value="{$endTime}" placeholder="请选择时间"
+                                onfocus="blur()" class="calendars end" min-date="2010-05-11" format="yyyy-MM-dd"
+                                readonly="readonly">
+                            <i></i></label>
+                        <button class="search" style="display: block; border: 0px" type="button" onclick="requestData()">查询</button>
+                    </div>
+                </form>
+            </div>
+            <div class="content">
+                <div class="title">
+                    <h1>我的积分<span id="sum-score"></span></h1>
+                </div>
+                <ul class="integral_list">
+
+                </ul>
+
+                <div id="list-template" style="display: none">
+                    <li>
+                        <div class="title"></div>
+                        <div class="title">数量</div>
+                        <div class="title"><span>分数</span></div>
+                    </li>
+                    <li>
+
+                        <div class="title" onclick="goUrl(this)">##scoreName##</div>
+                        <div class="title">##score11e##</div>
+                        <div class="num"><span>##score##</span>分(<span>##percent##</span>)</div>
+                    </li>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <include file="Common/_loading" />
+    <script src="__STATICS__/zepto/zepto.js" type="text/javascript"></script>
+    <!--日期插件更换-->
+    <script src="__STATICS__/date/calendar.js" type="text/javascript"></script>
+    <script src="__STATICS__/zepto/event.js" type="text/javascript"></script>
+    <script src="__JS__/party_serve/integral/integral.js" type="text/javascript"></script>
+
+    <script>
+        ; (function ($) {
+            var t = setTimeout(function () {
+                console.log('sdfdsf', $(".foot-save"), $('#start-time'), $('#end-time'))
+                $(".foot-save").on('click', function () {
+
+                    var t2 = setTimeout(function () {
+                        var startTime = $('#start-time').val();
+                        var endTime = $('#end-time').val();
+                        if (startTime && endTime) {
+                            if(new Date(endTime) - new Date(startTime)<0){
+                                $(".search").attr('disabled',true);
+                                $('.search').css('background-color','#c2c4c6')
+                                alert('结束时间不能少于开始时间')
+
+                            }else{
+                                $(".search").removeAttr("disabled");
+
+                                $('.search').css('background-color','#ce3a3d')
+                            }
+
+                        }
+                        clearTimeout(t2);
+                    }, 500);
+                });
+                clearTimeout(t)
+            }, 2000)
+
+        })(window.$)
+    </script>
+    <script type="text/javascript">
+        function popup() {
+
+            let pc = document.getElementById('popup-content');
+
+            let popup = pc.getAttribute('popup');
+
+            if (popup == 'none') {
+                pc.setAttribute('popup', 'block');
+                pc.style.display = 'block';
+            } else {
+                pc.setAttribute('popup', 'none');
+                pc.style.display = 'none';
+            }
+
+
+        }
+    </script>
+    <script type="text/javascript">
+
+
+        var li_1 = $('#list-template').find('li')[1];
+        listItemHtmlArray = $(li_1).html().split("##")
+        console.log(listItemHtmlArray)
+        requestData();
+
+        function requestData() {
+            loading();
+            var uid = $('#uid').val();
+            var startTime = $('#start-time').val();
+            var endTime = $('#end-time').val();
+            console.log("startTime = " + startTime);
+
+            $.ajax({
+                type: "post",
+                url: "__ROOT__/Mob/PartyServe/ajaxIntegral",
+                data: {
+                    uid: uid,
+                    startTime: startTime,
+                    endTime: endTime
+                },
+                cache: false,
+                dataType: "json",
+                success: function (res) {
+                    //                console.log("data = " + JSON.stringify(res));
+                    close_loading();
+                    if (res['status'] == 0) {
+                        // setSixChart(res['data']['sixScoreList']);
+                        setChart(res['data']['userScoreList'])
+                        // 更新页面内容
+                        //                    alert("aa = " + res['data']);
+                        $('#sum-score').html(res['data']['sumScore']);
+                        if (res['data']['userScoreList'] && res['data']['userScoreList'].length > 0) {
+                            var listItem = "<li>";
+                            var itemTemp = "";
+                            var listData = res['data']['userScoreList'];
+                            for (var i = 0; i < listData.length; i++) {
+
+                                console.log(listItemHtmlArray[0]);
+                                listItemHtmlArray[0] = `<div class="title" onclick="goUrl(this)" id="${i + 1}">`
+                                listItemHtmlArray[1] = listData[i]['name'];
+                                listItemHtmlArray[3] = listData[i]['count'];
+                                listItemHtmlArray[5] = listData[i]['score'];
+                                listItemHtmlArray[7] = listData[i]['percent'];
+                                itemTemp = "";
+                                for (var j = 0; j < listItemHtmlArray.length; j++) {
+                                    itemTemp += listItemHtmlArray[j];
+
+
+                                }
+                                listItem += itemTemp;
+                                if (i == listData.length - 1) {
+                                    listItem = listItem + "</li>"
+                                } else {
+                                    listItem = listItem + "</li><li>"
+                                }
+
+
+                            }
+
+                            //整合
+                            var li_0 = $('#list-template').find('li')[0];
+                            var header = "<li>" + $(li_0).html() + "</li>";
+                            var str = header + listItem;
+
+
+                            $('.integral_list').html(str);
+                            //                        list.innerHTML = listItem;
+                        }
+
+                    } else if (res['status'] == 1) {
+                        close_loading();
+                        alert(res.msg)
+                    }
+                },
+                error: function () {
+                    alert("网络异常...");
+                }
+            });
+        }
+        function goUrl(e) {
+            var num = $(e).attr('id')
+            console.log(num)
+            var url = '';
+            switch (num) {
+                case '1':
+                    var url = '__ROOT__/Mob/Center/index';
+                    console.log(url)
+
+                    break;
+                case '2':
+                    url = '__ROOT__/Mob/ScoreView/memberDevelop';
+                    break;
+                case '3':
+                    url = '__ROOT__/Mob/ScoreView/memberService';
+
+                    break;
+                case '4':
+                    url = '__ROOT__/Mob/ScoreView/study';
+
+                    break;
+                    url = '';
+
+                    break;
+                case '6':
+                    url = '__ROOT__/Mob/ScoreView/signIn';
+                    break;
+            }
+            window.location.href = url
+        }
+
+
+    </script>
+    <script src="__JS__/party_serve/integral/echarts.common.min.js"></script>
+    //第一个饼图
+    <script type="text/javascript">
+        function setChart(data) {
+
+            option = {
+                title: {
+                    text: '党建平台个人积分构成图',
+
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                // label: {
+                //     normal: {
+                //         formatter: '{b}:{d}%',
+                //     },
+                // },
+                legend: {
+                    x: 'center',
+                    y: 'bottom',
+                    //文字
+                    data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
+                },
+                //        toolbox: {
+                //            show : true,
+                //            feature : {
+                //                mark : {show: true},
+                //                dataView : {show: true, readOnly: false},
+                //                magicType : {
+                //                    show: true,
+                //                    type: ['pie', 'funnel']
+                //                },
+                //                restore : {show: true},
+                //                saveAsImage : {show: true}
+                //            }
+                //        },
+                calculable: true,
+                series: [
+
+                    {
+                        name: '积分占比',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['48%', '50%'],
+                        //                   roseType: 'area',
+                        data: [
+
+                        ]
+                    }
+                ]
+            };
+            obj = [];
+            legendobj = [];
+            for (let i = 0; i < data.length; i++) {
+
+                obj[i] = { 'name': data[i]['name'], value: data[i]['score'] };
+                legendobj[i] = data[i]['name'];
+            }
+            option.series[0].data = obj;
+            option.legend.data = legendobj;
+            console.log(option);
+            var lineChart = echarts.init(document.getElementById('lineChart'));
+            lineChart.setOption(option);
+        }
+    </script>
+    //第二个饼图
+
+
+    <script type="text/javascript">
+//  function setSixChart(six_data) {
+//     // console.log(data)
+//     option = {
+//         title : {
+//             text: '六个打通系统',
+//             x:'center'
+//         },
+//         tooltip: {
+//             trigger: 'item',
+//             formatter: "{a} <br/>{b}: {c} ({d}%)"
+//         },
+//         legend: {
+//            // orient: 'vertical',
+
+//             x: 'center',
+//             y: 'bottom',
+//             data:['绩效系统','工作创新指数','纪律审查信息管理系统','廉政风险防控平台','数字人事系统','智慧人事系统',
+//                    '工作强度指数','工作奉献指数','学习创新平台','智慧党建平台' ]
+//         },
+//         series: [
+//             {
+//                 name:'积分统计',
+//                 type:'pie',
+//                 radius: ['80%', '40%'],
+//                 avoidLabelOverlap: false,
+//                 label: {
+//                     normal: {
+//                         show: false,
+//                         position: 'center'
+//                     },
+//                     emphasis: {
+//                         show: true,
+//                         textStyle: {
+//                             fontSize: '30',
+//                             fontWeight: 'bold'
+//                         }
+//                     }
+//                 },
+//                 labelLine: {
+//                     normal: {
+//                         show: false
+//                     }
+//                 },
+
+//                 data:[
+
+//                     {value:six_data['performance_score'], name:'绩效系统'},
+//                     {value:six_data['work_innovation_score'], name:'工作创新指数'},
+//                     {value:six_data['discipline_score'], name:'纪律审查信息管理系统'},
+//                     {value:six_data['risk_score'], name:'廉政风险防控平台'},
+//                     {value:six_data['personnel_score'], name:'数字人事系统'},
+//                     {value:six_data['intelligent_score'], name:'智慧人事系统'},
+//                     {value:six_data['strength_score'], name:'工作强度指数'},
+//                     {value:six_data['dedication_score'], name:'工作奉献指数'},
+//                     {value:six_data['learn_innovation_score'], name:'学习创新平台'},
+//                     {value:six_data['score'], name:'智慧党建平台'},
+
+//                 ]
+//             }
+//         ]
+//     };
+//     var sixChart = echarts.init(document.getElementById('sixChart'));
+//     sixChart.setOption(option);
+
+//  }
+
+
+
+    </script>
+</body>
+
+</html>

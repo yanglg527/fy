@@ -1,0 +1,128 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">信箱管理</strong></div>
+      </div>
+      <hr>
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <!--<button  onclick="loading_page('__ROOT__/Admin/System/ruleAdd?p={$page.pageInfo.pageNo}');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>-->
+              <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+            </div>
+          </div>
+        </div>
+        <form class="am-u-sm-12 am-u-md-3" id="search-form">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" name="keyword" value="{$keyword}">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="submit">搜索</button>
+          </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <!-- <th class="table-check"><input type="checkbox" /></th> -->
+                <th class="table-title" id="btn-dec">id</th>
+                <th class="table-type">标题</th>
+                <th class="table-type">类型</th>
+                <th class="table-author am-hide-sm-only">发送人</th>
+                <th class="table-author am-hide-sm-only">收件人</th>
+                <th class="table-date am-hide-sm-only">发送时间</th>
+                <th class="table-date am-hide-sm-only">内容简介</th>
+                <th class="am-hide-sm-only" style="width:60px;">状态</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="page.list" id="item">
+              <tr>
+                <!-- <td><input type="checkbox" /></td> -->
+                <td>{$item.id}</td>
+                <td class="am-hide-sm-only">{$item.title}</td>
+                <td class="am-hide-sm-only"><if condition="$item.type == 0">意见和建议<else/>寻求帮助</if></td>
+                <td class="am-hide-sm-only">{$item.realname}</td>
+                <td class="am-hide-sm-only">{$item.receiver_names}</td>
+                <td class="am-hide-sm-only">{$item.create_time|date="Y-m-d H:i:s",###}</td>
+                <td class="am-hide-sm-only">{$item.msg|show_content}</td>
+                <td class="am-hide-sm-only"><if condition="$item.status == 1"><span class="am-badge am-badge-success am-radius">正常</span><else/><span class="am-badge am-badge-warning am-radius">禁用</span></if></td>
+                <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary btn-show" data-msg="{$item.msg|show_outbox}" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 300}">查看</button>
+                      <button type="button" class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-status" data-id="{$item.id}"><span class="am-icon-archive"></span> <if condition="$item.status == 1" >禁用<else/>启用</if></button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </form>
+        </div>
+
+      </div>
+
+  </div>
+
+  <div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd">信箱内容
+        <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+      </div>
+      <div class="am-modal-bd" id="xinxiang-text" style="padding-top: 20px;overflow-y: scroll;height: 250px">
+
+      </div>
+    </div>
+  </div>
+</block>
+<block name="scripts">
+
+  <script>
+    $('.btn-show').click(function() {
+      var msg = $(this).attr('data-msg');
+      msg = msg.replace(/\n/g,"<br>");
+      $("#xinxiang-text").html(msg);
+    })
+
+    $('.btn-status').click(function(){
+      var id = $(this).attr('data-id');
+      $.ajax({
+        url:'__ROOT__/Admin/Mail/ajaxSaveOutboxStatus',
+        type:'POST', //GET
+        data:{id:id},
+        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        success:function(data){
+          if(data.status == 0){
+            window.location.reload();
+          }else{
+            alert_modal(data.msg);
+          }
+        },
+        error:function(xhr,textStatus){
+          alert_modal("服务器暂时无法连接，请稍候再试");
+        }
+      })
+    });
+  </script>
+
+</block>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/photoswipe/photoswipe.css" />
+    <link rel="stylesheet" type="text/css" href="__STATICS__/photoswipe/styles.css" />
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+
+    <script src="__STATICS__/photoswipe/lib/simple-inheritance.min.js"></script>
+    <script src="__STATICS__/photoswipe/code-photoswipe-1.0.19.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function(){
+
+            Code.photoSwipe('a', '#Gallery');
+
+        }, false);
+    </script>
+
+    <style>
+        .clearfix:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+<!--下拉刷新容器-->
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top: 0" style="background: transparent">
+    <div class="mui-scroll " style="background: transparent">
+        <!-- 列表项模板 -->
+        <div id="list-template" style="display: none">
+            <div class="gallery-item">
+                <a href="##big-img-url##">
+                    <img src="##small-img-url##"/>
+                </a>
+            </div>
+        </div>
+        <!--数据列表-->
+        <ul id="Gallery" class="mui-table-view mui-table-view-chevron clearfix" style="background: transparent; padding: 10px 0px">
+
+                    <div class="gallery-item">
+                        <a href="/djptNew/Uploads//Img/show/2017-06-29/5955227bd2c21.jpg">
+                            <img src="/djptNew/Uploads//Img/show/2017-06-29/5955227bd2c21.jpg-s.png"/>
+                        </a>
+                    </div>
+
+                    <div class="gallery-item"><a href="__STATICS__/photoswipe/examples/images/full/002.jpg"><img src="__STATICS__/photoswipe/examples/images/thumb/002.jpg"/></a></div>
+
+                    <div class="gallery-item"><a href="__STATICS__/photoswipe/examples/images/full/003.jpg"><img src="__STATICS__/photoswipe/examples/images/thumb/003.jpg"/></a></div>
+
+        </ul>
+
+    </div>
+</div>
+<include file="Common/_loading"/>
+<script>
+    var __root__ = "__ROOT__";
+</script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    mui(".mui-content .experience ").on('tap','.comment', function (e) {
+        var id =  this.getAttribute('data-id');
+        parent.location.href = "__ROOT__/Mob/Review/comment?id=" + id;
+    })
+    mui(".mui-content .experience ").on('tap','.collect', function (e) {
+        var id =  this.getAttribute('data-id');
+        var c = this
+        var count = c.getElementsByTagName('span')[0];
+        loading();
+        mui.ajax('__ROOT__/Mob/Review/ajax_correct',{
+            data: {
+                id: id
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                close_loading()
+                if (data['status'] == 0) {
+                    alert(data.msg);
+                    if(data.data.is_correct == 1){
+                        c.className += " active";
+                    }else{
+                        var reg = new RegExp('(\\s|^)' + 'active' + '(\\s|$)');
+                        c.className = c.className.replace(reg, ' ');
+                    }
+                    count.innerHTML = data.data.count
+                }else{
+                    mui.alert(data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                close_loading()
+                console.log(type);
+                mui.alert('网络异常');
+            }
+        });
+    })
+
+    mui(".mui-content .experience ").on('tap','.like', function (e) {
+        var id =  this.getAttribute('data-id');
+        var c = this
+        var count = c.getElementsByTagName('span')[0];
+        loading();
+        mui.ajax('__ROOT__/Mob/Review/ajax_dz',{
+            data: {
+                id: id
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                close_loading()
+                if (data['status'] == 0) {
+                    alert(data.msg);
+                    if(data.data.is_correct == 1){
+                        c.className += " active";
+                    }else{
+                        var reg = new RegExp('(\\s|^)' + 'active' + '(\\s|$)');
+                        c.className = c.className.replace(reg, ' ');
+                    }
+                    count.innerHTML = data.data.count
+                }else{
+                    mui.alert(data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                close_loading()
+                console.log(type);
+                mui.alert('网络异常');
+            }
+        });
+    })
+	function get_head_url(url){
+		
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common-head.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url;
+        }else{
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+
+    function get_img_url(url,size) {
+    	size = (size == undefined?'':size=='small'?'-s.png':(size=='middle'?'-m.png':''));
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url  + size;
+        }else{
+            return   '__ROOT__/Uploads' +　url  + size;
+        }
+    }
+    
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            up: {
+                contentrefresh: '正在加载...',
+                callback: pullupRefresh
+            }
+        }
+    });
+
+
+        mui.ready(function() {
+            mui('#pullrefresh').pullRefresh().pullupLoading();
+        });
+
+    /**
+     * 上拉加载具体业务实现
+     */
+    function pullupRefresh() {
+        ajaxGetList();
+    }
+
+    var list = mui('.mui-table-view')[0];
+    var lastItem = 0;
+    var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+    var pageIndex = 1;
+    function ajaxGetList() {
+        mui.ajax('__ROOT__/Mob/Show/ajaxGetList',{
+            data:{
+                "pageIndex" : pageIndex
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                if (data['status'] == 0) {
+                    var listData = data.data;
+                    if(listData && listData.length > 0){
+                        pageIndex++;
+                        console.log("data = " + JSON.stringify(listData));
+                        if(listData.length > 0){
+                            var listItem = "";
+                            for (var i=0; i < listData.length; i++) {
+                                listItemHtmlArray[1] = get_img_url(listData[i]['img_url']);
+                                listItemHtmlArray[3] = get_img_url(listData[i]['img_url'], "small");
+                                for(var j=0; j<listItemHtmlArray.length; j++){
+                                    listItem += listItemHtmlArray[j];
+                                }
+                            }
+                            list.innerHTML += listItem;
+                        }
+                        if(listData.size < 20){ // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+                            mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                        }else{
+                            mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                        }
+                    }else{
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                    }
+                }else{
+                    mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                    alert("errorMsg = " + data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                console.log(type);
+                mui.alert('网络异常');
+            }
+        });
+    }
+
+
+    /**
+     * Created by jervis on 2017/5/4.
+     */
+
+</script>
+</body>
+
+</html>

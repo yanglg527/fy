@@ -1,0 +1,20 @@
+<!--得分信息栏-->
+<div class="answer-info">
+    <div class="answer-box">
+        <label class="answer-show-title">参    与    者：</label>
+        <span id="show-name" class="answer-show-name">{$examPaper|show_name=user_}</span>
+    </div>
+    <div class="answer-box">
+        <label class="answer-show-title">得        分：</label>
+        <span id="show-score" class="answer-show-name">{$examPaper.exam_score} 分</span>
+    </div>
+    <div class="answer-box">
+        <label class="answer-show-title">交卷时间：</label>
+        <span id="show-hand-time" class="answer-show-name">{$examPaper.hand_time|date='Y-m-d H:i',###}</span>
+    </div>
+
+    <div class="answer-box">
+        <label class="answer-show-title">客    观    题：</label>
+        <span href="__ROOT__/Center/Exam/ajaxShowCorrectStatus" id="btnShowCorrect" style="color: #00a0e9;cursor: pointer"><if condition="$exam.show_correct_status == 0">显示客观题<else/>隐藏客观题</if></span>
+    </div>
+</div>

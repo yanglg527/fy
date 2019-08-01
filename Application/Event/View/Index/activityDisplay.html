@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+        />
+        <title>{$webTitle}</title>
+        <link rel="stylesheet" href="__CSS__base/reset.css" />
+        <link rel="stylesheet" href="__CSS__base/border.css" />
+        <link rel="stylesheet" href="__CSS__/reset.css">
+        <link rel="stylesheet" href="__CSS__activityDisplay.css" />
+    </head>
+    <style type="text/css">
+        header.head .head_return>i {
+            background: url("__IMG__/member_develop/return.png") no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .head {
+            width: 100%;
+            height: 1rem;
+            line-height: 1rem;
+            position: relative;
+            z-index: 10;
+            background-color: #ce3d37;
+            color: #ffffff;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .head>i {
+            display: inline-block;
+            width: 0.5rem;
+            height: 0.5rem;
+            background: url(/Public/Mob/images//ledger_list/return.png) no-repeat 100%;
+            background-size: 100%;
+            position: absolute;
+            left: 0.26rem;
+            top: 25%;
+        }
+
+        .speak .img-icon {
+            width: 1rem;
+            display: inline;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .speak>a>.text {
+
+            padding-right: 0.5rem;
+            color: #fff;
+        }
+
+        /* .speak>a{
+
+        background: url("__IMG__/party_serve/nav_bg.png") no-repeat;
+        background-size: cover;
+    } */
+    </style>
+    <body>
+    <div class="banner">
+        <div class="head">
+
+            <i onclick="location.href='__ROOT__/Mob/Activity/index'"></i>
+            <p style="font-size:18px;">{$webTitle}</p>
+        </div>
+    </div>
+        <div class="activity">
+            <div class="banner">
+                <div class="nav">
+                    <span class="nav-item active">全部:{$head_msg.total}</span> <span class="nav-item">进行中:{$head_msg.doing}</span>
+                    <span class="nav-item">已结束:{$head_msg.finish}</span>
+                </div>
+            </div>
+            <div class="list">
+                <ul class="list-wrap list-show">
+                    <volist name='list' id='vo'>
+                    <li>
+                        <div class="item now-item">
+                            <div class="item-inner">
+                                <div class="left">
+                                    <h4>
+                                        <span class="red">【{$vo.type_name}】</span
+                                        >{$vo.event_title}
+                                    </h4>
+                                    <div class="info gary"><span>发布:{$vo.name}</span><span>参与:{$vo.attend_count}</span></div>
+                                </div>
+                                <if condition="$vo['entry_able'] == 1">
+                                <a href='__ROOT__/Event/Index/detail?id={$vo.event_id}' class='right'><span>报名</span></a>
+                                <else />
+                                <a href='__ROOT__/Event/Index/detail?id={$vo.event_id}' class='right'><span class='timeout'>已结束</span></a>
+                                </if>
+                            </div>
+                            <div class="time"><span>发布日期:{$vo.entry_start_time|date='Y-m-d',###}</span><span>截止日期:{$vo.entry_end_time|date='Y-m-d',###}</span></div>
+                        </div>
+                    </li>
+                    </volist>
+                
+                </ul>
+
+                <ul class="list-wrap">
+                    <volist name="doing_list" id="vo">
+                            <li>
+                                    <div class="item now-item">
+                                        <div class="item-inner">
+                                            <div class="left">
+                                                <h4>
+                                                    <span class="red">【{$vo.type_name}】</span
+                                                    >{$vo.event_title}
+                                                </h4>
+                                                <div class="info gary"><span>发布:{$vo.name}</span><span>参与:{$vo.attend_count}</span></div>
+                                            </div>
+                                    
+                                            <a href='__ROOT__/Event/Index/detail?id={$vo.event_id}' class='right'><span>报名</span></a>
+                                            
+                                        </div>
+                                        <div class="time"><span>发布日期:{$vo.entry_start_time|date='Y-m-d',###}</span><span>截止日期:{$vo.entry_end_time|date='Y-m-d',###}</span></div>
+                                    </div>
+                                </li>
+                    </volist>   
+                </ul>
+                <ul class="list-wrap">
+
+                    <volist name="finish_list" id="vo">         
+                            <li>
+                                    <div class="item now-item">
+                                        <div class="item-inner">
+                                            <div class="left">
+                                                <h4>
+                                                    <span class="red">【{$vo.type_name}】</span
+                                                    >{$vo.event_title}
+                                                </h4>
+                                                <div class="info gary"><span>发布:{$vo.name}</span><span>参与:{$vo.attend_count}</span></div>
+                                            </div>
+                                           
+                                            <a href='__ROOT__/Event/Index/detail?id={$vo.event_id}' class='right'><span class='timeout'>已结束</span></a>
+                                            
+                                        </div>
+                                        <div class="time"><span>发布日期:{$vo.entry_start_time|date='Y-m-d',###}</span><span>截止日期:{$vo.entry_end_time|date='Y-m-d',###}</span></div>
+                                    </div>
+                                </li>
+                    </volist>
+
+                </ul>
+            </div>
+        </div>
+
+        <script src="__JS__base/jquery.js"></script>
+        <script src="__JS__base/swiper.js"></script>
+
+        <script>
+            $('.back').click(function(e) {
+               location.href = '__ROOT__/Mob/Activity/index'
+            })
+
+            let showList = function(index) {
+                console.log($('.list .list-wrap').eq(index))
+                $('.list .list-wrap')
+                    .eq(index)
+                    .css('display', 'block')
+                    .siblings()
+                    .css('display', 'none')
+            }
+            $('.banner .nav >span').click(function(e) {
+                let index = $(this).index()
+                showList(index)
+                $(this)
+                    .addClass('active')
+                    .siblings()
+                    .removeClass('active')
+            })
+        </script>
+    </body>
+</html>

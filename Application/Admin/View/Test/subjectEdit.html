@@ -1,0 +1,185 @@
+<!doctype html>
+<html class="no-js" lang="" xmlns:s="http://www.w3.org/999/html">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <block name="title"><title>{$web_title}</title></block>
+    <!-- Bootstrap -->
+    <link href="__STATICS__/bootstrap-3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="__CSS__/Exam/index.css">
+    <link rel="stylesheet" href="__CSS__/Exam/publish.css">
+    <link href="__STATICS__/ueditor/themes/default/css/ueditor.min.css" type="text/css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="__STATICS__/bootstrap-3.3.5/flavr/css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="__STATICS__/bootstrap-3.3.5/flavr/css/flavr.css" />
+    <style>
+            .form-control[disabled]{
+            background-color:white !important;
+            border-radius:0px;
+            box-shadow:none;
+        }
+
+        .blank{
+		border-bottom:1px solid black;
+		color:#999;
+		padding:0 5px;
+		margin:0 5px;
+	}
+	
+        </style>
+
+</head>
+<body class="body">
+<!--[if lt IE 8]>
+
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div class="content">
+    <style>
+        .exam_subject img{width:100%}
+    </style>
+    <div class="exam_paper" style="min-height: 768px">
+        <div class="exam_inner" >
+            <div class="exam_head" style="display: none">
+                <if condition="$is_show == false">
+                    <h1>{$show_title}</h1>
+                    <else/>
+                    <h1>{$exam.title}</h1>
+                    <div class="exam_info" style="display: none">
+
+                        <p style=" margin-left: 10px">发布者：</p>
+
+                        <p>{$user.realname}</p>
+
+                        <p style=" margin-left: 100px">更新时间：</p>
+
+                        <p>{$exam.update_time|date='Y-m-d',###}</p>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </if>
+
+            </div>
+
+            <div class="exam_content">
+                <div class="exam_subject">
+
+                </div>
+                <div id="add-content">
+                    <div class="submit">
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+
+                <div class="footer_dividing_line"></div>
+
+            </div>
+        </div>
+        <include file="_subjectEdit_buttons"/>
+    </div>
+</div>
+
+
+<script>
+    var __root__ = "__ROOT__";
+    var examId = "{$detail.id}";
+    var CONNECTION_FAILED_TIP = "服务器暂时无法连接，请稍候重试";
+</script>
+<!--&lt;!&ndash; jQuery (necessary for Bootstrap's JavaScript plugins) &ndash;&gt;-->
+<script src="__STATICS__/assets/js/jquery.min.js"></script>
+<!--&lt;!&ndash; Include all compiled plugins (below), or include individual files as needed &ndash;&gt;-->
+<script src="__STATICS__/bootstrap-3.3.5/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.exam.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__STATICS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="__STATICS__/bootstrap-3.3.5/bootstrap-confirm/bs.beamDialog.js"></script>
+<script type="text/javascript" src="__STATICS__/bootstrap-3.3.5/flavr/js/flavr.min.js"></script>
+
+<script>
+
+    $('.btn-show1').click(function(){
+        $.beamDialog({
+            title:'系统提示',
+            content:'确认发布?',
+            showCloseButton:false,
+            otherButtons:["确定","取消"],
+            otherButtonStyles:['btn-info','btn-warning'],
+            bsModalOption:{keyboard: true},
+            clickButton:function(sender,modal,index){
+                if(index == 0){
+                    $.ajax({
+                        type: "post",
+                        url: __root__+"/Center/exam/ajaxDoPublish",
+                        data: {id: examId},
+                        cache: false,
+                        dataType: "json",
+                        success: function (res) {
+                            if(res['status'] == 0){
+                                alert('发布成功');
+                                setTimeout(function(){
+                                    window.location.href = __root__+"/Center/Exam/index";
+                                }, 1000)
+
+                            }else {
+                                alert(res.msg);
+                            }
+                        },
+                        error: function () {
+                            alert(CONNECTION_FAILED_TIP);
+                        }
+                    });
+
+                }else{
+                    $(this).closeDialog(modal);
+                }
+
+            }
+        });
+    })
+
+</script>
+
+<!--按钮组的点击事件-->
+<!--必须先加载这个-->
+<!-- 初始化 json 的数组 -->
+<script src="__JS__/Exam/hashmap.js"></script>
+<script src="__JS__/Exam/publish-array-init.js"></script>
+<script src="__JS__/Exam/publish-first.js"></script>
+<script src="__JS__/Exam/publish-edit.js"></script>
+<script src="__JS__/Exam/publish-add.js"></script>
+<volist name="subjects" id="item">
+    <script>
+        var type = "{$item.type_num}";
+        $parent = $('.exam_subject');
+        var subject = {$item|to_json_string};
+        if (type == 'text') {
+            appendFirstContentHtml($parent, showAddTitle(subject), subject);
+        } else if (type == 'singleChoice') {
+            appendFirstContentHtml($parent, showAddSingle(subject), subject);
+        } else if (type == 'trueFalse') {
+            appendFirstContentHtml($parent, showAddTrueFalse(subject), subject);
+        } else if (type == 'choice') {
+            appendFirstContentHtml($parent, showAddChoice(subject), subject);
+        } else if (type == 'blank') {
+            appendFirstContentHtml($parent, showAddBlank(subject), subject);
+            console.log(subject.id)
+            editBlankInput(subject.id)
+        } else if (type == 'answer') {
+            appendFirstContentHtml($parent, showAddAnswer(subject), subject);
+        }
+    </script>
+
+</volist>
+<script>
+
+
+</script>
+</body>
+</html>

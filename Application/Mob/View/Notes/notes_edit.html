@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>党员服务</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta name="flexible" content="initial-dpr=2" />
+	<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+	<script src="__STATICS__/flexible/flexible.js"></script>
+	<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+	<link rel="stylesheet" href="__CSS__/reset.css">
+	<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/help/help_edit.css"/>
+	<link rel="stylesheet" type="text/css" href="__CSS__/notes/notes_edit.css"/>
+	<link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+
+	<style>
+		.item {
+			background: white;
+			position: relative;
+			height: 50px;
+			width: 100%;
+			line-height: 50px;
+			/*border-bottom: 1px solid gainsboro;*/
+			margin-bottom: 10px;
+		}
+
+		.item-left {
+			position: absolute;
+			left: 10px;
+			color: black;
+			font-size: 14px;
+		}
+
+		.item-right {
+			position: absolute;
+			left: 80px;
+			color: #333 !important;
+			right: 10px;
+			height: 50px;
+			font-size: 14px;
+
+		}
+
+		.item-right-select {
+			position: absolute;
+			left: 130px;
+			color: black;
+			right: 10px;
+			height: 50px;
+			font-size: 14px;
+
+		}
+
+		.item-right-select-tag {
+			position: absolute;
+			left: 60px;
+			color: black;
+			right: 10px;
+			height: 50px;
+			font-size: 14px;
+
+		}
+
+		.item-right input {
+			width: 100%;
+			height: 100%;
+			background: none;
+			border: 0;
+			color: black;
+		}
+		.item-right .am-btn {
+			width: 100% !important;
+			height: 100%;
+			background: none;
+			border: 0 !important;
+			padding: 10px 0px;
+			font-size: 14px;
+			color: black;
+		}
+		.item-right .am-selected{
+			width: 90%;
+		}
+
+
+
+		.container {
+			background: white;
+		}
+
+		.write-button {
+			position: absolute;
+			height: 50px;
+			width: 100%;
+			bottom: 0;
+			background: #0084c7;
+			line-height: 50px;
+			color: white;
+			text-align: center;
+			z-index: 1000;
+			font-size: 16px;
+		}
+		.hidden_div{
+			display:none;
+		}
+		.webuploader-pick{
+			background:#e6e6e6;
+			padding:0px;
+			display:block;
+			color:#444;
+		}
+
+        .article-content img{
+            max-width: 100% !important;
+        }
+
+		/*.help_edit .heart{*/
+			/*width:100%;height:100%;*/
+			/*position:relative;*/
+		/*}*/
+		/*.help_edit .heart>header{*/
+			/*background-color: #fff;*/
+			/*font-size:0.38rem;*/
+			/*width:100%;*/
+			/*height:1rem;*/
+			/*line-height:1rem;*/
+			/*padding:0 0.35rem;*/
+			/*color:#999;*/
+			/*margin-bottom:0.3rem;*/
+		/*}*/
+		/*.help_edit .heart header input{*/
+			/*border:1px solid #eee;*/
+			/*cursor:none;*/
+			/*margin-left:0.15rem;*/
+			/*width:88%;*/
+			/*height:0.8rem;*/
+			/*color:#333;*/
+			/*font-size:0.36rem;*/
+			/*padding: 2px 5px;*/
+		/*}*/
+
+	</style>
+</head>
+
+<body style="background: #e7e7e7">
+
+<div class="page">
+	<header class="head">
+		<div class="header"><span>我的笔记</span>
+			<a onclick="history.go(-1);"><span></span></a>
+		</div>
+	</header>
+</div>
+<div class="help_edit" style="background-color: #e7e7e7">
+	<input type="hidden" value="{$detail.id}" id="study-id" name="" type="text">
+	<input type="hidden" value="{$detail.article_id}" id="article-id" name="" type="text">
+	<div class="item" style="margin-bottom: 1px">
+		<span class="item-left" style="color: #999">标 题：</span>
+		<span class="item-right">
+			<input value="{$detail.title}" id="study-title" name="study-title" type="text" placeholder="请输入笔记标题">
+		</span>
+	</div>
+	<!--<div class="item" style="margin-bottom: 1px">-->
+		<!--<span class="item-left" style="color: #999">背 景：</span>-->
+		<!--<span class="item-right">-->
+			<!--<input value="{$detail.background}" id="study-background" name="study-title" type="text" placeholder="请输入学习背景">-->
+		<!--</span>-->
+	<!--</div>-->
+	<!--<div class="item" style="margin-bottom: 1px">-->
+		<!--<span class="item-left" style="color: #999">引 语：</span>-->
+		<!--<span class="item-right">-->
+			<!--<input value="{$detail.citation}" id="study-citation" name="study-title" type="text" placeholder="请输入学习引语">-->
+		<!--</span>-->
+	<!--</div>-->
+	<div class="item" style="margin-bottom: 1px">
+		<span class="item-left" style="color: #999">地 址：</span>
+		<span class="item-right">
+			<input value="{$detail.address}" id="study-address" name="study-title" type="text" placeholder="请输入学习地址,默认“珠海妇幼”">
+		</span>
+	</div>
+	<div class="item" style="margin-bottom: 1px">
+		<span class="item-left" style="color: #999">时 长：</span>
+		<span class="item-right">
+			<input value="{$detail.study_time}" id="study-time" name="study-time" type="number" step="0.1" placeholder="请输入学习时间，默认“0.5”小时">
+		</span>
+	</div>
+	<div class="item" id="shyk" style="margin-bottom: 0px">
+		<span class="item-left"  style="color: #999">类 型：</span>
+            <span class="item-right">
+                <select id="study-type" data-am-selected name="content_type" style="border: none;margin-top: 14px" onchange="changeType(this)">
+					<option value="0" <if condition="$studyStandingBook.content_type eq 0">selected</if> >自学</option>
+					<option value="1" <if condition="$studyStandingBook.content_type eq 1">selected</if> >集体学习</option>
+				</select>
+            </span>
+	</div>
+	<div id="item-teacher" class="item" style="margin-top: 1px; margin-bottom: 0px; display: none">
+		<span class="item-left" style="color: #999">老 师：</span>
+		<span class="item-right">
+			<input value="{$detail.teacher}" id="study-teacher" name="study-title" type="text" placeholder="请输入老师姓名">
+		</span>
+	</div>
+
+
+	<div class="words" style="padding: 0px 10px;margin-top: 10px">
+		<header>学后心得</header>
+		<div class="article-content" id="weixinde" onfocus="changeShow(0)" contentEditable="true" style="padding: 5px 10px; min-height: 120px">
+			{$detail.weixinde}
+		</div>
+		<form class="apply_right hidden_div" style="z-index: 99" id="xinde_img">
+			<p>心得</p>
+			<div class="addPicture">
+				<div class="pictureBox">
+					<input type="file" accept="image/*" onchange="InsertImage(this,'weixinde')">
+				</div>
+				<p>图片</p>
+			</div>
+		</form>
+	</div>
+
+
+
+	<div class="heart">
+	<!--<header>标题<input id="truth-title" type="text" value="{$detail.title}" maxlength="37" /></header>-->
+		<div class="words" style="padding: 0px 10px;">
+			<header>学习内容</header>
+			<div id="learn">
+				<a href="__ROOT__/Mob/Notes/article?id={$detail.article_id}">{$detail.content}</a>
+				<div class="article-content" id="content" contentEditable="true" onfocus="changeShow(1)" style="padding: 5px 10px; min-height: 250px">
+
+				</div>
+			</div>
+
+			<form class="apply_right"  style="z-index: 99" >
+				<p>笔记</p>
+				<div class="addPicture" id="note_img">
+					<div class="pictureBox">
+						<input type="file" accept="image/*" onchange="InsertImage(this,'content')">
+					</div>
+					<p>图片</p>
+				</div>
+			</form>
+		</div>
+	<footer>
+		<a id="btn-submit">提交</a>
+	</footer>
+</div>
+</div>
+
+
+<include file="Common/_loading"/>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="__JS__/alliance/edit.js"></script>
+<script src="__JS__/member_develop/base64.js"></script>
+<script src="__JS__/member_develop/edit.js"></script>
+
+<script>
+
+	changeType($('#study-type'));
+	$('#btn').click(function(){
+
+		console.log(abiao.selector[0])
+	})
+	function changeType(obj){
+		var selectIndex = $(obj).val();
+		if(selectIndex == 0){
+			$('#item-teacher').hide();
+		}else{
+			$('#item-teacher').show();
+		}
+	}
+
+	function changeShow(index){
+//		alert("index = " + index);
+		if(index == 0){
+			$("#xinde_img").removeClass('hidden_div');
+			$("#note_img").addClass('hidden_div');
+		}else{
+			$("#xinde_img").addClass('hidden_div');
+			$("#note_img").removeClass('hidden_div');
+		}
+	}
+
+	$("#btn-submit").click(function () {
+		var studyTitle = $("#study-title").val();
+		if(studyTitle.replace(/(^s*)|(s*$)/g, "").length == 0){
+			alert('请输入笔记标题');
+			return false;
+		}
+
+		var studyAddress = $("#study-address").val();
+
+		var studyTime = $("#study-time").val();
+		console.log('studyTime',studyTime);
+		if(studyTime <= 0){
+			alert('请输入学习时长');
+			return false;
+		}else if(studyTime > 10000){
+            alert('学习时长超过限制');
+            return false;
+		}
+		var studyType = $("#study-type").val();
+		var studyTeacher = "";
+		if(studyType == 1){
+			studyTeacher = $("#study-teacher").val();
+
+		}
+
+		// 心得内容，可以为空
+		var xindeContent = $("#weixinde").html();
+		// 笔记内容，不可为空
+		var truthContent = $("#content").html();
+
+		if (truthContent.replace(/(^s*)|(s*$)/g, "").length == 0){
+			alert('请输入笔记内容');
+		}else{
+			loading();
+			$.ajax({
+				data: {
+					"id": $("#study-id").val(),
+					"articleId":$("#article-id").val(),
+					"studyTitle": studyTitle,
+//					"studyBackground": studyBackground,
+//					"studyCitation": studyCitation,
+					"studyAddress": studyAddress,
+					"studyTime": studyTime,
+					"studyType":studyType,
+					"studyTeacher": studyTeacher,
+					"xindeContent": xindeContent,
+					"content" : truthContent,
+				},
+				type: 'POST',
+				dataType: 'json',
+				url: '__ROOT__/Mob/Notes/ajaxAddNote',
+				success: function (data) {
+					console.log("success");
+					if (data['status'] == 0) {
+						window.location.href = '__ROOT__/Mob/Notes/note_list'
+					}else{
+						alert("error = " + data['msg']);
+					}
+					close_loading()
+				},
+				error: function (data) {
+					close_loading()
+					alert('网络异常');
+				}
+			});
+		}
+	})
+</script>
+</body>
+
+</html>

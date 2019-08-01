@@ -1,0 +1,248 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">工委信息管理</strong></a> /
+                <small><empty name="detail.id">新增工委成员<else/>编辑工委{$detail.name}成员</empty></small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd out"  style='margin:20px; border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="upload-form">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">成员</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <button type="button" data-name="{$detail.realname}" data-id="{$detail.uid}"
+                                    class="am-btn am-btn-xs am-btn-primary btn-post"
+                                    data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                                    style="width: 150px"><empty name="detail.realname">选择成员<else/>{$detail.realname}</empty>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">选择职务</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <select name="status" data-am-selected="{btnWidth: '10%',btnSize: 'xs', btnStyle: 'primary'}">
+                                <volist name="set_working_members" id="item">
+                                    <option value="{$item['value']}">{$item['name']}</option>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="{$detail.uid}">
+                    <input type="hidden" name="working_id" value="{$Working.id}">
+                </form>
+
+
+            </div>
+        </div>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+
+    </div>
+
+    <include file="PartyOrganization/_user_selecter"/>
+        <!--<include file="PartyOrganization/_user_selecter2"/>-->
+</block>
+<block name="scripts">
+    <script>
+    	var type = 'normal';
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==27){ // 按 Esc
+                //要做的事情
+            }
+            if(e && e.keyCode==113){ // 按 F2
+                //要做的事情
+            }
+            if(e && e.keyCode==13){ // enter 键
+                //要做的事情
+                	getUsers();
+                
+            }
+        };
+    // function change(){
+        $(".out").css("height","280px");//设置外边框高度
+    // }
+
+
+        function getUsers() {
+         
+             var keyword = $('#selector-search-input').val();
+            if(type == 'normal'){
+                		   $('#select-content').html("加载中...");
+                	}else{
+                		keyword = $('#selector-search-input2').val();
+                		   $('#select-content2').html("加载中...");
+                	}
+           
+            $.ajax({
+                url: '__ROOT__/Admin/PartyWorking/ajaxGetUsers_member',
+                type: 'POST', //GET
+                data: {id:'{$organization_id}',keyword: keyword,type:type,uid:'{$detail.uid}'},  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                	if(type == 'normal'){
+                		 $('#select-content').html("");
+                	}else{
+                		 $('#select-content2').html("");
+                	}
+                   
+                    if (data.status == 0) {
+                        var html = "";
+
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        if(type == 'normal'){
+                		 $('#select-content').html(html);
+                	}else{
+                		$('#select-content2').html(html);
+                	}
+                        
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                	if(type == 'normal'){
+                		 $('#select-content').html("服务器暂时无法连接，请稍候再试");
+                	}else{
+                		 $('#select-content2').html("服务器暂时无法连接，请稍候再试");
+                	}
+                   
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+        $('#selector-btn-search').click(function () {
+            getUsers()
+        })
+        
+        $('#selector-btn-search2').click(function () {
+            getUsers()
+        })
+        
+        
+        
+
+        $('.canselect').click(function () {
+
+
+        })
+        
+        $('#doc-modal-1').on('open.modal.amui', function(){
+        	type = 'normal'
+});
+ $('#doc-modal-2').on('open.modal.amui', function(){
+        	type = 'adm'
+});
+
+        $('#doc-modal-1').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            $('input[name="id"]').val(uid);
+            $('.btn-post').text(realname);
+            $('#doc-modal-1').modal('close');
+
+        })
+        $('#doc-modal-2').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            $('input[name="adm_uid"]').val(uid);
+            $('.btn-post2').text(realname);
+            $('#doc-modal-2').modal('close');
+
+        })
+    </script>
+
+
+    <script type="text/javascript">
+    	
+    	function sumb(){
+    		 var data = $('#upload-form').serialize();
+    		 loading()
+            $.ajax({
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/PartyWorking/ajaxSaveMember',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    if (data['status'] == 0) {
+                       self.location=document.referrer;
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+    	}
+
+
+        function submit_info() {
+        	var is_sj =  $('input[name="is_sj"]:checked').val();
+            var is_fsj =  $('input[name="is_sj"]:checked').val();
+            var is_adm =  $('input[name="is_sj"]:checked').val();
+            var id = $('input[name="id"]').val();
+            if(id == ''){
+                alert_modal("请选择成员");
+                return false;
+            }
+//          alert(is_sj)
+//          return false;
+            if(is_sj == 1) {
+                $('#confirm-text').text('确认设置该用户为书记吗?');
+
+                $('#my-confirm').modal({
+                    relatedTarget: this,
+                    onConfirm: function (options) {
+                        sumb()
+                    },
+                    onCancel: function () {
+
+                    }
+                });
+            }else{
+            	sumb()
+            }
+
+           
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

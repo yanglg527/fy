@@ -1,0 +1,26 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        h2 {
+            color: orange;
+        }
+    </style>
+</block>
+<block name="content">
+    <div style="margin-top: 80px;width: 100%;text-align: center">
+        <h2>{$signStatus}</h2>
+
+        <p style="margin-top: 30px"><span>{$signTitle1}</span></p>
+
+        <p><span>{$signTitle2}</span></p>
+
+        <p style="margin-top: 20px"><span>{$signTitle3}</span></p>
+
+        <!--<p><img src="__ROOT__/Application/Activity/View/Common/Static/img/wx_qrcode.jpg" style="width: 70%;height: auto;"></p>-->
+        <!--<h4>长按二维码关注公众号</h4>-->
+    </div>
+
+</block>
+<block name="scripts">
+
+</block>

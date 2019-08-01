@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+    <link rel="stylesheet" href="__CSS__Tasks/detail.css" />
+    <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+
+    <title>任务详情</title>
+</head>
+<body>
+    <div class="g-full-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">待办任务</span>
+            <if condition="empty($monitor)">
+            <div class="right" onclick="showAddLayer(true)">
+                <i class="add-record"></i>
+            </div>
+            </if>
+        </div>
+
+        <div class="g-content-container todo-detail">
+            <div class="todo-detail__title-with-ico">
+                <i class="ico" style="background-image:url('__IMG__/tasks/task.png')"></i>
+                <span class="title">任务详情{$item.status}</span>
+            </div>
+
+            <div class="todo-detail__info">
+                <div class="todo-detail__info-item">
+                    <span class="title">任务标题：</span>
+                    <div class="content">{$item.tasks_title}</div>
+                </div>
+
+                <div class="todo-detail__info-item">
+                    <span class="title">任务内容：</span>
+                    <div class="content">{$item.tasks_contents}</div>
+                </div>
+
+                <div class="todo-detail__info-item">
+                    <span class="title">具体工作事项：</span>
+                    <div class="content" id="work-item">
+
+                    </div>
+                </div>
+
+                <div class="todo-detail__info-item">
+                    <span class="title">开始时间：</span>
+                    <div class="content">{$item.start_date}</div>
+                </div>
+
+                <div class="todo-detail__info-item">
+                    <span class="title">结束时间：</span>
+                    <div class="content">{$item.end_date}</div>
+                </div>
+            </div>
+            <!-- 附件 -->
+            <if condition="$item['files']">
+            <div class="todo-detail__title-with-ico">
+                <i class="ico" style="background-image:url('__IMG__/tasks/file.png')"></i>
+                <span class="title">任务附件</span>
+            </div>
+
+            <div class="todo-detail__info">
+                <div class="g-attachment-list">
+                    <foreach name="item.files" item="vo">
+                        <div class="item">
+                            <a href="{$vo.files_path}">
+                            <i class="img {$vo.filetype}"></i>
+                            </a>
+                            <span class="name">{$vo.former_name}</span>
+                        </div>
+                    </foreach>
+                </div>
+            </div>
+            </if>
+            <!-- 任务进度 -->
+            <if condition="$item['log']">
+            <div class="todo-detail__title-with-ico">
+                <i class="ico" style="background-image:url('__IMG__/tasks/progress.png')"></i>
+                <span class="title">任务进度</span>
+            </div>
+
+            <div class="todo-detail__info">
+                <foreach name="item['log']" item="vo">
+                <div class="todo-detail__info-item">
+                    <span class="title">办理时间：</span>
+                    <div class="content">{$vo.create_at|date="Y-m-d H:i",###}</div>
+                </div>
+
+                <div class="todo-detail__info-item">
+                    <span class="title">办理人：</span>
+                    <div class="content">{$vo.exe_user}</div>
+                </div>
+
+                <div class="todo-detail__info-item">
+                    <span class="title">办理情况：</span>
+                    <div class="content">{$vo.content}</div>
+                </div>
+                </foreach>
+            </div>
+            </if>
+
+            <!-- 完成情况 -->
+            <if condition="$item['status'] eq 2 || $item['status'] eq 1">
+            <div class="todo-detail__title-with-ico">
+                <i class="ico" style="background-image:url('__IMG__/tasks/progress.png')"></i>
+                <span class="title">任务完成情况</span>
+            </div>
+
+            <div class="todo-detail__info">
+                <div class="todo-count-info">
+                    <span class="title">参与人数：<span class="count-info-num">{$att.total}</span></span>
+                    <span class="title">已完成：<span class="count-info-num">{$att.complete}</span></span>
+                    <span class="title">未完成：<span class="count-info-num">{$att.overdue}</span></span>
+                </div>
+                <if condition="!empty($att['cp'])">
+                    <div class="count-info-item">
+                        <div class="info-item-left">
+                            <span>已完成：</span>
+                        </div>
+                        <div class="info-item-right">
+                            <foreach name="att['cp']" item="cp">
+                                <span class="realname">{$cp.realname}</span>
+                            </foreach>
+                        </div>
+                    </div>
+                </if>
+
+                <if condition="!empty($att['ov'])">
+                <div class="count-info-item">
+                    <div class="info-item-left">
+                        <span>未完成：</span>
+                    </div>
+                    <div class="info-item-right">
+                        <foreach name="att['ov']" item="ov">
+                        <span class="realname">{$ov.realname}</span>
+                        </foreach>
+                    </div>
+                </div>
+                </if>
+            </div>
+            </if>
+
+            <!-- 附件 -->
+            <if condition="$item['my_files']">
+            <div class="todo-detail__title-with-ico">
+                <i class="ico" style="background-image:url('__IMG__/tasks/file.png')"></i>
+                <span class="title">附件</span>
+            </div>
+
+            <div class="todo-detail__info">
+                <div class="g-attachment-list">
+                    <foreach name="item['my_files']" item="v">
+                        <div class="item">
+                            <a href="{$v.files_path}" >
+                            <i class="img {$v.filetype}"></i>
+                            </a>
+                            <span class="name">{$v.former_name}</span>
+                        </div>
+                    </foreach>
+                </div>
+            </div>
+            </if>
+            <!-- 留言 -->
+            <if condition="$item['mailbox']">
+                <div class="todo-detail__title-with-ico">
+                    <i class="ico" style="background-image:url('__IMG__/tasks/mailbox.png')"></i>
+                    <span class="title">留言</span>
+                </div>
+
+                <div class="todo-detail__title-with-ico">
+                    <div class="todo-detail__info"><div class="comment-list">
+                        <foreach name="item['mailbox']" item="val">
+                        <div class="item"><i class="avatar" style="background-image: url({$val.headimgurl});"></i>
+                            <div class="comment-right">
+                                <div class="top-info"><span class="user">{$val.realname}</span>
+                                    <span class="date">{$val.date|date="Y-m-d H:i",###}</span>
+                                </div>
+                                <div class="comment-article">{$val.content}</div>
+                            </div>
+                        </div>
+                        </foreach>
+                    </div></div>
+                </div>
+            </if>
+
+        </div>
+        <if condition="empty($monitor)">
+            <div class="todo-detail__bottom">
+                <empty name="item['status_msg']">
+                    <a href="__ROOT__/Mob/Tasks/addNewProgress?id={$item.id}">
+                        <div class="btn">新增进度</div>
+                    </a>
+                    <else/>
+                    <div class="btn">{$item.status_msg}</div>
+                </empty>
+            </div>
+        </if>
+
+        <!-- 新增遮罩层 -->
+        <div class="add-container">
+            <div class="shadow-box" onclick="showAddLayer(false)"></div>
+            <div class="content-box">
+                <a class="item" href="__ROOT__/Mob/Tasks/addMailbox?id={$item.id}">添加留言</a>
+                <div class="item" onclick="showAddLayer(false)">取消</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var text = <?php echo "\"".preg_replace('/\n|\r\n/', '|', $item['work_item'])."\""; ?>;
+        var arrText = text.split("|");
+
+        arrText.forEach(function(item){
+            $("#work-item").append("<p class=\"content-line\">"+ item + "</p>")
+        })
+
+        //返回按钮
+        $('.back-btn').click(function(e) {
+            history.go(-1)
+        })
+
+        /**
+         * [showAddLayer description]
+         * @return {[type]} [description]
+         */
+        function showAddLayer(bool){
+            if (bool) {
+                $('.add-container').addClass('active');
+
+            }else {
+                $('.add-container').removeClass('active');
+            }
+        }
+    </script>
+</body>
+</html>

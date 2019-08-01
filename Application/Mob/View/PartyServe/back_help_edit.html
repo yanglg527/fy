@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>党员服务</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/help/help_edit.css"/>
+	</head>
+
+	<body>
+
+		<div class="page">
+			<header class="head">
+				<div class="header"><span>我的困难</span>
+					<a onclick="history.go(-1);"><span></span></a>
+				</div>
+			</header>
+		</div>
+		<div class="help_edit">
+			<div class="heart">
+				<header>标题<input id="truth-title" type="text" value="{$detail.title}" maxlength="37" /></header>
+				<div class="words">
+					<header>正文</header>
+					<div class="text" id="text" contentEditable="true">
+						{$detail.content}
+					</div>
+					<!--<form class="apply_right">-->
+						<!--<p>添加</p>-->
+						<!--<div class="addPicture">-->
+							<!--<div class="pictureBox">-->
+								<!--<input required type="file" name="file" id="img_file" accept="image/*;capture=camera" class="upload fl pr" onchange="imgChange(this)">-->
+							<!--</div>-->
+							<!--<p>图片</p>-->
+						<!--</div>-->
+					<!--</form>-->
+				</div>
+				<footer>
+					<a id="btn-submit">提交</a>
+				</footer>
+			</div>
+		</div>
+		<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+		<script src="__STATICS__/zepto/zepto.js"></script>
+		<script src="__STATICS__/zepto/event.js"></script>
+		<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="__JS__/party_serve/help/help_edit.js" type="text/javascript" charset="utf-8"></script>
+
+		<script>
+			$("#btn-submit").click(function () {
+				var truthTitle = $("#truth-title").val();
+//		console.log(" === " + truthTitle);
+				var truthContent = $("#text").html();
+				console.log(" === " + truthContent.replace(/(^s*)|(s*$)/g, "").length);
+				if (truthTitle.replace(/(^s*)|(s*$)/g, "").length == 0){
+					alert('标题不能为空');
+				}else if (truthContent.replace(/(^s*)|(s*$)/g, "").length == 0){
+					alert('内容不能为空');
+				}else{
+					$.ajax({
+						data: {
+							"title" : truthTitle,
+							"content" : truthContent
+						},
+						type: 'POST',
+						dataType: 'json',
+						url: '/djptNew/Mob/PartyServe/ajaxSaveHelp',
+						success: function (data) {
+							console.log("success");
+							if (data['status'] == 0) {
+								history.go(-1);
+							}
+						},
+						error: function (data) {
+							alert('网络异常');
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+
+</html>

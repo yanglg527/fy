@@ -1,0 +1,138 @@
+.fs {
+    border-bottom-width: 1px;
+    border-top-width: 5px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    display: inline;
+    float: left;
+    width: 100%;
+    padding-top: 0
+}
+
+.fs legend {
+    font-size: 3.0rem;
+    line-height: 3.0rem;
+    font-style: italic;
+    margin-bottom: 0;
+    margin-left: 4.0rem;
+    font-family: "微软雅黑";
+}
+
+.get {
+    background: #fff;
+    color: #fff;
+    text-align: center;
+    padding: 0px 0;
+
+}
+
+.menu {
+    color: #fff;
+    font-family: 微软雅黑;
+}
+
+.get-title {
+    font-size: 200%;
+    border: 2px solid #fff;
+    padding: 20px;
+    display: inline-block;
+}
+
+.get-btn {
+    background: #fff;
+}
+
+.detail {
+    background: #fff;
+    max-width: 960px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    padding-top: 35px;
+}
+
+.detail1 {
+    background: #f0f0f0;
+    max-width: 960px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-top: 4.0rem;
+}
+
+.detail-h2 {
+    text-align: center;
+    font-size: 150%;
+    margin: 40px 0;
+}
+
+.detail-h3 {
+    color: #1f8dd6;
+}
+
+.detail-p {
+    color: #7f8c8d;
+}
+
+.detail-mb {
+    margin-bottom: 30px;
+}
+
+.hope {
+    background: #0bb59b;
+    padding: 50px 0;
+}
+
+.hope-img {
+    text-align: center;
+}
+
+.hope-hr {
+    border-color: #149C88;
+}
+
+.hope-title {
+    font-size: 140%;
+}
+
+.about {
+    background: #fff;
+    padding: 40px 0;
+    color: #7f8c8d;
+}
+
+.about-color {
+    color: #34495e;
+}
+
+.about-title {
+    font-size: 180%;
+    padding: 30px 0 50px 0;
+    text-align: center;
+}
+
+.footer p {
+    color: #000;
+    font-family: "微软雅黑";
+    font-weight : bold;
+    margin: 0;
+    padding: 15px 0;
+    text-align: center;
+    background: #fff;
+}
+
+.am-animation-slide-bottom {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border-color: #383735;
+    color: #383735
+}
+
+.am-animation-slide-bottom:hover {
+    background: #e70012 none repeat scroll 0 0;
+    border-color: #e70012;
+}
+
+.am-animation-slide-bottom:active {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border-color: #383735;
+    color: #383735
+}

@@ -1,0 +1,275 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <link rel="stylesheet" href="__CSS__/branch_info/list-styles.css">
+    <title>组织信息</title>
+</head>
+<style>
+    body{
+        font-size:14px;
+    }
+    body.content{
+        width:100%;
+        height:100%;
+    }
+    .page{
+        padding-bottom:0px;
+        width:100%;
+        height:100%;
+        overflow: auto;
+    }
+    .page .banner p{
+        font-size:18px
+    }
+    header.head{
+        /*display:flex;*/
+        /*height:5.9rem;*/
+        width:100%;
+        background:url("../../Public/Mob/images/branch_info/head-bg.png") center/cover no-repeat;
+        background-size: cover;
+        flex:1;
+        padding-bottom: 12px;
+        overflow: hidden;
+    }
+    header.head .head-message{
+        width:100%;
+        display:flex;
+        margin-top: 10px;
+        /*margin-top: 150px;*/
+    }
+    header.head .item{
+        flex:1;
+        margin: 0;
+        font-size:14px;
+        color: #fefefe;
+        text-align: center;
+        /*margin-bottom: 10px;*/
+
+        /*white-space: nowrap;*/
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
+    }
+    header.head .item span{
+        color: #f8dc13;
+        font-size: 14px;
+    }
+    header.head .item .count{
+        color: #f8dc13;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    .content-wrapp{
+        display: flex;
+        display: -webkit-flex;
+        flex-wrap: wrap;
+        padding: 3% 0 3% 3%;
+        justify-content: space-around;
+    }
+    .dangwei{
+        margin-top: 10px;
+        height:180px;
+        width:100%;
+        margin-right: 3%;
+        border-radius:10px;
+        background-color:#fefefe
+    }
+    .dangwei .cover{
+        margin-top:20px;
+        margin-left:40px;
+        font-size:30px;
+        color:brown;
+    }
+    .dangwei .cover img{
+        vertical-align:middle;
+    }
+    .dangwei .content{
+        margin-top:20px;
+        color:black;
+    }
+    .dangwei .content .content-item{
+        margin-top:8px;
+        margin-left:30px;
+        font-size:14px;
+
+    }
+    .dangwei .content .content-item .title-color{
+        color:#999999;
+    }
+    .dangzhibu{
+        float:left;
+        height:160px;
+        width:47%;
+        margin-top:3%;
+        margin-right:3%;
+        border-radius:10px;
+        background-color:#fefefe;
+        padding:3% 0 0 3%;
+    }
+    .dangzhibu .cover{
+        width:5%;
+        height:160px;
+        padding-top:20px
+    }
+    .dangzhibu  img{
+        float:left;
+        border: 5px solid #ddd;
+        background: #fff;
+        position:relative;
+        top:20px
+    }
+    .dangzhibu .content{
+        float:left;
+        width:65%;
+        height:160px;
+        color:black;
+        padding-top:20px;
+        padding-left:20px
+    }
+    .dangzhibu .content .title{
+        margin-bottom: 20px;
+        font-size:15px
+    }
+    .dangzhibu .content .item{
+        margin-bottom: 5px;
+    }
+
+    header .logo{
+        display: block;
+        margin: 10px auto;
+        width: 100px;
+        height: 100px;
+        background:url("../../Public/Mob/images/branch_info/head-icon.png");
+        background-size: 100%;
+    }
+
+</style>
+<body >
+    <div class="content">
+    <div class="page" >
+        
+        <div class="banner">
+            <div class="head"><i onclick="history.go(-1);"></i><p >妇幼保健院党组织架构</p>
+            </div>
+        </div>
+        <header class="head">
+            <div class="logo" height="100" width="100"></div>
+            <div class="head-message">
+                <div class="item">
+                    <div class="count">{$party_organization}</div>
+                    <div>党委</div>
+                </div>
+                <div class="item">
+                    <a href="__ROOT__/Mob/BranchInfo/organizationList">
+                        <div class="count">{$branch_count}</div>
+                        <div style="color: white">支部</div>
+                    </a>
+                </div>
+                <div class="item">
+                    <div class="count">{$group_count}</div>
+                    <div>党小组</div>
+                </div>
+                <div class="item">
+                    <div class="count">{$party_member_count}</div>
+                    <div style="color: white">党员</div>
+                </div>
+            </div>
+            <div class="head-message">
+                <div class="item">
+                    <a href="__ROOT__/Mob/MemberDevelop/index">
+                    <div class="count">{$activist}</div>
+                    <div style="color: white">积极分子</div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="__ROOT__/Mob/MemberDevelop/index">
+                    <div class="count">{$keyobj}</div>
+                    <div style="color: white">重点发展对象</div>
+                    </a>
+                </div>
+                <div class="item">
+                    <a href="__ROOT__/Mob/MemberDevelop/index">
+                    <div class="count">{$promember}</div>
+                    <div style="color: white">预备党员</div>
+                    </a>
+                </div>
+                <div class="item">
+                    <div class="count">{$masses}</div>
+                    <div>群众</div>
+                </div>
+            </div>
+
+        </header>
+        <div class="content-wrapp">
+            <div class="dangwei">
+                <!--<a href="" class="item">-->
+                    <div class="cover"><img src="__IMG__/branch_info/tuanjian.jpg" alt="" height="50" width="50">&nbsp;&nbsp;&nbsp;党委</div>
+                    <div class="content">
+                        <div class="content-item">
+                            <span class="title-color">党委书记 :</span>
+                            <span>{$dwsj}</span>
+                        </div>
+                        <div class="content-item">
+                            <span class="title-color">纪委书记 :</span>
+                            <span>{$jwsj}</span>
+                        </div>
+                        <div style="margin-top: 8px">
+                            <span class="content-item" style="display: flex">
+                                <span class="title-color" style="flex-shrink: 0">党委委员 : </span>
+                               <span style="line-height: 16px">
+                                   <volist name="dwwy" id="item" key="index">
+                                        &nbsp;{$item}
+                                    </volist>
+                                   <!--吕简承 冯军 何武东 欧阳云-->
+                               </span>
+
+                        </div>
+                    </div>
+                <!--</a>-->
+            </div>
+            <div class="dangwei" style="height: 135px">
+                <a href="__ROOT__/Mob/BranchInfo/organizationList" class="item">
+                    <div class="cover" ><img style="border: 5px solid rgba(255, 155, 155, 0.5);border-radius: 50%;" src="__IMG__/branch_info/flag.jpg" alt="" height="50" width="50">&nbsp;&nbsp;&nbsp;党支部</div>
+                    <ul class="content am-avg-sm-3" style="margin-top: 30px;margin-left: 30px;font-size: 14px">
+                        <li><span class="am-text-danger" style="font-weight: 700;font-size: 17px">{$branch_count}</span>个支部</li>
+                        <li><span class="am-text-danger" style="font-weight: 700;font-size: 17px">{$group_count}</span>个党小组</li>
+                        <li><span class="am-text-danger" style="font-weight: 700;font-size: 17px">{$party_member_count}</span>名党员</li>
+                    </ul>
+                </a>
+            </div>
+            <!--<div class="dangzhibu">-->
+                <!--<a href="__ROOT__/Mob/BranchInfo/organizationList" class="item">-->
+                    <!--<img style="border-radius:30px;border:solid rgb(100,100,100) 1px;;" src="__IMG__/branch_info/flag.jpg" alt="" height="50" width="50">-->
+                    <!--<div class="content">-->
+                        <!--<div class="title">在职党支部</div>-->
+                        <!--<div class="item">{$branch_count}个支部</div>-->
+                        <!--<div class="item">{$group_count}个党小组</div>-->
+                        <!--<div class="item">{$party_member_count}名党员</div>-->
+                    <!--</div>-->
+                <!--</a>-->
+            <!--</div>-->
+            <!--<div class="dangzhibu">-->
+                <!--<a href="" class="item">-->
+                    <!--<img style="border-radius:50px;border:solid rgb(100,100,100) 1px;" src="__IMG__/branch_info/flag.jpg" alt="" height="50" width="50">-->
+                    <!--<div class="content">-->
+                        <!--<div class="title">   退休党支部</div>-->
+                        <!--<div class="item">个支部</div>-->
+                        <!--<div class="item">名党员</div>-->
+                    <!--</div>-->
+                <!--</a>-->
+            <!--</div>-->
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

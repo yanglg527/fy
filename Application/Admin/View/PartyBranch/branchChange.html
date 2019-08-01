@@ -1,0 +1,197 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">党组织信息管理</strong></a> /
+                <small>{$detail.name} 换届</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="uploadform">
+
+                    <input type="hidden" name="id" value="{$detail.id}">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-3 am-u-md-3 am-text-right">
+                            支部名称
+                        </div>
+                        <div class="am-u-sm-9 am-u-md-9 ">
+                            <span>{$detail.name}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <volist name="posts" id="item">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-3 am-text-right">
+                                上一届{$item.name}
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-5">
+                                {$item.user.realname}
+                            </div>
+
+                            <!--<input type="hidden" class="am-input-sm post" data-id="{$item.id}" name="post-{$item.id}"-->
+                                   <!--value="{$item.user.uid}">-->
+
+                            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                        </div>
+                    </volist>
+                    <hr>
+                    <volist name="posts" id="item">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-3 am-text-right">
+                                本届{$item.name}
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-5">
+                                <button type="button" data-name="{$item.name}" data-id="{$item.id}"
+                                        class="am-btn am-btn-xs am-btn-primary btn-post"
+                                        data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                                        style="width: 150px">点击选择职务人选
+                                </button>
+                            </div>
+
+                            <input type="hidden" class="am-input-sm post" data-id="{$item.id}" name="post-{$item.id}"
+                                   value="">
+
+                            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                        </div>
+                    </volist>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save">换届</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃操作</button>
+        </div>
+    </div>
+    <include file="PartyBranch/_user_selecter"/>
+</block>
+<block name="scripts">
+    <script>
+
+        var btnPost = null;
+        var selectPostId = null;
+        $('.btn-post').click(function () {
+            btnPost = this;
+            selectPostId = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+
+
+            $('#selector-title').text(name + " 职务人选");
+            $('#select-content').html("");
+            $('#selector-search-input').val("");
+
+        })
+
+        $('#selector-btn-search').click(function () {
+            $('#select-content').html("加载中...");
+            var keyword = $('#selector-search-input').val();
+            $.ajax({
+                url: '__ROOT__/Admin/PartyBranch/ajaxGetUsers',
+                type: 'POST', //GET
+                data: {id:{$detail.id},keyword: keyword},  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                $('#select-content').html("");
+                    if (data.status == 0) {
+                        var html = "";
+
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        $('#select-content').html(html);
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    $('#select-content').html("服务器暂时无法连接，请稍候再试");
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+
+        $('#doc-modal-1').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            var cancon = true;
+            $('.post').each(function (i) {
+                var postid = $(this).attr('data-id');
+                var value = $(this).val();
+                if (postid == selectPostId) {
+
+                } else {
+                    if (uid > 0){
+                        if (value == uid) {
+                            alert("请先取消改党员在本页面的职务选择");
+                            cancon = false;
+                        }
+                    }
+
+                }
+            });
+            if(cancon){
+                $(btnPost).text(realname);
+                $('input[name="post-' + selectPostId + '"]').val(uid);
+                $('#doc-modal-1').modal('close');
+            }else{
+
+            }
+
+        })
+
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+        $('#btn-save').click(function () {
+            $('#confirm-text').text('确认换届操作吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/PartyBranch/ajaxBranchChange',
+                        type: 'POST', //GET
+                        data: $('#uploadform').serialize(),
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                loading_page('__ROOT__/Admin/PartyBranch/index?p={$p}');
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+
+        });
+    </script>
+</block>

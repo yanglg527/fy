@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>群团组织</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+
+		<link rel="stylesheet" href="__CSS__/reset.css">
+    <!-- <link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/> -->
+    <!-- <link rel="stylesheet" type="text/css" href="__CSS__/alliance/detail.css"/> -->
+    <style type="text/css">
+    body{
+        background-color: #fff;
+    }
+.content{
+
+      margin: 10px;
+      margin-bottom: 50px;
+    }
+    .article_title{
+      color: #333;
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 45px;
+    }
+    .time{
+      font-size: 12px;
+      color: #757575;
+      margin: 10px;
+    }
+    .content{
+      max-width: 100% !important;
+      overflow:hidden;
+    }
+    .content img{
+      max-width: 100% !important;
+      height: initial !important;
+    }
+    .content p{
+      line-height: 1.5rem !important;
+    }
+    </style>
+</head>
+<body>
+<!-- <div class="page">
+    <header class="head">
+        <div class="header">
+            <a onclick="history.go(-1);"><span></span></a>
+        </div>
+    </header>
+</div>
+<div class="leadership_speak">
+    <div class="heart">
+        <article class="words">
+            <header class="nav">{$detail.title}</header>
+            <time><span>{$detail.create_time|date='Y-m-d',###}</span><span>{$detail.create_time|date='h:i',###}</span></time>
+            <article class="text">
+            	{$detail.content}
+            </article>
+        </article>
+    </div>
+</div>
+ -->
+<include file="Common/_nav1"/>
+      <div class="content">
+          <h3 class="article_title">{$detail.title}</h3>
+          <p class="time">{$detail.create_time|time_to_string_ques}</p>
+          <article >
+            {$detail.content}
+          </article>
+      </div>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+	    .container{
+	        	background-color: #fff;
+	        }
+          .module-icon{
+            width: 32px !important;
+            margin: auto;
+            left: 0px;right: 0px;
+            position: absolute;
+        }
+
+        .module-name{
+            color: #676767 !important;
+            font-size: 13px !important;
+        }
+
+        .dynamic-list{
+            /*margin-top: 8px;*/
+            background: white;
+        }
+
+        .list-item{
+            border-top: 1px solid #f7f8f8;
+            padding: 13px;
+        }
+        .list-item img{
+            width: 113px;
+            height: 74px;
+            float: left;
+            margin-right: 10px;
+        }
+
+
+        .item-title{
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 20px;
+            margin-left: 10px;
+        }
+
+        .item-info{
+            font-size: 12px;
+            color: #999999;
+            margin-top: 15px;
+            margin-left: 10px;
+        }
+        .item-info span{
+            margin-right: 20px;
+        }
+    </style>
+</block>
+<block name="content">
+  <div style="background: white;width: 100%;height: auto">
+  <section data-am-widget="accordion" class="am-accordion am-accordion-basic" data-am-accordion='{  }' style="text-align:center;margin-top:0px;display:none;background: white" id="search">
+      <dl class="am-accordion-item am-active">
+        <dt class="am-accordion-title" style="color:#999;font-size:14px;">
+          <span>筛选</span>
+        </dt>
+        <dd class="am-accordion-bd am-collapse am-on">
+          <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+          <div class="am-accordion-content am-form">
+            <div class="am-form-group">
+              <select id="branch_id" class="am-input-sm am-radius">
+                <option value="0">全部支部</option>
+                <volist name='branchs' id="vo">
+                  <option value="{$vo.id}">{$vo.name}</option>
+                </volist>
+              </select>
+            </div>
+                <if condition="$id eq 15 OR $id eq 17">
+                  <div class="am-form-group">
+                    <select id="second_tag" class="am-input-sm am-radius">
+                      <option value="0">全部类型</option>
+                      <volist name="second_tags" id="vo">
+                        <option value="{$vo.id}">{$vo.name}</option>
+                      </volist>
+                    </select>
+                  </div>
+                </if>
+            <div class="am-form-group">
+                <input type="text" class="am-form-field am-input-sm am-radius" placeholder="请选择日期" data-am-datepicker readonly required />
+            </div>
+            <div style="text-align: center; ">
+                <button id="btn-submit" onclick="search_submit();" style="width: 50%;" type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">确定</button>
+            </div>
+          </div>
+        </dd>
+      </dl>
+  </section>
+  </div>
+	<div class="dynamic-list" id="article-list">
+       <!--  <volist name="articles.list" id="vo" >
+          <a href="__ROOT__/Home/Article/branch_note.html?id={$vo.id}">
+            <div class="list-item" style="overflow:hidden" >
+              <img src="{$vo.cover_path|show_article_img=small}" <if condition="$vo.cover_path eq null">style="display: none"</if>/>
+              <div class="item-title">{$vo.title}</div>
+              <div class="item-info"><span>{$vo.comment_count}评论</span><span>{$vo.published_at|time_to_string_ques}</span></div>
+            </div>
+          </a>
+        </volist> -->
+    </div>
+    <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text"><i id="loading-icon" class="am-icon-spinner am-icon-spin"></i></div>
+</block>
+<block name="scripts">
+  <script type="text/javascript">
+      var published_at = 0;
+      var tag_id = {$id};
+      var is_loading = 1;
+      var second_tags = {$second_tags_str};
+      $(window).load(function(){
+            ajax_loading();
+            if (tag_id == 15 || tag_id == 16 || tag_id == 17) {
+              $('#search').css('display','block');
+            };
+        });
+      function search_submit(){
+            published_at = 0;
+            is_loading = 0;
+            $('#article-list').html('');
+            $('#loading-icon').show();
+            $("#loading-text").html('');
+            ajax_loading();
+        }
+      function ajax_loading(){
+        var branch_id = $('#branch_id').val();
+        var second_tag = $('#second_tag').val();
+          $.ajax({
+                  data: {
+                      'id':tag_id,
+                      'published_at':published_at,
+                      'branch_id':branch_id,
+                      'second_tag':second_tag,
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '__ROOT__/Home/Article/ajaxArticleLoading',
+                  success: function (data) {
+                    // alert(data.msg);
+                      var createTimeString ='';
+                      if (data['status'] == 0) {
+                          if (data['data']) {
+                            var html_content = '';
+                            var second_tag_name = '';
+                            $.each(data['data'],function(i,vo)
+                            {
+                              // alert(vo.second_tag_id);
+                              createTimeString = new Date(vo.published_at*1000).Format("yyyy-MM-dd");
+                              second_tag_name = get_second_tag(vo.second_tag_id);
+                              html_content = '';
+                              html_content = html_content + '<a href="'+__root__+'/Home/Article/index.html?id='+vo.id+'"><div class="list-item" style="overflow:hidden">';
+                              if (vo.cover_path != '' && vo.cover_path != null) {
+                                html_content = html_content + '<img src="'+__root__+'/Uploads/'+vo.cover_path+'-s.png" />';
+                              };
+                              html_content = html_content + '<div class="item-title">'+vo.title+'</div><div class="item-info"><span class="mar-right">'+second_tag_name+'</span><span class="mar-right">'+vo.comment_count+'评论</span><span class="mar-right">'+createTimeString+'</span></div></div</a>';
+                                $('#article-list').append(html_content);
+                                published_at = vo.published_at;
+                            });
+                            is_loading = 1;
+                            $('#loading-icon').hide(); 
+                          }else{
+                            is_loading = 1;
+                            $('#loading-icon').hide(); 
+                            $("#loading-text").html('没有更多了');
+                          }
+                      } else {
+                        alert_modal('网络异常');
+                          is_loading = 1;
+                          $('#loading-icon').hide(); 
+                      }
+                  },
+                  error: function (data) {
+                      alert_modal('网络异常');
+                  }
+              })
+        }
+
+     
+      $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height() && is_loading ==1) {
+                    is_loading = 0;
+                    $('#loading-icon').show();
+                    $("#loading-text").html('');
+                    ajax_loading();
+                }
+            });
+        });
+
+      Date.prototype.Format = function (fmt) { //author: meizz 
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+    function get_second_tag(second_tag){
+      var name = '';
+      $.each(second_tags,function(i,vo){
+            if (vo.id == second_tag) {
+              name = vo.name;              
+            };
+          }
+        );
+      return name;
+    }
+  </script>
+</block>
+
+
+

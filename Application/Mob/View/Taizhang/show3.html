@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>台账展示</title>
+    <link href="__JS__/imgenlarge/css/lanrenzhijia.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="__CSS__/general/general-header.css">
+    <link rel="stylesheet" href="__CSS__/ledger_list/comment.css">
+
+    <style>
+        a{
+            text-decoration: none;
+        }
+        body{
+            margin: 0;
+        }
+        .header-title{
+            background: #CE3D3A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 3rem;
+        }
+        .header-title span{
+            color: #fff;
+
+        }
+        .header-title>a>span{
+            background:url('__IMG__/general/return.png') no-repeat 100%;
+            display: inline-block;
+            width: 1.3rem;
+            height: 1.6rem;
+            margin-top: 0.4rem;
+
+            background-size: cover;
+        }
+        .main-wrap{
+            display: flex;
+            padding: 1rem 0.5rem 0 0.5rem;
+        }
+        .head-img{
+            width: 20%;
+
+        }
+        .head-img img{
+          width: 100%;
+
+        }
+        .main-content{
+            word-wrap: break-word;
+            width: 80%;
+            margin-left: 1rem;
+            padding-top: 0.3rem;
+        }
+        .img-content img{
+            width: 30%;
+            margin-right: 4px;
+        }
+        .head-img h5{
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+        .tz-comment{
+            margin-bottom: 2.5rem;
+            padding:0.5rem 1rem ;
+        }
+        .tz-comment .comment-list{
+
+            background: #edeceb;
+        }
+        .tz-comment .title{
+            height: 1rem;
+            line-height: 1rem;
+            background-color: #ffffff;
+            color: #9aa9b9;
+            border-bottom: 1px solid #e2e2e2;
+            padding-left: 0.27rem;
+            font-size: 12px;
+           
+        }
+        .comment-list{
+            display: flex;
+
+        }
+        .comment-list .list-left{
+            width: 10%;
+            position: relative;
+        }
+        .comment-list .list-left img{
+            position: absolute;
+            top: 38%;
+            left: 40%;
+        }
+
+        .comment-list .list-right{
+            width: 100%;
+        }
+        .comment-list .list-right ul{
+          padding-left:0px;
+        }
+        .comment-list .list-right ul li{
+            list-style: none;
+
+        }
+        .left-part-list{
+            padding:0.5rem
+        }
+        .left-part-list .comment-head-img {
+            float: left;
+            width: 16%;
+        }
+        .left-part-list .comment-head-img img {
+            width:100%;
+        }
+        .right-part-list{
+            margin-left: 20%;
+        }
+        .list-top{
+
+        }
+        .comment-date{
+            float: right;
+            font-size:12px;
+        }
+        .comment-name{
+            color: #1296db;
+        }
+        .comment-date{
+            color:#948f8f;
+        }
+        @media screen and (max-width: 320px) {
+            .comment-list .list-left img{
+                top: 32%;
+            }
+        }
+        .user_msg{
+            padding: 0.2rem;
+        }
+        .user_msg>.title{
+            color: #999;
+            font-size: 14px;
+        }
+        .user_msg>.content{
+            color: black;
+            font-size: 14px;
+        }
+      
+    </style>
+</head>
+<body>
+<div class="tz-show">
+
+        <div class="header-title">
+
+            <span>台账展示</span>
+            <a onclick="history.go(-1);" style="position: absolute;left: 10px;"><span></span></a>
+
+    </div>
+        <div class="main-wrap">
+
+                <div class="head-img">
+
+                    <img src="{$item.headimgurl|get_head_url}" alt="" >
+                    <h5 >
+                        {$detail.user_realname}
+                    </h5>
+                    
+                </div>
+                <div class="main-content"style="">
+                    <div class="user_msg"><span class="title">支部:</span>   <span class="content">{$item.party_name}</span></div>
+                    <div class="user_msg"><span class="title">党小组:</span>   <span class="content">{$detail.party_group_name}</span></div>
+                    
+                    <div class="user_msg"><span class="title">时间:</span>   <span class="content">{$item.create_time|date='Y-m-d H:i',###}</span></div>
+                    <div class="user_msg"><span class="title">标题:</span>   <span class="content">{$item.title}</span></div>
+
+                    <div style="margin-bottom: 1rem; color:#666;font-size: 14px;" class="user_msg">
+                        <span class="title">正文:</span>   
+                        <span class="content">{$item.tz_content}</span>
+                    </div>
+                    <div class="img-content">
+                        <!--要判断img要用什么模板显示-->
+                        <if condition="$item['imgcount'] gt 1" >
+                            <volist name="item.imgArr" id="vo">
+
+
+                                    <a id="aforimg{$i}"  href="{$vo.image}">
+                                    <img onclick="enlarge({$i})" src="{$vo.thumb_image}" alt="" ></a>
+
+                            </volist>
+
+                            <elseif condition="$item['imgcount'] eq 1" />
+                                <a id="example2" href="{$item.imgArr.image}">
+                                    <img src="{$item.imgArr.thumb_image}"   style="width: 240px;height: 250px;" /></a>
+                                <!--<img src="{$item.imgArr.thumb_image}" alt="">-->
+                            <else/>
+
+                        </if>
+
+                    </div>
+                    <h6 style="color: #00a0e9;margin: 0.5rem 0;">{$item.address}</h6>
+                    <!-- <h6 style="color: #7f7f7f;margin:0.5rem 0" >{$item.create_time|date='Y-m-d H:i',###}</h6> -->
+                </div>
+        </div>
+        <div class="tz-comment">
+            <div class="title">评论 </div>
+            <div class="comment-list">
+
+                <div class="list-right">
+                    <if condition="$detail['pl_count'] gt 0" >
+                        <ul style=" margin-bottom: 0px;">
+                        <volist name="comments" id="vo">
+                            <li>
+                                <div class="left-part-list" >
+                                    <div class="comment-head-img"  >
+                                        <a href="__ROOT__/Mob/PartyMember/zone?uid={$vo.uid}">
+                                            <img src="{$vo.user_headimgurl|get_head_url}" alt="头像" >
+                                        </a>
+
+                                    </div>
+                                    <div class="right-part-list" >
+                                        <div class="list-top">
+                                            <a href="__ROOT__/Mob/PartyMember/zone?uid={$vo.uid}" ><span class="comment-name" >{$vo.user_realname}</span></a>
+                                            <span class="comment-date" >{$vo.create_time|date='Y-m-d H:i',###}</span>
+                                        </div>
+                                        <div class="comment-contet" style="word-wrap: break-word;">
+                                            <p style="font-size: 14px;">{$vo.content}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </volist>
+
+
+
+                    </ul>
+                    </if>
+                </div>
+            </div>
+        </div>
+        <footer >
+        <div class="foot"  style="bottom: 4px;">
+            <input type="text" id="comment-content" placeholder="请输入评论" >
+            <a class="send" >发送</a>
+        </div>
+    </footer>
+    <include file="Common/_loading"/>
+</div>
+<script src="__JS__/imgenlarge/js/jquery.min.js"></script>
+<script src="__JS__/imgenlarge/js/jquery.imgbox.pack.js"></script>
+<script src="__JS__/ledger_list/comment.js"></script>
+<script>
+    $(function(){
+
+    $('.send').click(function () {
+        var content = $('#comment-content').val();
+        var itme_id = {$item.id};
+
+        if(content == ''){
+            alert("请先填写评论内容");
+            return false;
+        }
+        loading();
+        $.ajax({
+            data: {
+                id: itme_id,
+                content:content,
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/Taizhang/ajax_comment',
+            success: function (data) {
+                if (data['status'] == 0) {
+                    alert("评论已提交，待审核后发布");
+                    window.location.reload();
+                } else {
+                    alert(data.msg);
+                }
+                close_loading()
+            },
+            error: function (data) {
+                close_loading()
+                alert('网络异常');
+            }
+        })
+    })
+        $("#example2").imgbox({
+            'speedIn'		: 0,
+            'speedOut'		: 0,
+            'alignment'		: 'center',
+            'overlayShow'	: true,
+            'allowMultiple'	: false,
+            'padding' : 0
+        });
+    });
+    function enlarge(num){
+
+        $('#aforimg'+num).imgbox({
+            'speedIn'		: 0,
+            'speedOut'		: 0,
+            'alignment'		: 'center',
+            'overlayShow'	: true,
+            'allowMultiple'	: false
+        });
+    }
+</script>
+</body>
+</html>

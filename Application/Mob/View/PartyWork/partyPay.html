@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>党费缴纳</title>
+
+    <link rel="stylesheet" href="__PUBLIC__/Mob/css/ExpensesPay/global.css" />
+    <link rel="stylesheet" href="__PUBLIC__/Mob/css/ExpensesPay/styles.css" />
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <script src="__STATICS__/assets/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="g-fill-flex">
+    <div class="g-nav-bar">
+        <div class="back-btn" onclick="history.go(-1);"></div>
+        <span class="nav-title">党费缴纳</span>
+    </div>
+
+    <div class="g-content-container expenses-pay">
+        <div class="top-box" style="background-image: url(../../Public/Mob/images/party_pay/head_bg.png)">
+            <i class="avatar" style="background-image:url({$user.headimgurl|get_head_url});margin-left: 20px"></i>
+            <div class="info">
+                <p class="text">{$user.realname}</p>
+                <p class="text" style="font-size: 14px">
+                    <notempty name="party.branch_name">{$party.branch_name}</notempty>
+                    <notempty name="party.group_name">{$party.group_name}</notempty>
+                </p>
+                <a href="http://dj.zhzy.net.cn/Weixin/Weixinpay/pay"><p class="text" style="font-size: 14px">历年累计 <b class="light-text" style="margin-left: 10px;font-size: 16px">{$party.total}</b><b style="margin-left: 10px">元</b></p></a>
+            </div>
+        </div>
+
+        <div class="list-container">
+            <div class="tabs" style="background-color: #eee;padding-left: 10px;padding-right: 10px">
+                <volist name="year" id="vo" key="key">
+                    <span class="item btn-change" data-year="{$vo}">{$vo}</span>
+                </volist>
+            </div>
+
+            <div class="list-title am-margin-top-xs">
+                <span class="month">月份</span>
+                <span class="price">金额</span>
+            </div>
+
+            <ul class="list">
+                <volist name="SumMonth" id="vo" key="key">
+                    <li class="list-item">
+                        <span class="months"><span class="month">{$key}</span>月</span>
+                        <span class="prices"><span class="price" style="margin-right: 5px">{$vo}</span>元</span>
+                    </li>
+                </volist>
+            </ul>
+        </div>
+
+        <div class="bottom-bar">
+            <i class="price-ico" style="background-image: url(../../Public/Mob/images/party_pay/icon.png)""></i>
+            <span class="total-text">本年累计</span>
+            <span style="margin-right: 7px"><span class="total-price" style="margin-right: 5px">{$currentyear_money}</span>元</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<block name="scripts">
+<script>
+     var list = $(".list-item");
+     var tabItems= $(".tabs .item");
+    var currMonth= new Date().getMonth();
+    var currYear= new Date().getFullYear();
+    // 初始化就给当前月份标红
+    function start(){
+        list.each(function (index,ele) {
+            //当前年份，月份 标红
+            if(index == currMonth){
+                $(ele).find('.months').css('color','#ce3d37');
+                $(ele).find('.prices').css('color','#ce3d37');
+            }
+        });
+    }
+     start();
+     function initYearList() {
+         tabItems.each(function (index,ele){
+             if(Number($(ele).text())===currYear){
+                 $(ele).addClass('active');
+                 $(ele).css('color','#ce3d37')
+             }
+         })
+     }
+
+     function bindTabsEvent() {
+         tabItems.on('click',function () {
+             var currItem=$(this);
+             tabItems.removeClass('active');
+             currItem.addClass('active');
+             tabItems.css('color','#666');
+             currItem.css('color','#ce3d37');
+             getYearList(currItem.text());
+         })
+     }
+
+     function getYearList(year) {
+         $.ajax({
+             url:'__ROOT__/Mob/PartyWork/ajaxGetMoney',
+             type:'POST', //GET
+             data:{year:year},
+             dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+             success:function(res){
+                 $('.total-price').html(res.data['year_money']);
+                 list.each(function (index,ele) {
+                     // 全部换回黑色
+                     $(ele).find('.months').css('color','#666');
+                     $(ele).find('.prices').css('color','#666');
+                     //当前年份，月份 标红
+                     if(index == currMonth && year == currYear){
+                         $(ele).find('.months').css('color','#ce3d37');
+                         $(ele).find('.prices').css('color','#ce3d37');
+                     }
+                     $(ele).find('.price').html(res.data[index+1]);
+                 });
+             },
+             closeOnConfirm: false,
+             error:function(xhr,textStatus){
+                 alert_modal("服务器暂时无法连接，请稍候再试");
+             }
+         })
+     }
+    initYearList();
+    bindTabsEvent();
+
+
+</script>
+</block>

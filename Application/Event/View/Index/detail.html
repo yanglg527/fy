@@ -1,0 +1,638 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .topic-block {
+            background: rgb(255, 255, 255);
+            margin-bottom: 20px;
+        }
+
+        .topic-header {
+            border-top: 1px solid rgb(240, 240, 241);
+            display: block !important;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+            color: rgb(120, 120, 120);
+        }
+
+        .topic-header:active {
+            background: white !important;
+        }
+
+        .list-area {
+            border-bottom: 1px solid rgb(240, 240, 241);
+            display: table;
+            padding-left: 30px;
+        }
+
+        .list-area:active {
+            background: rgb(243, 243, 243);
+        }
+
+        .list-area li {
+            display: table-cell;
+            height: 80px;
+            vertical-align: middle;
+            padding-top: 15px;
+            padding-bottom: 15px;
+
+        }
+
+        .icon-item {
+            width: 55px;
+        }
+
+        .icon-item img {
+            width: 100%;
+        }
+
+        .text-item {
+            padding-left: 20px;
+        }
+
+        .text-item span {
+            font-size: 18px;
+            color: rgb(59, 59, 59);
+        }
+    </style>
+    <style>
+        .no-border-bottom {
+            border-bottom: 0 !important;
+        }
+
+        .title {
+            margin: .4em 0 0 0;
+            line-height: 1.5;
+            font-size: 16px;
+        }
+
+        .content {
+        }
+
+        .content .cover-box {
+            background: #f0f0f2;
+            height: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .cover-box .cover {
+
+            background: rgba(160, 160, 160, 0.35);
+            width: 100%;
+            height: 2.3em;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .content .cover-box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .cover .cover-left,
+        .cover-right {
+            position: absolute;
+            bottom: .5em;
+        }
+
+        .cover span {
+            color: #F9F9F9;
+        }
+
+        .cover-left {
+            left: .8em;
+        }
+
+        .cover-right {
+            right: .8em;
+        }
+
+        .content .edit-row input {
+            font-size: 1.1em;
+            outline: 0;
+            color: #666;
+            border: none;
+            height: 3.7em;
+            vertical-align: top;
+            width: 100%;
+            position: absolute;
+            padding-left: 2.4em;
+            background: transparent;
+            box-sizing: border-box;
+        }
+
+        .content .edit-row input.input-right {
+            text-align: right;
+            padding-right: 2.6em;
+        }
+
+        .content .edit-row {
+            margin-left: 1.2em;
+            padding-right: 1.2em;
+            line-height: 4em;
+            min-height: 4em;
+            box-sizing: content-box;
+            position: relative;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f0f2;
+        }
+
+        .content .edit-row .form_datetime:focus {
+            cursor: not-allowed;
+        }
+
+        .content .edit-row span.glyphicon {
+            font-size: 1.3em;
+            color: #aaa;
+            position: absolute;
+            vertical-align: top;
+            margin-top: 1em;
+        }
+
+        .content .edit-row .row-inline {
+            position: absolute;
+            display: inline-block;
+            /*width: 100%;*/
+            padding-left: 1em;
+            font-size: 14px;
+
+        }
+
+
+        .content .edit-row span.glyphicon.glyphicon-menu-right {
+            position: absolute;
+            right: 1em;
+            font-size: 1em;
+            margin-top: 1.3em;
+            vertical-align: top;
+        }
+
+        .content .edit-row .visible-list {
+            display: none;
+        }
+
+        .content .background-gray {
+            height: .5em;
+            background-color: #f0f0f2;
+        }
+
+        .content .rich-text-editor textarea {
+            width: 100%;
+            border: none;
+            padding: .9em;
+        }
+
+        .content .rich-text-editor textarea:hover,
+        .content .rich-text-editor textarea:focus,
+        .content .rich-text-editor textarea:active {
+            border: none;
+            outline: none;
+        }
+
+        .content .font-gray {
+            color: #888;
+        }
+
+        .content .font-gray-st {
+            color: #888;
+        }
+
+        .content .no-icon {
+            width: 35px;
+            height: 18px;
+            position: absolute;
+            top: -1px;
+            z-index: 1;
+            background: white;
+        }
+
+        .content .no-border-bottom {
+            border-bottom: 0 !important;
+        }
+
+        .content .no-border-top {
+            border-top: 0 !important;
+        }
+
+        .content p {
+            margin: 0;
+        }
+
+
+        a.publish {
+            float: left;
+            position: fixed;
+            z-index: 1000000;
+            bottom: 0;
+            width: 100%;
+            line-height: 45px;
+            background: #47b785;
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .mr5 {
+            margin-right: .5em;
+        }
+
+        .fs12 {
+            font-size: .8em
+        }
+
+        .gray {
+            color: #ABABAB;
+        }
+
+        /*-------------------------*/
+        .row-inline-right {
+            position: absolute;
+            right: 1em;
+        }
+
+
+        .avatar {
+            width: 3em;
+            height: 3em;
+            border-radius: 1.5em;
+            vertical-align: top;
+        }
+
+        .organizer-avatar-box {
+            display: inline-block;
+        }
+
+
+        .avatar-box {
+            display: inline-block;
+            width: 4em;
+            line-height: 1.5;
+        }
+
+        .avatar-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 12px;
+            padding-top: .3em
+        }
+
+        .avatar-row {
+            line-height: 1.5;
+            white-space: nowrap;
+            overflow: auto;
+        }
+
+        .comment {
+            position: absolute;
+            top: .3em;
+            left: 0;
+            line-height: 2em;
+            padding-left: 4em;
+            width: 98%;
+            box-sizing: border-box;
+        }
+
+        .row-inline .comment input {
+            width: 81%;
+            margin-top: .3em;
+            padding-left: 1em;
+            height: 2.4em;
+            line-height: 2.4em;
+            font-size: .9em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .cover span.is-favorite {
+            color: #fff04a !important;
+        }
+
+        .edit-row-icon {
+            color: #bcbcbc;
+            font-size: 18px;
+        }
+
+
+        footer {
+            display: none !important;
+        }
+        .container{
+            /*padding-bottom: 50px;*/
+        }
+        .clearfix{
+            clear: both;
+        }
+    </style>
+    <style>
+        a.publish1{
+            background: #47b785 !important;
+            width: 50% !important;
+            left: 0 !important;
+            right: 50% !important;
+            border-right: 1px solid white;
+        }
+        a.publish2{
+            background: #47b785 !important;
+            width: 50% !important;
+            left: 50% !important;
+            right: 0 !important;
+        }
+        a.publish3{
+            background: #ce3d37 !important;
+            width: 50% !important;
+            left: 50% !important;
+            right: 0 !important;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="content" style="padding-bottom: 60px">
+        <div class="cover-box" style="background-color: white">
+            <img src="{$detail.cover|show_img}"
+                 style="width: 100%;height: auto;">
+
+            <div class="cover">
+                <span class="cover-right ">
+                    <span class="glyphicon glyphicon-book mr5"></span>
+                    <i class="am-icon-eye"></i> 阅读 {$detail.read_count} </span>
+                <!--<a id="addFavorite"> <span class="cover-right favorite ">-->
+                    <!--<span class="glyphicon glyphicon-heart-empty mr5 favorite "></span>-->
+                    <!--<span class="favorite " id="count-fav"><i class="am-icon-bookmark"></i> 收藏 {$detail.read_count}</span>-->
+                <!--</span>-->
+                <!--</a>-->
+            </div>
+        </div>
+
+        <div class="edit-row no-border-bottom">
+
+            <h4 class="title">
+                {$detail.title} </h4>
+
+        </div>
+        <div class="edit-row">
+            <p class="row-inline" style="padding-left:2px">
+                <span>已报名  {$detail.attend_count}/<if condition="$detail.people_limit == 0">不限人数<else/>{$detail.people_limit}</if></span>
+                <span class="row-inline-right gray"> </span>
+
+            </p>
+        </div>
+
+
+        <div class="background-gray"></div>
+
+        <div class="edit-row">
+            <span class="edit-row-icon"><i class="am-icon-clock-o" aria-hidden="true"></i> </span>
+
+            <p class="row-inline" style="width: auto">
+                {$detail.entry_start_time|date='m-d h:i',###} 至 {$detail.entry_end_time|date='m-d h:i',###} 截止 </p>
+        </div>
+        <div class="edit-row" style="height: auto">
+            <span class="edit-row-icon" ><i class="am-icon-map-marker"></i> </span>
+            <div class="row-inline" style="line-height: normal" >
+                <div style="height:4em;display: table;">
+                    <div style="display: table-cell;vertical-align:middle;width:auto;padding-right: 1.1em">{$detail.address}
+                </div></div></div>
+        </div>
+        <div class="edit-row">
+            <span class="edit-row-icon" ><i class="am-icon-user"></i> </span>
+            <p class="row-inline" style="width: auto">
+                {$detail.name}
+            </p>
+        </div>
+        <div class="edit-row">
+            <span class="edit-row-icon" ><i class="am-icon-phone"></i> </span>
+            <a href="tel:{$detail.mobile}"><p class="row-inline" style="width: auto">
+                {$detail.mobile}
+            </p></a>
+        </div>
+
+
+        <notempty name="detail.role_limit">
+        <div class="edit-row">
+            <span class="edit-row-icon" ><i class="am-icon-user-secret"></i> </span>
+            <div class="row-inline" style="line-height: normal" >
+                <div style="height:4em;display: table;">
+                    <div style="display: table-cell;vertical-align:middle;width:auto;padding-right: 1.1em">仅限 {$detail.role_limit} 用户报名</div>
+                </div>
+            </div>
+        </div>
+        </notempty>
+        <div class="background-gray"></div>
+
+        <div class="edit-row no-border-bottom">
+            <p class="row-inline" style="padding-left:2px">
+                活动介绍
+            </p>
+        </div>
+
+        <style>
+            .item-content img {
+                width: 100% !important;
+            }
+        </style>
+        <div class="edit-row item-content" style="line-height: 1.5;">
+            {$detail.content}
+
+        </div>
+
+        <div class="background-gray"></div>
+        <div class="edit-row no-border-bottom">
+            <p class="row-inline" style="padding-left:2px">
+                已报名 {$detail.attend_count} </p>
+        </div>
+        <div class="edit-row avatar-row">
+            <volist name="attends" id="item">
+                <div class="avatar-box">
+                    <img src="{$item.headimgurl|get_head_url}" class="avatar"/>
+                    <div >
+                        <p class="avatar-name"><if condition="$item.realname == ''">-<else/>{$item.realname}</if></p>
+                        <p class="fs12 gray">{$item.attend_time|show_attend_time}</p>
+                    </div>
+                </div>
+            </volist>
+        </div>
+        <notempty name="no_attends">
+            <div class="edit-row no-border-bottom">
+                <p class="row-inline" style="padding-left:2px">
+                    不参与 {$no_attends_count} </p>
+            </div>
+            <div class="edit-row avatar-row">
+                <volist name="no_attends" id="item">
+                    <div class="avatar-box">
+                        <img src="{$item.headimgurl|get_head_url}" class="avatar"/>
+                        <div >
+                            <p class="avatar-name"><if condition="$item.realname == ''">-<else/>{$item.realname}</if></p>
+                            <p class="fs12 gray">{$item.attend_time|show_attend_time}</p>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+        </notempty>
+        <div class="background-gray"></div>
+        <div class="background-gray"></div>
+        <div class="edit-row ">
+            <p class="row-inline" style="padding-left:2px">
+                评论 {$comments|sizeof}
+            </p>
+        </div>
+
+        <div class="edit-row" style="padding-top: 20px;">
+            <div class="row-inline col-sm-12" style="padding-left:2px;width: 100%">
+                <div class="organizer-avatar-box ">
+                    <img src="{$user.headimgurl|get_head_url}" class="avatar"/>
+                </div>
+                <div class="comment" >
+
+                    <input type="text" placeholder="我来说点什么" name="content" readonly="readonly" style="width:80%;position: absolute;left: 50px;right: 100px">
+                </div>
+            </div>
+
+        </div>
+
+        <volist name="comments" id="item">
+            <div class="edit-row no-border-bottom" style="padding-left: 10px;position: relative;left: 0;right: 0;height: auto;display: block;">
+                <div class=" " style="position: absolute;top: 10px;">
+                    <img src="{$item.headimgurl|get_head_url}" class="avatar"/>
+                </div>
+                <div class="" style="float:left;padding-left: 4.5em;padding-right: 1em;width: 100%;display: inline-block" >
+                    <h5>{$item.realname}</h5>
+                    <p  class="fs12 " style="line-height: 1.5em;font-size: 1em">{$item.content}</p>
+                    <p class="fs12 gray">{$item.comment_time|date="Y-m-d",###}</p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </volist>
+        <div class="clearfix"></div>
+
+    </div>
+    <empty name="detail">
+        <a class="publish" style="background: #b7b9b6">找不到该活动</a>
+        <else/>
+        <if condition="$adm_auth == 1">
+            <if condition="$attendStatus == 1">
+                <a class="publish publish1"  href="__ROOT__/Event/Index/manager?id={$detail.id}" style="background: #60b6ff">管理</a>
+                <a class="publish publish2" href="__ROOT__/Event/Index/attend?id={$detail.id}" style="background: #60b6ff">报名信息</a>
+                <elseif condition="$attendStatus == -2"/>
+                <a class="publish publish1"  href="__ROOT__/Event/Index/manager?id={$detail.id}" style="background: #60b6ff">管理</a>
+                <a class="publish publish2" style="background: #b7b9b6">没有报名权限</a>
+                <else/>
+                <a class="publish publish1"  href="__ROOT__/Event/Index/manager?id={$detail.id}" style="background: #60b6ff">管理</a>
+                <a class="publish publish2" href="__ROOT__/Event/Index/attend?id={$detail.id}">我要报名</a>
+            </if>
+            <else/>
+            <?php if($status=='-5'){?>
+                 <a class="publish" style="background: #b7b9b6">已经确认不报名</a>
+            <?php }else{?>
+                <if condition="$attendStatus == 1">
+                    <a class="publish" href="__ROOT__/Event/Index/attend?id=<?php echo $detail['id']; ?>" style="background: #60b6ff">查看报名信息</a>
+                    <elseif condition="$attendStatus == -2"/>
+                    <a class="publish" style="background: #b7b9b6">没有报名权限</a>
+                    <else/>
+                    <a class="publish publish1" href="__ROOT__/Event/Index/attend?id=<?php echo $detail['id']; ?>">我要报名</a>
+                    <a class="publish publish3" >我不参与</a>
+                </if>
+            <?php }?>
+        </if>
+
+
+    </empty>
+
+
+
+
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="comment-modal">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd"> 评论</div>
+            <div class="am-modal-bd">
+                有啥想说
+                <textarea type="text" class="am-modal-prompt-input" id="comment-content" rows="3"></textarea>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">提示</div>
+            <div class="am-modal-bd">
+                是否确认不参与？
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="scripts">
+<script>
+    $("input[name='content']").click(function () {
+        $('#comment-content').val('');
+        $('#comment-modal').modal({
+            relatedTarget: this,
+            onConfirm: function(e) {
+                var content = $('#comment-content').val();
+                $.ajax({
+                            url:'__ROOT__/Event/Index/ajaxComment',
+                            type:'POST', //GET
+                             data:{id:{$detail.id},content:content},
+                        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success:function(data){
+                    if(data.status == 0){
+                        alert('评论成功,待审核后发布')
+                        window.location.reload()
+                    }else{
+                        alert_modal(data.msg);
+                    }
+                },
+                error:function(xhr,textStatus){
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+            },
+            onCancel: function(e) {
+            }
+        })
+        return false;
+    });
+
+
+    $(".publish3").click(function () {
+        $('#my-prompt').modal({
+            relatedTarget: this,
+            onConfirm: function(e) {
+                $.ajax({
+                    url:'__ROOT__/Event/Index/ajaxNoAttend',
+                    type:'POST', //GET
+                    data:{id:{$detail.id}},
+                    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                    success:function(data){
+                        if(data.status == 0){
+                            alert('确认不参与成功')
+                            window.location.reload()
+                        }else{
+                            alert_modal(data.msg);
+                        }
+                    },
+                    error:function(xhr,textStatus){
+                        alert_modal("服务器暂时无法连接，请稍候再试");
+                    }
+                })
+            },
+            onCancel: function(e) {
+            }
+        })
+        return false;
+    });
+</script>
+</block>

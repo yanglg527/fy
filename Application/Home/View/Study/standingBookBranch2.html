@@ -1,0 +1,68 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+        .branch-list{
+            background: #F7F8F8;
+        }
+
+        .list-item{
+            background: white;
+            margin-bottom: 10px;
+            padding: 18px 21px 5px 21px;
+        }
+
+        .item-title{
+            height: 39px;
+            line-height: 39px;
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            position: relative;
+            padding-left: 38px;
+        }
+        .item-title img{
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 0px;
+            margin: auto;
+        }
+
+        .item-info{
+            height: 35px;
+            line-height: 35px;
+            padding-left: 38px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="branch-list">
+        <volist name="list" id="item">
+            <a href="__ROOT__/Home/Study/standingBook1?branchId={$item.id}">
+                <div class="list-item">
+                    <div class="item-title">
+                        <img src="__IMG__icon_weidangk.png">
+                        <span>{$item.name}</span>
+                    </div>
+                    <div class="item-info">
+                        <span><empty name="item.realname">{$item.name}<else/>{$item.realname}</empty></span> / <span>{$item.branch_count}</span>支部
+                    </div>
+                </div>
+            </a>
+        </volist>
+    </div>
+
+</block>
+
+<block name="scripts">
+
+</block>

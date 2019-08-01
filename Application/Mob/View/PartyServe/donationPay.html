@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>扶贫捐款参与</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta name="flexible" content="initial-dpr=2" />
+			<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+			<link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+		<link rel="stylesheet" type="text/css" href="__CSS__/party_serve/relief/money.css"/>
+	</head>
+		
+	<body style="background: white">
+		<div class="page">
+			<header class ="head">
+				<div class="header"><span>扶贫捐款</span><a onclick="history.go(-1);"><span></span></a></div>
+			</header>
+		</div>
+		<div class="money">
+			<div class="heart">
+				<header class="zhibu"><span>{$detail.branch_name}</span>扶贫捐款</header>
+				<div class="main">
+					<header>支付方式</header>
+					<div class="payment">
+						<div class="weChat">
+							<img src="__IMG__/party_serve/weChat.png"/><span>微信支付</span>
+							<div class="conf"><i class="back"><img class="confirm hide" src="__IMG__/activity/check.png" /><img class="fff" src="__IMG__/notes/hong.png"/></i></div>
+						</div>
+					</div>
+					<div class="amount-of-money">
+						<header>捐款金额</header>
+						<ul>
+							<!--class="kek" 表示选中状态-->
+							<li><span>10</span>元</li>
+							<li><span>50</span>元</li>
+							<li><span>100</span>元</li>
+							<li><span>500</span>元</li>
+						</ul>
+						<input type="text" id="money" type="number" onkeyup="value=value.replace(/[^\d.]/g,'')"  name="money_other"  placeholder="输入捐款金额" />
+					</div>
+				</div>
+				<footer>
+					<header>跟他说句话</header>
+					<div id="remark" class="text" contenteditable="true">默认：加油</div>
+					<button id="help" style="padding: 0">帮助他</button>
+				</footer>
+			</div>
+		</div>
+		<include file="Common/_loading"/>
+	<script src="__STATICS__/zepto/zepto.js"></script>
+	<script src="__STATICS__/zepto/event.js"></script>
+	<script src="__STATICS__/zepto/touch.js"></script>
+		<script src="__JS__/party_serve/relief/money.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			// 支付按钮点击事件
+        $('#help').click(function(){
+            var danationMoney = $('#money').val();
+            var remark = $('#remark').html();
+            if(danationMoney == ''){
+                alert('请输入捐款金额');
+                return false;
+            }
+            loading();
+            $.ajax({
+                url: '__ROOT__/Mob/PartyServe/ajaxDonation',
+                type: 'POST', //GET
+                data: {
+                    id:{$detail.id},
+                    fee:danationMoney,
+                    remark:remark
+                },
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    close_loading();
+                    if(data.status == 0){
+                       window.location.href = "__ROOT__/Weixin/Weixinpay/pay?state=" + data.data.out_trade_no;
+                    }else{
+                        alert(data.msg);
+                    }
+
+                },
+                error: function (xhr, textStatus) {
+                    close_loading();
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+
+		</script>
+	</body>
+
+</html>

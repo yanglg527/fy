@@ -1,0 +1,48 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding">
+      </div>
+
+      <ul class="am-avg-sm-1 am-avg-md-4 am-margin am-padding am-text-center admin-content-list ">
+        <li><a href="#" class="am-text-success"><span class="am-icon-btn am-icon-file-text"></span><br/>今日访问<br/>{$today_count}</a></li>
+        <li><a href="#" class="am-text-warning"><span class="am-icon-btn am-icon-briefcase"></span><br/>支部数量<br/>{$branch_count}</a></li>
+        <li><a href="#" class="am-text-danger"><span class="am-icon-btn am-icon-recycle"></span><br/>党员数量<br/>{$party_count}</a></li>
+        <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-user-md"></span><br/>用户数量<br/>{$user_count}</a></li>
+      </ul>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <table class="am-table am-table-bd am-table-striped admin-content-table">
+            <thead>
+            <tr>
+              <th>UID</th><th>用户名</th><th>身份</th><th>所属支部</th><th>登录时间</th><th>积分</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="item">
+                <tr>
+                    <td>{$item.uid}</td>
+                    <td>{$item.realname}</td>
+                    <td>{$item.role_name}</td>
+                    <td>{$item.branch_name}</td>
+                    <td>{$item.last_login_time|date="Y-m-d H:i:s",###}</td>
+                    <!--<td><span class="am-badge am-badge-success">{$item.score|fill_add_before}</span></td>-->
+                    <td><span class="am-badge am-badge-success">{$item.score}</span></td>
+                </tr>
+            </volist>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+</block>
+<block name="scripts">
+
+</block>

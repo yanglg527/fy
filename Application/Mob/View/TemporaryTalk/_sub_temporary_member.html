@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/temporary_talk/temporary_member.css"/>
+    <style>
+        .mui-table-view-chevron::before{
+            background-color: transparent !important;
+        }
+        .mui-table-view-chevron::after{
+            background-color: transparent !important;
+        }
+    </style>
+
+</head>
+
+<body>
+<!--下拉刷新容器-->
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper bg">
+    <div class="mui-scroll add_user">
+        <div class="search">
+            <i></i><input style="width: auto; text-align: left" id="search" type="search" placeholder="搜索">
+        </div>
+        <!--数据列表-->
+        <ul class="mui-table-view mui-table-view-chevron list" style="background-color: transparent">
+            <!--<li class="index1">-->
+                <!--<i></i>-->
+                <!--<div class="portrait"><img align="middle" src="../images/leave/head/sa.png" alt=""></div>-->
+                <!--<span class="name">沙瑞金书记</span>-->
+            <!--</li>-->
+
+        </ul>
+        <div id="list-template" style="display: none">
+            <li>
+                <i data-id="##uid##"></i>
+                <div class="portrait"><img align="middle" src="##headimgurl##" alt=""></div>
+                <span class="name">##realname##</span>
+            </li>
+        </div>
+        <div id="list-template-selected" style="display: none">
+            <li>
+                <i class="active" data-id="##uid##"></i>
+                <div class="portrait"><img align="middle" src="##headimgurl##" alt=""></div>
+                <span class="name">##realname##</span>
+            </li>
+        </div>
+    </div>
+</div>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/temporary_talk/temporary_member.js"></script>
+<script>
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+//            down: {
+//                callback: pulldownRefresh
+//            },
+            up: {
+                contentrefresh: '正在加载...',
+                callback: pullupRefresh
+            }
+        }
+    });
+
+    if (mui.os.plus) {
+        mui.plusReady(function() {
+            setTimeout(function() {
+                mui('#pullrefresh').pullRefresh().pullupLoading();
+            }, 10);
+
+        });
+    } else {
+        mui.ready(function() {
+            mui('#pullrefresh').pullRefresh().pullupLoading();
+        });
+    }
+
+    /**
+     * 下拉刷新具体业务实现
+     */
+    function pulldownRefresh() {
+        setTimeout(function() {
+            var table = document.body.querySelector('.mui-table-view');
+            var cells = document.body.querySelectorAll('.mui-table-view-cell');
+            for (var i = cells.length, len = i + 3; i < len; i++) {
+                var li = document.createElement('li');
+                li.className = 'mui-table-view-cell';
+                li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+                //下拉刷新，新纪录插到最前面；
+                table.insertBefore(li, table.firstChild);
+            }
+            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+        }, 1500);
+    }
+
+
+
+    /**
+     * 上拉加载具体业务实现
+     */
+    function pullupRefresh() {
+        ajaxGetUserList();
+    }
+
+    var list = mui('.mui-table-view')[0];
+    var lastUid = 0;
+    var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+    var listItemHtmlArray2 = mui('#list-template-selected')[0].innerHTML.split("##");
+    function ajaxGetUserList() {
+        var searchName = $('#search').val();
+        console.log("searchName = " + searchName);
+        $.ajax({
+            data: {
+                "searchName" : searchName,
+                "lastUid" : lastUid
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/TemporaryTalk/ajaxGetUserList',
+            success: function (data) {
+                if (data['status'] == 0) {
+                    var listData = data.data;
+                    console.log("data = " + JSON.stringify(listData));
+                    if(listData.length > 0){
+                        var listItem = "";
+                        var selectedItems = $(".selected-item");
+                        if(selectedItems.length > 0){
+                            var members;
+                            for (var i=0 ; i<selectedItems.length; i++){
+                                members = members ? (members + "," + $(selectedItems[i]).attr("data-id")) : $(selectedItems[i]).attr("data-id");
+                            }
+                            var memberUidArray = members.split(',');
+                            console.log("memberUidArray length = " + memberUidArray.length);
+                            for (var i=0; i < listData.length; i++) {
+                                lastUid = listData[i]['uid'];
+
+                                var isSelected = false;
+                                for(var k=0; k<memberUidArray.length; k++){
+                                    if(memberUidArray[k] == listData[i]['uid']){
+                                        isSelected = true;
+                                        break;
+                                    }
+                                }
+                                if(isSelected){
+                                    listItemHtmlArray2[1] = listData[i]['uid'];
+                                    listItemHtmlArray2[3] = listData[i]['headimgurl'];
+                                    listItemHtmlArray2[5] = listData[i]['realname'];
+                                    for(var j=0; j<listItemHtmlArray.length; j++){
+                                        listItem += listItemHtmlArray2[j];
+                                    }
+                                }else{
+                                    listItemHtmlArray[1] = listData[i]['uid'];
+                                    listItemHtmlArray[3] = listData[i]['headimgurl'];
+                                    listItemHtmlArray[5] = listData[i]['realname'];
+                                    for(var j=0; j<listItemHtmlArray.length; j++){
+                                        listItem += listItemHtmlArray[j];
+                                    }
+                                }
+                            }
+                        }else{
+                            for (var i=0; i < listData.length; i++) {
+                                lastUid = listData[i]['uid'];
+                                listItemHtmlArray[1] = listData[i]['uid'];
+                                listItemHtmlArray[3] = listData[i]['headimgurl'];
+                                listItemHtmlArray[5] = listData[i]['realname'];
+                                for(var j=0; j<listItemHtmlArray.length; j++){
+                                    listItem += listItemHtmlArray[j];
+                                }
+                            }
+                        }
+                        list.innerHTML += listItem;
+                    }
+                    if(listData.size < 20){ // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                    }else{
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                    }
+                }
+            },
+            error: function (data) {
+                alert('网络异常');
+            }
+        });
+    }
+
+    mui('#pullrefresh').on('click', 'li>i', function() {
+        var html="";
+        var dataId = $(this).attr("data-id");
+        console.log("data-id = " + dataId);
+        var isActive=$(this).hasClass("active");
+        if(isActive){
+            console.log("取消选中");
+            $(this).removeClass("active");
+            $(".search .item"+dataId).css("display","none");
+            $(".search .item"+dataId).removeClass("selected-item");
+        }else{
+            console.log("设置选中")
+            $(this).addClass("active");
+            var src= $(this).parent("li").children(".portrait").children("img").attr("src");
+            html="<div class='selected-item portrait item" + dataId + "' data-id='" + dataId + "'><img src='" + src + "'></div>";
+            $(".search>i").css("display","none");
+            $(html).insertBefore(".search input[type='search']");
+        }
+        return false;
+    });
+
+    // 监听回车搜索事件
+    $('#search').bind('keyup', function(event) {
+        if (event.keyCode == "13") {
+            lastUid = 0;
+            list.innerHTML = "";
+            ajaxGetUserList();
+        }
+    });
+
+    $(".head>a.chat", window.parent.document).click(function(){
+        var branchName = parent.branchName;
+        console.log("branchName = " + branchName);
+
+        var selectedItems = $(".selected-item");
+        if(selectedItems.length > 0){
+            var members;
+            for (var i=0 ; i<selectedItems.length; i++){
+                members = members ? (members + "," + $(selectedItems[i]).attr("data-id")) : $(selectedItems[i]).attr("data-id");
+            }
+            console.log("members = " + members);
+            ajaxAddTemporaryBranch(branchName, members);
+        }else{
+            alert("请至少选择一个群成员");
+        }
+    });
+
+    function ajaxAddTemporaryBranch(branchName, members) {
+        $.ajax({
+            data: {
+                "branchName" : branchName,
+                "members" : members
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/TemporaryTalk/ajaxAddTemporaryBranch',
+            success: function (data) {
+                if (data['status'] == 0) {
+                    var branchId = data.data;
+                    console.log("branchId = " + branchId);
+                    parent.window.location.href = "__ROOT__/Mob/TemporaryTalk/temporary_chat?branchId=" + branchId;
+                }
+            },
+            error: function (data) {
+                alert('网络异常');
+            }
+        });
+    }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta>
+    <title>积分管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <!--日期插件样式更换-->
+    <link rel="stylesheet" href="__STATICS__/date/calendar.css">
+    <link rel="stylesheet" href="__CSS__/party_serve/integral/integral.css">
+
+</head>
+<body>
+<div class="page" style="background-color: #ffffff;">
+    <include file="Common/_nav1"/>
+    <div id="sixChart" style="height: 14rem;margin-top: 1rem"></div>
+    <div id="lineChart" style="height: 14rem;margin: 1rem 0"></div>
+    <div style="position: relative;">
+    <div class="banner">
+        <div class="banner_bg"><img src="__IMG__/party_serve/e.png" alt=""></div>
+        <form method ="Post">
+            <div class="input" style="margin-top: 1rem;">
+                <input id="uid" type="hidden"  value="{$uid}"/>
+                <label>
+                    <input id="start-time" name="startTime" type="datetime" value="{$startTime}"  placeholder="请选择时间" onfocus="blur()" class="calendars star"  min-date="2010-05-10" format="yyyy-MM-dd"  readonly="readonly">
+                    <i></i></label>
+                <i>~</i>
+                <label>
+                    <input id="end-time" name="endTime" type="datetime" value="{$endTime}" placeholder="请选择时间" onfocus="blur()" class="calendars end"  min-date="2010-05-11"  format="yyyy-MM-dd"  readonly="readonly">
+                    <i></i></label>
+                <button class="search" style="display: block; border: 0px" type="button" onclick="requestData()">查询</button>
+            </div>
+        </form>
+    </div>
+    <div class="content">
+        <div class="title">
+            <h1>我的积分<span id="sum-score"></span></h1>
+        </div>
+        <ul class="integral_list">
+
+        </ul>
+
+        <div id="list-template" style="display: none">
+            <li>
+                <div class="title">##scoreName##</div>
+                <div class="num"><span>##score##</span>分(<span>##percent##</span>)</div>
+            </li>
+        </div>
+
+    </div>
+    </div>
+
+</div>
+
+<include file="Common/_loading"/>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<!--日期插件更换-->
+<script src="__STATICS__/date/calendar.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__JS__/party_serve/integral/integral.js"></script>
+<script>
+
+    var listItemHtmlArray = $('#list-template').html().split("##");
+
+    requestData();
+
+    function requestData() {
+        loading();
+        var uid = $('#uid').val();
+        var startTime = $('#start-time').val();
+        var endTime = $('#end-time').val();
+//        alert("startTime = " + startTime);
+        $.ajax({
+            type: "post",
+            url:"__ROOT__/Mob/PartyServe/ajaxIntegral",
+            data:{
+                uid: uid,
+                startTime:startTime,
+                endTime:endTime
+            },
+            cache: false,
+            dataType: "json",
+            success: function (res) {
+//                console.log("data = " + JSON.stringify(res));
+                close_loading();
+                if(res['status'] == 0){
+                    setChart(res['data']['userScoreList'])
+                    // 更新页面内容
+//                    alert("aa = " + res['data']);
+                    $('#sum-score').html(res['data']['sumScore']);
+                    if(res['data']['userScoreList'] && res['data']['userScoreList'].length > 0){
+                        var listItem = "";
+                        var itemTemp = "";
+                        var listData = res['data']['userScoreList'];
+                        for (var i=0; i < listData.length; i++) {
+                            listItemHtmlArray[1] = listData[i]['name'];
+                            listItemHtmlArray[3] = listData[i]['score'];
+                            listItemHtmlArray[5] = listData[i]['percent'];
+                            itemTemp = "";
+                            for(var j=0; j<listItemHtmlArray.length; j++){
+                                itemTemp += listItemHtmlArray[j];
+                            }
+                            listItem += itemTemp;
+                        }
+
+                        $('.integral_list').html(listItem);
+//                        list.innerHTML = listItem;
+                    }
+
+                }else if(res['status'] == 1){
+                    close_loading();
+                    alert(res.msg)
+                }
+            },
+            error: function () {
+                alert("网络异常...");
+            }
+        });
+    }
+</script>
+<script src="__JS__/party_serve/integral/echarts.common.min.js"></script>
+//第一个饼图
+<script>
+   function setChart(data) {
+
+       option = {
+           title: {
+               text: '党建平台个人积分构成图',
+
+               x: 'center'
+           },
+           tooltip: {
+               trigger: 'item',
+               formatter: "{a} <br/>{b} : {c} ({d}%)"
+           },
+           legend: {
+               x: 'center',
+               y: 'bottom',
+               //文字
+               data: ['rose1', 'rose2', 'rose3', 'rose4', 'rose5', 'rose6', 'rose7', 'rose8']
+           },
+//        toolbox: {
+//            show : true,
+//            feature : {
+//                mark : {show: true},
+//                dataView : {show: true, readOnly: false},
+//                magicType : {
+//                    show: true,
+//                    type: ['pie', 'funnel']
+//                },
+//                restore : {show: true},
+//                saveAsImage : {show: true}
+//            }
+//        },
+           calculable: true,
+           series: [
+
+               {
+                   name: '积分占比',
+                   type: 'pie',
+                   radius: '55%',
+                   center: ['48%', '50%'],
+//                   roseType: 'area',
+                   data: [
+
+                   ]
+               }
+           ]
+       };
+       obj = [];
+       legendobj= [];
+       for(let i=0; i<data.length;i++){
+
+           obj[i] = {'name':data[i]['name'],value:data[i]['score']};
+           legendobj[i]=data[i]['name'];
+       }
+       option.series[0].data=obj;
+       option.legend.data=legendobj;
+       console.log(option);
+       var lineChart = echarts.init(document.getElementById('lineChart'));
+      lineChart.setOption(option);
+   }
+</script>
+//第二个饼图
+<script>
+
+
+    option = {
+        title : {
+            text: '六个打通积分',
+            x:'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+           // orient: 'vertical',
+
+            x: 'center',
+            y: 'bottom',
+            data:['绩效系统','工作创新指数','纪律审查信息管理系统','廉政风险防控平台','数字人事系统','智慧人事系统',
+                   '工作强度指数','工作奉献指数','学习创新平台','智慧党建平台' ]
+        },
+        series: [
+            {
+                name:'积分统计',
+                type:'pie',
+                radius: ['80%', '40%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+
+                data:[
+
+                    {value:335, name:'绩效系统'},
+                    {value:310, name:'工作创新指数'},
+                    {value:234, name:'纪律审查信息管理系统'},
+                    {value:135, name:'廉政风险防控平台'},
+                    {value:1548, name:'数字人事系统'},
+                    {value:450, name:'智慧人事系统'},
+                    {value:450, name:'工作强度指数'},
+                    {value:450, name:'工作奉献指数'},
+                    {value:450, name:'学习创新平台'},
+                    {value:450, name:'智慧党建平台'},
+
+                ]
+            }
+        ]
+    };
+    var sixChart = echarts.init(document.getElementById('sixChart'));
+    sixChart.setOption(option);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .title {
+            width: 100%;
+            background: white;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            padding: 15px 15px;
+        }
+
+        .pay-way{
+            position: relative;
+            background: white;
+            height: 60px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ededed
+        }
+        .pay-way div{
+            position: absolute;
+            height: 60px;;
+            line-height: 60px;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+            padding: 0px;
+        }
+
+        .row{
+            background: white;
+            padding: 5px 10px;
+            width: 100%;
+        }
+        .cell{
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            color: orangered;
+            border-radius: 5px;
+            border: 1px solid #c9c9c9;
+            font-size: 14px;
+        }
+        .cell:active{
+            border: 1px solid orangered;
+            background: #E8E8E8;
+        }
+
+        .other{
+            background: white;
+            width: 100%;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 15px;
+        }
+        .other .inner{
+            border: 1px solid #c9c9c9;
+            border-radius: 5px;
+            height: 35px;
+            /*line-height: 33px;*/
+            position: relative;
+            width: 100%;
+            padding: 0px 10px;
+        }
+        .inner span{
+            height: 33px;
+            line-height: 33px;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+        }
+        .inner input{
+            height: 33px;
+            line-height: 33px;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 100px;
+            right: 50px;
+            font-size: 16px;
+            color: orangered;
+            text-align: center;
+            outline:none;
+            border: none;
+            vertical-align: inherit;
+            display: inline-block;
+        }
+
+        .axc-textarea {
+            padding: 11px 15px;
+            background: white;
+        }
+        .axc-textarea textarea {
+            width: 100%;
+            border: 0;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.4;
+            outline: none;
+        }
+        textarea{
+            border-radius: 0;
+        }
+
+
+    </style>
+
+</block>
+
+<block name="content">
+    <div class="title">{$detail.title}</div>
+
+    <div style="height: 45px; line-height: 45px; padding-left: 15px; color: #666;">支付方式</div>
+    <div class="pay-way">
+        <div class="am-icon-weixin" style="font-size: 28px; color: #33ee00; left: 15px;"></div>
+        <div style="font-size: 16px; left: 55px"> 微信支付 </div>
+        <div class="am-icon-check-circle" style="font-size: 26px; color: #33ee00; right: 15px"></div>
+    </div>
+
+    <div style="height: 30px; line-height: 30px; font-size: 14px; padding-left: 15px; background: white">请输入捐助金额</div>
+    <div class="row am-g">
+        <div class="am-u-sm-3" style="padding: 5px"> <div class="cell" data-value="10">10 元</div> </div>
+        <div class="am-u-sm-3" style="padding: 5px"> <div class="cell" data-value="50">50 元</div> </div>
+        <div class="am-u-sm-3" style="padding: 5px"> <div class="cell" data-value="100">100 元</div> </div>
+        <div class="am-u-sm-3" style="padding: 5px"> <div class="cell" data-value="500">500 元</div> </div>
+    </div>
+    <div class="other">
+        <div class="inner">
+            <span style="font-size: 13px; color: #c7c7c7; left: 10px">输入捐款金额</span>
+            <input type="number" onkeyup="value=value.replace(/[^\d.]/g,'')" id="money_other" name="money_other" style="" />
+            <span style="font-size: 13px; color: #c7c7c7; right: 10px">元</span>
+        </div>
+    </div>
+
+    <div style="height: 45px; line-height: 45px; padding-left: 15px; color: #666; margin-top: 5px">跟Ta说句话</div>
+    <div class="axc-textarea">
+        <textarea name="remark" placeholder="默认：加油！" rows="3"></textarea>
+    </div>
+
+    <button id="btn-pay" type="button" class="am-btn am-btn-warning am-radius am-btn-block" style="width: 250px; margin: 30px auto;">立即帮Ta</button>
+
+</block>
+
+<block name="scripts">
+
+    <script>
+        // 快速金额输入按钮点击事件
+        $('.cell').click(function(){
+            var doantionValue = this.getAttribute("data-value");
+            $('#money_other').val(doantionValue);
+//           alert("doantionValue = " + doantionValue);
+        });
+
+        // 支付按钮点击事件
+        $('#btn-pay').click(function(){
+            var danationMoney = $('#money_other').val();
+            var remark = $('textarea[name="remark"]').val();
+            if(danationMoney == ''){
+                alert('请输入捐款金额');
+                return false;
+            }
+            loading();
+            $.ajax({
+                url: '__ROOT__/Home/Service/ajaxDonation',
+                type: 'POST', //GET
+                data: {
+                    id:{$detail.id},
+                    fee:danationMoney,
+                    remark:remark
+                },
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    close_loading();
+                    if(data.status == 0){
+                       window.location.href = "__ROOT__/Weixin/Weixinpay/pay?state=" + data.data.out_trade_no;
+                    }else{
+                        alert(data.msg);
+                    }
+
+                },
+                error: function (xhr, textStatus) {
+                    close_loading();
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+
+    </script>
+
+</block>

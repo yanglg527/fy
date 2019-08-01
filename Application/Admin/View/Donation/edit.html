@@ -1,0 +1,365 @@
+<extend name="./Application/Admin/View/Common/base.html" />
+
+<block name="styles">
+        <link rel="stylesheet" href="__STATICS__/datetimepicker/css/amazeui.datetimepicker.css"/>
+</block>
+<block name="content">
+        
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg">扶贫捐款</strong></a>
+                /
+                <small>
+                    <empty name="detail">新增扶贫捐款
+                        <else />编辑扶贫捐款《{$detail.title}》</empty>
+                </small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form">
+                    <div class="am-g am-margin-top">
+                        <input type="hidden" name="id" value="{$detail.id}">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            捐款主题
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" name="title" value="{$detail.title}" class="am-input-sm">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+                    </div>
+
+                    <!-- <div class="am-g am-margin-top-sm">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">封面*</div>
+                        <div class="am-u-sm-8 am-u-md-3">
+                        
+                            <div id="upload-image">
+                            </div>
+                          
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-7 am-form-help">
+                            请上传后缀为.jpg,.png,.bmp,.gif的图片
+                        </div>
+                    </div> -->
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">发布人</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <button type="button" data-name="{$detail.user_realname}" data-id="{$detail.uid}" class="am-btn am-btn-xs am-btn-primary btn-post"
+                                data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                                style="width: 150px" id="publish_name">
+                                <empty name="detail.user_realname">选择发布人
+                                    <else />{$detail.user_realname}</empty>
+                            </button>
+                        </div>
+                        <input type="hidden" name="uid" value="{$detail.uid}">
+                    </div>
+
+                    <div class="am-g am-margin-top">
+
+
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            活动时间
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
+                                <p>开始日期应小于结束日期！</p>
+                            </div>
+                            <div class="am-g">
+                                <div class="am-u-sm-6">
+                                    <button type="button" class="am-btn am-btn-default am-margin-right" id="my-start">开始日期</button><span
+                                        id="my-startDate">
+                                        <notempty name="detail.start_time">{$detail.start_time|date='Y-m-d',###}</notempty>
+                                    </span>
+                                </div>
+                                <div class="am-u-sm-6">
+                                    <button type="button" class="am-btn am-btn-default am-margin-right" id="my-end">结束日期</button><span
+                                        id="my-endDate">
+                                        <notempty name="detail.end_time">{$detail.end_time|date='Y-m-d',###}</notempty>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top-sm">
+                        <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+                            内容简介
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-8">
+                            <script id="editor" type="text/plain">{$detail.intro}</script>
+
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-2 am-form-help">
+                        </div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">是否启用</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="status" id="option1" value=1 <if condition="$detail.status == 1 || $detail.status == null ">checked</if>
+                                    > 是
+                                </label>
+                                <label class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="status" id="option2" value=0 <eq name="detail.status"
+                                        value="0">checked</eq>
+                                    > 否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+        <include file="PartyOrganization/_user_selecter" />
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.all.min.js"></script>
+    <!--图片上传控件-->
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+    <script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/onebit/upload-file.js"></script>
+  
+    <script src="__STATICS__/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
+    <script>
+         $(function() {
+          
+      //时间控件
+      $('#my-start').datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            minView: 2
+        }).on('changeDate.datetimepicker.amui', function (event) {
+            console.log(event)
+            $('#my-startDate').text($('#my-start').data('date'));
+
+            $('#my-end').datetimepicker('setStartDate', $('#my-start').data('date'));
+            $(this).datetimepicker('hide');
+        });
+
+        $('#my-end').datetimepicker({
+            language: 'zh-CN',
+            format: 'yyyy-mm-dd',
+            minView: 2
+        }).on('changeDate.datetimepicker.amui', function (event) {
+            $('#my-endDate').text($('#my-end').data('date'));
+            $('#my-start').datetimepicker('setEndDate', $('#my-end').data('date'));
+            $(this).datetimepicker('hide');
+        });
+    })
+    </script>
+    <script>
+        var coveruploader = OneBitImageUploader.create({
+            objDiv: '#upload-image',
+            inputFileName: 'cover',
+            inputFileDefault: '{$detail.cover}',
+            inputCoverName: 'cover2',
+            inputCoverDefault: '{$detail.cover}',
+            showSrcDefault: '{$detail.cover|show_img}',
+            server: '__ROOT__/Admin/Donation/ajaxUploadCover',
+            swfPath: '__STATICS__/webuploader-0.1.5/Uploader.swf',
+            crop: {
+                ratioWidth: 65,
+                ratioHeight: 85,
+                reset: false
+            },
+            width: '100px',
+            height: '140px',
+            accept: {
+                title: 'image',
+                extensions: '*',
+                mimeTypes: 'image/*'
+            }
+        })
+
+    </script>
+    <!--图片上传控件-->
+
+    <script>
+        var type = 'normal';
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+
+            if (e && e.keyCode == 13) { // enter 键
+                //要做的事情
+                getUsers();
+
+            }
+        };
+        $('#selector-btn-search').click(function () {
+            getUsers()
+        })
+        $('#doc-modal-1').on('open.modal.amui', function () {
+            type = 'normal'
+        });
+
+        $('#doc-modal-1').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            $('input[name="uid"]').val(uid);
+            $('.btn-post').text(realname);
+            $('#doc-modal-1').modal('close');
+
+        })
+        function getUsers() {
+
+            var keyword = $('#selector-search-input').val();
+            if (type == 'normal') {
+                $('#select-content').html("加载中...");
+            } else {
+                keyword = $('#selector-search-input2').val();
+                $('#select-content2').html("加载中...");
+            }
+
+            $.ajax({
+                url: '__ROOT__/Admin/PartyWorking/ajaxGetUsers_member',
+                type: 'POST', //GET
+                data: { id: '{$organization_id}', keyword: keyword, type: type, uid: '{$detail.uid}' },  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (type == 'normal') {
+                        $('#select-content').html("");
+                    } else {
+                        $('#select-content2').html("");
+                    }
+
+                    if (data.status == 0) {
+                        var html = "";
+
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        if (type == 'normal') {
+                            $('#select-content').html(html);
+                        } else {
+                            $('#select-content2').html(html);
+                        }
+
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    if (type == 'normal') {
+                        $('#select-content').html("服务器暂时无法连接，请稍候再试");
+                    } else {
+                        $('#select-content2').html("服务器暂时无法连接，请稍候再试");
+                    }
+
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+   
+      
+   
+    </script>
+
+
+    <script type="text/javascript">
+
+        var ue = UE.getEditor('editor', {
+            // autoHeight: true,
+            initialFrameHeight: 400,
+            // retainOnlyLabelPasted: true
+        });
+
+        function submit_info() {
+
+            var id = $('input[name="id"]').val();
+            var title = $('input[name="title"]').val();
+            var target = $('input[name="target"]').val();
+            var name = $('input[name="name"]').val();
+            var content = ue.getContent();
+            var status = $('input[name="status"]:checked').val();
+            var cover = $('input[name="cover"]').val();
+            var publish_name = $('#publish_name').text();
+            var uid = $('input[name="uid"]').val();
+            if (publish_name == '') {
+                alert_modal("发布人不能为空");
+                return false;
+            }
+            if (title == '') {
+                alert_modal("主题不能为空");
+                return false;
+            }
+            //            if(name == ''){
+            //                alert_modal("募捐人不能为空");
+            //                return false;
+            //            }
+            //            if(target <= 0){
+            //                alert_modal("目标金额不能为0");
+            //                return false;
+            //            }
+
+            var data = {
+                'status': status,
+                'id': id,
+                'target': target,
+                'title': title,
+                'name': name,
+                'cover': cover,
+                'intro': content,
+                'publish_name':publish_name,
+                'start_time':$('#my-startDate').text(),
+                'end_time':$('#my-endDate').text(),
+                'uid':uid,
+            };
+            $.ajax({
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Donation/ajaxSave',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/Donation/index?p={$p}');
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript: history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

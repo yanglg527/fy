@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="__CSS__/global.css" />
+    <link rel="stylesheet" href="/Statics/assets/css/amazeui.min.css">
+    <script src="__STATICS__/assets/js/jquery.min.js"></script>
+    <script src="__STATICS__/assets/js/amazeui.min.js"></script>
+
+    <title>捐款-列表页面</title>
+</head>
+<style>
+    .contribution-list .item {
+        margin-bottom: 20px;
+        box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+        overflow: hidden;
+    }
+
+    .contribution-list .content-wrapper {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+    }
+
+    .contribution-list .content-wrapper .left {
+        flex: 1 1;
+    }
+
+    .contribution-list .top-title {
+        height: 40px;
+        line-height: 20px;
+        overflow: hidden;
+    }
+
+    .contribution-list .type {
+        color: #ce3d37;
+    }
+
+    .contribution-list .sub-text {
+        color: #333;
+    }
+
+    .contribution-list .bottom-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        color: #999;
+        font-size: 12px;
+    }
+
+    .contribution-list .g-empty-ele {
+        flex: 1 1;
+    }
+
+    .contribution-list .btn-clickable,
+    .contribution-list .btn-disable {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        margin-left: 10px;
+        border-radius: 50%;
+        color: #fff;
+        text-align: center;
+        line-height: 56px;
+    }
+
+    .contribution-list .btn-clickable {
+        background-color: #ce3d37;
+    }
+
+    .contribution-list .btn-disable {
+        background-color: #ccc;
+    }
+
+    .contribution-list .info-line {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        color: #999;
+        font-size: 12px;
+    }
+
+    .contribution-list .ico {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        background: center/cover no-repeat;
+    }
+
+    .contribution-list .day {
+        display: inline-block;
+        margin: 0 5px;
+        font-size: 20px;
+        color: #ce3d37;
+    }
+
+    .contribution-list a {
+        text-decoration: none;
+    }
+</style>
+
+<body class="g-fill-flex">
+    <div class="g-nav-bar">
+        <a href="javascript:history.back(-1)"><div class="back-btn"></div></a>
+        <span class="nav-title">济困捐款</span>
+    </div>
+    <div data-am-widget="tabs"
+         class="am-tabs am-tabs-d2"
+    >
+        <ul class="am-tabs-nav am-cf">
+            <li class="am-active"><a href="[data-tab-panel-0]">进行中</a></li>
+            <li class=""><a href="[data-tab-panel-1]">已结束</a></li>
+        </ul>
+        <div class="am-tabs-bd">
+            <div data-tab-panel-0 class="am-tab-panel am-active am-padding-0">
+                <div class="g-content-container">
+                    <div class="g-content-container">
+                        <div class="contribution-list">
+                            <volist name="inglist" id="vo">
+                                <if condition="$vo.total_status == 0">
+                                    <a href="__ROOT__/Mob/PartyServe/supportDetail?id={$vo.id}&total_status={$vo.total_status}">
+                                        <div class="item">
+                                            <div class="content-wrapper">
+                                                <div class="left">
+                                                    <div class="top-title"><span class="type">【爱心捐助】</span><span class="sub-text">{$vo.title}</span></div>
+                                                    <div class="bottom-line">
+                                                        <span class="publisher">发布人：{$vo.user_realname}</span>
+                                                        <if condition="$vo.total_status == 1">
+                                                            <span class="g-empty-ele"></span> <span class="date">截止日期：{$vo.end_time|date='Y-m-d',###}</span>
+                                                            <else />
+                                                            <div class="time-out">倒计时:<span class="day">{$vo.left_time}</span>天</div>
+
+                                                        </if>
+                                                    </div>
+                                                </div>
+                                                <if condition="$vo.total_status == 1">
+                                                    <span class="btn-disable">已结束</span>
+                                                    <else />
+                                                    <span class="btn-clickable">捐款</span>
+                                                </if>
+                                                <!-- <span class="btn-clickable">捐款</span> -->
+                                                <!-- <span class="btn-disable">已结束</span> -->
+                                            </div>
+
+                                            <div class="g-cutting-line"></div>
+
+                                            <div class="info-line">
+                                                <i class="ico" style="background-image:url('/Public/Mob/images/party_serve/contribution-1.png')"></i> <span>已捐款：{$vo.user_count}人</span>
+                                                <div class="g-empty-ele"></div>
+                                                <i class="ico" style="background-image:url('/Public/Mob/images/party_serve/contribution-2.png')"></i> <span>收到善款：{$vo.total_fee}元</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </if>
+                            </volist>
+                            <!-- <div class="item">
+                                    <div class="content-wrapper">
+                                        <div class="left">
+                                            <div class="top-title"><span class="type">【爱心捐助】</span><span class="sub-text">为失学儿童爱心捐款</span></div>
+                                            <div class="bottom-line">
+                                                <span class="publisher">发布人：王一</span>
+                                                <span class="g-empty-ele"></span> <span class="date">截止日期：2019-02-20</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="g-cutting-line"></div>
+
+                                    <div class="info-line">
+                                        <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i> <span>已捐款：50人</span>
+                                        <div class="g-empty-ele"></div>
+                                        <i class="ico" style="background-image:url('../icons/contribution-2.png')"></i> <span>收到善款：50000.00元</span>
+                                    </div>
+                                </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-tab-panel-1 class="am-tab-panel am-padding-0">
+                <div class="g-content-container">
+                    <div class="contribution-list">
+                        <volist name="endlist" id="vo">
+                            <if condition="$vo.total_status == 1">
+                                <a href="__ROOT__/Mob/PartyServe/supportDetail?id={$vo.id}&total_status={$vo.total_status}">
+                                    <div class="item">
+                                    <div class="content-wrapper">
+                                        <div class="left">
+                                            <div class="top-title"><span class="type">【爱心捐助】</span><span class="sub-text">{$vo.title}</span></div>
+                                            <div class="bottom-line">
+                                                <span class="publisher">发布人：{$vo.user_realname}</span>
+                                                <if condition="$vo.total_status == 1">
+                                                    <span class="g-empty-ele"></span> <span class="date">截止日期：{$vo.end_time|date='Y-m-d',###}</span>
+                                                    <else />
+                                                    <div class="time-out">倒计时:<span class="day">{$vo.left_time}</span>天</div>
+
+                                                </if>
+                                            </div>
+                                        </div>
+                                        <if condition="$vo.total_status == 1">
+                                            <span class="btn-disable">已结束</span>
+                                            <else />
+                                            <span class="btn-clickable">捐款</span>
+                                        </if>
+                                        <!-- <span class="btn-clickable">捐款</span> -->
+                                        <!-- <span class="btn-disable">已结束</span> -->
+                                    </div>
+
+                                    <div class="g-cutting-line"></div>
+
+                                    <div class="info-line">
+                                        <i class="ico" style="background-image:url('/Public/Mob/images/party_serve/contribution-1.png')"></i> <span>已捐款：{$vo.user_count}人</span>
+                                        <div class="g-empty-ele"></div>
+                                        <i class="ico" style="background-image:url('/Public/Mob/images/party_serve/contribution-2.png')"></i> <span>收到善款：{$vo.total_fee}元</span>
+                                    </div>
+                                </div>
+                                </a>
+                            </if>
+                        </volist>
+                        <!-- <div class="item">
+                                <div class="content-wrapper">
+                                    <div class="left">
+                                        <div class="top-title"><span class="type">【爱心捐助】</span><span class="sub-text">为失学儿童爱心捐款</span></div>
+                                        <div class="bottom-line">
+                                            <span class="publisher">发布人：王一</span>
+                                            <span class="g-empty-ele"></span> <span class="date">截止日期：2019-02-20</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="g-cutting-line"></div>
+
+                                <div class="info-line">
+                                    <i class="ico" style="background-image:url('../icons/contribution-1.png')"></i> <span>已捐款：50人</span>
+                                    <div class="g-empty-ele"></div>
+                                    <i class="ico" style="background-image:url('../icons/contribution-2.png')"></i> <span>收到善款：50000.00元</span>
+                                </div>
+                            </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

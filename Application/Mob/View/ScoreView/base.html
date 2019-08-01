@@ -1,0 +1,102 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <title>组织信息</title>
+</head>
+<style>
+    body {
+        font-size: 14px;
+    }
+
+    body.content {
+        width: 100%;
+        height: 100%;
+    }
+
+    .page {
+        padding-bottom: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .page .banner p {
+        font-size: 18px
+    }
+
+    header.head {
+        display: flex;
+        height: 3rem;
+        width: 100%;
+        background: url("../../Public/Mob/images/score_view/bg.png")100% 100%;
+        background-size: cover;
+        flex: 1;
+    }
+
+
+
+    .message{
+        display: flex;
+        align-content: center;
+        margin:  auto 1rem;
+    }
+   
+    .message .info p{
+        color: #eee;
+        font-size: 14px;
+        margin: 0.3rem ;
+    }
+    .message .info>p:first-child{
+        font-size: 16px;
+    }
+    
+    .avatar {
+        width: 17vw;
+        height: 17vw;
+        margin-right: 10px;
+        border-radius: 50%;
+        background: #eee center/cover no-repeat;
+        border: 3px solid rgb(226, 0, 0);
+    }
+</style>
+
+<body>
+    <div class="content">
+        <div class="page">
+
+            <div class="banner">
+                <div class="head"><i onclick="history.go(-1);"></i>
+                    <p>{$title}</p>
+                </div>
+            </div>
+
+            <header class="head">
+                <div class="message">
+                    <div class="avatar" style="background-image: url('{$user.headimgurl}')"></div>
+                    <div class="info">
+                       <p>{$user.realname}</p>
+                       <p>{$user.branch_name} {$user.party_group_name}</p> 
+                    </div>
+                    <div>
+                        <p style="color: #f8dc13;margin-top: 0.95rem;font-size: 16px;">{$head_score}积分</p>
+                    </div>
+                </div>
+
+            </header>
+            <block name="content">
+
+            </block>
+        </div>
+    </div>
+</body>
+
+</html>

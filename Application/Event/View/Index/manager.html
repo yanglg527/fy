@@ -1,0 +1,250 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .list{
+            border-top: 1px solid #dcdcdc;
+        }
+        .item{
+            background: white;
+            border-bottom: 1px solid #efefef;
+            height: 80px;
+            position: relative;
+        }
+        .item .item-head{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            left: 15px;
+            top: 10px;
+            border-radius: 25px;
+            border: 2px solid white;
+            overflow: hidden;
+        }
+        .item .item-name{
+            position: absolute;
+            left: 75px;
+            top: 10px;
+            font-size: 16px;
+            height: 20px;
+            line-height: 20px;
+            margin:0;
+        }
+        .item .item-mobile{
+            position: absolute;
+            left: 75px;
+            top: 30px;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        .item .item-branch{
+            position: absolute;
+            left: 75px;
+            bottom: 3px;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .item .item-sign-in{
+            margin: 0;
+            top: 10px;
+            right: 80px;
+            position: absolute;
+        }
+        .item .item-sign-out{
+            margin: 0;
+            top: 10px;
+            position: absolute;
+            right: 10px;
+        }
+        .container{
+            background: white;
+        }
+    </style>
+</block>
+<block name="content">
+    <section data-am-widget="accordion" class="am-accordion am-accordion-basic" data-am-accordion='{  }' style="text-align:center;margin-top:0px;" id="search">
+        <dl class="am-accordion-item am-active">
+            <dt class="am-accordion-title" style="color:#999;font-size:14px;">
+                <span>筛选</span>
+            </dt>
+            <dd class="am-accordion-bd am-collapse am-on">
+                <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+                <div class="am-accordion-content am-form">
+                    <div class="am-form-group">
+                        <select id="branch_id" class="am-input-sm am-radius">
+                            <option value="0">全部支部</option>
+                            <volist name='branchs' id="vo">
+                                <option value="{$vo.id}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                        <div class="am-form-group">
+                            <select id="sign_in_status" class="am-input-sm am-radius">
+                                <option value="all">签到状态</option>
+                                <option value="0">未签到</option>
+                                <option value="1">已签到</option>
+                            </select>
+                        </div>
+                    <div class="am-form-group">
+                        <select id="sign_out_status" class="am-input-sm am-radius">
+                            <option value="all">签退状态</option>
+                            <option value="0">未签退</option>
+                            <option value="1">已签退</option>
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <select id="attend_role" class="am-input-sm am-radius">
+                            <option value="0">全部角色</option>
+                            <volist name='roles' id="vo">
+                                <option value="{$vo.id}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                    <div style="text-align: center; ">
+                        <button id="btn-submit" onclick="search_submit();" style="width: 50%;" type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">确定</button>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </section>
+
+    <div class="list">
+
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        var published_at = 0;
+        function search_submit(){
+            published_at = 0;
+            is_loading = 0;
+            $('.list').html('');
+            $("#loading-text").show()
+            $('#loading-icon').show();
+            $("#loading-text").html('');
+            ajax_loading();
+        }
+        $('.list').on('click','input[name="sign_in"]',function(){
+            var id = $(this).val();
+            var status = $(this).prop('checked')?1:0;
+            $.ajax({
+                        data: {
+                            'id':id,
+                        'status':status,
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '__ROOT__/Event/Index/ajaxAttendSignIn',
+                    success: function (data) {
+//                        alert_modal(data.msg);
+                    },
+                    error: function (data) {
+                        alert_modal('网络异常');
+                    }
+            })
+        })
+        $('.list').on('click','input[name="sign_out"]',function(){
+            var id = $(this).val();
+            var status = $(this).prop('checked')?1:0;
+            $.ajax({
+                data: {
+                    'id':id,
+                    'status':status,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Event/Index/ajaxAttendSignOut',
+                success: function (data) {
+
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        })
+        ajax_loading();
+
+        function ajax_loading(){
+            var branch_id = $('#branch_id').val();
+            var sign_in_status = $('#sign_in_status').val();
+            var sign_out_status = $('#sign_out_status').val();
+            var attend_role = $('#attend_role').val();
+
+            $.ajax({
+                data: {
+                    'id':{$detail.id},
+                    'attend_time':published_at,
+                    'branch_id':branch_id,
+                    'sign_in_status':sign_in_status,
+                    'sign_out_status':sign_out_status,
+                    'attend_role':attend_role
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Event/Index/ajaxAttendLoading',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var html_content = '';
+                            var second_tag_name = '';
+                            $.each(data['data'],function(i,vo)
+                            {
+                                html_content = '';
+                                var branch_name = vo.branch_name;
+                                if(branch_name == null){
+                                    branch_name = '无所属支部';
+                                }
+                                var sign_in_status = vo.sign_status==1?'checked':'';
+                                var sign_out_status = vo.sign_out_status == 1?'checked':'';
+                                html_content = html_content + "<div class='item'><img class='item-head'><h5 class='item-name'>" +
+                                                vo.realname +
+                                        "<small>(" +
+                                        vo.role_name +
+                                        ")</small></h5><label class='item-mobile'>" +
+                                        vo.attend_mobile +
+                                        "</label><label class='item-branch'>" +
+                                        branch_name +
+                                        "</label>" +
+                                        "<label class='am-checkbox am-secondary item-sign-in'>" +
+                                        "<input type='checkbox' name='sign_in'  value='" + vo.attend_id + "' " + sign_in_status + " data-am-ucheck> 签到</label>" +
+                                        "<label class='am-checkbox am-secondary item-sign-out'>" +
+                                        "<input type='checkbox' name='sign_out'  value='" + vo.attend_id+ "' " + sign_out_status  +" data-am-ucheck> 签退</label></div>";
+                                $('.list').append(html_content);
+                                published_at = vo.attend_at;
+                            });
+                            is_loading = 1;
+                            $('#loading-icon').hide();
+                            $("#loading-text").hide();
+                        }else{
+                            is_loading = 1;
+                            $('#loading-icon').hide();
+                            $("#loading-text").html('没有更多了');
+                        }
+                    } else {
+                        alert_modal('网络异常');
+                        is_loading = 1;
+                        $("#loading-text").hide();
+                        $('#loading-icon').hide();
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        }
+
+
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height() && is_loading ==1) {
+                    is_loading = 0;
+                    $("#loading-text").show();
+                    $('#loading-icon').show();
+                    $("#loading-text").html('');
+                    ajax_loading();
+                }
+            });
+        });
+
+    </script>
+</block>

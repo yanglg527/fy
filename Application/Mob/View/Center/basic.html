@@ -1,0 +1,106 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/common/zonePublic.css">
+    <link rel="stylesheet" href="__CSS__/grassroots/personal/basic.css">
+
+    <link rel="stylesheet" href="__CSS__/ledger_list/list.css">
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        html{
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a onclick="history.go(-1);">
+                <div class="head_return"><i></i></div>
+                <div class="xinnav">基本信息</div>
+            </a>
+            <a class = "save">保存</a>
+        </header>
+    </div>
+    <div class="personal-edit">
+        <div class="heart">
+            <div class="block">
+                <ul>
+                    <li><a id = "name" href="#"><img class = "addto hide" src="__IMG__/grassroots/personal/addTo.png" alt="#"/><img class = "modify" src="__IMG__/grassroots/personal/modify.png" alt="#"/>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<span><input type="text" name="realname" value = "{$user.realname}" readonly  /></span></a></li>
+                    <li><a id = "gender" href="#"><img class = "addto" src="__IMG__/grassroots/personal/addTo.png" alt="#"/><img class = "modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：<span data-id="">{$user.gender|get_sex}</span></a></li>
+                     <li style="display: none;"><a id = "basic" href="#"><img class = "addto" src="__IMG__/grassroots/personal/addTo.png" alt="#"/><img class = "modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>出生年月：<span>{$user.birthday}</span></a></li> 
+                    <li><a id = "jion" href="#"><img class = "addto" src="__IMG__/grassroots/personal/addTo.png" alt="#"/><img class = "modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>入党时间：<span><if condition="$user.role_id lt 3">{$user.activist_date|date='Y-m',###}</if></span></a></li>
+                    <li><a id = "phone" href="#"><img class = "addto" src="__IMG__/grassroots/personal/addTo.png" alt="#"/><img class = "modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>联系手机号：<span><input type="number" name="mobile" value = "{$user.mobile}" readonly  /></span></a></li>
+                    <li><a id = "sign" href="#"><img class = "addto hide" src="__IMG__/grassroots/personal/addTo.png" alt="#"/><img class = "modify" src="__IMG__/grassroots/personal/modify.png" alt="#"/>座&nbsp;&nbsp;右&nbsp;&nbsp;铭：<span><input type="text" name="sign"  style="width: 250px" value = "{$user.sign}"   /></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="remind">
+        <div class="gender">
+            <section><a class = "cancel" href="#">取消</a><a class = "determine" href="#">确定</a></section>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide <if condition="$user.gender == 1">swiper-slide-active</if>" data-id="1">男</div>
+                    <div class="swiper-slide <if condition="$user.gender == 0">swiper-slide-active</if>" data-id="0">女</div>
+                </div>
+            </div>
+            <div class="frame"></div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+	  <script src="__STATICS__/datePicker/datePicker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__JS__/grassroots/personal/basic.js" type="text/javascript" charset="utf-8"></script>
+
+    <script>
+        $('.save').click(function () {
+            loading();
+            var gS = $('#gender span').attr('data-id');
+            var gender = gS == 1?1:0;
+//           birthday:$('#basic span').text(),
+            var data = {
+                realname:$('input[name="realname"]').val(),
+                sign:$('input[name="sign"]').val(),
+                mobile:$('input[name="mobile"]').val(),
+                gender:gender,
+               
+                activist_date:$('#jion span').text()
+            }
+            var url = "__ROOT__/Mob/Center/ajax_save";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location.href = "__ROOT__/Mob/Center/edit";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+            return false;
+        })
+    </script>
+</block>

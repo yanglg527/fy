@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>微测试</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2"/>
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.tab.pullrefresh.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+    <link rel="stylesheet" href="__CSS__/member_develop/member_develop.css">
+</head>
+<body style="background: transparent">
+<div class="bg" style="position: fixed;"></div>
+<div id="slider" class="mui-slider mui-fullscreen page">
+    <ul id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical nav_ul">
+        <a class="mui-control-item" href="#item1mobile">
+            <li>
+            <div class="container">
+                <div class="navImg">
+                    <img src="__IMG__/member_develop/mass1.png" class="pic1" alt="">
+                    <img src="__IMG__/member_develop/mass2.png" class="pic2 hide" alt="">
+                </div>
+                <span class="icon active"></span>
+                <p>群众</p>
+            </div>
+        </li>
+        </a>
+        <li class="mui-control-item" href="#item1mobile">
+            <div class="container">
+                <div class="navImg">
+                    <img src="__IMG__/member_develop/activist1.png" class="pic1" alt="">
+                    <img src="__IMG__/member_develop/activist2.png" class="pic2 hide" alt="">
+                </div>
+                <span class="icon active"></span>
+                <p>积极分子</p>
+            </div>
+        </li>
+        <li>
+            <div class="container">
+                <div class="navImg">
+                    <img src="__IMG__/member_develop/object1.png" class="pic1 hide" alt="">
+                    <img src="__IMG__/member_develop/object2.png" class="pic2" alt="">
+                </div>
+                <span class="icon"></span>
+                <p class="active">重点发展对象</p>
+            </div>
+        </li>
+        <li>
+            <div class="container">
+                <div class="navImg">
+                    <img src="__IMG__/member_develop/probationary_party1.png" class="pic1" alt="">
+                    <img src="__IMG__/member_develop/probationary_party2.png" class="pic2 hide" alt="">
+                </div>
+                <span class="icon active"></span>
+                <p>预备党员</p>
+            </div>
+        </li>
+        <li class="hide">
+            <div class="container">
+                <div class="navImg">
+                    <img src="__IMG__/member_develop/attend_data1.png" class="pic1" alt="">
+                    <img src="__IMG__/member_develop/attend_data2.png" class="pic2 hide" alt="">
+                </div>
+                <span class="icon active"></span>
+                <p>发展入党数据查询</p>
+            </div>
+        </li>
+    </ul>
+    <ul class="content_ul mass_ul hide">
+        <li>
+            <div class="nav" data-id="all">支部选择<i></i></div>
+        </li>
+        <volist name="list1" id="item">
+            <include file="MemberDevelop/_index_list_item"/>
+        </volist>
+    </ul>
+</div>
+
+</div>
+<script>
+    var __root__ = "__ROOT__";
+</script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/dateUtil.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATICS__/mui/mui.pullToRefresh.js"></script>
+<script src="__STATICS__/mui/mui.pullToRefresh.material.js"></script>
+<script>
+    mui.init();
+    (function ($) {
+        //阻尼系数
+        var deceleration = mui.os.ios ? 0.003 : 0.0009;
+        $('.mui-scroll-wrapper').scroll({
+            bounce: false,
+            indicators: true, //是否显示滚动条
+            deceleration: deceleration
+        });
+        $.ready(function () {
+            var isLoading1 = false;
+            var isLoading2 = false;
+            $.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function (index, pullRefreshEl) {
+                $(pullRefreshEl).pullToRefresh({
+                    up: {
+                        callback: function () {
+                            if (index == 0) {
+                                ajaxGetList1(this)
+                            } else {
+                                ajaxGetList2(this)
+                            }
+                        }
+                    }
+                });
+                if (index == 0) {
+                    ajaxGetList1(false)
+                } else {
+                    ajaxGetList2(false)
+                }
+
+            });
+            var list1 = mui('.list1')[0];
+            var lastItem1 = 0;
+            var listItemHtmlArray1 = mui('#list-template1')[0].innerHTML.split("##");
+            var list2 = mui('.list2')[0];
+            var lastItem2 = 0;
+            var listItemHtmlArray2 = mui('#list-template2')[0].innerHTML.split("##");
+
+            function ajaxGetList1(pl) {
+
+                if (isLoading1) {
+                    if (pl)
+                        pl.endPullUpToRefresh(false);
+                    return false;
+                }
+                isLoading1 = true;
+                mui.ajax('__ROOT__/Mob/Test/ajaxLoadData', {
+                    data: {
+                        type: 1,
+                        lastItem: lastItem1
+                    },
+                    dataType: 'json', //服务器返回json格式数据
+                    type: 'post', //HTTP请求类型
+                    timeout: 10000, //超时时间设置为10秒；
+                    success: function (data) {
+
+
+                        if (data['status'] == 0) {
+                            //                    console.log("data = aaaaaaaaaaaaaaaa");
+                            var listData = data.data;
+                            //                    console.log("data = " + JSON.stringify(listData));
+                            if (listData && listData.length > 0) {
+                                var listItem = "";
+                                var itemTemp = "";
+                                for (var i = 0; i < listData.length; i++) {
+                                    lastItem1 = listData[i]['create_time'];
+
+                                    listItemHtmlArray1[1] = listData[i]['id'];
+                                    listItemHtmlArray1[3] = listData[i]['title'];
+                                    listItemHtmlArray1[5] = listData[i]['branch_name'];
+                                    var createTimeStr = new Date(listData[i]['create_time'] * 1000).Format("yyyy/MM/dd");
+                                    listItemHtmlArray1[7] = createTimeStr;
+                                    itemTemp = "";
+                                    for (var j = 0; j < listItemHtmlArray1.length; j++) {
+                                        itemTemp += listItemHtmlArray1[j];
+                                    }
+                                    listItem += itemTemp;
+                                }
+                                list1.innerHTML += listItem;
+
+                                if (listData.size < 15) { // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+                                    if (pl)
+                                        pl.endPullUpToRefresh(true);
+                                } else {
+                                    if (pl)
+                                        pl.endPullUpToRefresh(false);
+                                }
+                            } else {
+                                if (pl)
+                                    pl.endPullUpToRefresh(true);
+                            }
+
+                        } else {
+                            if (pl)
+                                pl.endPullUpToRefresh(true);
+                            alert(data.msg);
+                        }
+                        isLoading1 = false;
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        //异常处理；
+                        isLoading1 = false;
+                        if (pl)
+                            pl.endPullUpToRefresh(true);
+                        console.log(type);
+                        mui.alert('网络异常');
+                    }
+                });
+            }
+
+            function ajaxGetList2(pl) {
+                if (isLoading2) {
+                    if (pl)
+                        pl.endPullUpToRefresh(false);
+                    return false;
+                }
+
+                isLoading2 = true;
+                mui.ajax('__ROOT__/Mob/Test/ajaxLoadData', {
+                    data: {
+                        type: 0,
+                        lastItem: lastItem2
+                    },
+                    dataType: 'json', //服务器返回json格式数据
+                    type: 'post', //HTTP请求类型
+                    timeout: 10000, //超时时间设置为10秒；
+                    success: function (data) {
+                        if (data['status'] == 0) {
+                            //                    console.log("data = aaaaaaaaaaaaaaaa");
+                            var listData = data.data;
+                            //                    console.log("data = " + JSON.stringify(listData));
+                            if (listData && listData.length > 0) {
+                                var listItem = "";
+                                var itemTemp = "";
+                                for (var i = 0; i < listData.length; i++) {
+                                    lastItem2 = listData[i]['create_time'];
+
+//                                <a href="__ROOT__/Mob/Test/detail?id=##id##">
+//                                        <header>##title##</header>
+//                                    <div class="time">发布时间：
+//                                <time class="release">##time##</time>
+//                                    截止时间：
+//                                <time class="deadline">##time2##</time>
+//                                    </div>
+//                                    <div class="time-left">
+//                                        <p>
+//                                        <time class="date">##day##</time>
+//                                    天
+//                                    </p>
+//                                    <p>距截止日期还剩</p>
+//                                    </div>
+//                                    </a>
+//
+                                    listItemHtmlArray2[1] = listData[i]['id'];
+                                    listItemHtmlArray2[3] = listData[i]['title'];
+                                    var publishTimeStr = new Date(listData[i]['publish_time'] * 1000).Format("yyyy/MM/dd");
+                                    listItemHtmlArray2[5] = publishTimeStr;
+                                    var endTimeStr = new Date(listData[i]['end_time'] * 1000).Format("yyyy/MM/dd");
+                                    listItemHtmlArray2[7] = endTimeStr;
+                                    var l = parseInt((parseInt(listData[i]['end_time']) + (24 * 60 * 60) - (new Date().getTime() / 1000)) / (24 * 60 * 60));
+                                    if (l < 0)
+                                        l = 0;
+                                    listItemHtmlArray2[9] = l
+                                    itemTemp = "";
+                                    for (var j = 0; j < listItemHtmlArray2.length; j++) {
+                                        itemTemp += listItemHtmlArray2[j];
+                                    }
+                                    listItem += itemTemp;
+                                }
+                                list2.innerHTML += listItem;
+
+                                if (listData.size < 15) { // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+                                    if (pl)
+                                        pl.endPullUpToRefresh(true);
+                                } else {
+                                    if (pl)
+                                        pl.endPullUpToRefresh(false);
+                                }
+                            } else {
+                                if (pl)
+                                    pl.endPullUpToRefresh(true);
+                            }
+                        } else {
+                            if (pl)
+                                pl.endPullUpToRefresh(true);
+                            alert(data.msg);
+                        }
+                        isLoading2 = false;
+                    },
+                    error: function (xhr, type, errorThrown) {
+                        //异常处理；
+                        isLoading2 = false
+                        if (pl)
+                            pl.endPullUpToRefresh(true);
+                        console.log(type);
+                        mui.alert('网络异常');
+                    }
+                });
+            }
+
+        });
+    })(mui);
+</script>
+</body>
+
+</html>

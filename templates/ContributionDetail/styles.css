@@ -1,0 +1,188 @@
+.log-panel {
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.log-panel .title {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: #666;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.log-panel .log-line {
+    margin: 5px 0;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.log-panel .log-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    color: #999;
+}
+
+.contribution-bottom-box {
+    box-shadow: 0px -3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.contribution-bottom-box .info-line {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    color: #999;
+}
+
+.contribution-bottom-box .ico {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: center/cover no-repeat;
+}
+
+.contribution-bottom-box .g-empty-ele {
+    flex: 1 1;
+}
+
+.contribution-bottom-box .bottom-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}
+
+.contribution-bottom-box .time-out {
+    font-size: 16px;
+    color: #666;
+}
+
+.contribution-bottom-box .day {
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 20px;
+    color: #ce3d37;
+}
+
+.contribution-bottom-box .contribution-btn {
+    flex: 1 1;
+    margin-left: 20px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    color: #fff;
+    font-size: 18px;
+    background-color: #ce3d37;
+}
+
+/* 捐款支付 */
+.pay-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.25);
+    transition: all 0.25s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.shadow-layer {
+    flex: 1 1;
+}
+
+.content-container {
+    padding: 10px;
+    background-color: #fff;
+    transition: all 0.25s;
+    transform: translateY(20px);
+}
+
+.pay-cover__header {
+    display: flex;
+    align-items: center;
+}
+
+.pay-cover__header .ico {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: center/cover no-repeat;
+}
+
+.pay-cover__header .title {
+    color: #333;
+}
+
+.pay-cover__header .sub-title {
+    flex: 1 1;
+    font-size: 12px;
+    color: #999;
+}
+
+.pay-cover__header .close-btn {
+    width: 30px;
+    height: 30px;
+    background: center/cover no-repeat;
+}
+
+.pay-cover__price-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.pay-cover__price-wrapper .item {
+    min-width: 25%;
+    margin: 10px 0;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+}
+
+.pay-cover__price-wrapper .item.active {
+    border-color: #ce3d37;
+}
+
+.pay-cover__price-wrapper .price-text {
+    color: #ce3d37;
+}
+
+.pay-cover__price-wrapper #custom-price {
+    width: 50vw;
+    border-color: transparent;
+    outline: none;
+}
+
+.pay-cover__submit-btn {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ce3d37;
+    color: #fff;
+    text-align: center;
+}
+
+.pay-cover__tips {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+}
+
+/* 显示状态 */
+.pay-cover.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.pay-cover.active .content-container {
+    transform: translateX(0);
+}

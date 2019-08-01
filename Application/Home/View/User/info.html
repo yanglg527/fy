@@ -1,0 +1,319 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .container {
+            background-color: #f7f8f8;
+            padding-bottom: 40px;
+        }
+
+        .info-block{
+            margin-top: 15px;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .info-block .item{
+            margin-left: 15px;
+            border-bottom: 1px solid #e8e8e8;
+            /*padding: 5px 0px;*/
+            height: 45px;
+            line-height: 45px;
+            position: relative;
+        }
+
+        .no-bottom-border{
+            border-bottom: 0px !important;
+        }
+
+        .info-block .title{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            left: 0px;
+            margin: auto;
+            font-size: 14px;
+            color: black;
+        }
+
+        .info-block .detail{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            right: 40px;
+            left: 80px;
+            text-align: right;
+            margin: auto;
+            font-size: 14px;
+            color: #999999;
+
+            max-width: 70%;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .icon-right{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            right: 15px;
+            margin: auto;
+        }
+
+        .head-row{
+            height: 74px !important;
+            line-height: 74px !important;
+        }
+
+        .header-div{
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            right: 20px;
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            border-radius:60px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+            line-height: normal;
+        }
+        .header-div img{
+            width:60px;
+            height:60px;
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        /*隐藏select的下拉小三角*/
+        .am-btn i{
+            display: none;
+        }
+        /*隐藏select边框*/
+        .am-btn-default{
+            border: 0px;
+            color: #999999;
+            font-size: 14px;
+        }
+        /*隐藏select选中背景色*/
+        .am-btn-default.am-active, .am-btn-default:active, .am-dropdown.am-active .am-btn-default.am-dropdown-toggle{
+            background-color: transparent !important;
+        }
+        /*select文本居右*/
+        .am-selected-status{
+            text-align: right;
+        }
+        .am-btn{
+            padding: 0px;
+        }
+
+
+
+
+        .content {
+            background: white;
+        }
+
+        .list-area {
+            border-left: 15px solid white;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(243, 243, 243);
+            position: relative;
+        }
+
+        .list-area:active {
+            background-color: rgb(243, 243, 243);
+            border-left: 15px solid rgb(243, 243, 243);
+        }
+
+        .identity-item:active {
+            background-color: white;
+            border-left: 15px solid white;
+        }
+
+        .list-area .text-item {
+            padding-left: 0;
+        }
+
+        .list-area .icon-item {
+            text-align: right;
+        }
+
+        .headImg-item {
+            position: absolute;
+            right: 35px;
+            top: -10px;
+            height: 46px;
+            width: 46px;
+            overflow: hidden;
+            border: 1px solid rgb(243, 243, 243);
+
+            -moz-border-radius: 3px; /* Firefox */
+            -webkit-border-radius: 3px; /* Safari 和 Chrome */
+            border-radius: 3px; /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+        }
+
+        .am-icon-chevron-right {
+            color: rgb(151, 151, 151);
+        }
+
+        .am-popup {
+            display: block;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            /* position: absolute; */
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        .popup-default {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="info-block">
+        <a href="__ROOT__/Home/User/editHead">
+        <div class="item head-row">
+            <span class="title">头像</span>
+            <div class="header-div">
+                <img src="{$user.headimgurl|get_head_url}">
+                <!--<img src="__IMG__headImg.jpg">-->
+            </div>
+            <span class="am-icon-chevron-right icon-right"></span>
+        </div>
+        </a>
+        <div class="item">
+            <span class="title">姓名</span>
+            <span class="detail">{$user.realname}</span>
+            <!--<span class="am-icon-chevron-right icon-right"></span>-->
+        </div>
+        <a href="__ROOT__/Home/User/scoreLog">
+            <div class="item">
+                <span class="title">积分</span>
+                <span class="detail">{$user.score}</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/User/editSex">
+            <div class="item">
+                <span class="title">性别</span>
+                <span class="detail">{$user.gender|get_sex}</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/User/editBirthday">
+            <div class="item no-bottom-border">
+                <span class="title">出生日期</span>
+                <span class="detail">{$user.birthday}</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+    </div>
+
+    <div class="info-block">
+        <if condition="$user.post_name neq null">
+            <div class="item">
+                <span class="title">党内职务</span>
+                <span class="detail">{$user.post_name}</span>
+                <!--<span class="am-icon-chevron-right icon-right"></span>-->
+            </div>
+        </if>
+        <div class="item">
+            <span class="title">政治面貌</span>
+            <span class="detail">{$user.role_name}</span>
+            <!--<span class="am-icon-chevron-right icon-right"></span>-->
+        </div>
+        <!--<if condition="$user.ready_date gt 0">-->
+            <div class="item">
+                <span class="title">入党时间</span>
+                <span class="detail"><if condition="$user.ready_date gt 0">{$user.ready_date|date="Y-m-d",###}</if></span>
+                <!-- <span class="am-icon-chevron-right icon-right"></span> -->
+            </div>
+        <!--</if>-->
+        <if condition="$user.branch_name neq null">
+            <a href="__ROOT__/Home/User/editBranch">
+                <div class="item">
+                    <span class="title">所属支部</span>
+                    <span class="detail">{$user.branch_name}</span>
+                    <span class="am-icon-chevron-right icon-right"></span>
+                </div>
+            </a>
+        </if>
+        <a href="__ROOT__/Home/user/editWorkUnit">
+            <div class="item">
+                <span class="title">工作单位</span>
+                <span class="detail">{$user.work_unit_name}</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/user/editPosition">
+            <div class="item no-bottom-border">
+                <span class="title">工作职务</span>
+                <span class="detail">{$user.position}</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+    </div>
+
+    <div class="info-block">
+        <a href="__ROOT__/Home/Study/StandingBook?type=0&entry=info">
+            <div class="item">
+                <span class="title">我的台账</span>
+                <span class="detail">查看</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/user/mySpace?entry=info">
+            <div class="item">
+                <span class="title">党员发展</span>
+                <span class="detail">查看</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/user/rewardSituation?entry=info">
+            <div class="item">
+                <span class="title">奖励情况</span>
+                <span class="detail">查看</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/user/rewardBadSituation?entry=info">
+            <div class="item">
+                <span class="title">惩罚情况</span>
+                <span class="detail">查看</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <a href="__ROOT__/Home/user/jobResume?entry=info">
+            <div class="item no-bottom-border">
+                <span class="title">工作简历</span>
+                <span class="detail">查看</span>
+                <span class="am-icon-chevron-right icon-right"></span>
+            </div>
+        </a>
+        <!--<a href="__ROOT__/Home/User/developHistory?uid={$user.uid}&showBtn=0">-->
+            <!--<div class="item no-bottom-border">-->
+                <!--<span class="title">发展历程</span>-->
+                <!--<span class="detail">查看</span>-->
+                <!--<span class="am-icon-chevron-right icon-right"></span>-->
+            <!--</div>-->
+        <!--</a>-->
+
+    </div>
+
+</block>
+
+<block name="scripts">
+
+</block>

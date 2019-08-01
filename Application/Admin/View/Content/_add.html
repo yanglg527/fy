@@ -1,0 +1,102 @@
+<form class="am-form">
+            <div class="am-g am-margin-top">
+              <input type="hidden" name="id" value="{$article.id}">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                文章标题
+              </div>
+              <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" name="title" value="{$article.title}" class="am-input-sm">
+              </div>
+              <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+            </div>
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">文章封面</div>
+              <div class="am-u-sm-8 am-u-md-3">
+                <div class="am-form-group am-form-file">
+                  <input type="hidden" name="img_url" value="{$article.cover_path}">
+	                <div class="uplosd_image" id="info-cover">
+	                    <img src="{$article.cover_path|show_img}" class="info-cover"/>
+	                    <span class="info-cover-span">点击选择封面</span>
+	                </div>
+                </div>
+              </div>
+              <div class="am-hide-sm-only am-u-md-7 am-form-help">请上传大小小于2M的图片</div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">文章类型</div>
+                <div class="am-u-sm-8 am-u-md-10">
+                  <div class="am-btn-group" data-am-button>
+                  	<volist name="tags" id="vo">
+    	                <label class="am-btn am-btn-default am-btn-xs" style="margin-top:5px;">
+    	                  <input type="checkbox" name="article_tag" id="{$vo.id}" value="{$vo.id}" <volist name="article_tags" id="item"><if condition="$item.tag_id eq $vo['id']">checked="checked"</if></volist>> {$vo.name}
+    	                </label>
+                 	</volist>
+                </div>
+              </div>
+            </div>
+
+            
+          
+<!-- 
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否显示在首页</div>
+              <div class="am-u-sm-8 am-u-md-10">
+                <div class="am-btn-group" data-am-button>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="is_index" id="option1" value=1 <if condition="$article.is_index == 1 ">checked</if>> 是
+                  </label>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="is_index" id="option2" value=0 <if condition="$article.is_index == 0 || $rarticle.is_index == null ">checked</if>> 否
+                  </label>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="am-g am-margin-top-sm">
+              <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+                文章内容
+              </div>
+              <div class="am-u-sm-12 am-u-md-10">
+                <script id="editor" type="text/plain"></script>
+              </div>
+            </div>
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否是链接文章</div>
+              <div class="am-u-sm-8 am-u-md-10">
+                <div class="am-btn-group" data-am-button>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="is_url" id="option1" value=1 <eq name="article.is_url" value= "1">checked</eq>> 是
+                  </label>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="is_url" id="option2" value=0 <neq name="article.is_url" value= "1" >checked</neq>> 否
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="am-g am-margin-top" id="url" <neq name="article.is_url" value= "1" >style="display:none" </neq>>
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                文章链接
+              </div>
+              <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" name="spider_url" value="{$article.spider_url}" class="am-input-sm">
+
+              </div>
+              <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+            </div>
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否启用</div>
+              <div class="am-u-sm-8 am-u-md-10">
+                <div class="am-btn-group" data-am-button>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="hidden" id="option1" value=1 <if condition="$article.hidden == 1 || $rarticle.hidden == null ">checked</if>> 是
+                  </label>
+                  <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="hidden" id="option2" value=0 <eq name="article.hidden" value= "0" >checked</eq>> 否
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+	

@@ -1,0 +1,207 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">单位信息管理</strong></a> /
+                <small><empty name="detail">新增党小组<else/>编辑党小组《{$detail.name}》</empty></small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="upload-form">
+                    <div class="am-g am-margin-top">
+                        <input type="hidden" name="id" value="{$detail.id}">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            单位名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" name="name" value="{$detail.name}" class="am-input-sm">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            排序
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" class="am-input-sm" name="sort" value="{$detail.sort}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+                    </div>
+            
+                    
+                  
+                </form>
+
+
+            </div>
+        </div>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+
+    </div>
+
+    <include file="PartyOrganization/_user_selecter"/>
+</block>
+<block name="scripts">
+    <!--图片上传控件-->
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+    <script type="text/javascript" src="__STATICS__/webuploader-0.1.5/webuploader.min.js"></script>
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/onebit/upload-file.js"></script>
+    <script>
+        // document.onkeydown=function(event){
+        //     var e = event || window.event || arguments.callee.caller.arguments[0];
+        //     if(e && e.keyCode==27){ // 按 Esc
+        //         //要做的事情
+        //     }
+        //     if(e && e.keyCode==113){ // 按 F2
+        //         //要做的事情
+        //     }
+        //     if(e && e.keyCode==13){ // enter 键
+        //         //要做的事情
+        //         getUsers();
+        //     }
+        // };
+        // function getUsers() {
+        //     $('#select-content').html("加载中...");
+        //     var keyword = $('#selector-search-input').val();
+        //     $.ajax({
+        //         url: '__ROOT__/Admin/PartyGroup/ajaxGetUsers',
+        //         type: 'POST', //GET
+        //         data: {id:'{$detail.id}',keyword: keyword,type:'ms'},  //
+        //         dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        //         success: function (data) {
+        //             $('#select-content').html("");
+        //             if (data.status == 0) {
+        //                 var html = "";
+
+        //                 $.each(data.data, function (index, item) {
+        //                     html += item.html;
+        //                 });
+        //                 $('#select-content').html(html);
+        //             } else {
+        //                 alert_modal(data.msg);
+        //             }
+        //         },
+        //         error: function (xhr, textStatus) {
+        //             $('#select-content').html("服务器暂时无法连接，请稍候再试");
+        //             alert_modal("服务器暂时无法连接，请稍候再试");
+        //         }
+        //     })
+        // }
+        // $('#selector-btn-search').click(function () {
+        //     getUsers()
+        // })
+
+        // $('.canselect').click(function () {
+
+
+        // })
+
+        // $('#doc-modal-1').on('click', '.canselect', function () {
+        //     var uid = $(this).attr('data-id');
+        //     var realname = $(this).attr('data-name');
+
+        //     $('input[name="gl_uid"]').val(uid);
+        //     $('.btn-post').text(realname);
+        //     $('#doc-modal-1').modal('close');
+
+        // })
+    </script>
+    <script>
+        var uploader = OneBitImageUploader.create({
+            objDiv:'#upload-image',
+            inputFileName: 'cover_path',
+            uploadTitle:'点击上传封面',
+            inputFileDefault: '{$detail.cover}',
+            inputCoverName: 'cover2',
+            inputCoverDefault: '{$detail.cover}',
+            showSrcDefault: '{$detail.cover|show_img}',
+            bgDefault: '{$detail.aaa|show_img}',
+            server:'__ROOT__/Admin/PartyGroup/ajaxUploadCover',
+            swfPath:'__STATICS__/webuploader-0.1.5/Uploader.swf',
+            crop:{
+                ratioWidth:25,
+                ratioHeight:25,
+                reset : true
+            },
+            width:'110px',
+            height:'110px',
+            accept: {
+                title: 'image',
+                extensions: '*',
+                mimeTypes: 'image/*'
+            }
+        })
+
+    </script>
+    <!--图片上传控件-->
+
+
+    <script type="text/javascript">
+
+
+        function submit_info() {
+
+            var name = $('input[name="name"]').val();
+            if(name == ''){
+                alert_modal("单位名称不能为空");
+                return false;
+            }
+
+            var data = $('#upload-form').serialize();
+      
+            
+            $.ajax({
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/WorkUnit/ajaxSave',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/WorkUnit/index?p={$p}');
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

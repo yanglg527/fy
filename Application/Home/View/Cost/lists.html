@@ -1,0 +1,121 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+	    .container{
+            background-color: #ffffff;
+        }
+
+        .tip {
+            width: 100%;
+            height: 31px;
+            line-height: 31px;
+            background: #FDF6D5;
+            font-size: 12px;
+            color: #666666;
+            padding-left: 10px;
+        }
+
+        .list-item{
+            margin: 10px 5px;
+            border: 1px solid #E8E8E8;
+            border-radius: 5px;
+            padding: 8px 10px;
+        }
+
+        .item-title{
+            height: 24px;
+            line-height: 24px;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+
+        .item-period{
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .item-end-date{
+            height: 24px;
+            line-height: 24px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .party-fee-title{
+            font-size: 16px;
+            color: #999999;
+            width: 50%;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .party-fee{
+            font-size: 18px;
+            color: red;
+            width: 50%;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+        }
+
+        .btn-pay{
+            float: right;
+            height: 35px;
+            line-height: 35px;
+            width: 80px;
+            text-align: center;
+            font-size: 15px;
+            color: white;
+            background: orange;
+            border-radius: 3px;
+        }
+
+        .btn-payed{
+            float: right;
+            height: 35px;
+            line-height: 35px;
+            width: 80px;
+            text-align: center;
+            font-size: 15px;
+            color: white;
+            background: #cccccc;
+            border-radius: 3px;
+        }
+
+    </style>
+</block>
+
+<block name="content">
+    <div class="tip">温馨提示：请及时缴纳党费。</div>
+
+    <div class="dynamic-list">
+        <volist name="list" id="item">
+            <div class="list-item">
+                <div class="item-title">{$item.fee_name}</div>
+                <div class="item-period">{$item['fee_year']|show_cost_season=$item['fee_season']}</div>
+                <div class="item-end-date">请尽快缴纳本次党费</div>
+                <hr style="margin: 8px 0px; color: #E8E8E8"/>
+                <div>
+                    <span class="party-fee-title">缴纳党费：</span>
+                    <span class="party-fee">{$item.fee}元</span>
+                    <if condition="$item.order_status == 1">
+                        <span class="btn-payed">已缴纳</span>
+                        <else/>
+                        <a class="btn-pay" href="__ROOT__/Weixin/Weixinpay/pay?state={$item.out_trade_no}">去缴纳</a>
+                    </if>
+
+                </div>
+            </div>
+        </volist>
+
+    </div>
+
+
+
+</block>
+
+<block name="scripts">
+
+</block>

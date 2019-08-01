@@ -1,0 +1,599 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .topic-block {
+            background: rgb(255, 255, 255);
+            margin-bottom: 20px;
+        }
+
+        .topic-header {
+            border-top: 1px solid rgb(240, 240, 241);
+            display: block !important;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+            color: rgb(120, 120, 120);
+        }
+
+        .topic-header:active {
+            background: white !important;
+        }
+
+        .list-area {
+            border-bottom: 1px solid rgb(240, 240, 241);
+            display: table;
+            padding-left: 30px;
+        }
+
+        .list-area:active {
+            background: rgb(243, 243, 243);
+        }
+
+        .list-area li {
+            display: table-cell;
+            height: 80px;
+            vertical-align: middle;
+            padding-top: 15px;
+            padding-bottom: 15px;
+
+        }
+
+        .icon-item img {
+            height: 100%;
+            width: 100%;
+        }
+
+
+        .text-item span {
+            font-size: 18px;
+            color: rgb(59, 59, 59);
+        }
+
+        .content .list {
+            padding-left: .5em;
+        }
+
+        .content .list-item {
+            display: table;
+            width: 100%;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .content .list-item .list-item-row {
+            display: table-row;
+            height: 6em;
+        }
+
+        .content .list-item .list-item-cell {
+            display: table-cell;
+        }
+
+        .content .list-item .list-item-cell img {
+            width: 5em;
+            height: 5em;
+            margin: .5em 0;
+        }
+
+        .content .list-item .list-item-cell p {
+            margin-bottom: .5em;
+            line-height: 1;
+        }
+
+        .content .list-item .list-item-cell .list-item-cell-bottom {
+            position: absolute;
+            bottom: .5em;
+            float: right;
+            right: .5em;
+            left: .5em;
+        }
+
+        .content .list-item .list-item-cell .list-item-cell-bottom .time {
+            color: #aaa;
+            font-size: 12px;
+            float: right;
+        }
+
+        .content .list-item .list-item-cell p.intro {
+            color: #CCCCCC;
+        }
+
+        .content .list-item .list-item-cell-right {
+            position: relative;
+            width: 100%;
+            padding: .5em;
+            vertical-align: top;
+        }
+
+        .fs12 {
+            font-size: .9em;
+        }
+
+        .fs16 {
+            font-size: 1.1em;
+        }
+
+        .b0 {
+            border-width: 0 !important;
+        }
+
+        .bl0 {
+            border-left-width: 0 !important;
+        }
+
+        .br0 {
+            border-right-width: 0 !important;
+        }
+
+        .bt0 {
+            border-top-width: 0 !important;
+        }
+
+        .bb0 {
+            border-bottom-width: 0 !important;
+        }
+
+        .br {
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .bl {
+            border-left: 1px solid #e5e5e5;
+        }
+
+        .bt {
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .bb {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .b,
+        .ba {
+            border-right: 1px solid #e5e5e5;
+            border-left: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .radius-clear {
+            border-radius: 0 !important;
+        }
+
+        .pt0 {
+            padding-top: 0 !important;
+        }
+
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pt10 {
+            padding-top: 10px;
+        }
+
+        .pt15 {
+            padding-top: 15px;
+        }
+
+        .pt20 {
+            padding-top: 20px;
+        }
+
+        .pt25 {
+            padding-top: 25px;
+        }
+
+        .pb0 {
+            padding-bottom: 0 !important;
+        }
+
+        .pb5 {
+            padding-bottom: 5px;
+        }
+
+        .pb10 {
+            padding-bottom: 10px;
+        }
+
+        .pb15 {
+            padding-bottom: 15px;
+        }
+
+        .pb20 {
+            padding-bottom: 20px;
+        }
+
+        .mt0 {
+            margin-top: 0;
+        }
+
+        .mt5 {
+            margin-top: 5px;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .mt15 {
+            margin-top: 15px;
+        }
+
+        .mt20 {
+            margin-top: 20px;
+        }
+
+        .mb0 {
+            margin-bottom: 0;
+        }
+
+        .mb5 {
+            margin-bottom: 5px;
+        }
+
+        .mb10 {
+            margin-bottom: 10px;
+        }
+
+        .mb15 {
+            margin-bottom: 15px;
+        }
+
+        .mb20 {
+            margin-bottom: 20px;
+        }
+
+        .list .sponsor {
+            position: absolute;
+            bottom: 1.8em;
+
+        }
+
+        .list .date {
+            font-size: .8em;
+            color: #aaa;
+        }
+
+        .list .address {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 1em;
+            font-size: .8em;
+            color: #aaa;
+        }
+
+        .list .date span,
+        .list .address span {
+            margin-right: .3em;
+        }
+
+        .list .address {
+            margin-right: 2em;
+        }
+
+        .list .count {
+            color: #FF7F0E;
+        }
+    </style>
+    <style>
+        .head-item .title {
+            padding: 5px;
+            height: auto;
+            line-height: normal;
+            margin-right: 20px;
+            margin-top: 25px;
+            color: #555
+        }
+
+        .head-item .title b {
+            margin-left: 10px;
+            border-top-color: #555;
+            border-bottom-color: #555;
+        }
+
+        .filter-items {
+            width: 200%;
+            height: auto
+        }
+
+        .filter-items .filter-item {
+            padding: 0;
+            height: auto;
+        }
+
+        .filter-items .select {
+            padding: 0;
+            background-color: #50d246;
+        }
+
+        .filter-items .select a {
+            color: #fffdf7 !important;
+        }
+
+        .filter-items .filter-item a {
+            color: #74726e;
+            padding: 0px;
+            padding-top: 10px;
+            padding-bottom: 10px
+        }
+        .item-title{
+            width:100%;height: 1.2em;line-height: 1.2em;overflow: hidden
+        }
+        .item-title div{
+            width: 70%;display: inline-block
+        }
+        .item-title div span{
+            height: 1.2em;line-height: 1.2em;overflow: hidden;font-size: 16px
+        }
+        .item-title .status{
+            font-size:14px;float:right;padding-left:5px;padding-right:5px;margin-left:10px;color:white;background-color:orangered;padding-bottom:3px;border-radius: 3px
+        }
+        .address span{
+            line-height: 1em;height: 1em;overflow: hidden
+        }
+        .time{
+            position: absolute;right: 0;bottom: 0
+        }
+        .time .count{
+            line-height: 1em;height: 1em;overflow: hidden
+        }
+        .list-item-cell-bottom{
+            line-height: 1em;vertical-align: middle
+        }
+        .intro{
+            padding-bottom: 5px
+        }
+        .list-item{
+            color: black
+        }
+        .list{
+            background-color: white;
+        }
+    </style>
+</block>
+<block name="content">
+
+    <div class="am-tabs am-tabs-d2" id="doc-my-tabs" style="background-color:#fff;">
+        <if condition="$adm_auth == 1">
+            <ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
+                <li class="am-active"><a href="" style="border:none;background-color:#fff;color:#555;">最新活动</a></li>
+                <li><a href="" style="border:none;background-color:#fff;color:#555;">活动管理</a></li>
+            </ul>
+        </if>
+
+        <div class="am-tabs-bd" style="border-bottom: 0">
+            <div class="am-tab-panel am-active" style="padding:0px;">
+                <div class="dynamic-list" style="margin-top:0" id="article-list-0">
+                    <div class="content">
+
+                    </div>
+                </div>
+                <div style='text-align:center;margin-bottom:5px;margin-top: 5px;color:#999' id="loading-text-0"><i id="loading-icon-0" class="am-icon-spinner am-icon-spin"></i></div>
+            </div>
+            <div class="am-tab-panel" style="padding:0px;">
+                <div class="dynamic-list" style="margin-top:0" id="article-list-1">
+                    <div class="content">
+                        <php>$timeNow = time();</php>
+                        <volist name="list" id="item">
+                            <div class="list list-have-img" >
+                                <a class="list-item"  href="__ROOT__/Event/Index/detail?id={$item.event_id}">
+                                    <div class="list-item-row">
+                                        <div class="list-item-cell">
+                                            <input type="text"  value="{$item.cover}">
+                                            <!-- <img src="{$item.cover}"> -->
+                                        </div>
+                                        <div class="list-item-cell list-item-cell-right">
+                                            <div class="fs16 item-title" >
+                                                <div >
+                                                    <span > {$item.event_title}</span>
+                                                </div>
+                                                <if condition="$item['status'] == 1">
+                                                    <if condition="$item.entry_end_time gt $timeNow">
+                                                        <span class="status">报名进行中</span>
+                                                        <else/>
+                                                        <span class="status" style="background: green">报名已截止</span>
+                                                    </if>
+                                                    <else/>
+                                                    <span class="status" style="background: green">报名结束</span>
+                                                </if>
+                                            </div>
+
+                                            <p class="intro mt15 fs12 sponsor" ><span class="date">
+                            <i class="am-icon-clock-o" aria-hidden="true"></i> {$item.entry_end_time|date='Y-m-d h:i',###} 截止报名
+                            </span>
+                                            </p>
+
+                                            <div class="list-item-cell-bottom" >
+
+                             <span class="address">
+                                <span class="glyphicon glyphicon-map-marker"
+                                        >{$item|show_branch_auth}</span>
+                            </span>
+
+                            <span class="time" >
+                                <span class="count">{$item.attend_count}</span>报名
+                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</block>
+<block name="scripts">
+    <script>
+        //显示支部信息
+        function  showBranchAuth(item){
+            var auth_type = item['auth_type'];
+            if(auth_type == 1){
+                return "市局";
+            }
+            if(auth_type == 2){
+                return item['branch_hq_name'];
+            }
+            if(auth_type == 3){
+                return item['branch_name'];
+            }
+            return "";
+        }
+
+        var published_at_0 = 0;
+        var published_at_1 = 0;
+        var published_at = 0;
+        var type_name = 1;
+        var is_loading_0 = 1;
+        var is_loading_1 = 1;
+        $(function() {
+            $('#doc-my-tabs').tabs();
+        })
+        $(window).load(function(){
+            ajax_loading();
+        });
+        $('#doc-my-tabs').find('a').on('opened.tabs.amui', function(e) {
+            if ($(this).text() == '最新活动') {
+                type_name = 1;
+            }else if($(this).text() == '活动管理'){
+            };
+        })
+
+        function ajax_loading(){
+            if (type_name == 1) {
+                published_at = published_at_0;
+            }else{
+                published_at = published_at_1;
+            };
+            $.ajax({
+                data: {
+                    '$create_time':published_at,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Event/Index/ajaxEventLoading',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var createTimeString ='';
+                            var html_content = '';
+                            // alert(data['msg']);
+                            $.each(data['data'],function(i,vo)
+                            {
+                                createTimeString = new Date(vo.create_time*1000).Format("yyyy-MM-dd");
+                                var entry_end_time = new Date(vo.entry_end_time*1000).Format("yyyy-MM-dd");
+                                var cover = vo.cover;
+                                var show_branch_auth = showBranchAuth(vo);
+                                var event_title = vo.event_title;
+                                html_content = "";
+                                if(cover != '' && cover != null){
+                                    cover = "__ROOT__/Uploads/"+cover+"-s.png";
+                                }
+                                html_content = html_content +
+                                        "<div class='list list-have-img' ><a class='list-item'href='__ROOT__/Event/Index/detail?id=" +vo.id+
+                                        "'><div class='list-item-row'><div class='list-item-cell'><img src='" +
+                                                + cover +
+                                        "'></div><div class='list-item-cell list-item-cell-right'><div class='fs16 item-title' ><div ><span > " +
+                                        event_title  +
+                                        "</span></div><span class='status'>报名进行中</span></div><p class='intro mt15 fs12 sponsor' ><span class='date'><i class='am-icon-clock-o' aria-hidden='true'></i>" +
+                                        entry_end_time +
+                                        " 截止报名</span></p><div class='list-item-cell-bottom' ><span class='address'><span class='glyphicon glyphicon-map-marker'>" +
+                                        show_branch_auth +
+                                        "</span></span><span class='time' ><span class='count'>" +
+                                        vo.attend_count +
+                                        "</span>报名</span></div></div></div></a></div>";
+                                if (type_name == 1) {
+                                    $('#article-list-0 .content').append(html_content);
+                                    is_loading_0 = 1;
+                                    published_at_0 = vo.create_time;
+                                }else{
+                                    // alert("cccc");
+                                    $('#article-list-1 .content').append(html_content);
+                                    is_loading_1 = 1;
+                                    published_at_1 = vo.create_time;
+                                };
+                            });
+                            if (type_name == 1) {
+                                is_loading_0 = 1;
+                                $('#loading-icon-0').hide();
+                                $("#loading-text-0").hide();
+                            }else{
+                                is_loading_1 = 1;
+                                $('#loading-icon-1').hide();
+                                $("#loading-text-0").hide();
+                            };
+                        }else{
+                            if (type_name == 1) {
+                                is_loading_0 = 1;
+                                $('#loading-icon-0').hide();
+                                $("#loading-text-0").html('没有更多了');
+                            }else{
+                                is_loading_1 = 1;
+                                $('#loading-icon-1').hide();
+                                $("#loading-text-1").html('没有更多了');
+                            };
+                        }
+                    } else {
+                        alert_modal('网络异常');
+                        if (type_name == 1) {
+                            is_loading_0 = 1;
+                            $('#loading-icon-0').hide();
+                        }else{
+                            $('#loading-icon-1').hide();
+                            is_loading_1 = 1;
+                        };
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        }
+
+
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    if (type_name == 1 && is_loading_0 == 1) {
+                        is_loading_0 = 0;
+                        $('#loading-text-0').show();
+                        $("#loading-text-0 .content").html('');
+                        $('#loading-icon-0').show();
+                        ajax_loading();
+                    }else if(type_name == 2 && is_loading_1 == 1){
+                        is_loading_1 = 0;
+                        $('#loading-text-1').show();
+                        $("#loading-text-1 .content").html('');
+                        $('#loading-icon-1').show();
+                        ajax_loading();
+                    };
+                }
+            });
+        });
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+
+
+
+    </script>
+</block>

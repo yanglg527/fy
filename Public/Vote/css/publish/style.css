@@ -1,0 +1,290 @@
+.form-item {
+    display: flex;
+    margin: 25px;
+}
+
+.form-item .title {
+    color: #999;
+    margin-right: 10px;
+    width: 7em;
+    line-height: 32px;
+    text-align: right;
+}
+
+.form-item .value {
+    position: relative;
+    flex: 1 1;
+    min-height: 32px;
+    border: 1px solid #e0e0e0;
+    padding-left: 10px;
+}
+
+/* 带箭头 */
+.form-item .value.arrow {
+    padding-right: 20px;
+}
+
+.form-item .value.arrow::before {
+    position: absolute;
+    display: block;
+    content: "";
+    right: 4px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid #666;
+    border-bottom: 1px solid #666;
+    transform: rotate(45deg);
+}
+
+/* 输入框 */
+.text-input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    color: #333;
+}
+
+.form-range-value-text,
+.form-roles-value-text,
+.form-object-value-text,
+.form-visiblerange-value-text,
+.form-supervisor-value-text,
+.form-object-user-value-text {
+    margin: 0;
+    padding: 6px 0;
+    line-height: 20px;
+    color: #333;
+}
+
+#editor {
+    margin: 10px;
+}
+
+#start-date-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    opacity: 0;
+    /* border: none; */
+}
+
+/* 表单遮罩层 */
+.form-range,
+.form-roles,
+.form-object,
+.form-supervisor,
+.form-object-user,
+.form-visiblerange
+ {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10002;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    transition: all 0.25s;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.active{
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bottom-confirm {
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #ce3d37;
+}
+
+.content-body {
+    flex: 1 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+/* 单选 */
+.radio-item {
+    display: flex;
+    align-items: center;
+}
+
+.radio-ico {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    transition: all 0.25s;
+}
+
+.radio-ico::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
+}
+
+.radio-ico.active {
+    background-color: #ce3d37;
+    border-color: #ce3d37;
+}
+
+.radio-text {
+    flex: 1 1;
+    margin-left: 10px;
+    padding: 10px 0;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* 多选 */
+.check-item {
+    display: flex;
+    align-items: center;
+}
+
+.check-ico {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.25s;
+}
+
+.check-ico.active {
+    background-color: #ce3d37;
+    border-color: #ce3d37;
+}
+
+.check-ico::before,
+.check-ico::after {
+    position: absolute;
+    top: 65%;
+    left: 40%;
+    display: block;
+    content: "";
+    height: 2px;
+    background-color: #fff;
+    transform-origin: left center;
+}
+
+.check-ico::before {
+    width: 4px;
+    transform: rotate(-125deg);
+}
+
+.check-ico::after {
+    width: 8px;
+    transform: rotate(-45deg);
+}
+
+.check-text {
+    flex: 1 1;
+    margin-left: 10px;
+    padding: 10px 0;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.submit-btn {
+    color: #fff;
+    text-align: center;
+    line-height: 42px;
+}
+
+/* 底部按钮 */
+.bottom-bar {
+    display: flex;
+}
+
+.bottom-bar .item {
+    flex: 1 1;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #ce3d37;
+}
+
+.hidden {
+    display: none;
+}
+
+#form-data{
+    margin-top: 30px;
+}
+
+#app .nav-box{
+    /* padding: 0.8rem; */
+    padding: 16px 16px;
+    vertical-align: middle;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dedada;
+}
+
+#app .nav-box .ico{
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: center/cover no-repeat;
+}
+
+#app .nav-text{
+    margin-left: 10px;
+    font-size: 20px;
+    color: #565656;
+}
+
+.form-object-user .bottom-bar .select-all{
+    width: 15%;
+    /* text-align: center; */
+    /* background-color: #ce3d37; */
+    /* border-radius: 5px; */
+    /* color: #fff; */
+    margin: 10px;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.form-object-user .bottom-bar .select-all .check-ico{ margin-right: 10px;}
+
+
+.form-object-user .bottom-bar .save-btn{
+    width: 65%;
+    text-align: center;
+    background-color: #ce3d37;
+    border-radius: 5px;
+    color: #fff;
+    margin: 10px;
+    padding: 10px;
+}

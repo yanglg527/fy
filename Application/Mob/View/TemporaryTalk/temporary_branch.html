@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>留言板</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache" >
+    <meta http-equiv="cache-control"content="no-cache">
+    <meta http-equiv="expires"content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/temporary_talk/temporary_branch.css"/>
+</head>
+<body>
+<div class="bg"></div>
+<div class="page">
+    <div class="head"><i onclick="history.go(-1);"></i></div>
+    <a class="icon"><i></i></a>
+    <!--首次进入后的页面-->
+    <if condition="$myBranchListCount lt 1">
+        <div class="shade"><!--添加class名hide隐藏遮罩层-->
+            <div class="content">
+                <div class="bg"><img src="__IMG__/temporary_talk/tiaozhuan.png" alt=""></div>
+                <div class="hint">您还没有创建留言板，去创建吧</div>
+                <div id="btn" class="btn">知道了</div>
+            </div>
+        </div>
+    </if>
+    <!--添加临时支部名称-->
+    <div class="add_shade hide"><!--添加class名hide隐藏弹框-->
+        <div class="container">
+            <div class="inp"><input type="text" placeholder="创建临时党支部名称" id="branch-name"></div>
+            <div class="btn">
+                <a class="cancel">取消</a>
+                <a class="ensure">确定</a>
+            </div>
+        </div>
+    </div>
+    <!--临时党支部列表-->
+    <div class="party_list"><!--添加class名hide隐藏列表-->
+        <div class="seek" style="display: none">
+            <i></i><input type="search" placeholder="搜索">
+        </div>
+        <if condition="$myBranchListCount gt 0">
+            <div class="add_party" style="margin-top: 1.9rem">
+                <div class="head">我创建的临时党支部(<span>{$myBranchListCount}</span>)</div>
+                <ul>
+                    <volist name="myBranchList" id="item">
+                        <li class="item-branch" data-id="{$item.id}">
+                            <div class="head_img"><img src="{$item.headimgurl|show_img}" alt=""></div>
+                            <span class="name">{$item.branch_name}</span>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </if>
+
+        <if condition="$joinBranchListCount gt 0">
+            <div class="join_party">
+                <div class="head">我加入的临时党支部(<span>{$joinBranchListCount}</span>)</div>
+                <ul>
+                    <volist name="joinBranchList" id="item">
+                        <li class="item-branch" data-id="{$item.id}">
+                            <div class="head_img"><img src="{$item.headimgurl|show_img}" alt=""></div>
+                            <span class="name">{$item.branch_name}</span>
+                        </li>
+                    </volist>
+                </ul>
+            </div>
+        </if>
+
+    </div>
+</div>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/temporary_talk/temporary_branch.js"></script>
+    <include file="Common/_menu"/>
+</body>
+</html>

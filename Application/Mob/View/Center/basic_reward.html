@@ -1,0 +1,89 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/common/zonePublic.css">
+    <link rel="stylesheet" href="__CSS__/grassroots/personal/basic.css">
+
+    <link rel="stylesheet" href="__CSS__/ledger_list/list.css">
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        html{
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a onclick="history.go(-1);">
+                <div class="head_return"><i></i></div>
+                <div class="xinnav">其他</div>
+            </a>
+            <a class = "save">保存</a>
+        </header>
+    </div>
+    <div class="personal-edit">
+        <div class="heart">
+            <div class="block">
+                <ul>
+                    <li><a ><img class = "addto" src="__IMG__/grassroots/personal/addTo.png" alt="#"/>
+                        <img class = "modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>奖励情况：<span>
+                            <input type="text" name="reward_situation" value = "{$user.reward_situation}"   /></span></a></li>
+                    <li><a ><img class = "addto" src="__IMG__/grassroots/personal/addTo.png" alt="#"/>
+                        <img class = "modify hide" src="__IMG__/grassroots/personal/modify.png" alt="#"/>学历情况：<span>
+                            <input type="text" name="education" value = "{$user.education}" /></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <script>
+        //名字
+        $("#work_unit").click(function(){
+            $(this).find("input").removeAttr("readonly").focus();
+            $("#work_unit .addto").addClass(".hide").siblings("img").removeClass("hide");
+        })
+        $('.save').click(function () {
+            loading();
+            var data = {
+                reward_situation:$('input[name="reward_situation"]').val(),
+                education:$('input[name="education"]').val(),
+            }
+            var url = "__ROOT__/Mob/Center/ajax_save_other";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: data,
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location.href = "__ROOT__/Mob/Center/edit";
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+            return false;
+        })
+    </script>
+</block>

@@ -1,0 +1,60 @@
+.content-block-title,
+.card span{
+    color: rgb(51,51,51);
+}
+
+.aninvalid{
+    color: red;
+}
+
+.am-header-title{
+    font-size: 16px !important;
+    font-weight: bold !important;
+}
+
+.header{
+    /*background: rgb(0,147,214);*/
+    background: rgb(214,52,46);
+    z-index: 600;
+}
+.header-I,
+.header-II{
+
+    white-space: normal;
+    margin-top: 0;
+    font-weight: bold;
+}
+.header-II{
+    margin-bottom: 0;
+}
+.header-I h4{
+    margin: 0 0 0.5rem 0;
+    height: auto;
+}
+
+.card input{
+    margin-right: 10px;
+}
+
+.text-item textarea{
+    width: 100% !important
+    resize: none;
+    border: none;
+    padding: 5px 10px;
+}
+.text-item:hover,
+.text-item:focus{
+    box-shadow: 0 0 15px rgb(0,147,214);
+}
+
+.bit-submit{
+    display: block;width: 100%;
+    height: auto;
+    padding: 7px;
+}
+.btn-submit span{
+}
+
+input[type='radio']:checked{
+    background: rgb(0,147,214) !important;
+}

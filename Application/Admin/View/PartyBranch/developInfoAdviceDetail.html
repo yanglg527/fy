@@ -1,0 +1,37 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .content-div{
+            padding: 10px 20px;
+            width: 100%;
+            position: absolute;
+            bottom: 10px; top: 50px;
+            overflow-y: auto;
+            margin-right:-15px;
+        }
+        .content-div img{
+            width: 100%;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">支部和党委意见详情</strong></div>
+        </div>
+        <hr>
+        <div style="width: 45%; background: #f7f7f7; margin: auto; position: absolute; top: 120px; bottom: 65px; left: 180px; right: 0px; overflow-x: hidden">
+            <div style="width: 100%; height: 30px; line-height: 30px; font-size: 16px; color: #333; text-align: center">{$detail.title}</div>
+            <div style="width: 100%; font-size: 13px; color: #999; text-align: center">
+                <span>{$detail.user_realname}</span> - <span>{$detail.role_name}</span>  <span style="margin-left: 20px">发表于：</span><span>{$detail.create_time|date="Y-m-d H:i:s",###}</span>
+            </div>
+            <div class="content-div">
+                {$detail.content}
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="scripts">
+
+</block>

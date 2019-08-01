@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="../global.css" />
+        <link rel="stylesheet" href="./styles.css" />
+
+        <title></title>
+    </head>
+    <body>
+        <div class="g-full-flex">
+            <div class="g-nav-bar">
+                <div class="back-btn"></div>
+                <span class="nav-title">待办任务</span>
+            </div>
+
+            <div class="g-content-container todo-detail">
+                <div class="todo-detail__title-with-ico">
+                    <i class="ico" style="background-image:url('../icons/task.png')"></i>
+                    <span class="title">任务详情</span>
+                </div>
+
+                <div class="todo-detail__info">
+                    <div class="todo-detail__info-item">
+                        <span class="title">任务标题：</span>
+                        <div class="content">三会一课</div>
+                    </div>
+
+                    <div class="todo-detail__info-item">
+                        <span class="title">任务内容：</span>
+                        <div class="content">每季度召开1次支部党员大会（第 三季度）</div>
+                    </div>
+
+                    <div class="todo-detail__info-item">
+                        <span class="title">具体工作事项：</span>
+                        <div class="content">
+                            <p class="content-line">1.会前：制定会议议程、确定议题。</p>
+                            <p class="content-line">2.会中：会议记录、拍照。</p>
+                            <p class="content-line">3.会后：档案整理归档。</p>
+                        </div>
+                    </div>
+
+                    <div class="todo-detail__info-item">
+                        <span class="title">开始时间：</span>
+                        <div class="content">2018-12-05</div>
+                    </div>
+
+                    <div class="todo-detail__info-item">
+                        <span class="title">结束时间：</span>
+                        <div class="content">2018-12-30</div>
+                    </div>
+                </div>
+
+                <div class="todo-detail__title-with-ico">
+                    <i class="ico" style="background-image:url('../icons/file.png')"></i>
+                    <span class="title">任务附件</span>
+                </div>
+
+                <div class="todo-detail__info">
+                    <div class="g-attachment-list">
+                        <div class="item"><i class="img jpg"></i><span class="name">尼古拉斯</span></div>
+                        <div class="item"><i class="img png"></i><span class="name">尼古拉斯</span></div>
+                        <div class="item"><i class="img gif"></i><span class="name">尼古拉斯</span></div>
+                    </div>
+                </div>
+
+                <div class="todo-detail__title-with-ico">
+                    <i class="ico" style="background-image:url('../icons/progress.png')"></i>
+                    <span class="title">任务进度</span>
+                </div>
+
+                <div class="todo-detail__info">
+                    <div class="todo-detail__info-item">
+                        <span class="title">办理时间：</span>
+                        <div class="content">2018-12-05</div>
+                    </div>
+
+                    <div class="todo-detail__info-item">
+                        <span class="title">办理人：</span>
+                        <div class="content">王小二</div>
+                    </div>
+
+                    <div class="todo-detail__info-item">
+                        <span class="title">办理情况：</span>
+                        <div class="content">制定会议议程、确定议题已完成。</div>
+                    </div>
+                </div>
+
+                <div class="todo-detail__title-with-ico">
+                    <i class="ico" style="background-image:url('../icons/file.png')"></i>
+                    <span class="title">附件</span>
+                </div>
+
+                <div class="todo-detail__info">
+                    <div class="g-attachment-list">
+                        <div class="item"><i class="img jpg"></i><span class="name">尼古拉斯</span></div>
+                        <div class="item"><i class="img png"></i><span class="name">尼古拉斯</span></div>
+                        <div class="item"><i class="img gif"></i><span class="name">尼古拉斯</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="todo-detail__bottom">
+                <div class="btn">新增进度</div>
+            </div>
+        </div>
+
+        <script>
+            var text = "1.会前：制定会议议程、确定议题"
+            var arrText = text.split("\n")
+            // <p>${arrText[0]}</p>
+            // <p>${arrText[1]}</p>
+            // <p>${arrText[2]}</p>
+        </script>
+    </body>
+</html>

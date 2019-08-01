@@ -1,0 +1,88 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .container {
+            background-color: #f7f8f8;
+            padding-bottom: 40px;
+        }
+
+        .info-block{
+            margin-top: 15px;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            border-top: 1px solid #e8e8e8;
+            padding:5px 15px 10px 15px;
+        }
+
+        .title{
+            /*height: 30px;*/
+            /*line-height: 30px;*/
+            margin-left: 2px;
+            font-size: 14px;
+            color: black;
+        }
+
+        .info-content{
+            width: 100%;
+            height: 80px;
+            border: 1px solid #e8e8e8;
+            margin-top: 5px;
+            padding: 5px;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .btn-save{
+            float: right;
+            background: #00C2E5;
+            width: 80px;
+            height: 35px;
+            line-height: 35px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: white;
+            text-align: center;
+            border: 0px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="info-block">
+        <span class="title">月薪</span>
+        <textarea onkeyup="this.value=this.value.replace(/[^\r\n0-9\,\，]/g,'');" id="wage" class="info-content">{$user.wage}</textarea>
+        <button class="btn-save" onclick="save()">保存</button>
+        <div style="clear: both"></div>
+    </div>
+
+    </div>
+
+</block>
+
+<block name="scripts">
+    <script>
+
+        function save(){
+            var wage = $('#wage').val();
+            loading();
+            $.ajax({
+                url: '__ROOT__/Home/User/ajaxSaveWage',
+                type: 'POST', //GET
+                data: {
+                    wage:wage,
+                },
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                },
+                error: function (xhr, textStatus) {
+                    close_loading();
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+
+    </script>
+</block>

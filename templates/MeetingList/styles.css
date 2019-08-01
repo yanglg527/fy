@@ -1,0 +1,218 @@
+.meeting-item {
+    margin: 10px 0;
+    padding: 5px 0;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.meeting-item .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.meeting-item .date {
+    color: #999;
+    font-size: 12px;
+}
+
+.meeting-item .type {
+    height: 24px;
+    border-radius: 12px;
+    padding: 0 12px;
+    line-height: 24px;
+    color: #fff;
+    font-size: 12px;
+    background-color: rgb(117, 157, 241);
+}
+
+.meeting-item .type.one {
+    background: linear-gradient(#fb7a73, #d3231a);
+}
+.meeting-item .type.two {
+    background: linear-gradient(#fdcd8e, #ff8e31);
+}
+.meeting-item .type.three {
+    background: linear-gradient(#ffd051, #e8af00);
+}
+.meeting-item .type.four {
+    background: linear-gradient(#be97fd, #906eff);
+}
+
+.meeting-item .bottom {
+    display: flex;
+    justify-content: space-around;
+}
+
+.meeting-item .bottom-item {
+    position: relative;
+    width: 5em;
+    padding-left: 20px;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+/* 底部3个按钮 */
+.bottom-item::before {
+    position: absolute;
+    display: block;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background: center/cover no-repeat;
+}
+
+.bottom-item.collection::before {
+    background-image: url("../icons/collection-o.png");
+}
+.bottom-item.comment::before {
+    background-image: url("../icons/comment-o.png");
+}
+.bottom-item.like::before {
+    background-image: url("../icons/like-o.png");
+}
+
+.bottom-item.is-collection::before {
+    background-image: url("../icons/collection.png");
+}
+
+.bottom-item.is-like::before {
+    background-image: url("../icons/like.png");
+}
+
+/* 会议单项 主内容 */
+.meeting-item .middle-content {
+    display: flex;
+    margin: 10px;
+}
+
+.meeting-item .middle-content .img {
+    flex-shrink: 0;
+    width: 25vw;
+    height: 25vw;
+    margin-right: 10px;
+    border-radius: 5px;
+    background: #ccc center/cover no-repeat;
+}
+
+.meeting-item .middle-content .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.meeting-item .middle-content .info .title {
+    margin: 0;
+    color: #333;
+}
+
+.meeting-item .middle-content .info .bottom-text {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    color: #999;
+    font-size: 12px;
+}
+
+.meeting-item .middle-content .avatar {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: center/cover no-repeat;
+}
+
+.meeting-item .middle-content .info {
+    flex: 1 1;
+}
+
+.meeting-item .middle-content .author {
+    flex: 1 1;
+}
+
+.meeting-item .middle-content .ico-read {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    background: url("../icons/read.png") center/cover no-repeat;
+}
+
+/* 新增台账 */
+.add-record {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.add-record::before,
+.add-record::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    content: "";
+    width: 40%;
+    height: 2px;
+    background-color: #fff;
+}
+
+.add-record::before {
+    transform: translate(-50%, -50%);
+}
+
+.add-record::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.add-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    transition: all 0.25s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.add-container.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.add-container.active .content-box {
+    transform: translateY(0);
+}
+
+.shadow-box {
+    flex: 1 1;
+}
+
+.content-box {
+    padding-bottom: 34px;
+    transition: all 0.25s;
+    transform: translateY(20px);
+    background-color: #fff;
+}
+
+.content-box .item {
+    display: block;
+    margin: 0 10px;
+    padding: 10px 0;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+}
+
+.content-box .item:not(:last-child) {
+    border-bottom: 1px solid #e0e0e0;
+}

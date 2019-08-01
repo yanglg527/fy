@@ -1,0 +1,198 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style type="text/css">
+        html,body{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .toBar{
+            width: 100%;
+            padding: 15px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 10px;
+            z-index: 1;
+        }
+        .toBar label input{
+            display: none;
+        }
+        .toBar label,.toBar button{
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+            color: #fff;
+            background: #0ab4ff;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .toBar button{
+            border: none;
+            float: right;
+        }
+        .img_content,canvas{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        canvas{
+            border: 1px solid #333;
+        }
+        .hide{
+            display: none;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="show_head" style="position: absolute;left: 0;right: 0;top: 0px;bottom: 0;background: black;z-index: 100000;" onclick="return false">
+        <img id="head-img" src="{$user.headimgurl|get_head_url}" style="width: 100%;position: absolute;top: 100px"/>
+        <div style="width: 100%;position: absolute;bottom: 0px;height: 50px;text-align: center">
+            <button id="btn-change" class="am-btn am-btn-primary" >更换头像</button>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+<div id="edit-head" style="position: absolute;top: 0px;left: 0;right: 0;bottom: 0">
+    <div class="toBar">
+        <label>
+            选择图片
+            <input type="file" id="select-photo"  />
+        </label>
+        <button type="button" id="upload-head">确定</button>
+    </div>
+    <div class="img_content">
+        <img src="" id="corp-photo" />
+    </div>
+    <!--裁剪图片框。宽高为定义裁剪出的图片大小-->
+    <canvas width="300" height="300" id="corp-canvas"></canvas>
+</div>
+
+
+
+</block>
+<block name="scripts">
+    <script>
+        $('#btn-change').click(function(){
+            $("#select-photo").click();
+            return false;
+        })
+    </script>
+
+    <script>
+        var __url__ = "__STATICS__/mobile-head/js/";
+    </script>
+    <script src="__STATICS__/mobile-head/js/img.js"></script>
+    <script src="__STATICS__/mobile-head/js/require.js"></script>
+    <script src="__STATICS__/mobile-head/js/main.js"></script>
+    <script>
+        window.addEventListener("load",function(){
+            var $input = document.querySelector("#select-photo");
+            var $img = document.querySelector("#corp-photo");
+            var $canvas = document.querySelector("#corp-canvas");
+            //选择图片
+            $input.addEventListener("change",function(){
+                $('#head-img').addClass('hide');
+                $('#btn-change').addClass('hide');
+                $('#show_head').addClass('hide');
+                $('#edit-head').css('z-index','1000000')
+                $img.src = getFileUrl(this);
+            },false);
+
+
+            var myCrop;
+            require(["jquery", 'hammer', 'tomPlugin', "tomLib", 'hammer.fake', 'hammer.showtouch'], function($, hammer, plugin, T) {
+                document.addEventListener("touchmove", function(e) {
+                    e.preventDefault();
+                });
+                var opts = {
+                            cropWidth: $canvas.width,
+                            cropHeight: $canvas.height
+                        },
+                        previewStyle = {
+                            x: 0,
+                            y: 0,
+                            scale: 1,
+                            rotate: 0,
+                            ratio: 1
+                        },
+                        transform = T.prefixStyle("transform"),
+                        myCrop = T.cropImage({
+                            bindFile: $("#select-photo"),
+                            enableRatio: false, //是否启用高清,高清得到的图片会比较大
+                            canvas: $canvas, //放一个canvas对象
+                            cropWidth: opts.cropWidth, //剪切大小
+                            cropHeight: opts.cropHeight,
+                            bindPreview: $("#corp-photo"), //绑定一个预览的img标签
+                            useHammer: true, //是否使用hammer手势，否的话将不支持缩放
+                            oninit: function() {
+
+                            },
+                            onLoad: function(data) {
+                                //用户每次选择图片后执行回调
+                                resetUserOpts();
+                                previewStyle.ratio = data.ratio;
+                                $("#corp-photo").attr("src", data.originSrc).css({
+                                    width: data.width,
+                                    height: data.height
+                                }).css(transform, 'scale(' + 1 / previewStyle.ratio + ')');
+                                myCrop.setCropStyle(previewStyle)
+                            }
+                        });
+
+                function resetUserOpts() {
+                    $("#corp-canvas").hammer('reset');
+                    previewStyle = {
+                        scale: 1,
+                        x: 0,
+                        y: 0,
+                        rotate: 0
+                    };
+                    $("#corp-photo").attr("src", '');
+                };
+                $("#corp-canvas").hammer({
+                    gestureCb: function(o) {
+                        //每次缩放拖拽的回调
+                        $.extend(previewStyle, o);
+                        console.log("用户修改图片", previewStyle)
+                        $("#corp-photo").css(transform, "translate3d(" + previewStyle.x + 'px,' + previewStyle.y + "px,0) rotate(" + previewStyle.rotate + "deg) scale(" + (previewStyle.scale / previewStyle.ratio) + ")")
+                    }
+                });
+
+                $("#upload-head").on("click", function() {
+                    myCrop.setCropStyle(previewStyle)
+                    var src = myCrop.getCropFile({});
+                    //这里提交base64 位的数据格式
+//                    window.location.href = src;
+                    var data = {
+                        filed:src
+                    }
+                    $.ajax({
+                        url: '__ROOT__/Home/File/ajaxHeadImage',
+                        type: 'POST', //GET
+                        data: data,
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                window.location.href = '__ROOT__/Home/User/info';
+                            } else {
+                                alert(data.msg);
+                            }
+                        },
+                        error: function (xhr, textStatus) {
+                            alert("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                    return false;
+                });
+            });
+
+
+        },false);
+    </script>
+</block>

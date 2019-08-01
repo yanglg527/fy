@@ -1,0 +1,125 @@
+.statistics {
+    background-color: #fff;
+}
+
+.top {
+    padding: 10px;
+    background-color: #e3e9ef;
+}
+
+.content-box {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.part-1,
+.part-2 {
+    display: flex;
+}
+
+.part-1 .info,
+.part-2 .sub-info {
+    width: 33.33%;
+}
+
+.part-1 .info:not(:last-child) {
+    border-right: 1px solid #e0e0e0;
+}
+
+.part-1 .title,
+.part-1 .num {
+    display: block;
+    text-align: center;
+}
+
+.part-1 .title {
+    font-size: 12px;
+    color: #999;
+}
+
+.part-1 .num {
+    font-size: 22px;
+    color: #ce3d37;
+}
+
+.part-2 {
+    margin-top: 10px;
+}
+
+.part-2 .sub-info {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #999;
+}
+
+.sub-info .title {
+    margin-right: 5px;
+}
+
+.detail-info {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(51, 51, 51, 0.3);
+    border-radius: 5px;
+}
+
+.detail-item {
+    width: 25%;
+}
+
+.detail-item:nth-child(n + 5) {
+    margin-top: 10px;
+}
+
+.detail-item .title,
+.detail-item .num {
+    display: block;
+    text-align: center;
+}
+
+.detail-item .title {
+    color: #999;
+}
+
+.detail-item .num {
+    color: #666;
+}
+
+.score-wrapper .head,
+.score-wrapper .item {
+    display: flex;
+    padding: 10px;
+}
+
+.score-wrapper .head {
+    font-weight: bold;
+}
+
+.score-list {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.score-wrapper .name {
+    width: 40%;
+}
+
+.score-wrapper .num,
+.score-wrapper .date {
+    width: 30%;
+    text-align: center;
+}
+
+.score-list .num {
+    font-weight: bold;
+    color: #ce3d37;
+}
+.score-list .date {
+    color: #999;
+}

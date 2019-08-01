@@ -1,0 +1,66 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+	    .container{
+            background-color: #ffffff;
+        }
+
+        .list-item{
+            padding: 10px 15px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .item-title{
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+
+        .item-content{
+            height: 22px;
+            line-height: 22px;
+            font-size: 14px;
+            color: #666666;
+        }
+
+    </style>
+</block>
+
+<block name="content">
+    <div class="dynamic-list">
+        <!--<div class="list-item">-->
+            <!--<div class="item-title">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</div>-->
+            <!--<div class="item-content" style="margin-top: 5px">-->
+                <!--<span>职务：</span> <span>哈哈哈</span>-->
+            <!--</div>-->
+            <!--<div class="item-content">-->
+                <!--<span >在职时间：</span> <span>2016-01-01</span><span> 至 2016-12-31</span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <volist name="list" id="item">
+            <a href="__ROOT__/Home/User/rewardSituationDetail?id={$item.id}">
+                <div class="list-item">
+                    <div class="item-title">{$item.name}</div>
+                    <div class="item-content" style="margin-top: 5px">
+                        <span>等级：</span>
+                        <if condition="$item.level == 0">
+                            <span>市级</span>
+                        <elseif condition="$item.level == 1"/>
+                            <span>省级</span>
+                        <elseif condition="$item.level == 2"/>
+                            <span>国家级</span>
+                        <elseif condition="$item.level == 3"/>
+                            <span>区级</span>
+                        </if>
+                    </div>
+                    <div class="item-content">
+                        <span >获奖日期：</span> <span>{$item.reward_date|date="Y-m-d", ###}</span>
+                    </div>
+                </div>
+            </a>
+        </volist>
+    </div>
+</block>
+
+<block name="scripts">
+
+</block>

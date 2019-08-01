@@ -1,0 +1,333 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+
+<block name="styles">
+  <link rel="stylesheet" href="__STATICS__/datetimepicker/css/amazeui.datetimepicker.css"/>
+    <style>
+
+    </style>
+</block>
+<block name="content">
+<div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <a href="#" onClick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg">代办事项</strong></a> /
+        <small>新增</small>
+      </div>
+    </div>
+
+    <hr>
+
+      <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+        <div class="am-tab-panel am-fade am-in am-active" >
+          <include file="_add_new"/>
+        </div>
+    </div>
+
+    <div class="am-margin">
+      <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+      <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+    </div>
+  </div>
+  <include file="_add_upload"/>
+
+
+</block>
+<block name="scripts">
+    <script src="__STATICS__/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"
+            charset="UTF-8"></script>
+    <script type="text/javascript">
+        function submit_info() {
+            var mission_type = $('#mission_type').val();
+            var title = $('#title').val();
+            var content = $('#content').val();
+            var mission_score = $('#mission_score').val();
+
+            //协助落实单位
+            var assist_unit_id = new Array();
+            assist_unit_id = get_checkbox_val("assist_unit_id");
+
+            //推送对象
+            var push_person = new Array();
+            push_person = get_checkbox_val("push_person");
+
+            //负责人
+            var person_adm_id = new Array();
+            person_adm_id = get_checkbox_val("person_admin");
+
+            $('#third_ml').css('display','none');
+            $('#third_ml').html('');
+
+            //章节
+            var standard_id = new Array();
+            standard_id = get_checkbox_val1("standard_id");
+
+            if(!$.trim(title)){
+                alert_modal("请填写责任事项");
+                return false;
+            }
+            if(!$.trim(assist_unit_id)){
+                alert_modal("请选择协助落实单位");
+                return false;
+            }
+            if(!$.trim(content)){
+                alert_modal("请填写见证资料");
+                return false;
+            }
+            if(!$.trim(mission_score)){
+                alert_modal("请填写任务分值");
+                return false;
+            }
+            if(!$.trim(push_person)){
+                alert_modal("请选择推送对象");
+                return false;  
+            }
+            if(!$.trim(standard_id)){
+                alert_modal("请选择任务规范1.0章节");
+                return false;  
+            }
+            
+
+            //按频率
+            if(mission_type == '2'){
+                var pinlv_type = $("input[name='pinlv_type']:checked").val();
+                var frequency_type = $("input[name='frequency_type']:checked").val();
+
+                if(!$.trim(pinlv_type)){
+                    alert_modal("请选择频率生成方式");
+                    return false;  
+                }
+                if(!$.trim(frequency_type)){
+                    alert_modal("请选择频率");
+                    return false;  
+                }
+                var data_sj = {
+                    mission_type:mission_type,
+                    title:title,
+                    assist_unit_id:assist_unit_id,
+                    pinlv_type:pinlv_type,
+                    frequency_type:frequency_type,
+                    content:content,
+                    mission_score:mission_score,
+                    standard_id:standard_id,
+                    push_person:push_person,
+                    person_adm_id:person_adm_id
+                };
+            }
+
+            //按指定时间
+            if(mission_type == '3'){
+                //开始日期
+                var start_time = $('#start_time').text();
+                if(!$.trim(start_time)){
+                    alert_modal("请选择开始日期");
+                    return false;
+                }
+
+                //结束日期
+                var end_time = $('#end_time').text();
+                if(!$.trim(end_time)){
+                    alert_modal("请选择结束日期");
+                    return false;
+                }
+
+                var data_sj = {
+                    mission_type:mission_type,
+                    title:title,
+                    assist_unit_id:assist_unit_id,
+                    start_time:start_time,
+                    end_time:end_time,
+                    content:content,
+                    mission_score:mission_score,
+                    standard_id:standard_id,
+                    push_person:push_person,
+                    person_adm_id:person_adm_id
+                };
+            }
+
+            //根据工作安排
+            if(mission_type == '1'){
+                var data_sj = {
+                    mission_type:mission_type,
+                    title:title,
+                    assist_unit_id:assist_unit_id,
+                    content:content,
+                    mission_score:mission_score,
+                    standard_id:standard_id,
+                    push_person:push_person,
+                    person_adm_id:person_adm_id
+                };
+            }
+
+            $.ajax({
+                data: data_sj,
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Notice/ajaxAdd',
+                beforeSend: function () {
+                  loading();
+                },
+                success: function (data) {
+                    close_loading();
+                    
+                    if (data['status'] == 0) {
+                        alert('添加成功！');
+                        loading_page(__root__ + '/Admin/Notice/index?p={$p}');
+                    } else {
+                      alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        };
+
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('#btn-start-date').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $('#start_time').text($('#btn-start-date').data('date'));
+            $(this).datepicker('close');
+        });
+        $('#btn-end-date').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $('#end_time').text($('#btn-end-date').data('date'));
+            $(this).datepicker('close');
+        });
+
+        //推送对象多选框
+        function get_checkbox_val(cname){
+            var str =new Array();
+            $("input[name='"+cname+"[]']:checked").each(function(i,val){ 
+                str[i] = $(this).val();
+            })
+
+            return str;
+        }
+
+        //任务规范
+        function get_checkbox_val1(cname){
+            var str =new Array();
+            $("input[name='"+cname+"[]']").each(function(i,val){ 
+                str[i] = $(this).val();
+            })
+
+            return str;
+        }
+
+        //一级目录
+        $('#frist_standard').change(function(){
+            var frist_standard_id = $("#frist_standard").val();
+            if(frist_standard_id == ''){
+                alert_modal("请选择规范的一级目录");
+                return false;
+            }   
+
+            $.ajax({
+                dataType:'json',
+                url:'__ROOT__/Admin/Notice/ajaxSecendStandard',
+                type:'POST',
+                data:{
+                    frist_standard_id:frist_standard_id
+                },
+                success:function(data){
+                    console.log(data);
+                    //初始化二级目录、三级目录
+                    $('#secend_ml').html('');
+                    $('#third_ml').css('display','none');
+                    $('#third_ml').html('');
+
+                    //加载二级目录
+                    var html = '';
+                    html += "<div class='am-u-sm-4 am-u-md-2 am-text-right'>二级目录</div>";
+                    html += "<div class='am-u-sm-8 am-u-md-10'>";
+                    html += "<select id='secend_standard' name='secend_standard' style='width:245px;'>";
+                    html += "<option value=''>请选择</option>";
+
+                    var html_op = '';
+                    for(var i=0; i<data.length; i++){
+                        html_op += "<option value='"+data[i]['id']+"'>"+data[i]['label']+"</option>";
+                    }
+
+                    html += html_op;
+                    html += "</select>";
+                    html += "</div>";
+
+                    $('#secend_ml').html(html);
+                    $('#secend_ml').css('display','block');
+
+                }
+            });
+        });
+
+        //二级目录
+        $('#secend_ml').change(function(){
+            var secend_standard_id = $("#secend_standard").val();
+            if(secend_standard_id == ''){
+                alert_modal("请选择规范的二级目录");
+                return false;
+            }   
+
+            $.ajax({
+                dataType:'json',
+                url:'__ROOT__/Admin/Notice/ajaxThirdList',
+                type:'POST',
+                data:{
+                    secend_standard_id:secend_standard_id
+                },
+                success:function(data){
+                    console.log(data);
+
+                    //初始化三级目录
+                    $('#third_ml').html();
+
+                    //加载三级目录
+                    var html = '';
+                    html += "<div class='am-u-sm-4 am-u-md-2 am-text-right'>章节</div>";
+                    html += "<div class='am-u-sm-8 am-u-md-10'>";
+                    html += "<div class='am-btn-group' data-am-button>";
+
+                    var html_op = "";
+                    for(var i=0; i<data.length;i++){
+                        html += "<label class='am-btn am-btn-default am-btn-xs th_ml' onclick='choose_standard_id(this)'>";
+                        html += "<input type='checkbox' name='standard_id[]' value='"+data[i]['id']+"'>"+data[i]['value']+"&nbsp;"+data[i]['label'];
+                        html += "</label>";
+                    }
+
+                    html += html_op;
+                    html += "</div></div>";
+
+                    $('#third_ml').html(html);
+                    $('#third_ml').css('display','block');
+                }
+            });
+        });
+
+        function choose_standard_id(stand){
+            var html_content = $(stand).html();
+            var html = "";
+            html += "<label class='am-btn am-btn-default am-btn-xs th_ml am-active stan_x' onclick='del_label(this)'>";
+            html += html_content;
+            html += "</label>";
+            $('.standard_ex').append(html);
+        }
+        function del_label(sta){
+            $('#third_ml').css('display','none');
+            $('#third_ml').html('');
+            $(sta).remove();
+        };
+    </script>
+</block>

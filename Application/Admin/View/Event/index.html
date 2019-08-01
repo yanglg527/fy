@@ -1,0 +1,172 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">活动报名管理</strong></div>
+        </div>
+        <hr>
+        <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-2 " >
+                    <button  onclick="loading_page('__ROOT__/Admin/Event/eventEdit?p={$page.pageInfo.pageNo}');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+                </div>
+                <form class="am-u-sm-12 am-u-md-10 right-align" style="text-align: right" action="__ROOT__/Admin/Event/index">
+                    <!--<select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="post_id">-->
+                        <!--<option value="0">活动类型</option>-->
+                        <!--<volist name="posts" id="item">-->
+                            <!--<if condition="$item[id] == $search['post_id']">-->
+                                <!--<option value="{$item.id}" selected>{$item.name}</option>-->
+                                <!--<else/>-->
+                                <!--<option value="{$item.id}">{$item.name}</option>-->
+                            <!--</if>-->
+                        <!--</volist>-->
+                    <!--</select>-->
+                    <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+                        <input type="text" class="am-form-field" placeholder="输入标题关键词" name="keyword" value="{$keyword}">
+                    </div></div>
+
+                    <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+                </form>
+                <!--<div class="am-u-sm-12 am-u-md-1">-->
+
+                <!--</div>-->
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-type">标题</th>
+                            <th class="table-type">活动类型</th>
+                            <th class="table-type">支部</th>
+                            <!--<th class="table-author am-hide-sm-only">类型</th>-->
+                            <th class="table-author am-hide-sm-only">报名时间</th>
+                            <th class="table-author am-hide-sm-only">联系电话</th>
+                            <th class="table-author am-hide-sm-only">联系人</th>
+                            <th class="table-author am-hide-sm-only">活动地址</th>
+                            <th class="table-author am-hide-sm-only">报名人数</th>
+                            <th class="table-author am-hide-sm-only">状态</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        	<php>$timeNow = time();</php>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.event_title}</td>
+                                <if condition="$item.type_id == 1">
+                                    <td>党员活动</td>
+                                </if>
+                                <if condition="$item.type_id == 2">
+                                    <td>特色活动</td>
+                                </if>
+                                <if condition="$item.type_id == 3">
+                                    <td>其他活动</td>
+                                </if>
+                                <td class="am-hide-sm-only">{$item|show_branch_auth}
+                                </td>
+                                <!--<td>{$item.type_name}</td>-->
+                                <td>开始：{$item.entry_start_time|date='Y-m-d',###}<br>结束：{$item.entry_end_time|date='Y-m-d',###}</td>
+                                <td class="am-hide-sm-only">{$item.event_mobile}</td>
+                                <td class="am-hide-sm-only">{$item.event_name}</td>
+                                <td class="am-hide-sm-only">{$item.address}</td>
+                                <td class="am-hide-sm-only">{$item.attend_count}/<if condition="$item.people_limit == 0 ">不限人数<else/>{$item.people_limit}</if></td>
+                                <td class="am-hide-sm-only">
+                                    <if condition="$item.event_status == 1"><span class="am-badge am-badge-success am-radius">启用</span>
+                                        <php>
+                                            if($item['entry_end_time'] + 24*3600 < $timeNow){
+                                            echo "<br>";
+                                            echo "<span class='am-badge am-badge-primary am-radius'>报名时间已截止</span>";
+                                            }
+                                        </php>
+                                        <else/>
+                                        <span class="am-badge am-badge-warning am-radius">禁用</span></if>
+
+                                </td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary " onclick="loading_page('__ROOT__/Admin/Event/eventManage?id={$item.id}');"><span class="am-icon-archive"></span>管理</button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary " onclick="loading_page('__ROOT__/Admin/Event/eventEdit?p={$page.pageInfo.pageNo}&id={$item.id}');"><span class="am-icon-pencil-square-o"></span>编辑</button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary btn-status" data-id="{$item.id}"><span class="am-icon-archive"></span><if condition="$item.event_status == 1" >禁止<else/>开启</if></button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" data-id="{$item.id}"><span class="am-icon-trash-o" ></span> 删除</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <hr />
+                    <p>注：.....</p>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+        var id = 0;
+        $('.btn-status').click(function () {
+            id = $(this).attr('data-id');
+            $.ajax({
+                url: '__ROOT__/Admin/Event/ajaxChangeEventStatus',
+                type: 'POST', //GET
+                data: {id: id},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.reload();
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+        $('.btn-dec').click(function(){
+             id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url:'__ROOT__/Admin/Event/ajaxDelEvent',
+                        type:'POST', //GET
+                        data:{id:id},
+                        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success:function(data){
+                            if(data.status == 0){
+                                window.location.reload();
+                            }else{
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error:function(xhr,textStatus){
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+    </script>
+
+</block>

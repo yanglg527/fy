@@ -1,0 +1,579 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .main{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            background: #00c2e5;
+        }
+
+        .bottom-img{
+            width: 100%;
+            position: absolute;
+            bottom: 0px;
+            z-index: -1;
+        }
+
+        .top-img{
+            width: 100%;
+            position: absolute;
+            top: 170px;
+            z-index: 0;
+        }
+        .header-div{
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            border-radius:60px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+        }
+        .header-div img{
+            width:60px;
+            height:60px;
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        .user-name{
+            margin-top: 10px;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .user-point{
+            width: 100px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 9px;
+            background: #00A6C4;
+            font-size: 12px;
+            color: white;
+            margin: auto;
+            margin-top: 5px;
+            padding: 0px 20px;
+            position: relative;
+            text-align: center;
+        }
+        .user-point img{
+            width: 12px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 5px;
+            margin: auto;
+        }
+
+        .point-ranking{
+            text-align: center;
+            color: #FFE600;
+            font-size: 14px;
+            margin-top: 33px;
+        }
+
+        .title-img{
+            position: absolute;
+            width: 63%;
+            left: 0px;
+            right: 0px;
+            margin: auto;
+            margin-top: 30%;
+        }
+
+
+
+        .sign-top{
+            height: 135px;
+            background: #00C2E5;
+            position: relative;
+            padding-top: 5px;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+        }
+        .sign-top p{
+            margin: 0px;
+            padding: 0px;
+        }
+
+
+        #day-count{
+            font-size: 45px;
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .btn-sign{
+            height: 39px;
+            line-height: 39px;
+            width: 134px;
+            border-radius: 20px;
+            font-size: 15px;
+            margin: auto;
+            margin-top: 14px;
+            position: relative;
+            text-align: center;
+        }
+        .btn-sign img{
+            width: 15px;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 40px;
+            margin: auto;
+        }
+        .btn-sign-enable{
+            background: #ffe600;
+            color: #1a1a1a;
+        }
+        .btn-sign-enable a{
+            color: #1a1a1a;
+        }
+        .btn-sign-disable{
+            /*background: #dce4e6;*/
+            /*color: #939899;*/
+            width: 140px;
+            height: 37px;
+            line-height: 37px;
+            background: white;
+            color: red;
+        }
+        .btn-sign-disable a{
+            /*color: #939899;*/
+            color: red;
+            font-size: 14px;
+        }
+
+
+        .prize-table{
+            /*background: palegreen;*/
+            width: 96%;
+            margin-left: 2%;
+            height: auto;
+            margin-top: 10px;
+            /*position: absolute;*/
+            /*top: 42%;*/
+        }
+
+        ul, li{
+            list-style:none;
+            margin:0;
+            padding:0;
+        }
+
+        .flip-container {
+            perspective: 1000;
+            -webkit-perspective: 1000px; /*父类容器中 perspective 子类允许透视*/
+            -moz-perspective: 1000px;
+            -ms-perspective: 1000px;
+            -o-perspective: 1000px;
+            perspective: 1000px;
+            margin-top: 4%;
+            display:inline;
+
+            padding: 0px;
+            height: auto;
+        }
+
+        .flipper {
+            transition:transform 0.6s ease-out;
+            transition: transform .5s ease-in-out;
+            -webkit-transition: transform .5s ease-in-out;
+            -moz-transition: transform .5s ease-in-out;
+            -ms-transition: transform .5s ease-in-out;
+            -o-transition: transform .5s ease-in-out;
+            -webkit-transform-style: preserve-3d; /*使其子类变换后得以保留 3d转换后的位置*/
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            display:block;
+            position: relative;
+
+            width: 85%;
+            height: auto;
+            margin: auto;
+        }
+
+        .front, .back {
+            backface-visibility: hidden;
+            transition: 0.6s ease-out;
+            -webkit-transition: .6s ease-out;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            position: absolute;
+            top: 0;left: 0;
+            width: 100%;
+            height: auto;
+        }
+        .front img, .back img{
+            width:100%;
+            height: auto;
+        }
+        .front {
+            z-index: 2;
+            transform: rotateY(0deg);
+            transform: rotateY(0deg);
+            -webkit-transform: rotateY(0deg);
+            -moz-transform: rotateY(0deg);
+            -ms-transform: rotateY(0deg);
+            -o-transform: rotateY(0deg);
+        }
+        .back {
+            z-index:1;
+            transform: rotateY(-180deg);
+            transform: rotateY(-180deg);
+            -webkit-transform: rotateY(-180deg);
+            -moz-transform: rotateY(-180deg);
+            -ms-transform: rotateY(-180deg);
+            -o-transform: rotateY(-180deg);
+            position: relative;
+        }
+
+        .open {
+            transform: rotateY(0deg);
+            -webkit-transform: rotateY(0deg);
+            -moz-transform: rotateY(0deg);
+            -ms-transform: rotateY(0deg);
+            -o-transform: rotateY(0deg);
+            z-index:2;
+        }
+        .close {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            -ms-transform: rotateY(180deg);
+            -o-transform: rotateY(180deg);
+            z-index:1;
+            /*以下样式控制反转到背面后隐藏*/
+            backface-visibility:hidden;
+            -webkit-backface-visibility:hidden;	/* Chrome 和 Safari */
+            -moz-backface-visibility:hidden; 	/* Firefox */
+            -ms-backface-visibility:hidden; 	/* Internet Explorer */
+        }
+
+        .back img{
+            width: 100%;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            display: block;
+            margin: auto;
+            z-index: 2;
+        }
+        .point-value{
+            text-align: center;
+            line-height: 40px;
+            width: 40px;
+            height: 40px;
+            font-size: 23px;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            left: 0px;
+            right: 5px;
+            top: 0px;
+            bottom: 0px;
+            display: block;
+            margin: auto;
+            z-index: 3;
+        }
+
+    </style>
+</block>
+<block name="content">
+    <div class="main">
+        <img class="top-img"  src="__IMG__icon_caidai_03.png">
+        <img class="bottom-img"  src="__IMG__icon_huangsbg_03.png">
+
+        <div style="margin-top: 60px">
+            <div class="header-div">
+                <!--<img src="{$user.headimgurl|get_head_url}">-->
+                <img src="__IMG__icon_head.jpg">
+            </div>
+            <div class="user-name"><span>{$user.realname}</span> <span id="user-point" style="margin-left: 8px">{$user.score}</span><span style="font-size: 13px"> 积分</span></div>
+
+            <!--<if condition="$signState == true">-->
+                <!--<div class="btn-sign btn-sign-disable">-->
+                    <!--<a id="btn-sign-disable">&lt;!&ndash;<img src="__IMG__icon_yiqiand.png">&nbsp;&nbsp;&nbsp;&nbsp;&ndash;&gt; 今日已签到</a>-->
+                <!--</div>-->
+            <!--<else/>-->
+                <!--<div id="btn-sign-div" class="btn-sign btn-sign-enable">-->
+                    <!--<a id="btn-sign"><img src="__IMG__icon_qiandao.png"> &nbsp;&nbsp;&nbsp;&nbsp;签到</a>-->
+                <!--</div>-->
+                <!--<div id="btn-sign-disable-div" class="btn-sign btn-sign-disable" style="display: none">-->
+                    <!--<a id="btn-sign-disable">&lt;!&ndash;<img src="__IMG__icon_yiqiand.png"> &nbsp;&nbsp;&nbsp;&nbsp;&ndash;&gt;今日已签到</a>-->
+                <!--</div>-->
+            <!--</if>-->
+
+            <!--<div class="user-point"> <img src="__IMG__icon_point.png"/> <span>积分 </span> <span id="user-point">{$user.score}</span> </div>-->
+            <div class="point-ranking">您还有<span id="prizeChangeCount">{$prizeChangeCount}</span>次翻牌机会</div>
+        </div>
+
+        <!--<div class="sign-top">-->
+            <!--<p id="day-count">{$continueSignInCount|fill_zero_before}</p>-->
+            <!--<p>连续签到</p>-->
+
+            <!--<if condition="$signState == true">-->
+                <!--<div class="btn-sign btn-sign-disable">-->
+                    <!--<a href="__ROOT__/SignIn/prize" id="btn-sign-disable">&lt;!&ndash;<img src="__IMG__icon_yiqiand.png">&nbsp;&nbsp;&nbsp;&nbsp;&ndash;&gt; 今日已签到</a>-->
+                <!--</div>-->
+            <!--<else/>-->
+                <!--<div id="btn-sign-div" class="btn-sign btn-sign-enable">-->
+                    <!--<a id="btn-sign"><img src="__IMG__icon_qiandao.png"> &nbsp;&nbsp;&nbsp;&nbsp;签到</a>-->
+                <!--</div>-->
+                <!--<div id="btn-sign-disable-div" class="btn-sign btn-sign-disable" style="display: none">-->
+                    <!--<a href="__ROOT__/SignIn/prize" id="btn-sign-disable">&lt;!&ndash;<img src="__IMG__icon_yiqiand.png"> &nbsp;&nbsp;&nbsp;&nbsp;&ndash;&gt;今日已签到</a>-->
+                <!--</div>-->
+            <!--</if>-->
+        <!--</div>-->
+
+        <div class="prize-table">
+            <ul id="prize-ul">
+                <li class="flip-container am-u-sm-4" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.jpg">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon_jifen_19.png">
+                            <span class="point-value">50</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container am-u-sm-4" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.jpg">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon_jifen_19.png">
+                            <span class="point-value">150</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container am-u-sm-4" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.jpg">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon_jifen_19.png">
+                            <span class="point-value">5</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container am-u-sm-4" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.jpg">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon_jifen_19.png">
+                            <span class="point-value">0</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container am-u-sm-4" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.jpg">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon_jifen_19.png">
+                            <span class="point-value">50</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="flip-container am-u-sm-4" onclick="toggleTable(this);">
+                    <a class="flipper">
+                        <div class="front">
+                            <img src="__IMG__prize-front.jpg">
+                        </div>
+                        <div class="back" id="back">
+                            <img src="__IMG__icon_jifen_19.png">
+                            <span class="point-value">50</span>
+                        </div>
+                    </a>
+                </li>
+                <div style="clear: both"></div>
+            </ul>
+        </div>
+
+        <div id="btnAgain" style="width: 100%; height: 25px; margin-top: 13px;position: relative; display: none">
+            <div style="margin:auto; width: 60px; height: 25px; background-color: #ff2222; color: white; border-radius: 5px; font-size: 12px; font-weight: bold; text-align: center; line-height: 25px">再来一次</div>
+        </div>
+
+    </div>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+
+        var prizeChangeCount = "{$prizeChangeCount}";
+
+        $("#btn-sign").click(function(){
+            $.ajax({
+                type: "post",
+                url: __root__+"/SignIn/Index/ajaxSignIn",
+                cache: false,
+                dataType: "json",
+                success: function (res) {
+                    if(res['status'] == 0){
+                        // 更新页面内容
+                        refreshSignInfo(res);
+                        // 显示签到结果提示框
+                        alert_modal(res['msg'])
+//                        $("#success-sign-tip").html(res['msg']);
+//                        $("#my-confirm").modal();
+                    }else if(res['status'] == 1){
+//                        $("#tip-content").html(res['msg']);
+//                        $("#my-alert").modal();
+                        alert(res.msg)
+                        window.location.reload();
+                    }
+                },
+                error: function () {
+                    alert("网络异常...");
+                }
+            });
+        });
+
+        function refreshSignInfo(res){
+            if(res['data']['continue_sign_in_count'] < 10){
+                res['data']['continue_sign_in_count'] = "0" + res['data']['continue_sign_in_count'];
+            }
+            $('#day-count').html(res['data']['continue_sign_in_count']);
+            $("#btn-sign-div").hide();
+            $("#btn-sign-disable-div").show();
+
+            $("#" + res['data']['id']).addClass("signed-cell");
+            $("#" + res['data']['id'] + " .text").html("签到");
+
+            $('#user-point').html(res['data']['score']);
+            $('#prizeChangeCount').html(res['data']['prizeChanceCount']);
+        }
+
+//        $("#btn-sign-disable").click(function(){
+//            $("#tip-content").html("你今天签到过了，明天再来吧...");
+//            $("#my-alert").modal();
+//        });
+
+        $(function() {
+            // 动态设置卡牌li的高度
+            var imgHeight = document.getElementsByClassName("front")[0].offsetHeight;
+//            alert("height  = " + imgHeight);
+            $("li").each(function(){
+                $(this).height(imgHeight);
+            });
+            $(".back").each(function(){
+                $(this).height(imgHeight);
+            });
+
+            // 自定义对话框按钮事件
+            var $confirm = $('#my-confirm');
+            var $confirmBtn = $confirm.find('[data-am-modal-confirm]');
+            // 确认按钮事件
+            $confirmBtn.off('click.confirm.modal.amui').on('click', function() {
+//                alert("在此处添加跳转到抽奖界面");
+                window.location.href="__ROOT__/SignIn/prize/index.html";
+            });
+            // 取消按钮事件
+//            var $cancelBtn = $confirm.find('[data-am-modal-cancel]');
+//            $cancelBtn.off('click.cancel.modal.amui').on('click', function() {
+//                window.location.reload();
+//            });
+        });
+
+        function toggleTable(obj){
+//            alert("prizeChangeCount = " + prizeChangeCount);
+            if(prizeChangeCount > 0){
+//                alert("index = " + $(obj).index());
+                ajaxGetPrize(obj, $(obj).index());
+//                $(obj).find('a').find('div').next().find('img').attr('src','__IMG__icon_jifen_03.png');
+//                $(obj).find('a').find('div').first().addClass('close');
+//                $(obj).find('a').find('div').next().addClass('open');
+//                setTimeout(function () {
+//                    $('#prize-ul').find('li').each(function(){
+//                        if($(this).index() != $(obj).index()){
+//                            $(this).find('a').find('div').first().addClass('close'); // 翻转原正面为背面
+//                            $(this).find('a').find('div').next().addClass('open'); // 翻转原背面为正面
+//                        }
+//                        $(this).removeAttr('onclick');
+//                        showAgainBtn();
+//                    })
+//                }, 500);
+            }else{
+                alert_modal("翻牌机会已用完，明天再来吧！");
+            }
+        }
+
+        function ajaxGetPrize(obj, index){
+            $.ajax({
+                type: "post",
+                url: __root__+"/SignIn/prize/ajaxGetPrize",
+                cache: false,
+                data:{
+                    "index": index
+                },
+                dataType: "json",
+                success: function (res) {
+                    if(res['status'] == 0){
+//                        alert("抽中后积分为" + JSON.stringify(res['data']['prize']));
+                        setCardValue(res['data']['prize']); // 设置各卡牌的值
+
+                        $('#prizeChangeCount').html(res['data']['prizeChanceCount']);
+                        $(obj).find('a').find('div').next().find('img').attr('src','__IMG__icon_jifen_03.png');
+                        $(obj).find('a').find('div').first().addClass('close');
+                        $(obj).find('a').find('div').next().addClass('open');
+                        setTimeout(function () {
+                            $('#prize-ul').find('li').each(function(){
+                                if($(this).index() != $(obj).index()){
+                                    $(this).find('a').find('div').first().addClass('close'); // 翻转原正面为背面
+                                    $(this).find('a').find('div').next().addClass('open'); // 翻转原背面为正面
+                                }
+                                $(this).removeAttr('onclick');
+                                $('#user-point').html(res['data']['userScore']);
+                                showAgainBtn();
+                            })
+                        }, 500);
+
+                    }else if(res['status'] == 1){
+                        alert(res['msg']);
+                    }
+                },
+                error: function () {
+                    alert("网络异常...");
+                }
+            });
+        }
+
+        function showAgainBtn(){
+            $("#btnAgain").show();
+        }
+
+        $("#btnAgain").click(function(){
+//            alert("aaaaaaaaaa");
+            window.location = window.location;
+        })
+
+        function setCardValue(prizeList){
+            $('#prize-ul').find('li').each(function(){
+//                alert("point = " + prizeList[$(this).index()]['point']);
+                $(this).find('a').find('div').next().find('span').html(prizeList[$(this).index()]['point']);
+            })
+        }
+
+    </script>
+
+</block>

@@ -1,0 +1,108 @@
+.page{
+    width:100%;
+    height:100%;
+    background-color: #e3e9ef;
+}
+header.head{
+    width:100%;
+    background: #ce3d2a;
+}
+header.head .head_return{
+    line-height: 1.3rem;
+    color: #ffffff;
+    font-size: 0.38rem;
+    text-align: center;
+}
+header.head .head_return>i{
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-top: 4%;
+    margin-left: 1%;
+    background: url(../../../../images/notes/return.png) no-repeat 100%;
+    background-size: 100%;
+    float: left;
+}
+.list{
+    width:95%;
+    margin: 0 auto;
+}
+.list dl{
+    width:100%;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    padding: 0.27rem;
+    border-bottom: 1px solid #e2e2e2;
+    background:url("../../../../images/party_serve/relief.png") no-repeat;
+    background-size: cover;
+    margin-bottom: 0.26rem;
+}
+.list dl dt{
+    flex:0 0 2rem;
+    padding-right: .21rem;
+}
+.list dl dt>img{
+    width:100%;
+    height:100%;
+}
+.list dl dd.content{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height:2.28rem;
+}
+.list dl dd.content h2{
+    color:#333333;
+    font-size: 13px;
+    line-height:0.5rem;
+}
+.list dl dd.content .time{
+    font-size: 10px;
+    color:#999;
+    padding:0.16rem 0;
+}
+.list dl dd.content .foot{
+    display: flex;
+    display: -webkit-flex;
+}
+.list dl dd.content .foot>div{
+
+}
+.list dl dd.content .foot .foot_title{
+    font-size: 10px;
+    flex:1;
+}
+.list dl dd.content .foot .foot_title>span{
+    position: relative;
+    top:-0.2rem;
+    color:#999999;
+}
+
+.list dl dd.content .foot .foot_title>img{
+    width:0.6rem;
+    height:0.6rem;
+    border-radius: 50%;
+}
+.list dl dd.content .foot .number{
+    text-align: right;
+    color:#9aa9b9;
+}
+.list dl dd.content .foot .number>i{
+    display: inline-block;
+    width:0.4rem;
+    height:0.4rem;
+    background: url("../../../../images/party_serve/donation.png") no-repeat;
+    background-size: 100%;
+    margin-right:0.2rem;
+    position: relative;
+    top:0.1rem;
+}
+.list dl dd.content .foot .number.active{
+    color:#ce3a3d;
+}
+.list dl dd.content .foot .number.active>i{
+    color:#ce3a3d;
+    background: url("../../../../images/party_serve/donation_hong.png") no-repeat;
+    background-size: 100%;
+}

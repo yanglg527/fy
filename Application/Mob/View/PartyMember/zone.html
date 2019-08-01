@@ -1,0 +1,456 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/branch/public.css">
+    <!-- <link rel="stylesheet" href="__CSS__/branch/branchZone.css"> -->
+    <link rel="stylesheet" href="__CSS__/common/zonePublic.css">
+    <link rel="stylesheet" href="__CSS__/party_member/memberZone.css">
+    <link rel="stylesheet" href="__CSS__/index_list1.css">
+    <style>
+
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        .target-box>p {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.4rem;
+    display: inline-block;
+    width: 92%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}     
+.collect,.comment,.like{
+            position:relative;
+            padding-left: 16px;
+        } 
+.collect:before,.comment::before,.like::before{
+            position: absolute;
+            display: block;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            background-size:16px 16px;
+        }
+        .collect::before{
+            background-image: url('__IMG__/collection-o.png');
+        }
+        .comment::before{
+            background-image: url('__IMG__/comment-o.png');
+        }
+        .like::before{
+            background-image: url('__IMG__/like-o.png');
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <div class="head_title" style="margin-bottom: 5px;padding: 5px;text-align: center;">
+                <img src="__IMG__/branch/toptitle.png" alt="" style="width: 70%;">
+            </div>
+            <div class="title_img">
+                <div class="img-bg">
+                    <img src="{$detail.headimgurl|get_head_url}" alt="">
+                </div>
+                <div class="head_title clearFix">
+                    <div class="inwrap">
+                        <ul class="position">
+                            <li>{$detail['realname']}</li>
+                            <li class="icon">|</li>
+                            <li>{$detail.gender|get_sex}</li>
+                            <if condition="$detail.is_follow eq 1 && $detail.uid neq uid()">
+                                <li class="icon">|</li><li onclick="change_follow(this);">取消关注</li>
+                            <elseif condition="$detail.uid eq uid()"/>
+
+                            <else/>
+                            <li class="icon">|</li><li onclick="change_follow(this);">关注</li>
+                            </if>
+                            <!-- <php>if($detail['adm_post_name']){</php>
+                            <li class="icon">|</li><li>{$detail['adm_post_name']}</li>
+                            <php>}</php> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="name clearFix">
+                    <div class="inwrap">
+                        <ul class="org">
+                            <php>if($detail['branch_name']){</php>
+                            <li>{$detail['branch_name']}</li>
+                            <php>}</php>
+                            <php>if($detail['role_name']){</php>
+                            <li>{$detail['role_name']}</li>
+                            <php>}</php>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="head_message member_message">
+                <a href="__ROOT__/Mob/PartyServe/integral?uid={$detail.uid}" class="item"><span>{$detail.score}</span>
+                    <p style="color: #C2C2C2">个人积分</p></a>
+                <div class="item">
+                    <a href="__ROOT__/Mob/Taizhang/person_contrast#{$detail.uid}">
+                    <span>{$detail.score_pm}</span>
+                    <p style="color: #C2C2C2">个人积分排名</p>
+                    </a>
+                </div>
+                <div class="item last">
+                    <span>{$detail.tz_count}</span>
+                    <p style="color: #C2C2C2">累计台账</p>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="ledger">
+        <div class="head">
+            <div class="title four-target">
+                <span></span>党员先锋的四个指标
+            </div>
+        </div>
+        <div class="target">
+            <volist name="norms" id="item">
+                <a href="__ROOT__/Mob/Taizhang/tz_listf_norm?id={$detail.uid}&norm_id={$item.id}&type=1">
+
+                    <div class="target-box">
+                        <p>{$item.title}
+                        </p>
+                        <div class="target-display">
+                            <img src="__IMG__/branch/right.png" alt="" class="titleRight">
+                        </div>
+                    </div>
+                </a>
+            </volist>
+        </div>
+    </div>
+    <div class="ledger ledgerTrack">
+        <div class="head leaderHead">
+            <div class="title four-target ">
+                <span></span>轨迹
+            </div>
+            <div class="track">
+                <span></span>成长轨迹
+                <span></span>
+            </div>
+        </div>
+        <div class="swiper-container grow-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide grow-slide"><a href="__ROOT__/Mob/Taizhang/track?id={$detail['uid']}"><img src="__IMG__/branch/grow.png" alt=""></a>
+                    <!-- <span class="bg"></span> --></div>
+            </div>
+            <img src="__IMG__/branch/growBottom.png" alt="" class="growBottom">
+            <div class="swiper-button-prev swiper-button-gray"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <div class="ledger">
+        <a >
+            <div class="head">
+                <div class="title">
+                    <span></span>台账列表
+                    <img src="__IMG__/branch/all.png" alt="" class="titleRight">
+                </div>
+                <!-- <div class="search"><img src="__IMG__/branch/search@2x.png" alt=""></div> -->
+            </div>
+        </a>
+        <!-- <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <volist name="taizhang" id="item"><a
+                        href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                    <div class="swiper-slide newSlide">
+                        <img width="100%" height="100%" src="{$item.cover|show_tz_img}" alt="" class="firstImg"
+                             style="overflow: hidden">
+                    </div>
+                </a>
+                </volist>
+            </div>
+        </div> -->
+
+        <div class="list">
+
+            <volist name="taizhang" id="item" key="index">
+                <!-- <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                    <dl>
+                        <dt><img src="{$item.cover|show_tz_img}" style="height: 85px;width:105px;"></dt>
+                        <dd class="content">
+                            <h2>{$item.title}</h2>
+                            <div class="content">{$item.content|show_sub_title=10}</div>
+                            <div class="overview">
+                                <span>{$item.tag_name}</span>
+                            </div>
+                            <div class="foot">
+                                <div class="foot_title">
+                                    <img src="{$item.user_headimgurl|get_head_url}" alt="">
+                                    <span class="name">{$item.user_realname}</span>
+                                    <span class="position">{$item.user_adm_post_name}</span>
+                                </div>
+                            </div>
+                         </dd>
+                    </dl>
+                </a> -->
+                <dl>
+                    <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                        <dt><img src="{$item.cover|show_img='middle'}" style="height: 85px;width:105px;"></dt></a>
+                    <dd class="content">
+                        <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}&t_id={$item.template_id}">
+                            <h2 class="title">{$item.title}</h2>
+                            <div class="content">{$item.content|show_sub_title=10}</div>
+                            <div class="overview">
+                                <img class="userhead" src="{$item.user_headimgurl|get_head_url}" alt="">
+                                <span class="name">{$item.user_realname}</span>
+                                <span>{$item.tag_name}</span>
+                            </div>
+                        </a>
+                        <div style="margin-bottom:5px;">
+                            <span class="collect name" data-id="{$item.id}" >收藏(<span class="count">{$item.sc_count}</span>)&nbsp;&nbsp;</span>
+
+                            <span class="comment name" >
+                            <if condition="$item['template_id'] eq 3">
+                                <a href="__ROOT__/Mob/Taizhang/show?id={$item.id}">评论({$item.pl_count})</a>
+                                <else />
+                                <a href="__ROOT__/Mob/Taizhang/tz_comment?id={$item.id}">评论({$item.pl_count})</a>
+                            </if>
+
+
+
+                                &nbsp;&nbsp;
+                            </span>
+
+                            <span class="like name" data-id="{$item.id}">点赞(<span class="count">{$item.dz_count}</span>)</span>
+                        </div>
+                        <!-- <div class="icon"><img style="width:20px;" src="__IMG__/ledger_list/{$index}.png"></div> -->
+                    </dd>
+                </dl>
+            </volist>
+        </div>
+
+    </div>
+    <!-- <div class="ledger member_ledger">
+        <div class="head">
+            <div class="title">
+                <span></span>台账模板
+            </div>
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide newSlide taizhang-add">
+                    <img width="100%" height="100%" src="__IMG__/test/newt1.jpg" alt="1" class="firstImg">
+                </div>
+                <div class="swiper-slide newSlide taizhang-add">
+                    <img width="100%" height="100%" src="__IMG__/test/newt2.jpg" alt="2">
+                </div>
+                <div class="swiper-slide newSlide">
+                    <img width="100%" height="100%" src="__IMG__/test/newt3.jpg" alt="">
+                </div>
+                <div class="swiper-slide newSlide">
+                    <img width="100%" height="100%" src="__IMG__/test/newt4.jpg" alt="">
+                </div>
+                <div class="swiper-slide newSlide">
+                    <img width="100%" height="100%" src="__IMG__/test/newt4.jpg" alt="">
+                </div>
+                <div class="swiper-slide newSlide">
+                    <img width="100%" height="100%" src="__IMG__/test/newt4.jpg" alt="">
+                </div>
+            </div>
+        </div>
+        -->
+
+            <!--请选择规定或创新-->
+            <!-- <div class="blackspec_box">
+                <div class="blackspec_content">
+                    <h3 class="spec_h3">请选择</h3>
+                    <div class="spec_content">
+                        <div class="spec_classify">
+                            <p data-id="0" class="active">规定动作</p>
+                            <p data-id="1" >创新动作</p>
+                        </div>
+                        <div class="spec_submit">
+                            <button type="reset" class="spec_cancle">取消</button>
+                            <button type="submit" class="spec_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!--选择标签弹出层-->
+            <!-- <div class="blacktag_box">
+                <div class="blacktag_content">
+                    <h3 class="tag_h3">请选择标签</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify">
+                            <volist name="tags" id="item">
+                                 <if condition="$i eq 1">
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                              <else/>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                              </if>
+                            </volist>
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="tag_cancle">取消</button>
+                            <button type="submit" class="tag_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!--选择标指标-->
+            <!-- <div class="blackgroup_box">
+                <div class="blackgroup_content">
+                    <h3 class="group_h3">请选择指标</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify">
+                            <volist name="norms" id="item" >
+                              <if condition="$i eq 1">
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                              <else/>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                              </if>
+                             </volist>
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="group_cancle">取消</button>
+                            <button type="submit" class="group_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+</block>
+<block name="scripts">
+
+    <script src="__JS__/branch/branchZone.js"></script>
+    <script src="__JS__/leader/leaderZone.js"></script>
+    <script src="__JS__/ledger_list/dz.js"></script>
+    <script>
+        var temp_id=1;
+        $('#follow').click(function () {
+            var status = $(this).attr('data-status');
+            var url = "";
+            if (status == 1) {
+                url = "__ROOT__/Mob/Friend/ajaxCancelFollow"
+            } else {
+                url = "__ROOT__/Mob/Friend/ajaxFollow"
+            }
+            loading();
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {
+                    uid: "{$detail.uid}"
+                },
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        window.location.reload();
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+
+        })
+
+    $(".taizhang-add").click(function(){
+        $(".blackspec_box").show();
+        temp_id=$(this).find('img').attr("alt");
+    })
+    $(".spec_cancle").click(function(){
+        $(".blackspec_box").hide();
+    })
+    $(".spec_sure").click(function(){
+        $(".blackspec_box").hide();
+        $(".blackgroup_box").show();
+    })
+    $(".group_cancle").click(function(){
+        $(".blackgroup_box").hide();
+    })
+    $(".group_sure").click(function(){
+        $(".blackgroup_box").hide();
+        $(".blacktag_box").show();
+    })
+    $(".tag_cancle").click(function(){
+        $(".blacktag_box").hide();
+    })
+    $(".tag_sure").click(function(){
+        $(".blacktag_box").hide();
+        var spec_id = $(".blackspec_box .active").attr("data-id");
+        var tag_id = $(".blacktag_box .active").attr("data-id");
+        var group_id = $(".blackgroup_box .active").attr("data-id");
+        var url = "__ROOT__/Mob/Taizhang/add?spec_id="+spec_id+"&tag_id="+tag_id+"&group_id="+group_id+"&type=1&temp_id="+temp_id;
+        window.location.href = url;
+    })
+    $(".tag_classify>span").click(function(){
+
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+        $(this).siblings().find("span").removeClass("active");
+    
+    })
+
+    $(".spec_classify>p").click(function(){
+
+        $(this).addClass("active");
+        $(this).siblings("p").removeClass("active");
+    })
+
+
+    function change_follow(obj) {
+            var text = $(obj).html();
+            var url = "";
+            if (text == '取消关注') {
+                url = "__ROOT__/Mob/Friend/ajaxCancelFollow"
+            } else {
+                url = "__ROOT__/Mob/Friend/ajaxFollow"
+            }
+            // loading();
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {
+                    uid: "{$detail.uid}"
+                },
+                dataType: "json",
+                success: function (data) {
+                    close_loading();
+                    if (data.status == 0) {
+                        // window.location.reload();
+                        if (text == '取消关注') {
+                            alert('已取消关注');
+                            $(obj).html('关注');
+                        }else{
+                            alert('关注成功');
+                            $(obj).html('取消关注');
+                        };
+                        
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function () {
+                    close_loading();
+                    alert("服务器暂时无法访问，请稍后再试");
+                }
+            });
+
+        }
+    </script>
+</block>

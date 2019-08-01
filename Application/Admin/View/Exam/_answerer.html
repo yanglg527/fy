@@ -1,0 +1,29 @@
+					<thead>
+					    <tr>
+					    	<th >用户名</th>
+							<th >分数</th>
+							<th >提交时间</th>
+							<th >状态</th>
+							<th class="operate">操作</th>
+						</tr>
+					</thead>
+					<volist name="page.list" id='vo'>
+						<tr>
+						    <td >{$vo|show_name=user_}</td>
+							<td >{$vo.exam_score}</td>
+							<td >{$vo.hand_time|time_to_string_ques}</td>
+							<td >
+								<if condition="$vo.is_corrected == 1">
+									<span class="label label-success" style="font-weight: 200;">已批改</span>
+								<else/>
+									<span class="label label-warning" style="font-weight: 200;">未批改</span>
+								</if>
+							</td>
+							<td>
+								<div class="btn-group btn-group-xs" role="group" aria-label="...">
+								  <!--<button type="button" class="btn btn-default">查看</button>-->
+									<a type="button" class="btn btn-default" href="__ROOT__/Center/Exam/correct?correctType=correct&examPaperId={$vo.id}&entryType=answer">批改</a>
+								</div>
+							</td>
+						</tr>
+					</volist>

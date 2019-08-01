@@ -1,0 +1,23 @@
+		<volist name="notices.list" id="vo">
+			<tr>
+                <!-- <td><input type="checkbox" /></td> -->
+                <td>{$vo.content}</td>
+                <td>{$vo.type_name}
+                </td>
+                
+                <td class="am-hide-sm-only">
+                	{$vo.publish_time|date="Y-m-d H:i:s",###}
+                </td>
+                <td>
+                  {$vo.finish_time|date="Y-m-d H:i:s",###}
+                </td>
+                <td>
+                	<div class="am-btn-toolbar">
+                      <div class="am-btn-group am-btn-group-xs">
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/Notice/user?id={$vo.id}');" type="button"><span  class="am-icon-user"></span> 完成情况</button>
+                        <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</a>
+                      </div>
+                    </div>
+                </td>
+              </tr>
+        </volist>

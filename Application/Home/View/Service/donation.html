@@ -1,0 +1,319 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .container {
+            background: white;
+        }
+
+        .tip {
+            width: 100%;
+            height: 31px;
+            line-height: 31px;
+            background: #FDF6D5;
+            font-size: 13px;
+            color: #666666;
+            padding-left: 10px;
+        }
+
+        .dynamic-list {
+            /*position: absolute;*/
+            /*left: 0px;*/
+            /*right: 0px;*/
+            /*top: 45px;;*/
+            /*bottom: 50px;*/
+            background: white;
+            /*padding-bottom: 50px;*/
+        }
+
+        .list-item {
+            border-bottom: 1px solid #f7f8f8;
+            padding: 10px 15px;
+            position: relative;
+        }
+
+        .item-title {
+            font-size: 17px;
+            color: #1a1a1a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            line-height: 20px;
+        }
+
+        .item-content {
+            font-size: 13px;
+            line-height: 22px;
+            color: #666666;
+            margin-top: 10px;
+        }
+
+        .todo-state {
+            /*font-size: 12px;*/
+            /*padding: 0px 3px;*/
+            /*line-height: 33px;*/
+            /*margin-right: 7px;*/
+            font-size: 13px;
+            padding: 0px 6px;
+            line-height: 20px;
+            float: right;
+            color: white;
+            /*margin-right: 7px;*/
+        }
+
+        /*重办按钮*/
+        .todo-state-redo {
+            background: #EE3D11;
+            border: 1px solid #EE3D11;
+            border-radius: 3px;
+        }
+
+        .todo-state-nodo {
+            background: #0e90d2;
+            border: 1px solid #0e90d2;
+            border-radius: 3px;
+        }
+
+        .todo-state-wait {
+            background: #FFB400;
+            border: 1px solid #FFB400;
+            border-radius: 3px;
+        }
+
+        .todo-state-done {
+            background: #1AE642;
+            border: 1px solid #1AE642;
+            border-radius: 3px;
+        }
+
+        .btn-todo {
+            width: 84px;
+            height: 33px;
+            line-height: 33px;
+            text-align: center;
+            float: right;
+            border-radius: 16px;
+            font-size: 15px;
+        }
+
+        .btn-todo-done {
+            background: #DCE4E6;
+            color: #939899;
+        }
+
+        .btn-todo-nodo {
+            background: #FFB400;
+            color: white;
+        }
+
+        .item-info {
+            margin-top: 15px;
+            color: #999999;
+            font-size: 12px;
+        }
+
+        .request-finish-date {
+            height: 25px;
+            line-height: 25px;
+            font-size: 13px;
+            color: #FFB400;
+        }
+
+        .bottom-button {
+            position: fixed;
+            height: 45px;
+            width: 100%;
+            bottom: 0;
+            background: #0084c7;
+            line-height: 45px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            font-size: 16px;
+            border-radius: 3px;
+        }
+
+        .am-tabs-d2 .am-tabs-nav > .am-active:after {
+            border-bottom-color: #00C2E5;
+        }
+
+        .am-tabs-d2 .am-tabs-nav > .am-active {
+            border-bottom: 2px solid #00C2E5;
+        }
+
+        .item-little-title{
+            margin-right: 5px;
+        }
+        .item-status-red{
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            height: 20px;
+            line-height: 18px;
+            border: 1px solid orangered;
+            color: orangered;
+            font-size: 13px;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-radius: 3px;
+        }
+        .item-status-gray{
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            height: 20px;
+            line-height: 18px;
+            border: 1px solid #999;
+            color: #999;
+            font-size: 13px;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-radius: 3px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="dynamic-list">
+        <!--<div class="list-item">-->
+            <!--<div class="item-title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题</div>-->
+            <!--<div class="item-content"><span class="item-little-title">募&nbsp;&nbsp;捐&nbsp;&nbsp;人：</span><span>林嘉焕</span></div>-->
+            <!--<div class="item-content" style="margin-top: 0px;"><span class="item-little-title">募捐金额：</span><span>100000</span></div>-->
+            <!--<span class="item-status-red">募捐中</span>-->
+        <!--</div>-->
+        <!--<div class="list-item">-->
+            <!--<div class="item-title">标题标题标题标题标题标题标题</div>-->
+            <!--<div class="item-content"><span class="item-little-title">募&nbsp;&nbsp;捐&nbsp;&nbsp;人：</span><span>林嘉焕</span></div>-->
+            <!--<div class="item-content" style="margin-top: 0px;"><span class="item-little-title">募捐金额：</span><span>100000</span></div>-->
+            <!--<span class="item-status-red">募捐中</span>-->
+        <!--</div>-->
+        <!--<div class="list-item">-->
+            <!--<div class="item-title">标题标题标题标题标题标题标题</div>-->
+            <!--<div class="item-content"><span class="item-little-title">募&nbsp;&nbsp;捐&nbsp;&nbsp;人：</span><span>林嘉焕</span></div>-->
+            <!--<div class="item-content" style="margin-top: 0px;"><span class="item-little-title">募捐金额：</span><span>100000</span></div>-->
+            <!--<span class="item-status-gray">已结束</span>-->
+        <!--</div>-->
+    </div>
+
+    <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text">
+        <i id="loading-icon" class="am-icon-spinner am-icon-spin"></i>
+    </div>
+
+</block>
+<block name="scripts">
+    <script>
+        var published_at = 0;
+        var is_loading = 1;
+        $(window).load(function () {
+            ajax_loading();
+        });
+
+        function ajax_loading() {
+            $.ajax({
+                data: {
+                    'published_at': published_at,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Home/Service/ajaxLoadingDonation',
+                success: function (data) {
+                    if (data['status'] == 0) {
+//                        alert(data['msg']);
+                        if (data['data']) {
+                            var html_content = '';
+                            $.each(data['data'], function (i, vo) {
+                                html_content = '';
+                                html_content = '<a href="' + __root__ + '/Home/Service/donationDetail.html?id=' + vo.id + '">' +
+                                                    '<div class="list-item">' +
+                                                        '<div class="item-title">' + vo.title + '</div>' +
+                                                        '<div class="item-content">' +
+                                                            '<span class="item-little-title">募&nbsp;&nbsp;捐&nbsp;&nbsp;人：</span><span>' + vo.proposer_name +  '</span>' +
+                                                        '</div>' +
+                                                        '<div class="item-content" style="margin-top: 0px">' +
+                                                            '<span class="item-little-title">募捐金额：</span><span>' + vo.target +  ' 元</span>' +
+                                                        '</div>';
+                                if (vo.status == 1) {
+                                    html_content = html_content + '<span class="item-status-red">募捐中</span>';
+                                } else if (vo.status == 2) {
+                                    html_content = html_content + '<span class="item-status-gray">已结束</span>';
+                                } else {
+                                    html_content = html_content + '<span class="item-status-gray">募捐失败</span>';
+                                }
+
+                                html_content = html_content + '</div>' + '</a>';
+
+                                $('.dynamic-list').append(html_content);
+                                published_at = vo.create_time;
+                            });
+                            is_loading = 1;
+                            $('#loading-icon').hide();
+                        } else {
+                            is_loading = 1;
+                            $('#loading-icon').hide();
+                            $("#loading-text").html('没有更多了');
+                        }
+                    } else {
+                        alert_modal(data['msg']);
+                        is_loading = 1;
+                        $('#loading-icon').hide();
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        }
+
+        $('.dynamic-list').on('click', '.btn-todo-nodo', function () {
+            var button = this;
+            id = $(this).attr('data-id');
+            $('#success-sign-tip').html("确定已办吗?");
+            $('.am-modal-btn').html("确定");
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Todo/index/ajaxConfirmTodo',
+                        type: 'POST', //GET
+                        data: {id: id},
+                        dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                $(button).removeClass('btn-todo-nodo');
+                                $(button).addClass('btn-todo-done');
+                                $(button).html("已办");
+                                $(button).parent().children('.todo-state').removeClass('todo-state-nodo');
+                                $(button).parent().children('.todo-state').addClass('todo-state-done');
+                                $(button).parent().children('.todo-state').html("已办");
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height() && is_loading == 1) {
+                    is_loading = 0;
+                    $('#loading-icon').show();
+                    $("#loading-text").html('');
+                    ajax_loading();
+                }
+            });
+        });
+
+
+    </script>
+</block>

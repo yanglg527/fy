@@ -1,0 +1,175 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">待办事项管理</strong></div>
+        </div>
+        <hr>
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-6">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <button  onclick="loading_page('__ROOT__/Admin/Todo/todoAdd?p={$page.pageInfo.pageNo}');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 发布</button>
+                        <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+                        <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+                    </div>
+                </div>
+            </div>
+            <form class="am-u-sm-12 am-u-md-3" id="search-form">
+                <div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" name="keyword" value="{$keyword}">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" type="submit">搜索</button>
+                        </span>
+                </div>
+            </form>
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <!--<th>id</th>-->
+                            <!--<th style="min-width: 100px">发布时间</th>-->
+                            <!--<th>标题</th>-->
+                            <!--<th>内容</th>-->
+                            <!--<th style="min-width: 80px">发布者</th>-->
+                            <!--<th>接收人员</th>-->
+                            <!--<th>状态</th>-->
+                            <!--<th>操作</th>-->
+                            <th>id</th>
+                            <th>标题</th>
+                            <th style="min-width: 100px">完成时间</th>
+                            <th style="min-width: 80px">发布者</th>
+                            <th style="min-width: 80px">发布来源</th>
+                            <th style="min-width: 100px">发布时间</th>
+                            <th>接收支部</th>
+                            <th>接收人员</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.id}</td>
+                                <td>{$item.title}</td>
+                                <!--<td>{$item.todo_content}</td>-->
+                                <td>{$item.request_finish_date|date="Y-m-d",###}</td>
+                                <td>{$item.issuer_name}</td>
+                                <td>
+                                    {$item|show_branch_auth}
+                                </td>
+                                <td>{$item.create_time|date="Y-m-d",###}</td>
+                                <td><volist name="item.branchs" id="branch">{$branch.name}&nbsp;&nbsp;&nbsp;&nbsp;</volist></td>
+                                <td><volist name="item.roles" id="role">{$role.name}&nbsp;&nbsp;&nbsp;&nbsp;</volist></td>
+                                <td class="am-hide-sm-only">
+                                    <if condition="$item.todo_status == 0">
+                                        <span class="am-badge am-badge-warning am-radius">禁止</span>
+                                        <else />
+                                        <span class="am-badge am-badge-success am-radius">启动</span>
+                                    </if>
+                                </td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary " onclick="loading_page('__ROOT__/Admin/Todo/todoAdd?p={$page.pageInfo.pageNo}&id={$item.id}');"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-status" data-id="{$item.id}"><span class="am-icon-archive"></span> <if condition="$item.todo_status == 1" > 禁用<else/> 启用</if></button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-success " onclick="loading_page('__ROOT__/Admin/Todo/finishSituation?id={$item.id}');"><span class="am-icon-bars"></span> 完成情况</button>
+                                            <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" data-id="{$item.id}"><span class="am-icon-trash-o" ></span> 删除</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <!--<div class="am-cf">-->
+                        <!--共 15 条记录-->
+                        <!--<div class="am-fr">-->
+                            <!--<ul class="am-pagination">-->
+                                <!--<li class="am-disabled"><a href="#">«</a></li>-->
+                                <!--<li class="am-active"><a href="#">1</a></li>-->
+                                <!--<li><a href="#">2</a></li>-->
+                                <!--<li><a href="#">3</a></li>-->
+                                <!--<li><a href="#">4</a></li>-->
+                                <!--<li><a href="#">5</a></li>-->
+                                <!--<li><a href="#">»</a></li>-->
+                            <!--</ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<hr />-->
+                    <!--<p>注：.....</p>-->
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+        var id = 0;
+        $('.btn-dec').click(function(){
+             id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url:'__ROOT__/Admin/Todo/ajaxDecTodo',
+                        type:'POST', //GET
+                        data:{id:id},
+                        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success:function(data){
+                            if(data.status == 0){
+                                window.location.reload();
+                            }else{
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error:function(xhr,textStatus){
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        $('.btn-status').click(function(){
+            id = $(this).attr('data-id');
+            $.ajax({
+                url:'__ROOT__/Admin/Todo/ajaxSaveTodoStatus',
+                type:'POST', //GET
+                data:{id:id},
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                    if(data.status == 0){
+                        window.location.reload();
+                    }else{
+                        alert_modal(data.msg);
+                    }
+                },
+                error:function(xhr,textStatus){
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        });
+
+    </script>
+
+</block>

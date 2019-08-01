@@ -1,0 +1,169 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .item {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border-top: 1px solid #e8e8e8;
+            border-bottom: 1px solid #e8e8e8;
+            background: white;
+        }
+
+        .item-left {
+            position: absolute;
+            height: 40px;
+            line-height: 40px;
+            left: 15px;
+            color: #1a1a1a;
+            font-size: 16px;
+        }
+
+        .item-right {
+            position: absolute;
+            height: 40px;
+            line-height: 40px;
+            left: 100px;
+            color: #1a1a1a;
+            right: 15px;
+            height: 45px;
+            font-size: 16px;
+        }
+
+        .btn-bottom {
+            width: 274px;
+            min-width: 250px;
+            height: 40px;
+            line-height: 40px;
+            margin: 30px auto;
+            border-radius: 40px;
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .nodo {
+            background: #00C2E5;
+        }
+
+        .wait {
+            background: #999999;
+        }
+
+        .done {
+            background: #cccccc;
+        }
+
+        .disable {
+            background: #aaaaaa !important;
+        }
+
+        .title {
+            height: 20px;
+            line-height: 20px;
+            color: black;
+            font-size: 15px;
+            border-left: 5px solid #99FFD6;
+            padding: 0px 5px;
+            margin: 5px 15px;
+        }
+
+        .text-content {
+            padding: 5px 15px;
+            font-size: 14px;
+            color: #666666;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            min-height: 100px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="item">
+        <span class="item-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</span>
+        <span class="item-right">{$order.title}</span> <!-- 我是标题我是标题我是标题我是标题 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">金&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;额：</span>
+        <span class="item-right">{$order.total_fee}元</span> <!-- 我是标题我是标题我是标题我是标题 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">订&nbsp;&nbsp;单&nbsp;&nbsp;号：</span>
+        <span class="item-right">{$order.out_trade_no}</span> <!-- 2016-12-12 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">创建时间：</span>
+        <span class="item-right">{$order.create_time|date="Y-m-d",###}</span>
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">支付状态：</span>
+        <span class="item-right am"><if condition="$order.status == 1">已付款
+            <else/>
+            未支付
+        </if></span>
+    </div>
+
+    <div class="item" style="margin-top: 10px;">
+        <span class="item-left">描述</span>
+    </div>
+    <div class="text-content">{$order.body}</div>
+    <if condition="$order.status == 1">
+        <div align="center">
+            <button class="am-btn am-btn-primary" style="border-radius: 5px;margin-top: 15px;width: 200px" type="button">已付款
+            </button>
+        </div>
+        <else/>
+        <div align="center">
+            <button class="am-btn am-btn-success" style="border-radius: 5px;margin-top: 15px;width: 200px" type="button"
+                    id="btn-pay">微信支付 ￥{$order.total_fee}
+            </button>
+        </div>
+        <div align="center" class="hidden" id="finish-div">
+            <button class="am-btn am-btn-warning" style="border-radius: 5px;margin-top: 15px;width: 200px" type="button"
+                    id="btn-finish" onclick="JavaScript:history.back(-1);">完成支付
+            </button>
+        </div>
+    </if>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        $('#btn-pay').click(function () {
+            callpay();
+            $('#finish-div').removeClass('hidden');
+        });
+        //调用微信JS api 支付
+        function jsApiCall() {
+            WeixinJSBridge.invoke(
+                    'getBrandWCPayRequest', {$data},
+                    function (res) {
+                        WeixinJSBridge.log(res.err_msg);
+                        if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                            // 使用以上方式判断前端返回,微信团队郑重提示：
+                            //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                            var url = "__ROOT__/Weixin/Weixinpay/pay";
+                            window.location.href = url;
+                        }
+                    }
+            );
+        }
+
+        function callpay() {
+            if(typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                    document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+                }
+            }else{
+                jsApiCall();
+            }
+        }
+    </script>
+
+</block>

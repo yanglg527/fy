@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>党员发展</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <!--<link rel="stylesheet" href="__STATICS__/mui/mui.tab.pullrefresh.css">-->
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/member_develop/member_develop.css">
+</head>
+<style>
+
+</style>
+
+<body style="background: transparent">
+    <div class="bg" style="position: fixed;"></div>
+
+    <div class="page">
+
+        <ul class="nav_ul">
+      
+
+            <li>
+                <div class="container">
+                    <div class="navImg">
+                        <img src="__IMG__/member_develop/activist1.png" class="pic1 hide" alt="">
+                        <img src="__IMG__/member_develop/activist2.png" class="pic2" alt="">
+                    </div>
+                    <span class="icon active"></span>
+                    <p class="active">积极分子</p>
+                    <p>(<span>{$count['jj']}</span>人)</p>
+                </div>
+            </li>
+            <li>
+                <div class="container">
+                    <div class="navImg">
+                        <img src="__IMG__/member_develop/object1.png" class="pic1" alt="">
+                        <img src="__IMG__/member_develop/object2.png" class="pic2 hide" alt="">
+                    </div>
+                    <span class="icon"></span>
+                    <p>重点发展对象</p>
+                    <p>(<span>{$count['zd']}</span>人)</p>
+                </div>
+            </li>
+            <li>
+                <div class="container">
+                    <div class="navImg">
+                        <img src="__IMG__/member_develop/probationary_party1.png" class="pic1" alt="">
+                        <img src="__IMG__/member_develop/probationary_party2.png" class="pic2 hide" alt="">
+                    </div>
+                    <span class="icon active"></span>
+                    <p>预备党员</p>
+                    <p>(<span>{$count['yb']}</span>人)</p>
+                </div>
+            </li>
+            <li>
+                <div class="container">
+                    <div class="navImg">
+                        <img src="__IMG__/member_develop/probationary_party1.png" class="pic1" alt="">
+                        <img src="__IMG__/member_develop/probationary_party2.png" class="pic2 hide" alt="">
+                    </div>
+                    <span class="icon active"></span>
+                    <p>群众</p>
+                    <p>(<span>{$count['qz']}</span>人)</p>
+                </div>
+            </li>
+            <li>
+                <div class="container">
+                    <div class="navImg">
+                        <img src="__IMG__/member_develop/probationary_party1.png" class="pic1" alt="">
+                        <img src="__IMG__/member_develop/probationary_party2.png" class="pic2 hide" alt="">
+                    </div>
+                    <span class="icon active"></span>
+                    <p>已转为正式党员名单</p>
+                    <p>(<span>{$count['md']}</span>人)</p>
+                </div>
+            </li>
+         
+            <li>
+                <div class="container">
+                    <div class="navImg">
+                        <img src="__IMG__/member_develop/mass1.png" class="pic1" alt="">
+                        <img src="__IMG__/member_develop/mass2.png" class="pic2 hide" alt="">
+                    </div>
+                    <span class="icon active"></span>
+                    <p>党员发展规范</p>
+                    <p></p>
+                </div>
+            </li>
+            <!-- <li class="hide">
+            <div class="container">
+                <div class="navImg">
+                    <img src="__IMG__/member_develop/attend_data1.png" class="pic1" alt="">
+                    <img src="__IMG__/member_develop/attend_data2.png" class="pic2 hide" alt="">
+                </div>
+                <span class="icon active"></span>
+                <p>发展入党数据查询</p>
+            </div>
+        </li> -->
+        </ul>
+        <!-- <ul class="ccontent_ul mass_ul hide">
+    	<div class="mui-loading">
+				<div class="mui-spinner">
+				</div>
+		</div>
+    </ul>
+    <ul class="content_ul activist_ul hide">
+       
+    </ul> -->
+  
+        <ul class="content_ul object_ul show">
+            <volist name="list_jj" id="item">
+                <include file="MemberDevelop/_index_list_item" />
+            </volist>
+
+        </ul>
+        <ul class="content_ul probationary hide">
+            <volist name="list_zd" id="item">
+                <include file="MemberDevelop/_index_list_item" />
+            </volist>
+        </ul>
+        <ul class="content_ul data_list hide">
+            <volist name="list_yb" id="item">
+                <include file="MemberDevelop/_index_list_item" />
+            </volist>
+        </ul>
+        <ul class="content_ul data_list hide">
+            <volist name="list_qz" id="item">
+                <include file="MemberDevelop/_index_list_item" />
+            </volist>
+        </ul>
+        <ul class="content_ul data_list hide">
+            <volist name="list_md" id="item">
+                <include file="MemberDevelop/_index_list_item" />
+            </volist>
+        </ul>
+
+        <div class="screen_shade hide">
+            <div class="content">
+                <div class="title">支部选择<i></i></div>
+                <ul class="list" style="overflow: auto;height: 500px;">
+                    <li data-id="all">支部选择</li>
+                    <volist name="branchs" id="item">
+                        <li data-id="{$item.id}">{$item.name}</li>
+                    </volist>
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <style>
+        .mui-iframe-wrapper{
+        /* left: 101px; */
+        background: transparent;
+        display: none;
+    }
+</style>
+
+    <script src="__STATICS__/zepto/zepto.js"></script>
+    <script src="__STATICS__/zepto/event.js"></script>
+    <script src="__STATICS__/zepto/touch.js"></script>
+    <script src="__JS__/member_develop/member_develop.js"></script>
+    <include file="Common/_menu" />
+    <script>
+        var __root__ = "__ROOT__";
+    </script>
+    <script src="__STATICS__/mui/mui.min.js"></script>
+    <script src="__STATICS__/dateUtil.js"></script>
+    <script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__STATICS__/mui/mui.pullToRefresh.js"></script>
+    <script src="__STATICS__/mui/mui.pullToRefresh.material.js"></script>
+    <script>
+        //启用双击监听
+        mui.init({
+            gestureConfig: {
+                doubletap: true
+            },
+            subpages: [{
+                url: '__ROOT__/Mob/MemberDevelop/_sub_index.html',
+                id: '_sub_index.html',
+                styles: {
+                    top: '0px',
+                    left: '100px',
+                    bottom: '0px',
+                }
+            }]
+        });
+
+    </script>
+</body>
+
+</html>

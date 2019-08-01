@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>积分与台账</title>
+    <link rel="stylesheet" href="../stylesheets/header.css">
+    <link rel="stylesheet" href="../stylesheets/home.css">
+</head>
+<body>
+<div id="app">
+    <!--头部-->
+    <div class="header">
+        <div class="logo-box"><a href="./home.html"><img src="../images/logo.png" alt="" class="logo"></a></div>
+        <div class="g-nav-bar">
+            <ul class="nav">
+                <li class="item link"><a href="./home.html">积分与台账</a></li>
+                <li class="item link"><a href="./dev.html">党员发展</a></li>
+                <li class="item link"><a href="./info.html">组织信息</a></li>
+                <li class="item link"><a href="./study.html">学习情况</a></li>
+                <li class="item link active"><a href="./mission.html">任务完成情况</a></li>
+            </ul>
+        </div>
+        <div class="user-box">
+            <div class="avatar"></div>
+            <div class="menu link">
+                <span class="chose"><span class="txt">管理员</span><i class="arrow"></i></span>
+                <ul class="choose-list">
+                    <li class="item"><a class="link" href="http://djpt.zhzy.net.cn/Admin/Index/index">个人中心</a></li>
+                    <li class="item"><a class="link" href="http://djpt.zhzy.net.cn/Admin/Index/index">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--主swipe-->
+
+    <h1 style="margin-top: 200px; text-align: center; color: #666666;font-size: 32px;">页面建设中...</h1>
+</div>
+
+
+<!--js-->
+<script type="text/javascript" src="../js/lib/jquery-3.1.0.min.js"></script>
+<!--vue-->
+<script type="text/javascript" src="../js/lib/vue.min.js"></script>
+<script type="text/javascript" src="../js/lib/vue-resource.min.js"></script>
+
+<!--下拉菜单-->
+<script>
+    (function ($) {
+        $(function () {
+            var list = $('.menu,.down-list');
+            list.on('click', function () {
+                $(this).toggleClass('active');
+            });
+        });
+    })(jQuery);
+</script>
+
+</body>
+</html>

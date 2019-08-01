@@ -1,0 +1,121 @@
+<extend name="./Application/Mob/View/ScoreView/base.html" />
+<block name="styles">
+
+
+</block>
+<block name="content">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .content-list {
+            background-color: rgb(250, 250, 250);
+            flex: 1;
+            /* overflow-y: scroll; */
+        }
+
+
+        .item div {
+            word-break: break-all;
+        }
+
+        .top-bar,
+        .item {
+            display: flex;
+            text-align: center;
+        }
+
+        .top-bar {
+            height: 0.7rem;
+            line-height: 0.7rem;
+            color: #848181;
+            /* border-bottom: 1px solid #eee; */
+        }
+
+        .content-list .item {
+            height: 1rem;
+            line-height: 1rem;
+            border-bottom: 1px solid #eee;
+
+        }
+
+        .title.type,
+        .item>.type {
+            width: 50%;
+            word-break: break-all;
+        }
+
+        .title.num,
+        .title.score,
+        .item>.num,
+        .item>.score {
+            width: 25%;
+        }
+
+        .list {
+            margin: 0 0.4rem;
+           
+        }
+
+        .list-item {
+            padding: 0.4rem;
+            margin:0.5rem 0;
+            background: #ffffff;
+        }
+
+        .date {
+            padding-bottom: 0.2rem;
+            color: #a7a1a1;
+        }
+
+        .spantitle {
+            float: right;
+            color: red;
+            margin-left: 1rem;
+        }
+
+        .content-area {
+            margin-top: 10px;
+            margin-bottom: 0.7rem;
+        }
+
+        .content-area p {
+            margin: 0.5rem 0;
+        }
+
+        .title {
+            font-size: 18px;
+        }
+
+        .content-area .content {
+            font-size: 14px;
+         
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <div class="container">
+        <div class="list">
+
+            <volist name="list" id="vo">
+                <div class="list-item">
+                    <div class="date">
+                        <span>{$vo.create_time|date="Y年m月d日",###}</span>
+                        <span class="spantitle" style="">+{$vo.score}</span>
+                    </div>
+                    <div class="content-area">
+                        <p class="title">{$vo.title}</p>
+                        <p class="content">{$vo.content}</p>
+                        <span class="spantitle" style="font-size:14px;">评论({$vo.comment_count})</span>
+                        <span class="spantitle" style="font-size:14px;">点赞({$vo.agree_count})</span>
+                    </div>
+                </div>
+            </volist>
+        </div>
+    </div>
+
+</block>

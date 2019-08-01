@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/party_serve/help/help.css"/>
+    <style>
+        .mui-table-view-chevron::before{
+            background-color: transparent !important;
+        }
+        .mui-table-view-chevron::after{
+            background-color: transparent !important;
+        }
+
+        #btn-edit{
+            width:2.4rem;
+            height:0.8rem;
+            line-height:0.8rem;
+            text-align:center;
+            background-color:#ce3d3a;
+            font-size:0.34rem;
+            color:#fff;
+        }
+        .help .words footer .like{
+	position:absolute;
+	bottom:0.05rem;right:2rem;
+	font-size:0.35rem;
+}
+.help .words footer .like>img{
+	width:0.4rem;
+	height:0.33rem;
+	vertical-align:middle;
+	margin-right:0.1rem;
+}
+    </style>
+</head>
+
+<body>
+<!--下拉刷新容器-->
+
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper help" style="top: 0px;">
+    <div class="mui-scroll  heart" style="height: auto">
+
+        <div class="edit-di"><a class="edit" id="btn-edit">我的困难</a></div>
+        <!--数据列表-->
+        <ul class="mui-table-view mui-table-view-chevron"  style="background-color: transparent">
+
+        </ul>
+        <div id="list-template" style="display: none">
+            <li data-id="##id##" style="background: white;">
+                <div class="words" style="width: 100%; padding-left: 0.3rem;">
+                    <a>
+                        <header><span class="Btime" style="margin-left: 0.3rem">##title##</span></header>
+                        <!-- <p style="word-wrap:break-word; margin-left: 0.3rem">##content##</p> -->
+                        <div class="time" style="margin-left: 0.3rem"><span>##create_time##</span></div>
+                        <footer>
+                            <div class="logo" style="margin-left: 0.3rem"><img src="##headimgurl##" alt="logo" /><span>##name##</span></div>
+                            <div class="like" data-id="##id##"><img class="ledger" src="__IMG__/ledger_list/default_like.png"/><img class="clicked hide" src="__IMG__/ledger_list/like.png"/>点赞(<span>##agree##</span>)</div>
+                           <div class="comment"><img src="__IMG__/party_serve/comment.png"/>评论(<span>##commentCount##</span>)</div>
+                        </footer>
+                    </a>
+                </div>
+            </li>
+        </div>
+    </div>
+</div>
+<include file="Common/_loading"/>
+<script>
+    var __root__ = "__ROOT__";
+</script>
+
+<script src="__STATICS__/dateUtil.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+
+<!--<script src="__STATICS__/zepto/zepto.js"></script>-->
+<script>
+
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            up: {
+                contentrefresh: '',
+                callback: pullupRefresh
+            }
+        }
+    });
+
+    if (mui.os.plus) {
+        mui.plusReady(function() {
+            setTimeout(function() {
+                mui('#pullrefresh').pullRefresh().pullupLoading();
+            }, 10);
+        });
+    } else {
+        mui.ready(function() {
+            mui('#pullrefresh').pullRefresh().pullupLoading();
+        });
+    }
+
+    /**
+     * 上拉加载具体业务实现
+     */
+    function pullupRefresh() {
+        ajaxGetHelpList();
+    }
+
+    var list = mui('.mui-table-view')[0];
+    var lastItem = 0;
+    var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+    function ajaxGetHelpList() {
+         mui.ajax({
+            data:{
+                lastItem : lastItem
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/PartyServe/ajaxGetHelpList',
+            success: function (data) {
+                if (data['status'] == 0) {
+//                    console.log("data = aaaaaaaaaaaaaaaa");
+                    var listData = data.data;
+//                    console.log("data = " + JSON.stringify(listData));
+                    if(listData && listData.length > 0){
+                        var listItem = "";
+                        var itemTemp = "";
+                        for (var i=0; i < listData.length; i++) {
+                            lastItem = listData[i]['create_time'];
+
+                            listItemHtmlArray[1] = listData[i]['id'];
+//                            listItemHtmlArray[3] = get_head_url(listData[i]['headimgurl']);
+                            listItemHtmlArray[3] = listData[i]['title'];
+                            // listItemHtmlArray[5] = get_content(listData[i]['content'],100);
+                            var createTimeStr = new Date(listData[i]['create_time']*1000).Format("yyyy-MM-dd");
+                            listItemHtmlArray[7] = createTimeStr;
+                            listItemHtmlArray[9] = get_head_url(listData[i]['headimgurl']);
+                            listItemHtmlArray[11] = listData[i]['user_realname'];
+                             listItemHtmlArray[13] = listData[i]['id'];
+                            listItemHtmlArray[15] = listData[i]['agree_count'];
+                            listItemHtmlArray[17] = listData[i]['comment_count'];
+                            itemTemp = "";
+                            for(var j=0; j<listItemHtmlArray.length; j++){
+                                itemTemp += listItemHtmlArray[j];
+                            }
+                            listItem += itemTemp;
+                        }
+                        list.innerHTML += listItem;
+
+                        if(listData.size < 10){ // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+                            mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                        }else{
+                            mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                        }
+                    }else{
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                    }
+                }else{
+                    mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                    alert(data.msg);
+                }
+            },
+            error: function (data) {
+                alert('网络异常');
+            }
+        });
+    }
+
+    mui('.mui-scroll').on('tap','#btn-edit', function () {
+        mui.openWindow({
+            id:"help_edit",
+            url:"help_edit.html"
+        });
+    })
+
+    function get_head_url(url){
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common-head.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url;
+        }else{
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+
+    mui('.mui-table-view').on('tap', 'li', function () {
+        var id = this.getAttribute('data-id');
+        console.log("id = " + id);
+        parent.window.location.href = "./helpinfo?id="+id;
+    })
+
+ mui('.mui-table-view').on('tap', '.like', function () {
+        var id = this.getAttribute('data-id');
+        _target = this
+        var str = _target.childNodes[3].innerHTML
+       loading()
+    mui.ajax({
+			data: {
+				"id" : id,
+			},
+			type: 'POST',
+			dataType: 'json',
+			url: '__ROOT__/Mob/PartyServe/ajaxHelpAgree',
+			success: function (data) {
+				console.log(data['msg']);
+				close_loading()
+				// alert(data.msg)
+				if (data['status'] == 2) {
+                  
+                    _target.childNodes[3].innerHTML = parseInt(str) + 1;
+				//	parent.window.location.reload();
+				}else if(data['status'] == 0){
+                    _target.childNodes[3].innerHTML = parseInt(str) - 1;
+                }else{
+                    alert('点赞操作失败')
+                }
+			},
+			error: function (data) {
+				close_loading()
+				alert('网络异常');
+			}
+		});
+		return false;
+    })
+
+</script>
+</body>
+
+</html>

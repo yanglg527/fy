@@ -1,0 +1,275 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .sign-sum-title {
+            border-left: 5px solid #999999;
+            color: #999999;
+            font-size: 14px;
+            height: 18px;
+            line-height: 18px;
+            padding-left: 5px;
+        }
+
+        .sign-sum {
+            color: #5eb95e;
+            font-size: 25px;
+            font-weight: bold;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">个人台账</strong></div>
+      </div>
+      <hr>
+      <div class="am-g">
+         
+        <div class="am-u-sm-2 am-u-md-1">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <button  onclick="loading_page('__ROOT__/Admin/Taizhang/add?type=1');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+              <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+            </div>
+          </div>
+        </div>
+          <!-- <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <select name="tag_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有类别</option>
+              <volist name="tags" id="vo">
+                <option value="{$vo.id}">{$vo.name}</option>
+              </volist>
+            </select>
+          </div>
+        </div> -->
+
+        <div class="am-u-sm-10 am-u-md-11">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <div style="line-height: 33px; padding-left: 5px">
+                            <span class="sign-sum-title">台账总量：</span>
+                            <span class="sign-sum">{$page['pageInfo']['size']}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        <form action="__ROOT__/Admin/Taizhang/index1">
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="tag_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有标签</option>
+              <volist name="tags" id="vo">
+                <option value="{$vo.id}" <if condition="$vo.id eq $search['tag_id']">selected = "selected"</if>>{$vo.title}</option>
+              </volist>
+            </select>
+          </div>
+        </div>
+         <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="norm_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有指标</option>
+              <volist name="norms" id="vo">
+                <option value="{$vo.id}" <if condition="$vo.id eq $search['norm_id']">selected = "selected"</if>>{$vo.title}</option>
+              </volist>
+            </select>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="type2" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">类型</option>
+                <option value="0" <if condition="$search['type2'] eq '0'">selected = "selected"</if>>创新动作</option>
+                <option value="1" <if condition="$search['type2'] eq '1'">selected = "selected"</if>>规定动作</option>
+            </select>
+          </div>
+        </div>
+       <div class="am-u-sm-12 am-u-md-5">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" name="keyword" value="{$search.keyword}" class="am-form-field" placeholder="请输入文章标题">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="submit">搜索</button>
+          </span>
+          </div>
+        </div>
+      </div>
+        </form>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-title" style="max-width:300px;">标题</th>
+                 <th class="am-hide-sm-only">类型</th>
+                <th class="table-author am-hide-sm-only">台账主体</th>
+                <th class="am-hide-sm-only">支部</th>
+                <!-- <th class="am-hide-sm-only">党组</th> -->
+                <th class="am-hide-sm-only">发布时间</th>
+                <th class="am-hide-sm-only">状态</th>
+                <th class="table-date am-hide-sm-only">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+                <!-- 引入 javascript 实现存储对象于hash中 -->
+                <script src="__STATICS__/hashmap.js"></script>
+                <script>
+                    var hash = new HashMap();
+                </script>
+              <volist name="page.list" id="vo">
+                  <script>
+                      //自己定义 key+id ，value为 json 格式字符串
+                      hash.put("item-{$vo.id}", {$vo | to_json_string});
+                  </script>
+                <tr>
+                  <td>{$vo.title}</td>
+                  <td>
+                  	<!--1  个人台账 2 党组台账  3 领导台账  4 支部台账-->
+                  	<php>
+                  		if($vo['type'] == 1){
+                  			echo "个人台账";
+                  		}elseif($vo['type'] == 2){
+                  			echo "党组台账";
+                  		}elseif($vo['type'] == 3){
+                  			echo "领导台账";
+                  		}elseif($vo['type'] == 4){
+                  			echo "支部台账";
+                  		}
+                  	</php>
+                  </td>
+                  <td class="am-hide-sm-only">{$vo.user_realname}
+                  </td>
+                  <td class="am-hide-sm-only">{$vo.branch_name}</td>
+                  <!-- <td class="am-hide-sm-only">{$vo.organization_name}</td> -->
+                  <td class="am-hide-sm-only">{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                  <td class="am-hide-sm-only">
+                      <php>
+                        if($vo['status'] == 2){
+                          echo " <span class='am-badge am-badge-success am-radius'>通过</span>";
+                        }elseif($vo['status'] == 1){
+                          echo " <span class='am-badge am-badge-warning am-radius'>不通过</span>";
+                        }else{
+                          echo " <span class='am-badge am-badge-primary am-radius'>未审核</span>";
+                        }
+                      </php>
+                    </td>
+                  <td>
+                    <div class="am-btn-toolbar" style="mix-width:120px;">
+                      <div class="am-btn-group am-btn-group-xs">
+                          <!-- <button class="am-btn am-btn-default am-btn-xs am-text-secondary btn-detail" type="button" data-am-modal="{target: '#detail-popup'}" data-key="item-{$vo.id}"><span  class="am-icon-pencil-square-o"></span> 详情</button> -->
+                       
+                        <!-- <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs "
+                                                    onclick="javascript:window.open('__ROOT__/Admin/Taizhang/preview?id={$item.id}','','height=640,width=360,screenY=50,screenX=100,toolbar=no,menubar=no,scrollbars=yes, resizable=no,location=no, status=no,z-look=yes')">
+                                                <span class="am-icon-eye"></span>预览
+                                            </button> -->
+                                            <a  class="am-btn am-btn-default am-btn-xs am-text-secondary " onclick="loading_page('__ROOT__/Admin/Taizhang/edit?p={$page.pageInfo.pageNo}&id={$vo.id}&type=1');"><span class="am-icon-pencil-square-o"></span>编辑</a>
+                                            <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+
+      <div class="am-popup" id="my-popup">
+          <div class="am-popup-inner">
+            <div class="am-popup-hd">
+              <h4 class="am-popup-title" id="detail-title">向领导说句话</h4>
+              <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <style>
+              .am-popup-bd p{
+                font-size: 16px;
+                color: #666;
+              }
+              #val_content{
+                font-size: 16px;
+                color: #666;
+              }
+            </style>
+            <div class="am-popup-bd" style="overflow: auto;">
+  
+              <div><span class="am-badge am-badge-success">发布者</span></div>
+              <p style="font-size: 16px;margin: 5px 0px 10px 5px" id="val_user_realname"></p>
+  
+              <div><span class="am-badge am-badge-success">状态</span></div>
+              <p style="font-size: 16px;margin: 5px 0px 10px 5px" id="detail_status"></p>
+  
+  
+              <div><span class="am-badge am-badge-success">内容</span></div>
+              <div id="val_content" style="font-size: 16px;"></div>
+  
+            </div>
+          </div>
+        </div>
+
+  </div>
+</block>
+<block name="scripts">
+<script>
+  var id = 0;
+  $('.btn-dec').click(function(){
+    id = $(this).attr('data-id');
+    $('#my-confirm').modal({
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+          url:'__ROOT__/Admin/Taizhang/ajaxDec',
+          type:'POST', //GET
+          data:{id:id},
+          dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          success:function(data){
+            if(data.status == 0){
+              window.location.reload();
+            }else{
+              alert_modal(data.msg);
+            }
+          },
+          closeOnConfirm: false,
+          error:function(xhr,textStatus){
+            alert_modal("服务器暂时无法连接，请稍候再试");
+          }
+        })
+      },
+      onCancel: function() {
+
+      }
+    });
+  });
+
+
+  $('.btn-detail').click(function(){
+  	  var hashKey = $(this).attr('data-key');
+      console.log(hashKey)
+            var detailItem = hash.get(hashKey);
+//            alert("key = " + JSON.stringify(hash.get(hashKey)));
+            $("#detail-title").html(detailItem.title);
+            
+          	if(detailItem.status == 1){
+                $("#detail_status").html("审核通过");
+            }else if(detailItem.status == 2){
+                $("#detail_status").html("审核不通过");
+            }else{
+            	 $("#detail_status").html("未审核");
+            }
+            $("#val_user_realname").html(detailItem.user_realname);
+            $("#val_content").html(detailItem.content);
+
+          $('#my-popup').modal();
+  });
+</script>
+</block>

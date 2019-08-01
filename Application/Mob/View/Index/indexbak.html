@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>党建首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/index/index.css">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="__STATICS__/photoswipe/css/photoswipe.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="__STATICS__/photoswipe/css/default-skin.css" /> -->
+    <style>
+        .title_img>.title .inwrap .position li>.sign_in {
+            background: url(__IMG__/index/attendance.png) no-repeat 0 90%;
+            background-size: 80%;
+        }
+
+        .banner .swipe .left span {
+            background: url(__IMG__/index/left.png) no-repeat 44px 85px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .article_list {
+            margin: 10px;
+        }
+
+        .article_list ul {
+            list-style-type: none;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .article_list h3 {
+            font-weight: 400;
+            color: #333;
+            font-size: 16px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .article_list li img {
+            float: left;
+            width: 25%;
+            margin: 0 10px 0 0;
+        }
+
+        .article_list li p {
+            font-size: 12px;
+            color: #757575;
+            margin-top: 0.5rem;
+            line-height: 1.3em;
+        }
+
+        .article_list a li {
+            /*margin:0px 10px; */
+            padding: 10px 0px;
+            overflow: auto;
+            border-top: 1px solid #dedede;
+        }
+
+        .article_list li:hover {
+            background: #eee;
+            cursor: pointer;
+        }
+
+        .article_list a {
+            text-decoration: none;
+        }
+
+        .loading_text {
+            color: #999;
+            font-size: 12px;
+        }
+
+        header.head {
+            height: 10rem;
+        }
+
+        .column .item p {
+            font-size: 14px;
+        }
+
+        .badge__content {
+            position: absolute;
+            top: -2px;
+            right: 22px;
+            background-color: #f56c6c;
+            border-radius: 10px;
+            color: #fff;
+            display: inline-block;
+            font-size: 12px;
+            line-height: 18px;
+            padding: 0 6px;
+            text-align: center;
+            border: 1px solid #fff;
+            float: right;
+        }
+
+        .dynamic>.hidespan,
+        .everyday>.hidespan,
+        .file-wander>.hidespan {
+            display: none;
+        }
+
+        .menu-button {
+            background-color: black;
+            background: url(__IMG__/branch/indexbutton.png) center/contain no-repeat;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 24px;
+            right: 62px;
+        }
+
+        .menu-list {
+            display: none;
+            z-index: 100000;
+            background-color: white;
+            width: 100px;
+            /*height: 200px;*/
+            position: absolute;
+            top: 49px;
+            right: 1px;
+        }
+
+        .list-item {
+            line-height: 40px;
+            height: 40px;
+            border-bottom: 1px solid #999999;
+        }
+
+        .list-icon {
+            margin-top: 4px;
+            width: 17px;
+            height: 17px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header class="head">
+
+            <div class="head_title" style="margin-bottom: 5px;padding: 8px;text-align: center;">
+                <img src="__IMG__/branch/toptitle.png" alt="" style="width: 85%;">
+            </div>
+
+            <div class="title_img">
+                <div style="position: relative">
+                    <a href="__ROOT__/Mob/Center/index">
+                        <img class="img-bg" src="{$user.headimgurl|get_head_url}" alt="">
+                    </a>
+                    <div class="menu-button">
+                        <div class="menu-list">
+                            <div class="list-item">
+                                <span><img src="__IMG__/branch/sign.png" class="list-icon" alt=""></span>
+                                <span><a href="__ROOT__/Mob/Lottery/sign_in" style="color: black">去签到</a></span>
+                            </div>
+                            <div class="list-item taizhang_add">
+                                <span><img src="__IMG__/branch/addtz.png" class="list-icon" alt=""></span>
+                                <span>新增台账</span>
+                            </div>
+                            <div class="list-item taizhang_add">
+                                <span><img src="__IMG__/branch/addtz.png" class="list-icon" alt=""></span>
+                                <span>新增台账</span>
+                            </div>
+                            <div class="list-item taizhang_add">
+                                <span><img src="__IMG__/branch/addtz.png" class="list-icon" alt=""></span>
+                                <span>新增台账</span>
+                            </div>
+                            <div class="list-item taizhang_add">
+                                <span><img src="__IMG__/branch/addtz.png" class="list-icon" alt=""></span>
+                                <span>新增台账</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="title clearFix">
+                    <div class="inwrap">
+                        <ul class="position">
+                            <li>{$user.role_name}</li>
+                            <li class="icon">/</li>
+                            <li class="userName">{$user.realname}</li>
+                            <!--<li class="icon">/</li>-->
+                            <!--<a href="__ROOT__/Mob/Lottery/sign_in">-->
+                            <!--<li class="sign">-->
+                            <!--<span class="sign_in"></span>-->
+                            <!--<span class="character">去签到</span>-->
+                            <!--</li>-->
+                            <!--</a>-->
+                            <!--<li class="icon">/</li>-->
+                            <!--<li class="sign" style="color: #ffc961;border:none;">-->
+                            <!--<span style="background: url(/Public/Mob/images/newversion/new_tz.png) no-repeat 0 90%;background-size: 95%;    display: inline-block;width: 0.41rem;height: 0.4rem;"></span>-->
+                            <!--<span class="character" id="taizhang_add">新增台帐</span>-->
+                            <!--</li>-->
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="index_name clearFix" style="margin-top: 10px">
+                    <div class="inwrap">
+                        <ul class="org">
+                            <php>if($user['branch_name']){</php>
+                            <li><a href="__ROOT__/Mob/Branch/index" style="color:#ffffff;">{$user['branch_name']}</a>
+                            </li>
+                            <php>}</php>
+                            <php>if($user['party_group_name']){</php>
+                            <li><a href="__ROOT__/Mob/SmallGroup/index"
+                                    style="color:#ffffff;">{$user['party_group_name']}</a></li>
+                            <php>}</php>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="head_message">
+        <a href="__ROOT__/Mob/PartyServe/integral" class="item">
+            <span>{$user.score}</span>
+            <p>积分</p>
+        </a>
+        <a class="item" href="__ROOT__/Mob/Taizhang/person_contrast#{$user.uid}">
+
+            <span>{$user.score_pm}</span>
+            <p>积分排名</p>
+        </a>
+        <a class="item last" href="__ROOT__/Mob/Center/index">
+            <span>{$user['tz_count']}</span>
+            <p>累计台账</p>
+        </a>
+    </div>
+
+    <div class="head_message_zhibu">
+        <div class="item">
+            <a href="__ROOT__/Mob/Taizhang/pei_branch?id={$user.branch_id}&branch_score={$user.pb_score}">
+                <span>{$partyBranch.0.score_all}</span>
+                <p>支部积分</p>
+            </a>
+        </div>
+        <div class="item">
+            <a href="__ROOT__/Mob/Taizhang/branch_contrast">
+                <span>{$partyBranch.0.pm}</span>
+                <p>支部积分排名</p>
+            </a>
+
+        </div>
+        <div class="item last">
+            <a href="__ROOT__/Mob/Branch/zone?id={$user.branch_id}">
+                <span>{$user['pb_taizhang']}</span>
+                <p>支部台账</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="head_message_dangzu">
+        <div class="item">
+            <a href="__ROOT__/Mob/Taizhang/pei_smallGroup?id={$user.party_group_id}">
+                <span>{$partyGroup.0.score_all}</span>
+                <p>党小组积分</p>
+            </a>
+        </div>
+        <div class="item">
+            <a href="__ROOT__/Mob/Taizhang/smallgroup_contrast">
+                <span>{$partyGroup.0.pm}</span>
+                <p>党小组积分排名</p>
+            </a>
+
+        </div>
+        <div class="item last">
+            <a href="__ROOT__/Mob/SmallGroup/index">
+                <span>{$user['dangxiaozu_tz']}</span>
+                <p>累计台账</p>
+            </a>
+        </div>
+    </div>
+
+    </header>
+    <nav class="nav">
+        <div class="column">
+            <a class="item" href="__ROOT__/Mob/Taizhang/index">
+                <img src="__IMG__/index/mechanism.png" alt="">
+                <p>党建台账</p>
+            </a>
+
+            <a class="item poin" href="__ROOT__/Mob/Tasks/index">
+                <if condition="$badge">
+                    <i class="badge__content">{$badge}</i>
+                </if>
+                <div>
+                    <img src="__IMG__/index/daiban.png" alt="">
+                    <p>待办任务</p>
+                </div>
+            </a>
+
+            <a class="item" href="__ROOT__/Mob/BranchInfo/index">
+                <img src="__IMG__/index/org-message.png" alt="">
+                <p>组织信息</p>
+            </a>
+            <!--<a class="item" href="__ROOT__/Mob/Alliance/index"><img src="__IMG__/index/organization.png" alt="">-->
+            <!--<p>群团组织</p></a>-->
+            <a class="item" href="__ROOT__/Mob/MemberDevelop/index">
+                <img src="__IMG__/index/progress.png" alt="">
+                <p>党员发展</p>
+            </a>
+        </div>
+        <div class="column last">
+            <a href="__ROOT__/Mob/PartyWork/partyWork" class="item">
+                <img src="__IMG__/index/manage.png" alt="">
+                <p>党务管理</p>
+            </a>
+            <a class="item" href="__ROOT__/Mob/Activity/index">
+                <img src="__IMG__/index/serve.png" alt="">
+                <p>党员活动</p>
+            </a>
+            <a href="__ROOT__/Mob/PartyServe/index" class="item">
+                <img src="__IMG__/index/exchange.png" alt="">
+                <p>党员服务</p>
+            </a>
+            <a href="__ROOT__/Mob/Notes/learn" class="item">
+                <img src="__IMG__/index/activity.png" alt="">
+                <p>学习交流</p>
+            </a>
+
+        </div>
+    </nav>
+    <!-- <div class="banner plate">
+            <div class="head">
+                <div class="title">
+                    <span></span>
+                    <b>四维展示平台</b>
+                </div>
+            </div>
+            <div class="swiper-container grow-container">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <a href="__ROOT__/Mob/Show/show">
+                            <img src="__IMG__/index/index.jpg" alt="">
+                            <span class="bg"></span>
+                        </a>
+                    </div>
+
+                </div>
+                <img src="__IMG__/branch/growBottom.png" alt="" class="displayBottom">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div> -->
+    </div>
+    </div>
+    <style>
+        .list_head .item {
+            font-size: 16px;
+        }
+
+        .poin {
+            position: relative;
+        }
+    </style>
+    <div class="list_head">
+        <div class="dynamic item active">
+            <span></span>本院党建动态</div>
+        <div class="everyday item" alt="1">
+            <span class="hidespan"></span>党建每日必读</div>
+
+        <div class="file-wander item" alt="1">
+            <span class="hidespan"></span>文件流转</div>
+    </div>
+    <div id="left">
+        <div class="article_list">
+            <ul>
+
+                <div style="text-align:center" id="loading_div">
+                    <span class="loading_text"></span>
+                    <i class="fa fa-spinner fa-spin" style="display:none"></i>
+                </div>
+            </ul>
+
+        </div>
+    </div>
+    <div id="right" style="display:none;">
+        <div class="article_list">
+            <ul>
+
+                <div style="text-align:center" id="loading_div">
+                    <span class="loading_text"></span>
+                    <i class="fa fa-spinner fa-spin" style="display:none"></i>
+                </div>
+            </ul>
+
+        </div>
+    </div>
+    <style>
+        .file-module {
+            display: flex;
+            padding: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .file-module .file-img {
+            margin-right: 0.5rem;
+            margin-left: 0.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .file-module .file-img>img {
+            width: 1.2rem;
+            height: 1.3rem;
+
+
+        }
+
+        .file-module .file-content {
+            width: 70%;
+            line-height: 0.6rem;
+        }
+
+        .file-module .file-content .title {
+            color: #0F0F0F;
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 0.2rem;
+        }
+
+        .file-module .file-content .content {
+            color: #9B999A;
+            font-size: 12px;
+            line-height: 0.4rem;
+            font-weight: 400;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .file-module .file-content .user-time {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .file-module .file-content .user-time span {
+            color: #5D5D5D;
+            font-size: 12px;
+
+        }
+
+        .bottom-line {
+            width: 355px;
+            height: 1px;
+            width: 100%;
+            background: rgba(225, 225, 225, 1);
+        }
+    </style>
+    <div id="wander" style="display:none;">
+        <div class="add-file-btn">
+            新增文件
+        </div>
+        <div class="file-module">
+            <div class="file-img"><img src="__ROOT__/Public/Common/img/common.png" alt=""></div>
+            <div class="file-content">
+                <div class="title">daweqweqweqweqwewq</div>
+                <div class="content">eqeee2222222222222222222222222222222222222222222222222222222222eeee</div>
+                <div class="user-time">
+                    <div>发布人:<span>xxx</span></div>
+                    <div>发布时间:<span>2019.4.24</span></div>
+                </div>
+
+            </div>
+            <div class="bottom-line"></div>
+        </div>
+
+    </div>
+
+
+    <div style="display:none">
+        <div id="temp1">
+            <a href="#url#">
+                <li alt="#time#">
+                    <img src="__ROOT__/Uploads/#img_url#-s.png" />
+                    <h3>#title#</h3>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;#content#</p>
+                </li>
+            </a>
+        </div>
+        <div id="temp2">
+            <a href="#url#">
+                <li alt="#time#">
+                    <h3 style="text-indent:0.5rem;">#title#</h3>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;#content#</p>
+                </li>
+            </a>
+        </div>
+    </div>
+
+    <include file="Common/_new_taizhang_model" />
+    <div id='taizhangsubmit' style="display:none;">
+
+    </div>
+    <!-- PhotoSwipe begin -->
+    <!--<div id="Gallery">-->
+    <!--<volist name="imgs" id="vo">-->
+    <!--<div class="am-u-sm-12 gallery-item" style="margin-bottom:15px;"><a href="{$vo.image|show_img='middle'}"><img class="show-img" src="{$vo.image|show_img='middle'}" alt="我的实验照片"></a></div>-->
+    <!--</volist>-->
+    <!--</div>-->
+    <!-- PhotoSwipe end -->
+
+    <script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+    <script src="__STATICS__/zepto/zepto.js"></script>
+    <script src="__STATICS__/zepto/event.js"></script>
+    <script src="__STATICS__/zepto/touch.js"></script>
+    <!-- <script src="__STATICS__/photoswipe/js/photoswipe.min.js"></script>
+<script src="__STATICS__/photoswipe/js/photoswipe-ui-default.min.js"></script> -->
+    <script src="__JS__/index/index.js"></script>
+
+
+
+</body>
+
+<script src="__JS__/index/index.js"></script>
+<script>
+    $(".menu-button").click(function () {
+        var type = $(".menu-list").css('display');
+        if (type == 'none') {
+            $(".menu-list").css('display', 'block');
+        } else {
+            $(".menu-list").css('display', 'none');
+        }
+    })
+
+    var __root__ = "__ROOT__";
+
+
+    // document.addEventListener('DOMContentLoaded', function(){
+
+    //     Code.photoSwipe('a', '#Gallery');
+
+    // }, false);
+
+    $(".everyday").click(function () {
+        // $(".everyday").addClass('active');
+        // $(".dynamic").removeClass('active');
+        var obj = $(".everyday")
+        obj.addClass('active');
+        obj.find('span').removeClass('hidespan');
+        obj.siblings().removeClass('active');
+        obj.siblings().find('span').addClass('hidespan');
+        $("#left").hide();
+        $("#right").show();
+        ajax_loading(1);
+    });
+
+    $(".dynamic").click(function () {
+        // $(".dynamic").addClass('active');
+        // $(".everyday").removeClass('active');
+        // $(".file-wander").removeClass('active');
+        var obj = $(".dynamic")
+        obj.addClass('active');
+        obj.find('span').removeClass('hidespan');
+        obj.siblings().removeClass('active');
+        obj.siblings().find('span').addClass('hidespan');
+        $("#right").hide();
+        $("#left").show();
+        ajax_loading(0);
+    });
+
+    $(".file-wander").click(function () {
+        var obj = $(".file-wander")
+        obj.addClass('active');
+        obj.find('span').removeClass('hidespan');
+        obj.siblings().removeClass('active');
+        obj.siblings().find('span').addClass('hidespan');
+        // $(".everyday").removeClass('active');
+        // $(".dynamic").removeClass('active');
+        $("#right").hide();
+        $("#left").hide();
+        $('#wander').show();
+        ajax_file_wander();
+
+
+    });
+
+    $(window).load(function () {
+        ajax_loading(0);
+    });
+    //加载文件流转模板
+    function ajax_file_wander() {
+        $('#wander').find('.file-module')
+    }
+    function ajax_loading(tag_id) {
+        var publish_time = 0;
+        if (tag_id == 0) {
+            var obj = $("#left .article_list");
+        } else if (tag_id == 1) {
+            var obj = $("#right .article_list")
+        };
+        publish_time = obj.find("li").last().attr("alt");
+        $.ajax({
+            data: {
+                'type_name': tag_id,
+                'publish_time': publish_time,
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/Index/ajaxArticleLoading',
+            beforeSend: function () {
+                obj.find(".loading_text").text("");
+                obj.find("i").show();
+            },
+            success: function (data) {
+                console.log(data);
+                obj.find("i").hide();
+                if (data["status"] == 0) {
+                    if (data['data']) {
+                        var html = "";
+                        var html_tem = "";
+                        $.each(data['data'], function (i, vo) {
+                            if (vo['cover_path'] == null || vo['cover_path'] == '') {
+                                html_tem = $("#temp2").html();
+                            } else {
+                                html_tem = $("#temp1").html();
+                                html_tem = html_tem.replace("#img_url#", vo['cover_path']);
+                            };
+                            // html_tem = html_tem.replace("#id#",vo['id']);
+                            if (vo['is_url'] == 1) {
+                                // html_tem = html_tem.replace("#url#", vo['spider_url']);
+                                html_tem = html_tem.replace("#url#", '__ROOT__/Mob/Notes/article?id=' + vo['id']);
+                            } else {
+                                html_tem = html_tem.replace("#url#", '__ROOT__/Mob/Notes/article?id=' + vo['id']);
+                            };
+                            html_tem = html_tem.replace("#title#", vo['title']);
+                            html_tem = html_tem.replace("#content#", vo['content']);
+                            html_tem = html_tem.replace("#time#", vo['published_at']);
+                            html += html_tem;
+                        });
+                        obj.find("#loading_div").before(html);
+
+                    } else {
+
+                        obj.find(".loading_text").text("没有更多了");
+                    };
+                } else {
+                    //    alert('网络异常');
+                };
+
+            },
+            error: function (data) {
+                obj.find("i").addClass("hide");
+                //    alert('网络异常');
+            }
+        })
+    }
+    $(window).on("scroll", function () {
+        if ($(this).scrollTop() >= $(document).height() - $(this).height()) {
+            if ($("#right").css("display") == 'none' && $("#left").find(".loading_text").text() != '没有更多了') {
+                ajax_loading(0);
+            } else if ($("#left").css("display") == 'none' && $("#right").find(".loading_text").text() != '没有更多了') {
+                ajax_loading(1);
+            }
+        }
+    })
+</script>
+
+<script type="text/javascript">
+    function loading_page() {
+        event.preventDefault();
+        alert("url");
+    }
+    function btn_back(now_obj, old_obj) {
+        this.now_obj = now_obj;
+        this.old_obj = old_obj;
+    };
+    //      btn_back.prototype.go=function(){
+    //         //应该有之前dom的对象，调
+    //      }
+
+    $(".taizhang_add").click(function () {
+        $(".blacktype_box").show();
+        //        temp_id=$(this).find('img').attr("alt");//不需要模板了
+    })
+    $(".spec_cancle").click(function () {
+        $(".blackspec_box").hide();
+    })
+    $(".spec_sure").click(function () {
+        $(".blackspec_box").hide();
+        $(".blacktype_box").show();
+
+
+    })
+
+    $(".tag_cancle").click(function () {
+        $(".blacktag_box").hide();
+    })
+    $(".type_cancle").click(function () {
+        $(".blacktype_box").hide();
+    })
+    $(".type_sure").click(function () {
+        $(".blacktype_box").hide();
+        $(".blacktag_box").show();
+    })
+    // $(".group_cancle").click(function () {
+    //     $(".blackgroup_box").hide();
+    // })
+    // $(".group_sure").click(function () {
+    //     $(".blackgroup_box").hide();
+    //     $(".blacktag_box").show();
+    // })
+
+
+    //改这里就可以了
+    $(".tag_sure").click(function () {
+        // $(".blacktag_box").hide();
+        // var spec_id = $(".blackspec_box .active").attr("data-id");
+        var tag_id = $(".blacktag_box .active").attr("data-id");
+        // var group_id = $(".blackgroup_box .active").attr("data-id");
+        var type_id = $(".blacktype_box .active").attr("data-id");
+        //    var url = "__ROOT__/Mob/Index/newtaizhang?type_id=" + type_id+"&tag_id="+tag_id;
+
+        //   window.location.href = url;
+        var form = `<form method='post' action='/Mob/Index/newtaizhang' id='formsubmit'>
+            <input type='hidden' value=${type_id} name='type_id'/>       
+                <input type='hidden' value=${tag_id} name='tag_id'/>            
+                </form>`
+        $('#taizhangsubmit').append(form);
+        $('#formsubmit').submit();
+    })
+
+
+
+    $(".tag_classify>span").click(function () {
+
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+        $(this).siblings().find("span").removeClass("active");
+
+    })
+
+    //选中指标active
+    function addActive(thisA) {
+        $(thisA).addClass("active");
+        $(thisA).siblings().removeClass("active");
+        $(thisA).siblings().find("span").removeClass("active");
+    }
+
+    $(".type_classify>span").click(function () {
+
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+        $(this).siblings().find("span").removeClass("active");
+
+    })
+
+    $(".spec_classify>p").click(function () {
+
+        $(this).addClass("active");
+        $(this).siblings("p").removeClass("active");
+    })
+</script>
+
+</html>

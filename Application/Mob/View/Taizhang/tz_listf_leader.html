@@ -1,0 +1,323 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/ledger_list/ledger_list_filtrate.css">
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+        .choose-button{
+            position: fixed;
+            top: 90%;
+            left: 80%;
+            width: 1.5rem;
+            height: 1.5rem;
+            z-index: 9999;
+            border: 1px solid #ffff;
+            border-radius: 32px;
+            background: #ffff;
+            display: none;
+        }
+        .title_img .title {
+            background: url(__IMG__/branch/title@2x.png) no-repeat 100% 100%;
+            background-size: 100%;
+        }
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        html{
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <div class="banner">
+            <div class="title"><i onclick="history.go(-1);"></i>领导台帐</div>
+            <div class="banner_bg"><img src="__IMG__/ledger_list/bg.png" alt=""></div>
+        </div>
+        <div class="content">
+            <div class="inputBox">
+                <div class="choose2">
+                    <div class="chooseTag">
+                        <span class="choosetag_span">请选择标签</span>
+                        <i></i>
+                    </div>
+                    <div class="chooseSpecify">
+                        <span class="chooseSpecify_span">请选择规定或创新</span>
+                        <i></i>
+                    </div>
+                </div>
+                <button id="search">查询</button>
+            </div>
+            <nav class="nav">
+                <p class="pointDes">{$norms[0]['title']}</p>
+                <div class="pointBox">
+                    <php>if($detail['norm_id'] > 0){</php>
+                    <span class="pointOne point <if condition="$detail['norm_id'] == $norms[0]['id']">hide</if>" data-id="{$norms[0]['id']}">指标一</span>
+                    <span class="pointTwo point <if condition="$detail['norm_id'] == $norms[1]['id']">hide</if>"  data-id="{$norms[1]['id']}">指标二</span>
+                    <span class="pointThree point <if condition="$detail['norm_id'] == $norms[2]['id']">hide</if>" data-id="{$norms[2]['id']}">指标三</span>
+                    <span class="pointFour point <if condition="$detail['norm_id'] == $norms[3]['id']">hide</if>" data-id="{$norms[3]['id']}">指标四</span>
+                    <php>}else{</php>
+                    <span class="pointOne point hide" data-id="{$norms[0]['id']}">指标一</span>
+                    <span class="pointTwo point"  data-id="{$norms[1]['id']}">指标二</span>
+                    <span class="pointThree point" data-id="{$norms[2]['id']}">指标三</span>
+                    <span class="pointFour point" data-id="{$norms[3]['id']}">指标四</span>
+                    <php>}</php>
+                </div>
+            </nav>
+            <!--指标1列表-->
+            <div class="list1 list show">
+            </div>
+            <!--选择标签弹出层-->
+            <div class="blacktag_box">
+                <div class="blacktag_content">
+                    <h3 class="tag_h3">请选择标签</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify">
+                            <span data-id="">不选择</span>
+                            <volist name="tags" id="item">
+                                <php>if($detail['tag_id'] == $item['id']){</php>
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                                <php>}else{</php>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                                <php>}</php>
+                            </volist>
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="tag_cancle">取消</button>
+                            <button type="submit" class="tag_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--请选择规定或创新-->
+            <div class="blackspec_box">
+                <div class="blackspec_content">
+                    <h3 class="spec_h3">请选择</h3>
+                    <div class="spec_content">
+                        <div class="spec_classify">
+                            <p data-id="">不选择</p>
+                            <php>if($detail['type2'] == null || $detail['type2'] == ''){</php>
+                            <p data-id="0" >规定动作</p>
+                            <p data-id="1" >创新动作</p>
+                            <php>}elseif($detail['type2'] == 0){</php>
+                            <p data-id="0" class="active">规定动作</p>
+                            <p data-id="1">创新动作</p>
+                            <php>}elseif($detail['type2'] == 1){</php>
+                            <p data-id="0" >规定动作</p>
+                            <p data-id="1" class="active">创新动作</p>
+                            <php>}else{</php>
+                            <p data-id="0" >规定动作</p>
+                            <p data-id="1" >创新动作</p>
+                            <php>}</php>
+                        </div>
+                        <div class="spec_submit">
+                            <button type="reset" class="spec_cancle">取消</button>
+                            <button type="submit" class="spec_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hide" id="listItem" style="display: none">
+        <a href="__ROOT__/Mob/Taizhang/show?id=#id#&t_id=#template_id#">
+        <dl>
+            <dt><img src="#cover#" style="overflow: hidden"></dt>
+            <dd class="content">
+                <div class="tag1">
+                    <!--<img src="__IMG__/ledger_list/1.png" style="overflow: hidden" alt="标签1">-->
+                </div>
+                <h2>#title#</h2>
+                <div class="content">#content#</div>
+                <div class="overview">
+                    #tags#
+                    <i></i>
+                </div>
+                <div class="foot">
+                    <div class="foot_title">
+                        <img src="#header#" style="overflow: hidden" alt="">
+                        <span class="name">#realname#</span>
+                        <span class="position">#post_name#</span>
+                        <i class="time">
+                            #time#
+                        </i>
+                    </div>
+
+                </div>
+            </dd>
+        </dl>
+        </a>
+        <div class="footer">
+            <div class="collect" data-id="#id#"><i></i>收藏(<span class="count">#sc#</span>)</div>
+            <div class="comment"><a href="__ROOT__/Mob/Taizhang/tz_comment?id=#id#"><i></i>评论(<span>#pl#</span>)</a></div>
+            <div id="change_color" class="#is-like#" data-id="#id#"><i></i>点赞(<span class="count">#dz#</span>)</div>
+        </div>
+    </div>
+    <include file="Common/_loading"/>
+</block>
+<block name="scripts">
+
+    <script src="__JS__/ledger_list/ledger_list_filtrate.js"></script>
+   <script>var __root__ = "__ROOT__";</script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__JS__/ledger_list/dz.js"></script>
+    <script>
+
+        var itemHtml = $('#listItem').html();
+       // $("#change_color").addClass("active");
+
+
+        refresh();
+
+        function refresh() {
+            var norm_id = $('.pointBox .hide').attr('data-id');
+            var tag_id = $('.tag_classify .active').attr('data-id');
+            var type2 = $('.spec_classify .active').attr('data-id');
+            $('.list').html('');
+            $('.list').append("<div class='div-loading' style='font-size: 12px;text-align: center;height: 30px;line-height: 30px;color: dimgrey'>加载中...</div>");
+            ajaxLoading(tag_id,type2,norm_id);
+        }
+        $('#search').click(function () {
+            refresh();
+        })
+
+        function  ajaxLoading(tag_id,type2,norm_id) {
+            $.ajax({
+                data: {
+                    id:'{$detail.uid}',
+                    tag_id:tag_id,
+                    type:3,
+                    type2:type2,
+                    norm_id:norm_id
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Mob/Taizhang/ajax_loading_tz',
+                success: function (data) {
+                    console.log('data',data);
+                    $('.div-loading').remove();
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var html_content = '';
+                            $.each(data['data'], function (i, vo) {
+                                var item = replaceStr(itemHtml, '#title#',vo.title);
+                                item = replaceStr(item, '#id#',show_name(vo.id));
+                                item = replaceStr(item, '#template_id#',show_name(vo.template_id));
+                                item = replaceStr(item, '#realname#',show_name(vo.user_realname));
+                                item = replaceStr(item, '#post_name#',show_name(vo.organization_name));
+                                if(check_null(vo.tag_name)){
+                                    item = replaceStr(item, '#tags#',"");
+                                }else{
+                                    item = replaceStr(item, '#tags#',"<span>" + vo.tag_name + "</span>");
+                                }
+                                item = replaceStr(item, '#content#',get_content(vo.content,10));
+                                item = replaceStr(item, '#time#',get_time(vo.create_time));
+                                item = replaceStr(item, '#cover#',get_tz_img_url(vo.cover));
+                                item = replaceStr(item, '#header#',get_head_url(vo.user_headimgurl));
+                                item = replaceStr(item, '#sc#',show_count(vo.sc_count));
+                                item = replaceStr(item, '#dz#',show_count(vo.dz_count));
+                                item = replaceStr(item, '#pl#',show_count(vo.pl_count));
+
+                                var likeClassName=vo.is_dz?"like active":"like";
+
+                                item = replaceStr(item, '#is-like#',likeClassName);
+                                html_content += item;
+                            });
+                            $('.list').append(html_content);
+                        } else {
+                            $('.list').append("<div class='div-loading' style='font-size: 12px;text-align: center;height: 30px;line-height: 30px;color: dimgrey'>没有更多了</div>");
+                        }
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    $('.div-loading').remove()
+                    alert('网络异常');
+                }
+            })
+        }
+
+        //点击指示1
+        $(".pointOne").click(function(){
+//            var list= $(this).parents(".content").find(".list");//寻找所有的列表
+//            list.hide();//将所有的列表隐藏
+//            var list1= $(this).parents(".content").find(".list1");//寻找指示1所属的列表
+//            list1.show();//将指示1所属的列表显示出来
+            // $(".pointDes").html($(this).text());
+            $(".pointDes").css("border-left","0.15rem solid #ce3d3a");//设置指示1口号的左边框颜色
+            $(".pointDes").html("{$norms[0]['title']}");
+            var point =$(this).parent(".pointBox").children(".point");//寻找所有的指示标题
+            point.removeClass('hide');//将所有的指示标题显示出来
+            $(this).addClass('hide');//点击过后，帮当前的指示标题隐藏
+            refresh();
+        })
+        //点击指示2
+        $(".pointTwo").click(function(){
+//            var list= $(this).parents(".content").find(".list");//寻找所有的列表
+//            list.hide();//将所有的列表隐藏
+//            var list2= $(this).parents(".content").find(".list2");//寻找指示2所属的列表
+//            list2.show();//将指示2所属的列表显示出来
+
+            $(".pointDes").css("border-left","0.15rem solid #add281");//设置指示2口号的左边框颜色
+           $(".pointDes").html("{$norms[1]['title']}");
+            var point =$(this).parent(".pointBox").children(".point");//寻找所有的指示标题
+            point.removeClass('hide');//将所有的指示标题显示出来
+            $(this).addClass('hide');//点击过后，帮当前的指示标题隐藏
+            refresh()
+        })
+
+        //点击指示3
+
+        $(".pointThree").click(function(){
+//            var list= $(this).parents(".content").find(".list");//寻找所有的列表
+//            list.hide();//将所有的列表隐藏
+//            var list3= $(this).parents(".content").find(".list3");//寻找指示3所属的列表
+//            list3.show();//将指示3所属的列表显示出来
+
+            $(".pointDes").css("border-left","0.15rem solid #577bd4");//设置指示3口号的左边框颜色
+           $(".pointDes").html("{$norms[2]['title']}");
+            var point =$(this).parent(".pointBox").children(".point");//寻找所有的指示标题
+            point.removeClass('hide');//将所有的指示标题显示出来
+            $(this).addClass('hide');//点击过后，帮当前的指示标题隐藏
+            refresh()
+        })
+
+        //点击指示4
+
+        $(".pointFour").click(function(){
+//            var list= $(this).parents(".content").find(".list");//寻找所有的列表
+//            list.hide();//将所有的列表隐藏
+//            var list4= $(this).parents(".content").find(".list4");//寻找指示4所属的列表
+//            list4.show();//将指示4所属的列表显示出来
+            $(".pointDes").css("border-left","0.15rem solid #f1cf67");//设置指示4口号的左边框颜色
+            $(".pointDes").html("{$norms[3]['title']}");
+            var point =$(this).parent(".pointBox").children(".point");//寻找所有的指示标题
+            point.removeClass('hide');//将所有的指示标题显示出来
+            $(this).addClass('hide');//点击过后，帮当前的指示标题隐藏
+            refresh()
+        })
+        //************************请选择党组弹框(遮罩层)**********************
+
+
+
+
+
+    </script>
+</block>
+

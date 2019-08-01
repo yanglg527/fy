@@ -1,0 +1,11 @@
+.content>.nav{
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    height:1rem;
+    line-height: 1rem;
+    width:95%;
+    margin:0.28rem auto 0;
+}
+.list{
+    margin-top:1rem;
+}

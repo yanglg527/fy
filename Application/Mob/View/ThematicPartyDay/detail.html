@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Mob/css/ThematicPartyDay/detail/styles.css"/>
+        <script src="__PUBLIC__/Mob/js/toLearnAndOneDo/base/jquery.js"></script>
+        <title>主题党日</title>
+    </head>
+    <body class="g-fill-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">主题党日详情</span>
+        </div>
+
+        <div class="g-content-container">
+            <header class="header"><span class="title" style="font-size: 20px">{$detail.theme}</span></header>
+
+            <div class="g-sub-info">
+                <span>支部：<i class="section-content" style="color:black;">{$detail.branchname.name}</i></span>
+                <span>开始日期：<i class="section-content" style="color:black;">{$detail.start_time}</i></span>
+            </div>
+
+            <div class="g-cutting-line m10"></div>
+
+            <section class="section-wrapper">
+                <p class="section-title">地点：</p>
+                <div class="section-content">{$detail.place}</div>
+            </section>
+
+            <section class="section-wrapper">
+                <p class="section-title">主持人：</p>
+                <div class="section-content">{$detail.host_name}</div>
+            </section>
+
+            <section class="section-wrapper">
+                <p class="section-title">记录人：</p>
+                <div class="section-content">{$detail.record_name}</div>
+            </section>
+
+            <section class="section-wrapper">
+                <p class="section-title">效果：</p>
+                <div class="section-content">{$detail.effect}</div>
+            </section>
+
+            <div class="g-cutting-line m10"></div>
+
+            <section class="section-wrapper">
+                <p class="section-title">内容详情：</p>
+                <div class="section-content">{$detail.content}</div>
+            </section>
+
+            <div class="g-cutting-line m10"></div>
+
+            <div class="block-title red">出席人员：<php>echo count($detail['attend']['cq'])</php>人</div>
+            <div class="avatar-list">
+                <foreach name="detail['attend']['cq']" item="vo">
+                    <div class="item">
+                        <i class="img" style="background-image:url('{$vo.headimgurl}')"></i>
+                        <span class="name">{$vo.realname}</span>
+                    </div>
+                </foreach>
+            </div>
+
+            <div class="block-title orange">请假人员：<php>echo count($detail['attend']['qj'])</php>人</div>
+            <div class="avatar-list">
+                <foreach name="detail['attend']['qj']" item="vo">
+                    <div class="item">
+                        <i class="img" style="background-image:url('{$vo.headimgurl}')"></i>
+                        <span class="name">{$vo.realname}</span>
+                    </div>
+                </foreach>
+            </div>
+
+            <div class="block-title grey">缺勤人员：<php>echo count($detail['attend']['qq'])</php>人</div>
+            <div class="avatar-list">
+                <foreach name="detail['attend']['qq']" item="vo">
+                    <div class="item">
+                        <i class="img" style="background-image:url('{$vo.headimgurl}')"></i>
+                        <span class="name">{$vo.realname}</span>
+                    </div>
+                </foreach>
+            </div>
+
+
+            <!-- 附件列表 -->
+            <if condition="!empty($detail['files'])">
+            <div class="g-cutting-line m10"></div>
+            <section class="section-wrapper">
+                <p class="section-title">相关附件：</p>
+            </section>
+
+
+            <div class="g-attachment-list">
+                <foreach name="detail['files']" item="v">
+                    <if condition="in_array($v['filetype'], $images)">
+                    <div class="item" style="width:32vw;">
+                        <a href="{$v.files_path}" download>
+                            <i class="img" style="background-image:url({$v.files_path});width:32vw;height:32vw;"></i>
+                        </a>
+                        <span class="name">{$v.former_name}</span>
+                    </div>
+                    <!-- pdf -->
+                    <elseif condition="strpos($v['filetype'], 'application/pdf') !== false"/>
+                    <div class="item" style="width:32vw;">
+                        <a href="{$v.files_path}" download>
+                            <i class="img pdf" style="width:32vw;height:32vw;"></i>
+                        </a>
+                        <span class="name">{$v.former_name}</span>
+                    </div>
+                    <!-- 音频 -->
+                    <elseif condition="strpos($v['filetype'], 'audio') !== false"/>
+                    <div class="item" style="width:32vw;">
+                        <a href="{$v.files_path}" download>
+                            <i class="img audio" style="width:32vw;height:32vw;"></i>
+                        </a>
+                        <span class="name">{$v.former_name}</span>
+                    </div>
+                    <!-- ppt -->
+                    <elseif condition="strpos($v['filetype'], 'powerpoint') !== false"/>
+                    <div class="item" style="width:32vw;">
+                        <a href="{$v.files_path}" download>
+                            <i class="img ppt" style="width:32vw;height:32vw;"></i>
+                        </a>
+                        <span class="name">{$v.former_name}</span>
+                    </div>
+                    <!-- excel -->
+                    <elseif condition="strpos($v['filetype'], 'vnd.openxmlformats') !== false"/>
+                    <div class="item" style="width:32vw;">
+                        <a href="{$v.files_path}" download>
+                            <i class="img excel" style="width:32vw;height:32vw;"></i>
+                        </a>
+                        <span class="name">{$v.former_name}</span>
+                    </div>
+                    </if>
+                </foreach>
+                <!-- <div class="item"><i class="img png"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img gif"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img word"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img ppt"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img excel"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img pdf"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img video"></i><span class="name">尼古拉斯</span></div>
+                <div class="item"><i class="img audio"></i><span class="name">尼古拉斯</span></div> -->
+            </div>
+            </if>
+        </div>
+        <script>
+            //返回按钮
+           $('.back-btn').click(function(e) {
+               history.go(-1)
+           })
+        </script>
+    </body>
+</html>

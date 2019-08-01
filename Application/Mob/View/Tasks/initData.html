@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__CSS__Tasks/initData.css" />
+
+        <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+        <script src="__JS__tasks/create.js"></script>
+        <script src="__JS__tasks/wangEditor.min.js"></script>
+
+        <title>发布任务</title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn"></div>
+                <span class="nav-title">发布{$tasksType.name}任务</span>
+            </div>
+
+            <div class="g-content-container record-book-create">
+            <form method="post" id="form-data">
+                <input type="hidden" id="status" name="status">
+                <input type="hidden" name="tasks_type" value="{$tasksType.id}">
+                <input type="hidden" id="workItem" name="work_item">
+                <input type="hidden" id="file_id" name="file_id">
+                <input type="hidden" id="surplus_file_id" name="surplus_file_id">
+
+                <input type="hidden" id="implementer" name="implementer">
+
+                <div class="form-item">
+                    <span class="title">任务标题</span>
+                    <div class="value">
+                        <input type="text" name="tasks_title" id="tasks-title" class="text-input" maxlength="20"/>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">任务主体</span>
+                    <div class="value">
+                        <p class="value-text">{$tasksType.name}</p>
+                    </div>
+                </div>
+
+                <if condition="!empty($data)">
+                <div class="form-item">
+                    <span class="title">实施主体</span>
+                    <div class="value arrow" onclick="onShowChange(true)">
+                        <p class="value-text"></p>
+                    </div>
+                </div>
+                </if>
+
+                <div class="form-item">
+                    <span class="title">开始时间</span>
+                    <div class="value">
+                        <p class="value-text start-date-text"></p>
+                        <input type="date" name="start_date" id="start-date-input" />
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">结束时间</span>
+                    <div class="value">
+                        <p class="value-text end-date-text"></p>
+                        <input type="date" name="end_date" id="end-date-input" />
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">任务内容</span>
+                    <div class="value">
+                        <input type="text" name="tasks_contents" id="tasks-contents" class="text-input" maxlength="20"/>
+                    </div>
+                </div>
+
+                <!-- 富文本编辑器 name="work_item"-->
+                <div class="form-item">
+                    <span class="title">具体工作</span>
+                </div>
+                <div id="editor"></div>
+
+                <!-- 附件 -->
+                <div class="form-item">
+                    <span class="title">附件</span>
+                </div>
+                <div class="g-attachment-list">
+                    <!-- <div class="item" v-for="(v,i) in fileList" :key="v.id">
+                        <i :class="v.className"></i>
+                        <span class="name" v-text="v.name"></span>
+                        <i class="remove" @click="onRemoveFile(i)"></i>
+                    </div> -->
+
+                    <!-- loading -->
+                    <div class="item loading hidden"><i class="img"></i>
+                        <div class="progress"><span class="progress-tips">0</span>
+                            <div class="progress-bar">
+                                <div class="progress-percent" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        <span class="name">sdfff.png</span>
+                    </div>
+
+                    <!-- 上传按钮 -->
+                    <div class="item"><i class="img add"></i><input type="file" ref="eleFile" class="add-input"/></div>
+                </div>
+
+                <if condition="!empty($data)">
+                <!-- 实施人员 active-->
+                <div class="form-cover">
+                    <!-- focus 限个人类型 -->
+                    <if condition="$showSearchInput">
+                    <div class="g-search-box-small">
+                        <div class="search-box">
+                            <div class="search-btn"></div>
+                            <input
+                                id="search-inp"
+                                type="text"
+                                class="search-input"
+                                maxlength="10"
+                                placeholder="请输入搜索内容"
+                                onfocus="onSearchStatus(true)"
+                                onblur="onSearchStatus(false)"
+                            />
+                        </div>
+                    </div>
+                    </if>
+                    <div class="content-body">
+                        <volist name="data" id="vo">
+                        <div class="check-item"
+                        onclick="onCheckChange(this, {$vo.id}{$vo.uid}, '{$vo.branch_name}{$vo.name}{$vo.realname}')">
+                                <i class="check-ico"></i>
+                                <span class="check-text">{$vo.branch_name}{$vo.name}{$vo.realname}</span>
+                        </div>
+                    </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowChange(false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+                </if>
+            </form>
+
+
+                <!-- 底部按钮 -->
+                <div class="bottom-bar">
+                    <!-- <span class="item save" onclick="onSubmit(0)">保存</span> -->
+                    <span class="item publish">确认发布</span>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        const DOMAIN = "http://"+window.location.host;
+        const valueIndex = []
+        const valueText = []
+    </script>
+</html>

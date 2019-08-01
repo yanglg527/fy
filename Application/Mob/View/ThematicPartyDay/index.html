@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Mob/css/ThematicPartyDay/styles.css" />
+        <script src="__PUBLIC__/Mob/js/toLearnAndOneDo/base/jquery.js"></script>
+
+        <title>主题党日-列表页面</title>
+    </head>
+    <body class="g-fill-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">主题党日活动</span>
+        </div>
+
+        <div class="g-content-container party-day">
+            <div class="g-search-box-with-bg">
+                <div class="content">
+                    <input type="text" class="search-input" id="search-input" maxlength="10" placeholder="请输入搜索内容" />
+                    <div class="search-btn"></div>
+                </div>
+            </div>
+
+            <div class="parts-list">
+                <foreach name="branchs" item="vo">
+                    <div class="item">
+                        <a href="__ROOT__/Mob/ThematicPartyDay/index?branchId={$vo.id}&branchName={$vo.name}">
+
+                            <i class="img" style="background-image:url('{$vo['cover']?$vo['cover']:$branchcover}')"></i>
+
+                            <span class="name active">{$vo.name}</span>
+                        </a>
+                    </div>
+                </foreach>
+            </div>
+
+            <div class="list-title">{$default.branchName}主题党日活动</div>
+
+            <div class="activity-list">
+                <foreach name="item" item="vo">
+                    <div class="activity-item">
+                        <a href="__ROOT__/Mob/ThematicPartyDay/detail?id={$vo.id}">
+                        <div class="line-top">
+                            <span class="name">{$vo.theme}</span>
+                            <span class="status {$defaultclass[$vo['status']]}">{$basestatus[$vo['status']]}</span></div>
+                        </a>
+                        <div class="line-bottom"><span>发布人：{$vo.sendname}</span>
+                            <span>开始日期：{$vo.start_time}</span></div>
+                    </div>
+                </foreach>
+                <if condition="!$item">
+                    <div class="g-no-data"></div>
+                </if>
+            </div>
+        </div>
+        <script>
+            //返回按钮
+            $('.back-btn').click(function(e) {
+            history.go(-1)
+            })
+            $('.search-btn').click(function(e){
+                let keyword = $('#search-input').val()
+                if (keyword) {
+                    window.location.href="__ROOT__/Mob/ThematicPartyDay/index?keyword="+keyword;
+                }
+            })
+        </script>
+    </body>
+</html>

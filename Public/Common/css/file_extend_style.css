@@ -1,0 +1,39 @@
+    /* 文件类型 */
+    .g-attachment-list .img.jpg {
+        background-image: url("./icons/ico-jpg.png");
+    }
+    .g-attachment-list .img.png {
+        background-image: url("./icons/ico-png.png");
+    }
+    .g-attachment-list .img.gif {
+        background-image: url("./icons/ico-gif.png");
+    }
+    .g-attachment-list .img.doc,.g-attachment-list .img.docx {
+        background-image: url("./icons/ico-word.png");
+    }
+    .g-attachment-list .img.ppt {
+        background-image: url("./icons/ico-ppt.png");
+    }
+    .g-attachment-list .img.xlsx,.g-attachment-list .img.xls{
+        background-image: url("./icons/ico-excel.png");
+    }
+    .g-attachment-list .img.pdf {
+        background-image: url("./icons/ico-pdf.png");
+    }
+    .g-attachment-list .img.video {
+        background-image: url("./icons/ico-video.png");
+    }
+    .g-attachment-list .img.mp3, .mp4 {
+        background-image: url("./icons/ico-audio.png");
+    }
+
+    /* 删除图片按钮 */
+.appendix-content .remove {
+    position: absolute;
+    top: -10px;
+    right: -3px;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url("./icons/ico-remove.png") center/cover no-repeat;
+}

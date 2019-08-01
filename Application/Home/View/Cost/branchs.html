@@ -1,0 +1,191 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+        .branch-list{
+            background: #F7F8F8;
+        }
+
+        .list-item{
+            background: white;
+            margin-bottom: 10px;
+            padding: 18px 21px 5px 21px;
+        }
+
+        .item-title{
+            height: 39px;
+            line-height: 39px;
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            position: relative;
+            padding-left: 38px;
+        }
+        .item-title img{
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 0px;
+            margin: auto;
+        }
+
+        .item-info{
+            height: 35px;
+            line-height: 35px;
+            padding-left: 38px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div data-am-widget="tabs" class="am-tabs am-tabs-d2" id="doc-my-tabs" style="background-color:#fff;margin: 0;">
+        <ul class="am-tabs-nav am-cf">
+            <li class="am-active" style="margin-bottom: 1px"><a href="[data-tab-panel-0]"  style="border:none;background-color:#fff;color:#555;">列表</a></li>
+            <li style="margin-bottom: 1px"><a href="[data-tab-panel-1]" style="border:none;background-color:#fff;color:#555;">统计信息</a></li>
+        </ul>
+        <div class="am-tabs-bd">
+            <div class="am-tab-panel am-active" data-tab-panel-0 style="padding:0px;">
+                <div class="branch-list">
+                    <volist name="list" id="item">
+                        <a href="__ROOT__/Home/Cost/costs?id={$item.id}">
+                            <div class="list-item">
+                                <div class="item-title">
+                                    <img src="__IMG__icon_weidangk.png">
+                                    <span>{$item.name}</span>
+                                </div>
+                                <div class="item-info">
+                                    <span><empty name="item.realname">{$item.name}<else/>{$item.realname}书记</empty></span> / <span>{$item.party_count}</span>党员
+                                </div>
+                            </div>
+                        </a>
+                    </volist>
+                </div>
+            </div>
+
+            <div class="am-tab-panel " data-tab-panel-1 style="padding:0px;">
+                <div style="background: white;margin-bottom:10px;;margin-top: 10px">
+                    <div id="pay-info" ></div>
+                    <hr/>
+                    <div id="pay-count-info" ></div>
+                    <table class="am-table" style="font-size: 12px">
+                        <thead>
+                        <tr>
+                            <th>支部</th>
+                            <th>缴费情况</th>
+                            <th>缴纳人数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="list" id="item">
+                            <tr>
+                                <td>{$item.name}</td>
+                                <td>{$item.has_pay}/{$item.total_pay}</td>
+                                <td>{$item.has_pay_count}/{$item.total_count}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</block>
+<block name="scripts">
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/echart/echarts.min.js"></script>
+    <script type="text/javascript">
+        var div_width = $(document).width();
+        var div_height = div_width*5/8;
+        $('#pay-info').width(div_width);
+        $('#pay-info').height(div_height);
+        var payChart = echarts.init(document.getElementById('pay-info'));
+        payoption = {
+            title : {
+                text: '应缴金额 {$count.total_pay}元',
+                x:'center',
+
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已缴纳','未缴纳']
+            },
+            series : [
+                {
+                    name: '金额及占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:{$count.total_has_pay}, name:'已缴纳'},
+                        {value:{$count.total_un_pay}, name:'未缴纳'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        payChart.setOption(payoption);
+
+        $('#pay-count-info').width(div_width);
+        $('#pay-count-info').height(div_height);
+        var payCountChart = echarts.init(document.getElementById('pay-count-info'));
+        payCOuntoption = {
+            title : {
+                text: '应缴人数 {$count.total_pay_count}人',
+                x:'center',
+
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['已缴纳','未缴纳']
+            },
+            series : [
+                {
+                    name: '人数及占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:{$count.total_has_pay_count}, name:'已缴纳'},
+        {value:{$count.total_un_pay_count}, name:'未缴纳'}
+        ],
+        itemStyle: {
+            emphasis: {
+                shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        }
+        }
+        ]
+        };
+        payCountChart.setOption(payCOuntoption);
+
+
+    </script>
+
+</block>

@@ -1,0 +1,336 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .main{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            background: white;
+        }
+
+        body{
+            background-color: white;
+        }
+        .container{
+            background-color: white;
+        }
+
+        .header-div{
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            border-radius:60px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+        }
+        .header-div img{
+            width:60px;
+            height:60px;
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        .user-name{
+            margin-top: 6px;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-branch{
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .post{
+            padding: 0px 3px;
+            border-radius: 3px;
+            background: #FFE600;
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-left: 15px;
+        }
+
+        .sex-icon{
+            width: 11px;
+            margin-left: 5px;
+            margin-bottom: 3px;
+        }
+
+        .user-point{
+            width: 100px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 9px;
+            background: #FFB400;
+            font-size: 12px;
+            color: white;
+            margin: auto;
+            margin-top: 5px;
+            padding: 0px 20px;
+            position: relative;
+            text-align: center;
+        }
+        .user-point img{
+            width: 12px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 5px;
+            margin: auto;
+        }
+
+        .item{
+            width: 100%;
+            height: 90px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .time-zhou{
+            height: 100%;
+            float: left;
+        }
+
+        .item-sub{
+            height: 100%;
+            margin-left: 20px;
+            border-bottom: 1px solid #E8E8E8;
+            position: relative;
+        }
+
+        .date{
+            position: absolute;
+            left: 0px;
+            top: 13px;
+            height: 16px;
+            line-height: 16px;
+            padding: 0px 4px;
+            font-size: 12px;
+            color: white;
+            background: #35B7DD;
+            border-radius: 7px;
+        }
+
+        .item-content{
+            position: absolute;
+            left: 0px;
+            top: 17px;
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+
+        .item-intro{
+            position: absolute;
+            left: 0px;
+            top: 43px;
+            font-size: 14px;
+            color: #aaaaaa;
+
+            width: 90%;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .btn-text{
+            position: absolute;
+            right: 20px;
+            top: 37px;
+            bottom: 0px;
+            margin: auto;
+            font-size: 13px;
+            color: #999999;
+        }
+
+        /*.item{*/
+            /*width: 100%;*/
+            /*height: 75px;*/
+            /*padding-left: 20px;*/
+        /*}*/
+
+        /*.time-zhou{*/
+            /*height: 100%;*/
+            /*float: left;*/
+        /*}*/
+
+        /*.item-sub{*/
+            /*height: 100%;*/
+            /*margin-left: 20px;*/
+            /*border-bottom: 1px solid #E8E8E8;*/
+            /*position: relative;*/
+        /*}*/
+
+        /*.date{*/
+            /*position: absolute;*/
+            /*left: 0px;*/
+            /*top: 10px;*/
+            /*height: 16px;*/
+            /*line-height: 16px;*/
+            /*padding: 0px 4px;*/
+            /*font-size: 12px;*/
+            /*color: white;*/
+            /*background: #35B7DD;*/
+            /*border-radius: 7px;*/
+        /*}*/
+
+        /*.item-content{*/
+            /*position: absolute;*/
+            /*left: 0px;*/
+            /*top: 18px;*/
+            /*font-size: 16px;*/
+            /*color: #1a1a1a;*/
+        /*}*/
+
+        /*.btn-text{*/
+            /*position: absolute;*/
+            /*right: 20px;*/
+            /*top: 27px;*/
+            /*font-size: 13px;*/
+            /*color: #999999;*/
+        /*}*/
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="main" style="padding-bottom: 40px">
+        <a href="__ROOT__/Home/Branch/partyInfo?uid={$party.uid}">
+            <div style="margin-top: 45px; background: url('__IMG__icon_history_bg.png') 100% 100%; padding: 15px 0px">
+                <div class="header-div">
+                    <img src="{$party.headimgurl|get_head_url}">
+                </div>
+                <div class="user-name">
+                    <span>{$party.realname}</span>
+                    <span><if condition="$party.gender == 0"><img class="sex-icon" src="__IMG__icon_girl.png"><else/><img class="sex-icon" src="__IMG__icon_nan.png"></if></span>
+                </div>
+                <div class="user-branch">
+                    <span>{$party.branch_name}</span>
+                    <span><empty name="party.post_id"> <span class="post">{$party.role_name}</span> <else/> <span class="post">{$party.post_name}</span> </empty></span>
+                </div>
+                <div class="user-point"> <img src="__IMG__icon_point.png"/> <span>积分 </span> <span id="user-point">{$party.score}</span> </div>
+            </div>
+        </a>
+
+        <div style="height: 10px; background: #f7f8f8; width: 100%"></div>
+        <div style="height: 44px; line-height: 44px; font-size: 15px; color: #666666; padding-left: 15px; border-bottom: 1px solid #E8E8E8">个人学习台账</div>
+
+        <div style="padding: 0px">
+            <div style="padding: 5px 0px" id="list">
+
+            </div>
+            <!--<volist name="list" id="item">-->
+                <!--<div class="item">-->
+                    <!--<img class="time-zhou" src="__IMG__icon_time_zhou.png"/>-->
+                    <!--<div class="item-sub">-->
+                        <!--<p class="date">{$item.create_time|date="Y-m-d",###}</p>-->
+                        <!--<p class="item-content">{$item.content}</p>-->
+                        <!--<if condition="$item.url neq null">-->
+                            <!--<div><a class="btn-text" href="__ROOT__{$item.url}">查看 > </a></div>-->
+                        <!--</if>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</volist>-->
+        </div>
+
+    </div>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        var uid = "{$uid}";
+        var create_time = 0;
+        var is_loading = 1;
+
+        $(window).load(function(){
+            ajax_loading();
+        });
+
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height() && is_loading ==1) {
+                    is_loading = 0;
+                    $('#loading-icon').show();
+                    $("#loading-text").html('');
+                    ajax_loading();
+                }
+            });
+        });
+
+        function ajax_loading(){
+            $.ajax({
+                data: {
+                    'type':0,
+                    'create_time':create_time,
+                    'uid':uid,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Home/Study/ajaxStandingBookLoading',
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var html_content = '';
+                            $.each(data['data'],function(i,vo)
+                            {
+                                var createTimeString = new Date(vo.create_time*1000).Format("yyyy-MM-dd");
+                                var attendTimeString = new Date(vo.attend_time*1000).Format("yyyy-MM-dd");
+                                html_content = '';
+                                html_content += '<a href="' + __root__ + '/Home/Study/standingBookDetail?isOthers=1&id=' + vo.id + '">' +
+                                                    '<div class="item">' +
+                                                        '<img class="time-zhou" src="__IMG__icon_time_zhou.png"/>' +
+                                                        '<div class="item-sub">' +
+                                                            '<p class="date">' + createTimeString + '</p>' +
+                                                            '<p class="item-content">' + vo.theme + '</p>' +
+                                                            '<p class="item-intro">举办日期：' + attendTimeString + '</p>' +
+                                                            '<span class="btn-text">查看 > </span>' +
+                                                        '</div>' +
+                                                    '</div>' +
+                                                '</a>';
+
+                                $('#list').append(html_content);
+                                create_time = vo.create_time;
+                                attend_time = vo.attend_time;
+                            });
+                            is_loading = 1;
+                            $('#loading-icon').hide();
+                        }else{
+                            is_loading = 1;
+                            $('#loading-icon').hide();
+                            $("#loading-text").html('没有更多了');
+                        }
+                    } else {
+                        alert_modal(data['msg']);
+                        is_loading = 1;
+                        $('#loading-icon').hide();
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        }
+
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+
+</block>

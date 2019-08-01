@@ -1,0 +1,291 @@
+<?php
+/**
+ * 待办任务 模型
+ */
+namespace Admin\Model;
+use Think\Model\RelationModel;
+
+class TasksItemModel extends RelationModel {
+    protected $tableName="tasks_item";
+    protected $_validate = array(
+        array('tasks_title','require','任务标题不能为空!',1),
+        array('tasks_contents','require','任务内容不能为空！',1),
+        array('start_date','require','开始日期不能为空!',1),
+        array('end_date','require','结束日期不能为空!',1),
+        array('tasks_type','require','任务从属不能为空！',1),
+        array('tasks_type',array(0,1,2,3),'任务从属不合法!',1,'in'),
+        array('status',array(0,1,2,3),'非法状态操作!',1,'in'),
+        array('work_item','require','工作事项不能为空！',1),
+    );
+    // 自动完成
+    protected $_auto = array (
+        array('branch_id', 'getBranchId', 3, 'callback'),
+        array('group_id', 'getGroupId', 3, 'callback'),
+        // array('uid', 'admin_uid', 3, 'function'),
+        array('create_at', 'time', 1, 'function'),
+    );
+
+    protected $_link = array(
+        // 附件表
+        'Files'=>array(
+            'mapping_type' => self::HAS_MANY,
+            'class_name'   => 'Files',
+            'mapping_fields' => 'upload_id,files_id,files_path,former_name,filetype',
+            'mapping_name'  => 'files',
+            'foreign_key' => 'father_id',
+            'mapping_order' => 'create_at desc',
+            'condition' => 'father_name="tasks_admin" AND files_status=1',
+            ),
+        // 操作记录
+        'TasksExecutorLog'=>array(
+            'mapping_type'=>self::HAS_MANY,
+            'class_name'=>'tasks_executor_log',
+            'mapping_name' => 'log',
+            'mapping_fields' => 'id,uid,attend_type',
+            'foreign_key'=> 'tasks_id',
+            ),
+        // 执行者
+        'TasksExecutor' =>array(
+          'mapping_type' => self::HAS_MANY,
+          'class_name'   => 'tasks_executor',
+          'mapping_fields' => 'id,exe_status',
+          'mapping_name'  => 'exe',
+          'parent_key' => 'id',
+          'foreign_key' => 'tasks_id',
+        ),
+
+        // 支部
+        'branch_name' =>array(
+          'mapping_type' => self::BELONGS_TO,
+          'class_name'   => 'party_branch',
+          'mapping_fields' => 'name',
+          'mapping_name'  => 'branchname',
+          'parent_key' => 'uid',
+          'foreign_key' => 'branch_id',
+        ),
+    );
+
+    protected function getBranchId($field){
+        return implode('|', $field);
+    }
+
+    protected function getGroupId($field){
+        return implode('|', $field);
+    }
+
+
+    /**
+     * 保存数据
+     */
+    public function ajaxSave($data)
+    {
+        $uid = $data['uid'];
+//         return $data;
+        try {
+            $this->startTrans();
+            $_executor = M('TasksExecutor');
+
+            if (empty($data['id'])) {
+                unset($data['id']);
+                if (!$this->create($data)) throw new \Exception($this->getError());
+                if (!$num=$this->add()) throw new \Exception($this->getError());
+            }else {
+                $post = $this->create($data, 2);
+                if (!$post) throw new \Exception($this->getError());
+                $num = intval($data['id']);
+                // 检查数据是否存在
+                $sendUid = $this->field('uid')->find($num)['uid'];
+                if(!$sendUid) throw new \Exception('内容不允许被更新');
+                // 更新
+                if (false === ($this->where("id=$num")->save($post)) )
+                        throw new \Exception($this->getError());
+
+                $bool = $_executor->where("meeting_id=$num")->delete();
+                if(false === $bool) throw new \Exception($this->getError());
+            }
+
+            $uids =  $this->getExecutorUid($data);
+            foreach ($uids as $k => $v) {
+              $exe[$k]['tasks_id'] = $num;
+              $exe[$k]['exe_uid'] = $v;
+              $exe[$k]['exe_status'] = 0;
+              $exe[$k]['create_at'] = time();
+            }
+            if ( !$_executor->addAll($exe) ) throw new \Exception($_executor->getError());
+
+            $_Files = D('Files');
+            if (!empty($data['addFileId'])) { // 有文件上传
+                $addBool = $_Files->associatAnnexByUser($uid, $num, $data['addFileId']);
+                if (false === $addBool) throw new \Exception("关联附件失败");
+            }
+
+            if (!empty($data['delFileId'])) { // 有文件上传
+                $bool = $_Files->associatAnnexByUser($uid, $num, $data['delFileId'], 0);
+                if (false === $bool) throw new \Exception("关联附件失败");
+            }
+
+            $this->commit();
+            if (2 == $data['status'] || 3 == $data['status']) {
+              $this->pushMessage($data['tasks_contents'], $num);
+            }
+            return array('id' => $num);
+        } catch (\Exception $e) {
+            $this->rollback();
+            return $e->getMessage();
+        }
+        return false;
+    }
+
+    protected function pushMessage($description, $id){
+	// get uid
+        $_executor = M('TasksExecutor');
+	$exeUid = $_executor->where(array('tasks_id' => $id))->getField('exe_uid', true);
+	$exeUid = implode(',', $exeUid);
+	// no data
+	if(empty($exeUid)){ return false;}
+	// get qyuserid
+	$_user = M('User');
+	$qyuserids = $_user->where(array('uid' => array('in', $exeUid)))->getField('qyuserid', true);
+	if(empty($qyuserids)){ return false; }
+
+        $uids = implode('|', $qyuserids);
+        if (!empty($uids)) {
+            $url = C('DOMAIN').'/Mob/Tasks/detail&id='. $id;
+            pushQyWechatMessage($uids, '您有一条新的任务待办理！请及时查看', $description, $url);
+	return true;
+        }
+        return false;
+    }
+
+    protected function getExecutorUid($data){
+        $_user = M('user');
+        if (3 == $data['tasks_type']) { // 推给纪检 status =>6 14
+            $_BranchMembers = M('PartyBranchMembers');
+            $_BranchMembers->where(array('status'=>array('in', '6,14')));
+            $uids = $_BranchMembers->getField('uid', true);
+            return array_unique($uids);
+
+        }elseif (2 == $data['tasks_type']) {  // 个人
+            if (empty($data['target'])) throw new \Exception("至少选择一位实施人员");
+            $users = $_user->Field('uid,qyuserid')
+              ->where(array(
+                'status' => 1,
+                'uid' => array('in', implode(',', $data['target']))
+              ))->select();
+
+        }elseif (1 == $data['tasks_type']) {  // 党小组
+            if (empty($data['group_id'])) throw new \Exception("至少选择一个党小组!");
+            $users = $_user->Field('uid,qyuserid')
+              ->where(array(
+                'status' => 1,
+                'party_group_id' => array('in', implode(',', $data['group_id']))
+              ))->select();
+
+        }elseif (0 == $data['tasks_type']) { // 支部
+            if (empty($data['branch_id'])) throw new \Exception("至少选择一个党支部!");
+            $users = $_user->Field('uid,qyuserid')->where(array(
+              'status'=>1,
+              'uid' => array('GT', 2),
+              'branch_id' => array('in', implode(',', $data['branch_id']))
+            ))->select();
+        }
+        // 获得指定元素
+        $uid = array_column($users, 'uid');
+        // 去除null
+        $qyuserid = array_filter(array_column($users, 'qyuserid'));
+        // if (!empty($qyuserid)) {
+        //     $this->qyuserid = implode('|', $qyuserid);
+        // }
+        return $uid;
+    }
+
+    /**
+     * 详情
+     */
+    public function detail($id){
+        $this->$_link['TasksExecutor']['condition'] = 'exe_uid="10427"';
+        $detail = $this->relation(array('files'))
+        ->field('id,tasks_title,tasks_contents,start_date,end_date,tasks_type,status,work_item')
+        ->find($id);
+        $detail['start_date'] = date('Y-m-d H:i',strtotime($detail['start_date']));
+        $detail['end_date'] = date('Y-m-d H:i',strtotime($detail['end_date']));
+        return $detail;
+    }
+
+    /**
+     *  状态更新
+     */
+    public function ajaxStatus($id, $status){
+        try {
+            $this->startTrans();
+            $bool = $this->where(array('id'=>$id))->setField('status', $status);
+            if (false === $bool) throw new \Exception("状态更新失败");
+            if (1 === intval($status)) { // 结办操作
+                $this->updateExecutor($id);
+            }
+		//ajaxMsg(1, 'update', array('id' => $id, 'status' => $status));
+            $this->commit();
+            return true;
+            } catch (\Exception $e) {
+                $this->rollback();
+                return $e->getMessage();
+            }
+        // 结办 end
+    }
+
+    /**
+     * 更新记录和积分
+     * 消息推送
+     */
+    public function updateExecutor($id){
+        $_TasksExecutor = M('TasksExecutor');
+        // 得到任务办理者列表
+        $exes = $_TasksExecutor->where(array(
+            'tasks_id' => $id,
+            'exe_status' => array('in','1,2')
+        ))->getField('exe_uid',true);
+        if (!empty($exes)) {
+            // 添加记录
+            $score=2;
+            $i=0;
+            foreach ($exes as $v) {
+                $data[$i]['uid'] = $v;
+                $data[$i]['score'] = $score;
+                $data[$i]['content'] = date('Y-m-d', time()).'完成任务获得'.$score.'积分';
+                $data[$i]['type'] = 9;
+                $data[$i]['create_time'] = time();
+                $i++;
+            }
+            $_UserScoreLog = M('UserScoreLog');
+            if (!$_UserScoreLog->addAll($data)) throw new \Exception('写入日志失败');
+            // 添加积分
+            $_user = M('User');
+            $bool = $_user->where(array(
+                'uid'=>array(
+                    'in', implode(',',$exes))
+                ))->setInc('score', $score);
+            if (!$bool) throw new \Exception('用户积分更新失败');
+            $qyuserids = $_user->where(array(
+                'uid' => array('in', implode(',',$exes))
+            ))->getField('qyuserid', true);
+
+            if (!empty($qyuserids)) {
+                $qyuserids = implode('|', $qyuserids);
+                $title = $this->where(array('id'=>$id))->getField('tasks_title', true);
+                $des = '管理员于'.date('Y-m-d H:i', time()).'结办了任务'.$title[0];
+                $url = C('DOMAIN').'/Mob/Tasks/index';
+                $bol = pushQyWechatMessage($qyuserids, '任务结办通知', $des, $url);
+	//ajaxMsg(1, 'update', array('id' => $id, 'qyuserids' => $qyuserids, 'bool' => $bol));
+            }
+            // 更新办理者状态
+            $bool = $_TasksExecutor->where(array(
+                'tasks_id'=>$id,
+                'exe_status' => array('in','0,2')
+            ))->setField('exe_status', 1);
+            if (false === $bool) throw new \Exception('更新办理者状态失败！');
+            return true;
+        }
+        return false;
+    }
+
+}

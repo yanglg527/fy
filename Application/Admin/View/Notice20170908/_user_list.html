@@ -1,0 +1,19 @@
+		<volist name="notice_user.list" id="vo">
+			<tr>
+                <!-- <td><input type="checkbox" /></td> -->
+                <td>{$vo.user_name}</td>
+                <td>{$vo.branch_name}</td>
+                <td>{$vo.organization_name}</td>
+                <td>{$vo.organization_name}</td>
+                <!-- <td>
+                	<if condition="$vo.is_read eq 1"><span class="am-badge am-badge-success am-radius">已读</span><else/><span class="am-badge am-badge-warning am-radius">未读</span></if>
+                </td> -->
+                <td>
+                	<if condition="$vo.is_add_taizhang eq 1"><span class="am-badge am-badge-success am-radius">已完成</span><else/><span class="am-badge am-badge-warning am-radius">未完成</span></if>
+                </td>
+                <td>
+                  <if condition="$vo.finish_time neq null"> {$vo.finish_time|date="Y-m-d H:i:s",###}</if>
+                </td>
+
+              </tr>
+        </volist>

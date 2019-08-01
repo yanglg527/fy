@@ -1,0 +1,155 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/index.css">
+    <style>
+
+        .img-list {
+            /*background: #f7f7f7;*/
+            padding: 0px 8px 40px 8px;
+        }
+
+        .img-list ul {
+            padding: 0px;
+        }
+
+        .img-list li {
+            list-style-type: none;
+        }
+
+        .item-block {
+            padding: 0px 7px;
+            margin-top: 25px;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 100px;
+        }
+
+        .item-name {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+            background: white;
+            color: #686c6b;
+            border: 1px solid #e7e7e7;
+            border-top: 0px;
+        }
+
+        .load-more {
+            font-size: 16px;
+            color: #666666;
+            text-align: center;
+            margin-top: 20px
+        }
+
+        .load-more:active {
+            color: red;
+        }
+
+        .hide {
+            display: none;
+        }
+
+    </style>
+
+</block>
+<block name="content">
+    <div class="img-list">
+        <ul id="content">
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://www.jsngd.org.cn/myedit/UploadFile/2016121152215660.JPG">
+
+                        <div class="item-name">支部党委换届会议投票</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://www.ahxf.gov.cn/village/UploadFile/201407161054482.jpg">
+
+                        <div class="item-name">寻找身边最美党员</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://pic3.newssc.org/upload/ori/20161115/1479181419462.jpg">
+
+                        <div class="item-name">预备党员投票</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://www.jsngd.org.cn/myedit/UploadFile/2016121152215660.JPG">
+
+                        <div class="item-name">支部党委换届会议投票</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://www.ahxf.gov.cn/village/UploadFile/201407161054482.jpg">
+
+                        <div class="item-name">寻找身边最美党员</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://pic3.newssc.org/upload/ori/20161115/1479181419462.jpg">
+
+                        <div class="item-name">预备党员投票</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://www.jsngd.org.cn/myedit/UploadFile/2016121152215660.JPG">
+
+                        <div class="item-name">支部党委换届会议投票</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://www.ahxf.gov.cn/village/UploadFile/201407161054482.jpg">
+
+                        <div class="item-name">寻找身边最美党员</div>
+                    </div>
+                </li>
+            </a>
+            <a href="__ROOT__/Vote/Index/vlist">
+                <li>
+                    <div class="am-u-lg-3 am-u-sm-6 item-block"><img class="item-img"
+                                                                     src="http://pic3.newssc.org/upload/ori/20161115/1479181419462.jpg">
+
+                        <div class="item-name">预备党员投票</div>
+                    </div>
+                </li>
+            </a>
+        </ul>
+        <div style="clear: both"></div>
+
+        <!-- 加载更多 -->
+        <div class="load-more hide" onclick="loadMore()" id="load-more"
+             style="width: 100%;text-align: center;padding: 10px">-- 点击加载更多 --
+        </div>
+    </div>
+</block>
+<block name="scripts">
+
+</block>

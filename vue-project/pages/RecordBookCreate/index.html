@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="../../static/css/global.css" />
+        <link rel="stylesheet" href="./styles.css" />
+
+        <script src="../../static/js/lib/vue.min.js"></script>
+        <script src="../../static/js/lib/axios.min.js"></script>
+        <script src="../../static/js/lib/wangEditor.min.js"></script>
+        <script src="../../static/js/utils.js"></script>
+
+        <title>新增台账</title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn" @click="goback"></div>
+                <span class="nav-title">新增台账</span>
+            </div>
+
+            <div class="g-content-container record-book-create">
+                <div class="form-item">
+                    <span class="title">会议类型</span>
+                    <div class="value arrow" @click="onShowChange('meetingType',true)">
+                        <p class="value-text" v-text="form.meetingType.text"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">党组织</span>
+                    <div class="value">
+                        <p class="value-text" v-text="form.organization.name"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">召开日期</span>
+                    <div class="value">
+                        <p class="value-text" v-text="dateText"></p>
+                        <input type="date" name="date" id="date-input" v-model="form.date" />
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">召开地点</span>
+                    <div class="value">
+                        <input type="text" class="text-input" maxlength="20" v-model="form.address" />
+                    </div>
+                </div>
+
+                <div class="form-item" v-show="form.meetingType.id === 2">
+                    <span class="title">党小组名称</span>
+                    <div class="value">
+                        <input type="text" class="text-input" maxlength="20" v-model="form.groupName" />
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">会议主题</span>
+                    <div class="value">
+                        <input type="text" class="text-input" maxlength="20" v-model="form.theme" />
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">主持人</span>
+                    <div class="value arrow" @click="onShowChange('presenter',true)">
+                        <p class="value-text" v-text="form.presenter.name"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">记录人</span>
+                    <div class="value arrow" @click="onShowChange('recorder',true)">
+                        <p class="value-text" v-text="form.recorder.name"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">会议议题</span>
+                    <div class="value">
+                        <input type="text" class="text-input" maxlength="20" v-model="form.issue" />
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">出席人员</span>
+                    <div class="value arrow" @click="onShowChange('attend',true)">
+                        <p class="value-text" v-text="list2Name(form.attend)"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">列席人员</span>
+                    <div class="value arrow" @click="onShowChange('sitIn',true)">
+                        <p class="value-text" v-text="list2Name(form.sitIn)"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">请假人员</span>
+                    <div class="value arrow" @click="onShowChange('leave',true)">
+                        <p class="value-text" v-text="list2Name(form.leave)"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">缺席人员</span>
+                    <div class="value arrow" @click="onShowChange('absent',true)">
+                        <p class="value-text" v-text="list2Name(form.absent)"></p>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="title">关联任务</span>
+                    <div class="value arrow" @click="onShowChange('task',true)">
+                        <p class="value-text" v-text="form.task.text"></p>
+                    </div>
+                </div>
+
+                <!-- 富文本编辑器 -->
+                <div class="form-item">
+                    <span class="title">会议记录</span>
+                </div>
+                <div id="editor"></div>
+
+                <!-- 附件 -->
+                <div class="form-item">
+                    <span class="title">附件</span>
+                </div>
+                <div class="g-attachment-list">
+                    <div class="item" v-for="(v,i) in fileList" :key="v.id">
+                        <i :class="v.className"></i>
+                        <span class="name" v-text="v.name"></span>
+                        <i class="remove" @click="onRemoveFile(i)"></i>
+                    </div>
+
+                    <!-- <div class="item">
+                        <i class="img"></i>
+                        <div class="progress">
+                            <span class="progress-tips">50%</span>
+                            <div class="progress-bar">
+                                <div class="progress-percent" style="width:50%"></div>
+                            </div>
+                        </div>
+                        <span class="name">sdfff.png</span>
+                    </div> -->
+
+                    <!-- 上传按钮 -->
+                    <div class="item"><i class="img add"></i><input type="file" ref="eleFile" class="add-input" /></div>
+                </div>
+
+                <!-- 会议类型 -->
+                <div :class="{'form-cover':true, 'active':show.meetingType}">
+                    <div class="content-body">
+                        <div class="radio-item" v-for="(item,index) in meetingTypes" :key="index" @click="onRadioChange('meetingType',item)">
+                            <i :class="{'radio-ico':true, 'active':item === form.meetingType}"></i><span class="radio-text" v-text="item.text"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('meetingType',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 主持人 -->
+                <div :class="{'form-cover':true, 'active':show.presenter}">
+                    <div class="content-body">
+                        <div
+                            class="radio-item"
+                            v-for="item in groupUsers"
+                            :key="item.id"
+                            v-show="!item.belong || item.belong === 'presenter'"
+                            @click="onGroupRadioClick('presenter',item)"
+                        >
+                            <i :class="{'radio-ico':true, 'active':item.belong === 'presenter'}"></i><span class="radio-text" v-text="item.name"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('presenter',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 记录人 -->
+                <div :class="{'form-cover':true, 'active':show.recorder}">
+                    <div class="content-body">
+                        <div
+                            class="radio-item"
+                            v-for="item in groupUsers"
+                            :key="item.id"
+                            v-show="!item.belong || item.belong === 'recorder'"
+                            @click="onGroupRadioClick('recorder',item)"
+                        >
+                            <i :class="{'radio-ico':true, 'active':item.belong === 'recorder'}"></i><span class="radio-text" v-text="item.name"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('recorder',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 出席人员 -->
+                <div :class="{'form-cover':true, 'active':show.attend}">
+                    <div class="content-body">
+                        <!-- 固定显示主持人和记录人 -->
+                        <div class="check-item" v-show="!!form.presenter">
+                            <i class="check-ico active"></i><span class="check-text" v-text="form.presenter.name"></span>
+                        </div>
+                        <div class="check-item" v-show="!!form.recorder">
+                            <i class="check-ico active"></i><span class="check-text" v-text="form.recorder.name"></span>
+                        </div>
+
+                        <div
+                            class="check-item"
+                            v-for="item in groupUsers"
+                            :key="item.id"
+                            v-show="!item.belong || item.belong === 'attend'"
+                            @click="onGroupCheckClick('attend',item)"
+                        >
+                            <i :class="{'check-ico':true, 'active': item.belong === 'attend'}"></i><span class="check-text" v-text="item.name"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('attend',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 列席人员 -->
+                <div :class="{'form-cover':true, 'active':show.sitIn}">
+                    <div :class="searchClass">
+                        <div class="search-box">
+                            <div class="search-btn"></div>
+                            <input
+                                type="text"
+                                class="search-input"
+                                maxlength="10"
+                                placeholder="请输入搜索内容"
+                                v-model="keyword"
+                                @focus="onSearchStatus(true)"
+                                @blur="onSearchStatus(false)"
+                            />
+                        </div>
+                    </div>
+                    <div class="content-body">
+                        <div class="check-item" v-for="item in sitInList" :key="item.id" @click="onCheckChange('sitIn',item)">
+                            <i :class="{'check-ico':true, 'active':checkItemActive('sitIn',item)}"></i><span class="check-text" v-text="item.name"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('sitIn',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 请假人员 -->
+                <div :class="{'form-cover':true, 'active':show.leave}">
+                    <div class="content-body">
+                        <div
+                            class="check-item"
+                            v-for="item in groupUsers"
+                            :key="item.id"
+                            v-show="!item.belong || item.belong === 'leave'"
+                            @click="onGroupCheckClick('leave',item)"
+                        >
+                            <i :class="{'check-ico':true, 'active':item.belong === 'leave'}"></i><span class="check-text" v-text="item.name"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('leave',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 缺席人员 -->
+                <div :class="{'form-cover':true, 'active':show.absent}">
+                    <div class="content-body">
+                        <div
+                            class="check-item"
+                            v-for="item in groupUsers"
+                            :key="item.id"
+                            v-show="!item.belong || item.belong === 'absent'"
+                            @click="onGroupCheckClick('absent',item)"
+                        >
+                            <i :class="{'check-ico':true, 'active':item.belong === 'absent'}"></i><span class="check-text" v-text="item.name"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('absent',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 关联任务 -->
+                <div :class="{'form-cover':true, 'active':show.task}">
+                    <div class="content-body">
+                        <div class="radio-item" v-for="(item,index) in tasks" :key="index" @click="onRadioChange('task',item)">
+                            <i :class="{'radio-ico':true, 'active':item === form.task}"></i><span class="radio-text" v-text="item.text"></span>
+                        </div>
+                    </div>
+                    <div class="bottom-confirm" @click="onShowChange('task',false)">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+                <!-- 底部按钮 -->
+                <div class="bottom-bar">
+                    <span class="item save" @click="onSubmit(0)">保存</span><span class="item publish" @click="onSubmit(2)">发布</span>
+                </div>
+            </div>
+        </div>
+
+        <script src="../../static/js/record-book-create.js"></script>
+        <!-- <script src="../../js-resources/record-book-create.js"></script> -->
+    </body>
+</html>

@@ -1,0 +1,88 @@
+/*头部*/
+
+header.head {
+	width: 100%;
+	height: 0.7rem;
+}
+
+header.head .head_return {
+	height: 0.7rem;
+	line-height: 0.7rem;
+	color: #fff;
+	font-size: 10px;
+	margin-bottom: 0.2rem;
+	background-color: rgba(0,0,0, 0.5);
+	z-index:10000;
+}
+
+header.head .head_return>i {
+	display: inline-block;
+	width: 0.5rem;
+	height: 0.5rem;
+	margin-top: 0.1rem;
+	background: url("../../../../images/branch/left.png") no-repeat 100%;
+	background-size: 100%;
+}
+.organ{
+	width:100%;
+	height:100%;
+	position: absolute;
+	top:0;
+	bottom:0;
+	right:0;
+	left:0;
+}
+.organer{
+	position:relative;
+	width:100%;
+	height:100%;
+}
+.zhuhai,.guanzhou,.sheng{
+	position:relative;
+	width:100%;
+	height:35%;
+}
+.zhuhai img,.guanzhou img,.sheng img{
+	width:100%;
+	height:100%;
+	display: block;
+}
+.zhuhai .page{
+	position:absolute;
+	top:-0.1rem;
+	left:0;
+	right:0;
+}
+.zhuhai>a,.guanzhou>a,.sheng>a{
+	display:block;
+	width:100%;
+	height:87%;
+	position:absolute;
+	top:13%;
+	left:0;
+	right:0;
+	color:#fff;
+	font-size:0.4rem;
+	padding-top:20%;
+}
+.zhuhai>a{
+	padding-right:75%;
+}
+.zhuhai>a>div,.sheng>a>div,.guanzhou>a>div{
+	text-align:right;
+}
+.zhuhai h3,.sheng h3,.guanzhou h3{
+	font-size:1rem;
+}
+.guanzhou{
+	height:32.5%;
+}
+.guanzhou>a{
+	padding-right:8%;
+}
+.sheng{
+	height:32.5%;
+}
+.sheng>a{
+	padding-right:58%;
+}

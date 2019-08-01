@@ -1,0 +1,200 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .sign-sum-title {
+            border-left: 5px solid #999999;
+            color: #999999;
+            font-size: 14px;
+            height: 18px;
+            line-height: 18px;
+            padding-left: 5px;
+        }
+
+        .sign-sum {
+            color: #5eb95e;
+            font-size: 25px;
+            font-weight: bold;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">支部台账</strong></div>
+      </div>
+      <hr>
+      <div class="am-g">
+        <div class="am-u-sm-2 am-u-md-1">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <button  onclick="loading_page('__ROOT__/Admin/Taizhang/add?type=4');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+              <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+            </div>
+          </div>
+        </div>
+        <div class="am-u-sm-10 am-u-md-11">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <div style="line-height: 33px; padding-left: 5px">
+                            <span class="sign-sum-title">台账总量：</span>
+                            <span class="sign-sum">{$page['pageInfo']['size']}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <!-- <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+            <select name="tag_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有类别</option>
+              <volist name="tags" id="vo">
+                <option value="{$vo.id}">{$vo.name}</option>
+              </volist>
+            </select>
+          </div>
+        </div> -->
+         <form action="__ROOT__/Admin/Taizhang/index4">
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="tag_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有标签</option>
+              <volist name="tags" id="vo">
+                <option value="{$vo.id}" <if condition="$vo.id eq $search['tag_id']">selected = "selected"</if>>{$vo.title}</option>
+              </volist>
+            </select>
+          </div>
+        </div>
+         <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="norm_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有指标</option>
+              <volist name="norms" id="vo">
+                <option value="{$vo.id}" <if condition="$vo.id eq $search['norm_id']">selected = "selected"</if>>{$vo.title}</option>
+              </volist>
+            </select>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="type2" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">类型</option>
+                <option value="0" <if condition="$search['type2'] eq '0'">selected = "selected"</if>>创新动作</option>
+                <option value="1" <if condition="$search['type2'] eq '1'">selected = "selected"</if>>规定动作</option>
+            </select>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-2">
+          <div class="am-form-group">
+            <select name="branch_id" data-am-selected="{btnSize: 'sm'}">
+              <option value="all">所有支部</option>
+              <volist name="branchs" id="vo">
+                <option value="{$vo.id}" <if condition="$vo.id eq $search['branch_id']">selected = "selected"</if>>{$vo.name}</option>
+              </volist>
+            </select>
+          </div>
+        </div>
+       <div class="am-u-sm-12 am-u-md-4">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" name="keyword" value="{$search.keyword}" class="am-form-field" placeholder="请输入文章标题">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="submit">搜索</button>
+          </span>
+          </div>
+        </div>
+      </div>
+        </form>
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-title" >标题</th>
+                 <th class="am-hide-sm-only">类型</th>
+                <th class="table-author am-hide-sm-only">发布者</th>
+                <th class="am-hide-sm-only">支部</th>
+                <th class="am-hide-sm-only">党组</th>
+                <th class="am-hide-sm-only">发布时间</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="page.list" id="vo">
+                <tr>
+                  <td>{$vo.title}</td>
+                  <td>
+                  	<!--1  个人台账 2 党组台账  3 领导台账  4 支部台账-->
+                  	<php>
+                  		if($vo['type'] == 1){
+                  			echo "个人台账";
+                  		}elseif($vo['type'] == 2){
+                  			echo "党组台账";
+                  		}elseif($vo['type'] == 3){
+                  			echo "领导台账";
+                  		}elseif($vo['type'] == 4){
+                  			echo "支部台账";
+                  		}
+                  	</php>
+                  </td>
+                  <td class="am-hide-sm-only">{$vo.user_realname}
+                  </td>
+                  <td class="am-hide-sm-only">{$vo.branch_name}</td>
+                  <td class="am-hide-sm-only">{$vo.organization_name}</td>
+                  <td class="am-hide-sm-only">{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                  <td>
+                    <div class="am-btn-toolbar">
+                      <div class="am-btn-group am-btn-group-xs">
+                        <!-- <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/Taizhang/edit?id={$vo.id}');" type="button"><span  class="am-icon-pencil-square-o"></span> 编辑</button> -->
+                        <a type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary "onclick="loading_page('__ROOT__/Admin/Taizhang/edit?p={$page.pageInfo.pageNo}&id={$vo.id}&type=4');">
+                        <span class="am-icon-pencil-square-o"></span>编辑</a>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+  </div>
+</block>
+<block name="scripts">
+<script>
+  var id = 0;
+  $('.btn-dec').click(function(){
+    id = $(this).attr('data-id');
+    $('#my-confirm').modal({
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+          url:'__ROOT__/Admin/Taizhang/ajaxDec',
+          type:'POST', //GET
+          data:{id:id},
+          dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          success:function(data){
+            if(data.status == 0){
+              window.location.reload();
+            }else{
+              alert_modal(data.msg);
+            }
+          },
+          closeOnConfirm: false,
+          error:function(xhr,textStatus){
+            alert_modal("服务器暂时无法连接，请稍候再试");
+          }
+        })
+      },
+      onCancel: function() {
+
+      }
+    });
+  });
+</script>
+</block>

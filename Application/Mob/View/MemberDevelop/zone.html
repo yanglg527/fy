@@ -1,0 +1,474 @@
+<extend name="./Application/Mob/View/Common/base.html" />
+<block name="styles">
+	<link rel="stylesheet" href="__CSS__/member_develop/partyDevelop.css">
+	<style>
+		header.head {
+			background: url(__IMG__/branch/head_bg2.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		.ledger .head .title .right {
+			background: url(__IMG__/branch/right.png) no-repeat 100%;
+			background-size: 100%;
+		}
+		
+		.ledger .head .search {
+			background: url(__IMG__/branch/search@2x.png) no-repeat;
+			background-size: 100%;
+		}
+		
+		html {
+			height: 100%;
+			background: #e3e9ef;
+		}
+	</style>
+</block>
+<block name="content">
+	<div class="page">
+		<header class="head">
+			<a onclick="history.go(-1);">
+				<div class="head_return"><i></i></div>
+				<div class="head_title" style="position: absolute;
+				text-align: center;
+				top:0;">
+					<img src="__IMG__/branch/toptitle.png" alt="" style="width: 70%;">
+				</div>
+			</a>
+			<div class="title_img">
+				<div class="img-bg">
+					<img src="{$detail.headimgurl|get_head_url}" alt="" style="overflow: hidden">
+				</div>
+				<div class="title clearFix">
+					<div class="inwrap">
+						<ul class="position">
+							<li>{$detail.gender|get_sex}</li>
+							<li class="icon">|</li>
+							<li class="userName">{$detail.realname}</li>
+							<li class="icon">|</li>
+							<li>{$detail.role_name}</li>
+						</ul>
+					</div>
+				</div>
+				<php>if($detail['branch_name']){</php>
+				<div class="name">{$detail['branch_name']}</div>
+				<php>}</php>
+			</div>
+
+			<div class="head_message">
+				<div class="item">
+					<a href="__ROOT__/Mob/PartyServe/integral?uid={$detail.uid}"  >
+						<span>{$detail.score}</span>
+						<p style="color: #C2C2C2">积分</p>
+					</a>
+				</div>
+				<div class="item">
+					<a  href="__ROOT__/Mob/Taizhang/person_contrast#{$detail.uid}">
+
+						<span>{$detail.score_pm}</span>
+						<p style="color: #C2C2C2">积分排名</p>
+					</a>
+				</div>
+				<div class="item last">
+					<span>{$detail.tz_count}</span>
+					<p style="color: #C2C2C2">累计台账</p>
+
+				</div>
+			</div>
+			<nav>
+				<div class="nav_container">
+					<div class="title active">
+						入党申请书
+						<p class="red"></p>
+					</div>
+					<div class="title">
+						思想汇报
+						<p></p>
+					</div>
+					<div class="title">
+						考试记录
+						<p></p>
+					</div>
+					<div class="title">
+						支部和党委意见
+						<p></p>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<!-- ********入党申请书正文****-->
+		<style>
+			article .article_container {
+				text-align: center;
+				padding: 0.4rem 0;
+			}
+			
+			article .article_container h3 {
+				margin: 0;
+			}
+			
+			.apply {
+				padding: 10px;
+			}
+			
+			.apply img {
+				max-width: 100%;
+			}
+			
+			.report_box .right .date,
+			.opinion_box .right .date,
+			.record_box .right .date {
+				flex: inherit;
+				text-align: center;
+			}
+		</style>
+		<article class="apply_mainBody zonelist">
+			<div class="article_container">
+				<h3><empty name="tag1.title">入党申请书<else/>{$tag1.title}</empty></h3>
+				<if condition="$user['uid'] == $detail['uid']">
+					<a href="__ROOT__/Mob/MemberDevelop/apply"></a>
+				</if>
+			</div>
+			<div class="apply">
+				<empty name="tag1.content">
+					<p>没有该用户相关的入党申请喔！</p>
+					<else/>{$tag1.content}</empty>
+
+			</div>
+		</article>
+		<!-- ********思想汇报 ****-->
+		<div class="sxbgItem hide">
+			<div class="report_box">
+				<div class="left">
+					<p>#role_name#</p>
+					<span class='#role_class#'></span>
+				</div>
+				<div class="right">
+					<a href="__ROOT__/Mob/MemberDevelop/report?id=#id#">
+						<span></span>
+						<div class="date">
+							<p>#day#</p>
+							<p>#m#月</p>
+						</div>
+						<div class="opinion_content">
+							<h3>#title#</h3>
+							<p>#content#</p>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="thought_report zonelist" style="position: relative">
+			<div class="chooseYear">
+				<span class="substract" data-type="sxhb">
+                <img src="__IMG__/member_develop/left.png" alt="">
+            </span>
+				<i class="i_time">2017</i>
+				<span class="plus" data-type="sxhb">
+                <img src="__IMG__/member_develop/right.png" alt="">
+
+            </span>
+			</div>
+			<if condition="$user['uid'] == $detail['uid']">
+			<a href="__ROOT__/Mob/MemberDevelop/report_add"><img src="__IMG__/member_develop/add.png" style="width: 20px;height: 20px;position: absolute;right: 10px;top: 10px"></a>
+			</if>
+			<div class="hide" id="report-loading" style="width: 100%;text-align: center;height: 25px;line-height: 2px;font-size: 14px;color:#555">加载中...</div>
+			<volist name="tag2" id="item" data-type="sxhb">
+				<div class="report_box">
+					<div class="left">
+						<p>{$item['role_name']}</p>
+						<php>if($item['role_id'] == 2){ echo "<span class='probationary'></span>"; }elseif($item['role_id'] == 3){ echo "<span class='important'></span>"; }elseif($item['role_id'] == 4){ echo "<span class='activist'></span>"; }elseif($item['role_id'] == 5){ echo "<span class='mass'></span>"; }
+						</php>
+					</div>
+					<div class="right">
+						<a href="__ROOT__/Mob/MemberDevelop/report?id={$item['id']}">
+							<span></span>
+							<div class="date">
+								<p>{$item['create_time']|date='d',###}</p>
+								<p>{$item['create_time']|date='m',###}月</p>
+							</div>
+							<div class="opinion_content">
+								<h3>{$item.title}</h3>
+								<p>{$item.content|show_sub_title=20}</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</volist>
+
+		</div>
+		<!-- ********考试记录 ****-->
+		<div class="ksjlItem hide">
+			<div class="record_box">
+				<div class="left">
+					<p>#role_name#</p>
+					<span class='#role_class#'></span>
+				</div>
+				<div class="right">
+					<a href="#">
+					<span></span>
+					<div class="date">
+						<p>#day#</p>
+						<p>#m#月</p>
+					</div>
+					<div class="opinion_content">
+						<h3>#title#</h3>
+						<p>#score#</p>
+					</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="exam_record zonelist" style="position: relative">
+			<div class="chooseYear">
+				<span class="substract" data-type="ksjl">
+                <img src="__IMG__/member_develop/left.png" alt="">
+            </span>
+				<i class="i_time">2017</i>
+				<span class="plus" data-type="ksjl">
+                <img src="__IMG__/member_develop/right.png" alt="">
+            </span>
+			</div>
+			<if condition="$user['uid'] == $detail['uid']">
+			<a href="__ROOT__/Mob/MemberDevelop/exam_add"><img src="__IMG__/member_develop/add.png" style="width: 20px;height: 20px;position: absolute;right: 10px;top: 10px"></a>
+</if>
+			<div class="hide" id="exam-loading" style="width: 100%;text-align: center;height: 25px;line-height: 2px;font-size: 14px;color:#555">加载中...</div>
+			<volist name="tag3" id="item">
+				<div class="record_box">
+					<div class="left">
+						<p>{$item['role_name']}</p>
+						<php>if($item['role_id'] == 2){ echo "<span class='probationary'></span>"; }elseif($item['role_id'] == 3){ echo "<span class='important'></span>"; }elseif($item['role_id'] == 4){ echo "<span class='activist'></span>"; }elseif($item['role_id'] == 5){ echo "<span class='mass'></span>"; }
+						</php>
+					</div>
+					<div class="right">
+						<a href="#">
+						<span></span>
+						<div class="date">
+							<p>{$item['create_time']|date='d',###}</p>
+							<p>{$item['create_time']|date='m',###}月</p>
+						</div>
+						<div class="opinion_content">
+							<h3>{$item.title}</h3>
+							<p>{$item.score}分</p>
+						</div>
+						</a>
+					</div>
+				</div>
+			</volist>
+		</div>
+		<!-- ********支部和党委意见 ****-->
+		<div class="adviceItem hide">
+			<div class="opinion_box">
+				<div class="left">
+					<p>#role_name#</p>
+					<span class='#role_class#'></span>
+				</div>
+				<div class="right">
+					<a href="__ROOT__/Mob/MemberDevelop/advice?id=#id#">
+						<span></span>
+						<div class="date">
+							<p>#day#</p>
+							<p>#m#月</p>
+						</div>
+						<div class="opinion_content">
+							<h3>#title#</h3>
+							<p>#content#</p>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="party_opinion zonelist" style="position: relative">
+			<div class="chooseYear">
+				<span class="substract" data-type="advice">
+                <img src="__IMG__/member_develop/left.png" alt="">
+            </span>
+				<i class="i_time">2017</i>
+				<span class="plus" data-type="advice">
+                <img src="__IMG__/member_develop/right.png" alt="">
+
+            </span>
+			</div>
+			<if condition="$check_auth != '' ">
+			<a href="__ROOT__/Mob/MemberDevelop/advice_add"><img src="__IMG__/member_develop/add.png" style="width: 20px;height: 20px;position: absolute;right: 10px;top: 10px"></a>
+</if>
+			<div class="hide" id="advice-loading" style="width: 100%;text-align: center;height: 25px;line-height: 2px;font-size: 14px;color:#555">加载中...</div>
+			<volist name="tag4" id="item">
+				<div class="opinion_box">
+					<div class="left">
+						<p>{$item['role_name']}</p>
+						<php>if($item['role_id'] == 2){ echo "<span class='probationary'></span>"; }elseif($item['role_id'] == 3){ echo "<span class='important'></span>"; }elseif($item['role_id'] == 4){ echo "<span class='activist'></span>"; }elseif($item['role_id'] == 5){ echo "<span class='mass'></span>"; }
+						</php>
+					</div>
+					<div class="right">
+						<a href="__ROOT__/Mob/MemberDevelop/advice?id={$item.id}">
+							<span></span>
+							<div class="date">
+								<p>{$item['create_time']|date='d',###}</p>
+								<p>{$item['create_time']|date='m',###}月</p>
+							</div>
+							<div class="opinion_content">
+								<h3>{$item.title}</h3>
+								<p>{$item.content|show_sub_title=20}</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</volist>
+		</div>
+		<footer class="hide">
+			<p>我的成长轨迹</p>
+		</footer>
+	</div>
+</block>
+<block name="scripts">
+	<script src="__JS__/member_develop/partyDevelop.js"></script>
+	<script>
+		// 左边点击时间减少
+		var sxbgItem = $('.sxbgItem').html();
+		var ksjlItem = $('.ksjlItem').html();
+		var adviceItem = $('.adviceItem').html();
+		$(".chooseYear>.substract").click(function() {
+			var type = $(this).attr('data-type');
+			var thisSubstract = $(this).parent().find(".i_time").text();
+			if(thisSubstract > 0) {
+				thisSubstract = thisSubstract - 1;
+				$(this).parent().find(".i_time").text(thisSubstract);
+
+				load(type, thisSubstract)
+
+			}
+
+		})
+
+		// 右边点击时间增加
+		$(".chooseYear>.plus").click(function() {
+			var type = $(this).attr('data-type');
+			var thisPlus = $(this).parent().find(".i_time").text();
+			thisPlus++;
+			$(this).parent().find(".i_time").text(thisPlus);
+			load(type, thisPlus)
+		})
+
+		function load(type, year) {
+			if(type == 'sxhb') {
+				$('#report-loading').removeClass('hide')
+				$('.thought_report .report_box').remove();
+			} else if(type == 'ksjl') {
+				$('#exam-loading').removeClass('hide')
+				$('.exam_record .record_box').remove();
+			} else if(type == 'advice') {
+				$('#advice-loading').removeClass('hide')
+				$('.party_opinion .opinion_box').remove();
+			}
+			var data = {
+				id: '{$detail.uid}',
+				type: type,
+				year: year,
+			}
+
+			var url = "__ROOT__/Mob/MemberDevelop/ajaxLoad";
+			$.ajax({
+				url: url,
+				type: "post",
+				data: data,
+				dataType: "json",
+				success: function(data) {
+					if(type == 'sxhb') {
+						$('#report-loading').addClass('hide')
+					} else if(type == 'ksjl') {
+						$('#exam-loading').addClass('hide')
+					} else if(type == 'advice') {
+						$('#advice-loading').addClass('hide')
+					}
+					if(data.status == 0){
+						if(data.msg == 'sxhb') {
+							var html = "";
+							$.each(data.data, function(index, obj) {
+								var item = sxbgItem;
+								var item = item.replace('#id#', obj.id);
+								var date = get_date(obj.create_time);
+								item = item.replace('#title#', obj.title);
+								item = item.replace('#role_name#', obj.role_name);
+								item = item.replace('#content#', show_sub_content(obj.content, 20));
+								item = item.replace('#day#', date.day);
+								item = item.replace('#m#', date.month);
+								var role_class = '';
+								if(item['role_id'] == 2) {
+									role_class = 'probationary'
+								} else if(item['role_id'] == 3) {
+									role_class = 'important'
+								} else if(item['role_id'] == 4) {
+									role_class = 'activist'
+								} else if(item['role_id'] == 5) {
+									role_class = 'mass'
+								}
+
+								item = item.replace('#role_class#', role_class);
+								$('.thought_report').append(item);
+							});
+							
+						} else if(type == 'ksjl') {
+							var html = "";
+							$.each(data.data, function(index, obj) {
+								var item = ksjlItem;
+								var item = item.replace('#id#', obj.id);
+								var date = get_date(obj.create_time);
+								item = item.replace('#title#', obj.title);
+								item = item.replace('#role_name#', obj.role_name);
+								item = item.replace('#score#', obj.score);
+								item = item.replace('#day#', date.day);
+								item = item.replace('#m#', date.month);
+								var role_class = '';
+								if(item['role_id'] == 2) {
+									role_class = 'probationary'
+								} else if(item['role_id'] == 3) {
+									role_class = 'important'
+								} else if(item['role_id'] == 4) {
+									role_class = 'activist'
+								} else if(item['role_id'] == 5) {
+									role_class = 'mass'
+								}
+
+								item = item.replace('#role_class#', role_class);
+								$('.exam_record').append(item);
+							});
+							
+						} else {
+							var html = "";
+							
+							$.each(data.data, function(index, obj) {
+								var item = adviceItem;
+								var item = item.replace('#id#', obj.id);
+								var date = get_date(obj.create_time);
+								item = item.replace('#title#', obj.title);
+								item = item.replace('#role_name#', obj.role_name);
+								item = item.replace('#content#', show_sub_content(obj.content, 20));
+								item = item.replace('#day#', date.day);
+								item = item.replace('#m#', date.month);
+								var role_class = '';
+								if(item['role_id'] == 2) {
+									role_class = 'probationary'
+								} else if(item['role_id'] == 3) {
+									role_class = 'important'
+								} else if(item['role_id'] == 4) {
+									role_class = 'activist'
+								} else if(item['role_id'] == 5) {
+									role_class = 'mass'
+								}
+
+								item = item.replace('#role_class#', role_class);
+								$('.party_opinion').append(item);
+							});
+							
+						}
+					} else {
+						alert(data.msg);
+					}
+				},
+				error: function() {
+					alert("服务器暂时无法访问，请稍后再试");
+				}
+			});
+		}
+	</script>
+</block>

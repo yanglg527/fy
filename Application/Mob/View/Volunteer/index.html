@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Mob/css/volunteer/styles.css" />
+
+        <script src="__PUBLIC__/Common/js/lib/vue.min.js"></script>
+        <script src="__PUBLIC__/Common/js/lib/axios.min.js"></script>
+        <script src="__PUBLIC__/Common/js/lib/utils.js"></script>
+
+        <title></title>
+    </head>
+    <body>
+        <div class="g-full-flex" id="app">
+            <div class="g-nav-bar">
+                <div class="back-btn" @click="history.go(-1)"></div>
+                <span class="nav-title">志愿服务</span>
+            </div>
+
+            <div class="top-banner">
+                <img src="" alt="" class="banner-image" />
+            </div>
+
+            <div class="g-fill-tabs">
+                <div
+                    v-for="item in tabsWithCount"
+                    :key="item.key"
+                    :class="{'item':true, 'active':tabKey === item.key}"
+                    @click="onTab(item.key)"
+                    v-text="item.text"
+                ></div>
+            </div>
+
+            <div class="g-content-container volunteer-list" @scroll="onScroll">
+                <template v-if="!!showList.length">
+                    <div v-for="v in showList" :key="v.id" class="volunteer-item">
+                        <div class="top" @click="onNavToDetail(v.id)">
+                            <h3 class="title" v-text="v.theme"></h3>
+                            <p class="sub-info">
+                                <span class="text" v-text="'发布人：'+v.sendname"></span>
+                                <span class="text" v-text="'发布日期：'+v.start_date"></span>
+                            </p>
+                        </div>
+
+                        <div class="g-cutting-line"></div>
+
+                        <div class="main-content">
+                            <div class="info" @click="onNavToDetail(v.id)">
+                                <p class="info-text" v-text="'服务时间：'+v.start_date+'至'+v.end_date"></p>
+                                <p class="info-text" v-text="'服务地点：'+v.address"></p>
+                                <p class="info-text" v-text="'报名人数：'+v.total+'人'"></p>
+                            </div>
+
+                            <!-- red | orange | grey -->
+                            <span :class="v.btnStatus.className" v-text="v.btnStatus.text" @click="onEnroll(v.btnStatus.text,v.id)"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <script src="__PUBLIC__/Mob/js/volunteer/main.js"></script>
+    </body>
+</html>

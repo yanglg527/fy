@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>积分轨迹</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+     <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/pei/pei.css"/>
+</head>
+<body>
+<div class="page">
+    <div class="head">积分轨迹</div>
+    <div class="canvas">
+        <canvas id="doughnut" width="150%" height="150%">
+            你的浏览器不支持canvas
+        </canvas>
+        <div class="images">
+            <img class="y1" src="__IMG__/pei/y.png" alt="">
+            <img class="y2" src="__IMG__/pei/y-1.png" alt="">
+            <img class="y3" src="__IMG__/pei/y-2.png" alt="">
+            <img class="y4" src="__IMG__/pei/y-3.png" alt="">
+            <img class="y5" src="__IMG__/pei/y-4.png" alt="">
+            <img class="y6" src="__IMG__/pei/4.png" alt="">
+            <img class="y7" src="__IMG__/pei/3.png" alt="">
+            <img class="y8" src="__IMG__/pei/2.png" alt="">
+            <img class="y9" src="__IMG__/pei/1.png" alt="">
+        </div>
+    </div>
+    <ul class="list">
+        <li><img class="y6" src="__IMG__/pei/4.png"><span class="num">{:show_rate($xxjl,$total)}%</span></li>
+        <li><img class="y7" src="__IMG__/pei/3.png"><span class="num">{:show_rate($dyfz,$total)}%</span></li>
+        <li><img class="y8" src="__IMG__/pei/2.png"><span class="num">{:show_rate($qtzz,$total)}%</span></li>
+        <li><img class="y9" src="__IMG__/pei/1.png"><span class="num">{:show_rate($sgjz,$total)}%</span></li>
+    </ul>
+    <ul class="list left">
+        <li><span class="num">{:show_rate($dyfw,$total)}%</span><img class="y1" src="__IMG__/pei/y.png"></li>
+        <li><span class="num">{:show_rate($ptqd,$total)}%</span><img class="y2" src="__IMG__/pei/y-1.png"></li>
+        <li><span class="num">{:show_rate($hdcy,$total)}%</span><img class="y3" src="__IMG__/pei/y-4.png"></li>
+        <li><span class="num">{:show_rate($jx,$total)}%</span><img class="y4" src="__IMG__/pei/y-3.png"></li>
+        <!-- <li><span class="num">{:show_rate($hdcy,$total)}%</span><img class="y5" src="__IMG__/pei/y-4.png"></li> -->
+    </ul>
+    <div class="icon"></div>
+<!--     <canvas id="canvas" width="400%" height="300%">            你的浏览器不支持canvas
+    </canvas>
+ --></div>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<!--绘制轨迹图上半部分-->
+<script>
+	var __root__ = "__ROOT__";	
+</script>
+<script src="__JS__/pei/chart.js"></script>
+<!--绘制轨迹图下半部分-->
+<!--<script src="__JS__/pei/pei.js"></script>-->
+<script>
+	//初始化上半部分轨迹图
+var cxt = $("#doughnut").get(0).getContext("2d");
+//上半部分轨迹图的数据
+var myNewChart = new Chart(cxt).Doughnut([
+    {
+        value : {$dyfw},
+        color : "#76419B"
+    },
+    {
+        value : {$ptqd},
+        color : "#464543"
+    },
+    {
+        value : {$wdtz},
+        color : "#299385"
+    },
+    {
+        value : <php>echo $jx<0?0:$jx;</php>,
+        color : "#DADBD6"
+    },
+    {
+        value : {$hdcy},
+        color : "#BB7A28"
+    },
+    {
+        value : {$xxjl},
+        color : "#1589A2"
+    },
+    {
+        value : {$dyfz},
+        color : "#BB1928"
+    },
+    {
+        value : {$qtzz},
+        color : "#ACC13E"
+    },
+    {
+        value : {$sgjz},
+        color : "#14A24E"
+    }
+]);
+
+
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var width = document.body.clientWidth;
+var height = ctx.canvas.height;
+
+if (window.devicePixelRatio) {
+    ctx.canvas.style.width = width + "px";
+    ctx.canvas.style.height = height + "px";
+    ctx.canvas.height = height * window.devicePixelRatio;
+    ctx.canvas.width = width * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+var coord_x=width/2-30;
+var coord_y=height/2;
+//var r = 2.67*parseFloat($("html").css("font-size"));
+var clientWidth= document.body.clientWidth;
+var r=0;//圆环半径
+if(clientWidth<=320){
+    r=80;
+}else{
+    r=100;
+}
+var average=r/100;//将半径分成一百等份
+//扇形
+CanvasRenderingContext2D.prototype.sector = function (x, y, radius, sDeg, eDeg) {
+// 初始保存
+    this.save();
+// 位移到目标点
+    this.translate(x, y);
+    this.beginPath();
+// 画出圆弧
+    this.arc(0,0,radius,sDeg, eDeg);
+// 再次保存以备旋转
+    this.save();
+// 旋转至起始角度
+    this.rotate(eDeg);
+// 移动到终点，准备连接终点与圆心
+    this.moveTo(radius,0);
+// 连接到圆心
+    this.lineTo(0,0);
+// 还原
+    this.restore();
+// 旋转至起点角度
+    this.rotate(sDeg);
+// 从圆心连接到起点
+    this.lineTo(radius,0);
+    this.closePath();
+// 还原到最初保存的状态
+    this.restore();
+    return this;
+};
+</script>
+</body>
+</html>

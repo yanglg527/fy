@@ -1,0 +1,441 @@
+<extend name="./Application/Common/View/Common/base.html"/>
+<block name="styles">
+    <link href="__CSS__/public_2.css" rel="stylesheet">
+    <link href="__CSS__/class/index.css" rel="stylesheet">
+    <link href="__CSS__/page.css" rel="stylesheet">
+    <style>
+        .activerrr {
+            color: #d3d3d3;
+        }
+        .question img{
+            max-width: 100%;
+        }
+    </style>
+</block>
+<block name="nav">
+    <include file="./Application/Common/View/Common/nav.html"/>
+</block>
+
+<block name="content">
+    <div class="line"></div>
+    <div class="content">
+        <include file="Common/_nav"/>
+        <div class="side_nav_right tests">
+            <ol class="breadcrumb" style="margin-top:20px;">
+                <li><a href="__ROOT__/Center/Exam/index">测试管理</a></li>
+                <li class="active">{$exam.title}</li>
+            </ol>
+            <div class="row alert alert-success test_info">
+                <div class="col-xs-2" style="display:table-cell;height:200px;line-height:40px;vertical-align: middle">
+                    <div style="margin-top: 20px">答题人数：{$exam.exam_count}</div>
+                    <div>满分：{$exam.score}</div>
+                    <div>已批改：{$exam.corrected_count}</div>
+                </div>
+                <div class="col-xs-5" >
+                    <div id="container-passed" style="height: 200px"></div>
+                </div>
+                <div class="col-xs-5" >
+                    <div id="container-good" style="height: 200px"></div>
+                </div>
+            </div>
+            <div style="border-bottom: 1px solid #d4d4d4;padding: 0 5px;margin: 30px 20px 0px 20px;"><h4 >题目得分率分析</h4></div>
+            <div class="row" style=";margin-top: -30px">
+                <div id="container-subjects" style="height: 400px;width: 100%"></div>
+            </div>
+        </div>
+
+    </div>
+</block>
+
+
+<block name="scripts">
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+    <script src="__STATICS__/echars/macarons.js"/>
+    <script type="text/javascript"
+            src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+
+
+    <script>
+        var dom = document.getElementById("container-passed");
+        var myChart = echarts.init(dom, 'macarons');
+        var option = {
+            tooltip: {
+                trigger: 'item',
+            },
+            series: [
+                {
+                    name: '得分统计',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: '80%',
+                    center: ['50%', '50%'],
+
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: {$exam.pass_count}, name: '及格率',itemStyle: {
+                            normal: {
+                                color: '#7BB7D3'
+                            }
+                        }},
+                        {
+                            value: {$exam['corrected_count']|template_sub=$exam['pass_count']}, name: '', itemStyle: {
+                            normal: {
+                                color: '#B2B2B2'
+                            }
+                        }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option, true);
+    </script>
+
+    <script>
+        var dom = document.getElementById("container-good");
+        var myChart = echarts.init(dom, 'macarons');
+        var option = {
+            tooltip: {
+                trigger: 'item',
+            },
+            series: [
+                {
+                    name: '得分统计',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: '80%',
+                    center: ['50%', '50%'],
+
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {
+                            value: {$exam.good_count},
+                            name: '优秀率',
+                            itemStyle: {
+                                normal: {
+                                    color: '#7ED361'
+                                }
+                            }
+                        },
+                        {
+                            value: {$exam['corrected_count']|template_sub=$exam['good_count']}, name: '', itemStyle: {
+                            normal: {
+                                color: '#B2B2B2'
+                            }
+                        }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        myChart.setOption(option, true);
+    </script>
+
+    <script>
+        function showSingleIn(subject){
+            var showIn =
+                    "<div class='question'> " +
+                    "<span class='subject-index'></span> " +
+                    "<span class='subject-title'>#title#</span>" +
+                    "（<span class='subject-right-answer'>#right_answer_str#</span>）" +
+                    "（<span class='subject-score'>#score#</span>分） " +
+                    "</div> " +
+                    "<div class='options'> " +
+                    "<div class='radio'> " +
+                    "<label>A.<span class='A-name'>#A-name#</span> " +
+                    "</label> " +
+                    "</div> " +
+                    "<div class='radio'> " +
+                    "<label>B.<span class='B-name'>#B-name#</span> " +
+                    "</label> " +
+                    "</div> " +
+                    "<div class='radio'> " +
+                    "<label>C.<span class='C-name'>#C-name#</span></label> " +
+                    "</div> " +
+                    "<div class='radio'> " +
+                    "<label>D.<span class='D-name'>#D-name#</span> </label> " +
+                    "</div> " +
+                    "</div>";
+            var answerValue = JSON.parse(subject.content);
+            showIn = showIn
+                    .replace(/#id#/gm, subject.id)
+                    .replace('#title#', subject.title)
+                    .replace('#right_answer_str#', subject.right_answer_str)
+                    .replace('#score#', subject.score)
+                    .replace('#A-name#', answerValue[0])
+                    .replace('#B-name#', answerValue[1])
+                    .replace('#C-name#', answerValue[2])
+                    .replace('#D-name#', answerValue[3]);
+
+
+            return showIn;
+        }
+        function showChoiceIn(subject){
+            var showIn =
+                    "<div class='question'> " +
+                    "<span class='subject-index'></span> " +
+                    "<span class='subject-title'>#title#</span>" +
+                    "（<span class='subject-right-answer'>#right_answer_str#</span>）" +
+                    "（<span class='subject-score'>#score#</span>分） " +
+                    "</div> " +
+                    "<div class='options'> " +
+                    "<div class='radio'> " +
+                    "<label>A.<span class='A-name'>#A-name#</span> " +
+                    "</label> " +
+                    "</div> " +
+                    "<div class='radio'> " +
+                    "<label>B.<span class='B-name'>#B-name#</span> " +
+                    "</label> " +
+                    "</div> " +
+                    "<div class='radio'> " +
+                    "<label>C.<span class='C-name'>#C-name#</span></label> " +
+                    "</div> " +
+                    "<div class='radio'> " +
+                    "<label>D.<span class='D-name'>#D-name#</span> </label> " +
+                    "</div> " +
+                    "</div>";
+            var answerValue = JSON.parse(subject.content);
+            showIn = showIn
+                    .replace(/#id#/gm, subject.id)
+                    .replace('#title#', subject.title)
+                    .replace('#right_answer_str#', subject.right_answer_str)
+                    .replace('#score#', subject.score)
+                    .replace('#A-name#', answerValue[0])
+                    .replace('#B-name#', answerValue[1])
+                    .replace('#C-name#', answerValue[2])
+                    .replace('#D-name#', answerValue[3]);
+
+            return showIn;
+        }
+        function showBlankIn(subject){
+            var showIn =
+                    "<div class='question'> " +
+                    "<span class='subject-index'></span> " +
+                    "<div class='subject-title' style='display: inline'>#content#</div>" +
+                    "（<span class='subject-score'>#score#</span>分）" +
+                    "</div> " +
+                    "<div class='options'></div>";
+            showIn = showIn
+                    .replace(/#id#/gm, subject.id)
+                    .replace('#content#', subject.show_content)
+                    .replace('#score#', subject.score * subject.answer_count);
+
+            return showIn;
+        }
+        function showAnswerIn(subject){
+            var showIn =
+
+                    "<div class='question'> " +
+                    "<span class='subject-index'></span> " +
+                    "<div class='subject-title' style='display: inline'>#content#</div>" +
+                    "（<span class='subject-score'>#score#</span>分） " +
+                    "</div> " +
+                    "<div class='options'></div>";
+            showIn = showIn
+                    .replace(/#id#/gm, subject.id)
+                    .replace('#content#', subject.content)
+                    .replace('#score#', subject.score);
+
+            return showIn;
+        }
+    </script>
+
+    <script>
+        var dom = document.getElementById("container-subjects");
+        var myChart = echarts.init(dom, 'macarons');
+        var dataX = [
+                <volist name='subjects' key="index" id='subject'>
+        <php>
+        if($subject['type_num'] != 'text') {
+            echo $index.",";
+        }else{
+            $index = $index-1;
+        }
+        </php>
+
+        </volist>
+        ];
+        var data = [
+                <volist name='subjects' id='subject'>
+        <php>
+        if($subject['type_num'] != 'text'){
+        $subjectScore = 0;
+        if(is_array($subject['score'])){
+            foreach($subject['score'] as $s){
+                $subjectScore = $subjectScore + (int)$s;
+            }}else{
+            $subjectScore =(int)$subject['score'];
+        }
+        echo $subject['answer_score']==0?'0,':($subject['answer_count']*$subjectScore)==0?'0,':($subject['answer_score']/($subject['answer_count']*$subjectScore)).',';
+        }
+        </php>
+        </volist>
+        ];
+        var subjects = [
+                <volist name='subjects' id='subject'>
+                <php>if($subject['type_num'] != 'text'){</php>
+                    {$subject|to_json_string},
+                <php>}</php>
+                </volist>];
+        var option = {
+            title: {
+            },
+            tooltip: {
+                formatter: function (params, ticket, callback) {
+                    var index = params[0].dataIndex ;
+                    var value = params[0].value;
+//                    var subject = subjects[index];
+
+                    var html="第"+(index + 1)+"题 得分率: " + value.toFixed(2);
+                    return html ;
+                },
+                trigger: 'axis',
+                padding:10,
+
+            },
+
+//            toolbox: {
+//                show: true,
+//                feature: {
+//                    dataZoom: {
+//                        yAxisIndex: 'none'
+//                    },
+//                    dataView: {readOnly: false},
+//                    magicType: {type: ['line', 'bar']},
+//                    restore: {},
+//                    saveAsImage: {}
+//                }
+//            },
+            xAxis:  {
+                type: 'category',
+                boundaryGap: false,
+                color:'#000000',
+                data: dataX,
+                axisLabel: {
+                    show: true,
+                    textStyle: {
+                        color: '#555'
+                    }
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#000'
+                    }
+                }
+            },
+            yAxis: {
+                type: 'value',
+
+                axisLabel: {
+                    textStyle: {
+                        color: '#555'
+                    },
+                    formatter: '{value} '
+                },
+                axisLine:{
+                    lineStyle:{
+                        color:'#000'
+                    }
+                }
+            },
+            series: [
+                {
+//#7FB539
+                    name:'得分率',
+                    type:'line',
+                    itemStyle : {
+                        normal : {
+                            color:'#555',
+                            label : {
+                                show : false,
+                                formatter : '{b}：{c}',
+                                position : 'top',
+                                textStyle : {
+                                    fontWeight : '700',
+                                    fontSize : '12',
+                                    color:'#7FB539'
+                                }
+                            },
+                            lineStyle:{
+                                color:'#7FB539'
+                            }
+                        }
+                    },
+                    data:data,
+//                    markLine: {
+//                        data: [
+//                            {type: 'average', name: '平均值'},
+//                        ]
+//                    }
+                }
+            ]
+        };
+        myChart.setOption(option, true);
+        myChart.on('click', function (params) {
+//            var mes = '【' + param.type + '】';
+//            if (typeof param.seriesIndex != 'undefined') {
+//                mes += '  seriesIndex : ' + param.seriesIndex;
+//                mes += '  dataIndex : ' + param.dataIndex;
+//            }
+//            alert(mes);
+
+            var index = params.dataIndex ;
+            var value = params.value;
+            var subject = subjects[index];
+
+            var html="第"+index+"题得分率: " + value.toFixed(2);
+            if(subject.type_num == 'singleChoice'){
+                html += showSingleIn(subject);
+            }else if(subject.type_num == 'choice'){
+                html += showChoiceIn(subject);
+            }else if(subject.type_num == 'blank'){
+                html += showBlankIn(subject);
+            }else if(subject.type_num == 'answer'){
+                html += showAnswerIn(subject);
+            }
+                    $.beamDialog({
+                        title:'题目预览',
+                        content:html,
+                        showCloseButton:false,
+                        otherButtons:["确定"],
+                        otherButtonStyles:['btn-info'],
+                        bsModalOption:{keyboard: false},
+                        clickButton:function(sender,modal,index){
+                            $(this).closeDialog(modal);
+                        }
+                    });
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var height = $(".side_nav_right").height();
+            if ($(".side_nav_right").height() > $(".side_nav_left").height()) {
+                $(".side_nav_left").height(height);
+            }
+            ;
+        });
+    </script>
+
+</block>
+

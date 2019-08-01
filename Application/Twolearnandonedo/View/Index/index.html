@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+        <!-- <link rel="stylesheet" href="__PUBLIC__/Mob/css/global.css" /> -->
+        <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+        <link rel="stylesheet" href="__PUBLIC__/Mob/css/toLearnAndOneDo/styles.css" />
+        <script src="__PUBLIC__/Mob/js/toLearnAndOneDo/base/jquery.js"></script>
+        <title>两学一做-列表页面</title>
+    </head>
+    <body class="g-full-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">两学一做</span>
+        </div>
+
+        <div class="g-content-container learn-and-do-list">
+            <img src="__PUBLIC__/Mob/images/toLearnAndOneDo/learn-and-do-top-banner.png" alt="" class="banner" />
+
+            <div class="categories">
+                <div class="item" href="http://www.12371.cn/special/dnfg/?from=singlemessage&isappinstalled=0">
+                    <i class="ico" style="background-image:url('__PUBLIC__/Mob/images/toLearnAndOneDo/learn-1.png')"></i><span class="title">学党章党规</span>
+                </div>
+                <div class="item" href="http://jhsjk.people.cn/">
+                    <i class="ico" style="background-image:url('__PUBLIC__/Mob/images/toLearnAndOneDo/learn-2.png')"></i><span class="title">学系列讲话 </span>
+                </div>
+            </div>
+
+            <div class="g-horizontal-scroll-list">
+                <div class="item" href="__ROOT__/Twolearnandonedo/Index/index?branchId=all">
+                    <i class="img" style="background-image:url('__PUBLIC__/Mob/images/toLearnAndOneDo/tips-1.jpg')"></i>
+                    <span class="name <if condition="$userBranchId == all">active</if>">全部支部</span>
+                </div>
+                <foreach name="branchs" item="v">
+                    <div class="item" href="__ROOT__/Twolearnandonedo/Index/index?branchId={$v.id}">
+                        <if condition="$v['cover']">
+                            <i class="img" style="background-image:url('{$v.cover}')"></i>
+                            <else/>
+                            <i class="img" style="background-image:url('__PUBLIC__/Mob/images/toLearnAndOneDo/tips-1.jpg')"></i>
+                        </if>
+                        <span class="name <if condition="$userBranchId == $v['id']">active</if>">{$v.name}</span>
+                    </div>
+                </foreach>
+            </div>
+
+            <div class="learn-and-do-data-list">
+                <if condition="$item">
+                <foreach  name="item" item="vo">
+                <div class="learn-and-do-data-item">
+                    <div class="top"><span class="date">{$vo.create_at|date="Y-m-d H:i:s",###}</span><span class="type one">{$types[$vo['type']]}</span></div>
+                    <div class="middle-content" href="__ROOT__/Twolearnandonedo/Index/info?id={$vo.id}">
+                        <i class="img" style="background-image:url('__PUBLIC__/Mob/images/toLearnAndOneDo/BranchCommittee.jpg')"></i>
+                        <div class="info">
+                            <p class="title">{$vo.theme}</p>
+                            <p class="bottom-text">
+                                <i class="avatar" style="background-image:url('__PUBLIC__/Mob/images/toLearnAndOneDo/avatar-male.png')"></i>
+                                <span class="author">{$vo.realname} {$vo.branch_name}</span>
+                                <i class="ico-read" style="background-image:url('__PUBLIC__/Common/img/read.png')"></i>
+                                <span class="read">{$vo.pageviews}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </foreach>
+                <else />
+                    <div class="g-no-data"></div>
+              </if>
+            </div>
+        </div>
+        <script>
+            $(".categories .item").click(function(){
+                jump($(this).attr("href"))
+            });
+            $(".learn-and-do-data-item .middle-content").click(function(){
+                jump($(this).attr("href"))
+            });
+            $(".g-horizontal-scroll-list .item").click(function(){
+                jump($(this).attr("href"))
+            });
+            //返回按钮
+           $('.back-btn').click(function(e) {
+                   // jump('__ROOT__/Mob/PartyWork/partyWork')
+                    history.go(-1)
+           })
+           function jump($url){
+               // window.location.href=$(this).attr("href");
+               window.location.href = $url
+           }
+        </script>
+        <script>
+            var activeEle = $(".g-horizontal-scroll-list .active");
+            if(activeEle.length){
+                var left = activeEle.offset().left;
+                $(".g-horizontal-scroll-list").scrollLeft(left-10);
+            }
+        </script>
+    </body>
+</html>

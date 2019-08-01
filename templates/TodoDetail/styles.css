@@ -1,0 +1,52 @@
+.todo-detail__title-with-ico {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.todo-detail__title-with-ico .ico {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: center/cover no-repeat;
+}
+
+.todo-detail__title-with-ico .title {
+    color: #333;
+}
+
+.todo-detail__info {
+    padding: 10px 0;
+}
+
+.todo-detail__info-item {
+    display: flex;
+    margin: 10px;
+}
+
+.todo-detail__info-item .title {
+    width: 8em;
+    color: #999;
+    text-align: right;
+}
+
+.todo-detail__info-item .content {
+    flex: 1 1;
+    word-break: break-all;
+}
+
+.todo-detail__info-item .content-line {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.todo-detail__bottom .btn {
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    background-color: #ce3d37;
+    border-radius: 5px;
+}

@@ -1,0 +1,37 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/grassroots/honor/honor.css">
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a onclick="history.go(-1);">
+                <div class="head_return"><i></i></div>
+                <div class="xinnav">荣誉奖励</div>
+            </a>
+        </header>
+    </div>
+
+    <div class="honor">
+        <div class="heart">
+
+            <ul>
+                <volist name="rewards" id="item">
+                    <li>
+                        <main>
+                            <section>
+                                <div><span>{$item.reward_date|date='Y-m',###}</span><span>{$item.level_name}</span></div>
+                                <div><p>{$item.name}</p></div>
+                            </section>
+                            <article>{$item.content|show_sub_title=50}</article>
+                            <a class = "edit" href="__ROOT__/Mob/Center/reward_edit?id={$item.id}"><img src="__IMG__/grassroots/personal/edit_red.png"/>编辑</a>
+                        </main>
+                    </li>
+                </volist>
+            </ul>
+            <a class = "more" href="__ROOT__/Mob/Center/reward_edit">添加更多荣誉奖励</a>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+</block>

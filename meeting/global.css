@@ -1,0 +1,366 @@
+html,
+body {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* 主题色 #CE3D37*/
+
+/* 页面容器 */
+.g-full-flex {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 顶部导航 */
+.g-nav-bar {
+    position: relative;
+    display: flex;
+    height: 42px;
+    background-color: #ce3d37;
+}
+
+.g-nav-bar .back-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 42px;
+    height: 42px;
+}
+
+.g-nav-bar .back-btn::before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.g-nav-bar .nav-title {
+    display: block;
+    width: 60%;
+    height: 42px;
+    line-height: 42px;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.g-nav-bar .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 42px;
+}
+
+/* 主内容容器 */
+.g-content-container {
+    flex: 1 1;
+    overflow-y: auto;
+}
+
+/* 头部标题 */
+.header {
+    margin: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.categories-title {
+    display: inline-block;
+    color: #ce3d37;
+}
+
+.header .title {
+    display: inline-block;
+}
+
+/* 简要信息 */
+.g-sub-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* 分割线 */
+.g-cutting-line {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+.g-cutting-line.m5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.g-cutting-line.m10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.g-cutting-line.m15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.g-cutting-line.m20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* 搜索框 */
+.g-search-box-with-bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    background: url("./images/search-bg.png") center/cover no-repeat;
+}
+
+.g-search-box-with-bg .content {
+    display: flex;
+    width: 70%;
+    height: 36px;
+    border-radius: 18px;
+    padding: 0 18px;
+    background-color: #fefefe;
+}
+
+.g-search-box-with-bg .search-input {
+    flex: 1 1;
+    min-width: 100px;
+    height: 36px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.g-search-box-with-bg .search-btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background: url("./icons/search-btn.png") center/ 50% 50% no-repeat;
+}
+
+.g-search-box-with-bg .search-btn::before {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 20px;
+    background-color: #ccc;
+}
+
+/* 小型搜索框 */
+.g-search-box-small {
+    position: relative;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+}
+
+.g-search-box-small .search-box {
+    position: relative;
+    width: 9em;
+    margin: 0 auto;
+    box-sizing: border-box;
+    transition: all 0.25s;
+}
+
+.g-search-box-small .search-btn {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background: url("./icons/ico-search.png") center/cover no-repeat;
+    transform: translateY(-50%);
+}
+
+.g-search-box-small .search-input {
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+    border: none;
+    outline: none;
+    line-height: 20px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: #333;
+    text-indent: 2em;
+    transition: all 0.25s;
+}
+
+.g-search-box-small.focus .search-box {
+    width: 100%;
+}
+
+/* 全宽tabs */
+.g-fill-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0px 3px 10px 0px rgba(51, 51, 51, 0.3);
+}
+
+.g-fill-tabs .item {
+    flex: 1 1;
+    padding: 10px 0;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid transparent;
+}
+
+.g-fill-tabs .item.active {
+    color: #ce3d37;
+    border-color: #ce3d37;
+}
+
+/* 附件列表 */
+.g-attachment-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.g-attachment-list .item {
+    position: relative;
+    margin-bottom: 10px;
+    width: 25vw;
+    text-align: center;
+    overflow: hidden;
+}
+
+.g-attachment-list .img {
+    display: block;
+    width: 25vw;
+    height: 25vw;
+    padding: 10px;
+    box-sizing: border-box;
+    background: center/75% 75% no-repeat;
+}
+
+.g-attachment-list .name {
+    display: block;
+    width: 100%;
+    padding: 0 10px;
+    line-height: 1;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 文件类型 */
+.g-attachment-list .img.jpg {
+    background-image: url("./icons/ico-jpg.png");
+}
+.g-attachment-list .img.png {
+    background-image: url("./icons/ico-png.png");
+}
+.g-attachment-list .img.gif {
+    background-image: url("./icons/ico-gif.png");
+}
+.g-attachment-list .img.word {
+    background-image: url("./icons/ico-word.png");
+}
+.g-attachment-list .img.ppt {
+    background-image: url("./icons/ico-ppt.png");
+}
+.g-attachment-list .img.excel {
+    background-image: url("./icons/ico-excel.png");
+}
+.g-attachment-list .img.pdf {
+    background-image: url("./icons/ico-pdf.png");
+}
+.g-attachment-list .img.video {
+    background-image: url("./icons/ico-video.png");
+}
+.g-attachment-list .img.audio {
+    background-image: url("./icons/ico-audio.png");
+}
+
+/* 新增按钮 */
+.g-attachment-list .add-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    padding: 0;
+    border-width: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.g-attachment-list .img.add {
+    background-image: url("./icons/ico-add.png");
+}
+
+/* 删除图片按钮 */
+.g-attachment-list .remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: url("./icons/ico-remove.png") center/cover no-repeat;
+}
+
+/* 水平可滚动列表 */
+.g-horizontal-scroll-list {
+    display: flex;
+    margin: 10px;
+    overflow-x: auto;
+}
+
+.g-horizontal-scroll-list .item {
+    width: 18vw;
+}
+
+.g-horizontal-scroll-list .item:not(:last-child) {
+    margin-right: 10px;
+}
+
+.g-horizontal-scroll-list .img {
+    display: block;
+    width: 18vw;
+    height: 18vw;
+    border-radius: 10px;
+    background: #ccc center/cover;
+}
+
+.g-horizontal-scroll-list .name {
+    display: block;
+    text-align: center;
+    width: 100%;
+    line-height: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.g-horizontal-scroll-list .name.active {
+    color: #ce3d37;
+}

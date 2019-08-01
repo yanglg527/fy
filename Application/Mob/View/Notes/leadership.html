@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>特色交流</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__STATICS__/font-awesome-4.7.0/css/font-awesome.min.css" />
+  </head>
+  <style type="text/css">
+    .tab_nav{
+      width:100%;
+      height: 5em;
+      background-image: url(__IMG__/notes/41.png);
+      background-size:cover;
+      text-align: center;
+      color: #fff;
+      font-size: 16px;
+    }
+    .tab_nav .left-nav{
+      width: 50%;
+      float: left;
+      margin-top: 1.5em;
+    }
+    .tab_nav .right-nav{
+      width: 50%;
+      float: right;
+      margin-top: 1.5em;
+    }
+    .tab_nav hr{
+      display: none;
+    }
+    .nav_active hr{
+       width: 10px;
+       border: 2px #fff solid;
+       display: block!important;
+    }
+    
+    .article_list{
+    margin: 10px;
+  }
+.article_list ul { 
+list-style-type: none; 
+width: 100%; 
+margin-bottom: 20px;
+} 
+.article_list h3 { 
+  font-weight: 400;
+  color: #333;
+  font-size: 100%;
+overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+} 
+.article_list li img { 
+float: left; 
+width: 25%;
+margin: 0 10px 0 0; 
+} 
+.article_list li p { 
+font-size: 12px;
+color: #757575;
+margin-top: 0.5rem;
+    line-height: 1.3em;
+} 
+.article_list a li { 
+/*margin:0px 10px; */
+padding: 10px 0px;
+overflow: auto; 
+border-top: 1px solid #dedede;
+} 
+.article_list li:hover { 
+background: #eee; 
+cursor: pointer; 
+}
+.article_list a{
+  text-decoration: none;
+}
+.loading_text{
+            color:#999;font-size:12px;
+        }
+  </style>
+
+  <body>
+    <include file="Common/_nav1"/>
+    <div class="tab_nav">
+      <div class="left-nav nav_active" onclick="change_list(3);">党建<hr/></div>
+      <div class="right-nav" onclick="change_list(4);">党风廉政<hr/></div>
+    </div>
+    <div id="left">
+      <div class="article_list">
+       <ul> 
+           
+            <div style="text-align:center" id="loading_div">
+               <span class="loading_text"></span>
+               <i class="fa fa-spinner fa-spin" style="display:none"></i>
+            </div>
+      </ul> 
+            
+    </div>
+    </div>
+    <div id="right" style="display:none;">
+      <div class="article_list">
+       <ul> 
+
+            <div style="text-align:center" id="loading_div">
+               <span class="loading_text"></span>
+               <i class="fa fa-spinner fa-spin" style="display:none"></i>
+            </div>
+      </ul> 
+            
+    </div>
+
+    </div>
+
+    <div style="display:none">
+      <div id="temp1">
+        <a href="__ROOT__/Mob/Notes/article?id=#id#">
+        <li alt="#time#"> 
+                  <img src="#img_url#-s.png" /> 
+                   <h3>#title#</h3> 
+                   <p>#content#</p> 
+                </li> 
+                </a>
+      </div>
+      <div id="temp2">
+        <a href="__ROOT__/Mob/Notes/article?id=#id#">
+        <li alt="#time#"> 
+                   <h3>#title#</h3> 
+                   <p>#content#</p> 
+                </li>
+                </a> 
+      </div>
+    </div>
+
+    <script src="__STATICS__/zepto/zepto.js"></script>
+    <script src="__STATICS__/zepto/event.js"></script>
+    <script src="__STATICS__/zepto/touch.js"></script>
+    <script type="text/javascript">
+        function change_list (tag_id) {
+          if (tag_id == 3) {
+            $(".left-nav").addClass('nav_active');
+            $(".right-nav").removeClass('nav_active');
+            $("#right").hide();
+            $("#left").show();
+            ajax_loading(tag_id);
+          }else if(tag_id == 4){
+            $(".left-nav").removeClass('nav_active');
+            $(".right-nav").addClass('nav_active');
+            $("#left").hide();
+            $("#right").show();
+            ajax_loading(tag_id);
+          };
+        }
+        $(window).load(function(){ 
+            ajax_loading(3);
+        });
+
+        function ajax_loading(tag_id){
+         var publish_time = 0;
+         if (tag_id == 3) {
+          var obj = $("#left .article_list");
+         }else if(tag_id == 4){
+          var obj = $("#right .article_list")
+         };
+         publish_time = obj.find("li").last().attr("alt");
+         $.ajax({
+                  data: {
+                      'tag_id':tag_id,
+                      'publish_time':publish_time,
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '__ROOT__/Mob/Notes/ajaxArticleLoading',
+                  beforeSend: function(){
+                    obj.find(".loading_text").text("");
+                    obj.find("i").show();
+                  },
+                  success: function (data) {
+                    obj.find("i").hide();
+                    if (data["status"] == 0) {
+                      if (data['data']) {
+                        var html = "";
+                        var html_tem ="";
+                        $.each(data['data'],function(i,vo){
+                            if (vo['cover_path'] == null || vo['cover_path'] == '') {
+                                html_tem = $("#temp2").html();
+                            }else{
+                                html_tem = $("#temp1").html();
+                                html_tem = html_tem.replace("#img_url#",vo['cover_path']);
+                            };
+                            html_tem = html_tem.replace("#id#",vo['id']);
+                            html_tem = html_tem.replace("#title#",vo['title']);
+                            html_tem = html_tem.replace("#content#",vo['content']);
+                            html_tem = html_tem.replace("#time#",vo['published_at']);
+                            html += html_tem;
+                        });
+                        obj.find("#loading_div").before(html);
+                      }else{
+              
+                        obj.find(".loading_text").text("没有更多了");
+                      };
+                    }else{
+                        alert('网络异常');
+                    };
+                    
+                  },
+                  error: function (data) {
+                    obj.find("i").addClass("hide");
+                    alert('网络异常');
+                  }
+              })
+          }
+          $(window).on("scroll",function(){
+            if ($(this).scrollTop() >= $(document).height() - $(this).height()) {
+                if( $("#right").css("display")=='none' && $("#left").find(".loading_text").text() != '没有更多了'){
+                    ajax_loading(3);
+                   }else if($("#left").css("display")=='none' && $("#right").find(".loading_text").text() != '没有更多了'){
+                    ajax_loading(4);
+                   }
+                }
+          })
+    </script>
+  </body>
+
+</html>

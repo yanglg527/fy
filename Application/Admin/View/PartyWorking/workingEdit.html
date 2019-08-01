@@ -1,0 +1,183 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">工委信息管理</strong></a> /
+                <small>
+                    <span>编辑</span>
+                    <span class="am-text-primary">{$detail.name}</span>
+                </small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="upload-form">
+                    <input type="hidden" name="id" value="{$detail.id}">
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            排序
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" class="am-input-sm" name="sort" value="{$detail.sort}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            工委名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="name" value="{$detail.name}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+                    </div>
+
+                    <volist name="posts" id="item">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                {$item.name}
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-6">
+                                <button type="button" data-name="{$item.name}" data-id="{$item.id}"
+                                        class="am-btn am-btn-xs am-btn-primary btn-post"
+                                        data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                                        style="width: 150px"><empty name="item.user.realname">点击选择职务人选<else/>{$item.user.realname}</empty>
+                                </button>
+                            </div>
+
+                            <input type="hidden" class="am-input-sm post" data-id="{$item.id}" name="post-{$item.id}"
+                                   value="{$item.user.uid}">
+
+                            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                        </div>
+                    </volist>
+                    <input type="hidden" name="adm_uid" value="">
+                </form>
+
+
+            </div>
+        </div>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+        </div>
+
+    </div>
+    <include file="PartyBranch/_adm_selecter"/>
+</block>
+<block name="scripts">
+    <script>
+        var type = 'normal';
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){ // enter 键
+                //要做的事情
+                submit_info();
+
+            }
+        };
+        function getUsers() {
+
+            var   keyword = $('#selector-search-input2').val();
+            $('#select-content2').html("加载中...");
+
+            $.ajax({
+                url: '__ROOT__/Admin/PartyWork/ajaxGetAdms',
+                type: 'POST', //GET
+                data: {id:'{$organization_id}',keyword: keyword,uid:'{$detail.uid}'},  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    $('#select-content2').html("");
+
+                    if (data.status == 0) {
+                        var html = "";
+
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        $('#select-content2').html(html);
+
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    $('#select-content2').html("服务器暂时无法连接，请稍候再试");
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+
+        $('#selector-btn-search2').click(function () {
+            getUsers()
+        })
+
+        $('#doc-modal-2').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            $('input[name="adm_uid"]').val(uid);
+            $('.btn-post2').text(realname);
+            $('#doc-modal-2').modal('close');
+
+        })
+
+    </script>
+
+
+    <script type="text/javascript">
+
+
+        function submit_info() {
+            var data = $('#upload-form').serialize();
+            // console.log(data);
+            $.ajax({
+                data: data,
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/PartyWorking/ajaxSave',
+                beforeSend: function () {
+                    loading();
+                },
+                success: function (data) {
+                    // console.log(data);
+                    if (data['status'] == 0) {
+                        self.location=document.referrer;
+                    } else {
+                        close_loading();
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal("网络连接有误");
+                }
+            })
+        }
+        ;
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+
+    </script>
+</block>

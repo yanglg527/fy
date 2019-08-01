@@ -1,0 +1,502 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .header-div{
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            border-radius:60px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+        }
+        .header-div img{
+            width:60px;
+            height:60px;
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        .user-infos{
+            margin-top: 5px;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .item{
+            width: 100%;
+            height: 90px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .time-zhou{
+            height: 100%;
+            float: left;
+        }
+
+        .item-sub{
+            height: 100%;
+            margin-left: 20px;
+            border-bottom: 1px solid #E8E8E8;
+            position: relative;
+        }
+
+        .date{
+            position: absolute;
+            left: 0px;
+            top: 13px;
+            height: 16px;
+            line-height: 16px;
+            padding: 0px 4px;
+            font-size: 12px;
+            color: white;
+            background: #35B7DD;
+            border-radius: 7px;
+        }
+
+        .item-content{
+            position: absolute;
+            left: 0px;
+            top: 17px;
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+
+        .item-intro{
+            position: absolute;
+            left: 0px;
+            top: 43px;
+            font-size: 14px;
+            color: #aaaaaa;
+
+            width: 90%;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .btn-text{
+            position: absolute;
+            right: 20px;
+            top: 37px;
+            bottom: 0px;
+            margin: auto;
+            font-size: 13px;
+            color: #999999;
+        }
+
+
+        .am-tabs-d2 .am-tabs-nav a {
+            color: #aaaaaa;
+        }
+        .am-tabs-bd {
+            margin-top: 10px;
+            border: 0px;
+            background: white;
+            padding: 0px;
+        }
+        .am-tabs-bd .am-tab-panel{
+            padding: 10px 0px;
+        }
+
+       .agree{
+           color: #5eb95e;
+           float: right;
+       }
+        .disagree{
+            color: #bb0000;
+            float: right;
+        }
+        .am-comments-list .am-comment{
+            margin-bottom: 10px; !important;
+        }
+
+    </style>
+</block>
+<block name="content">
+    <a href="__ROOT__/Home/Branch/partyInfo?uid={$detail.uid}">
+        <div style="background: url('__IMG__icon_history_bg.png') 100% 100%; padding: 15px 0px">
+            <div class="header-div">
+                <img src="__IMG__headImg.jpg">
+            </div>
+            <div class="user-infos">
+                <span>{$officialUser.realname}</span>
+                <span style="margin-left: 5px;">{$officialUser.score}积分</span>
+            </div>
+            <div style="width: 100%; text-align: center">
+                <if condition="$adviceStatus eq 2">
+                    <button id="btn-disagree" type="button" class="am-btn am-btn-primary am-btn-sm am-round" style="width: 120px; margin: 15px 3px 5px 3px;">反对转正</button>
+                    <button id="btn-agree" type="button" class="am-btn am-btn-primary am-btn-sm am-round" style="width: 120px; margin: 15px 3px 5px 3px;">同意转正</button>
+                <elseif condition="$adviceStatus eq 1"/>
+                    <button type="button" class="am-btn am-btn-success am-btn-sm am-round" style="width: 120px; margin: 15px 3px 5px 3px;">你已同意</button>
+                <else/>
+                    <button type="button" class="am-btn am-btn-danger am-btn-sm am-round" style="width: 120px; margin: 15px 3px 5px 3px;">你已反对</button>
+                </if>
+            </div>
+        </div>
+    </a>
+
+
+    <div data-am-widget="tabs" class="am-tabs am-tabs-d2" id="doc-my-tabs" style="margin: 0px">
+        <ul class="am-tabs-nav am-cf">
+            <li class="am-active" style="background-color: white"><a href="[tab-0]">意见征集</a></li>
+            <li class="" style="background-color: white;"><a href="[tab-1]">党员发展</a></li>
+            <li class="" style="background-color: white"><a href="[tab-2]">学习台账</a></li>
+        </ul>
+        <div class="am-tabs-bd">
+            <!-- 意见统计 -->
+            <div tab-0 class="am-tab-panel am-active">
+                <!-- 意见征集情况统计图 -->
+                <div id="pay-info" style="border-bottom: 1px solid #E8E8E8; padding-bottom: 15px"></div>
+                <!-- 意见列表 -->
+                <ul class="am-comments-list am-comments-list-flip" style="padding: 0px 5px" id="adviceList">
+                    <!--<li class="am-comment">-->
+                        <!--&lt;!&ndash;<a href="">&ndash;&gt;-->
+                            <!--<img class="am-comment-avatar" alt="" src="__IMG__/headImg.jpg"/> &lt;!&ndash; 评论者头像 &ndash;&gt;-->
+                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                        <!--<div class="am-comment-main">-->
+                            <!--<header class="am-comment-hd">-->
+                                <!--<div class="am-comment-meta"> &lt;!&ndash; 评论元数据 &ndash;&gt;-->
+                                    <!--<span class="am-comment-author">廉价换</span> &lt;!&ndash; 评论者 &ndash;&gt;-->
+                                    <!--<time datetime="">2016-12-12</time>-->
+                                    <!--<span class="agree am-icon-thumbs-up"> 同意</span>-->
+                                <!--</div>-->
+                            <!--</header>-->
+                            <!--<div class="am-comment-bd">强烈支持转正</div> &lt;!&ndash; 评论内容 &ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</li>-->
+                </ul>
+                <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text-1"><i id="loading-icon-1" class="am-icon-spinner am-icon-spin"></i></div>
+            </div>
+
+            <!-- 党员发展 返回页面时连带返回所有数据-->
+            <div tab-1 class="am-tab-panel ">
+                <volist name="list" id="item">
+                    <div class="item" style="clear: both">
+                        <img class="time-zhou" src="__IMG__icon_time_zhou.png"/>
+                        <div class="item-sub">
+                            <p class="date">{$item.create_time|date="Y-m-d",###}</p>
+                            <p class="item-content">{$item.title}</p>
+                            <p class="item-intro">{$item.intro|show_sub_title}</p>
+                            <!--<span class="btn-text">查看 > </span>-->
+                            <if condition="$item.type eq 0">
+                                <a href="__ROOT__/Home/User/mySpaceDetail?id={$item.id}&isOthers={$isOthers}" class="btn-text">查看 > </a>
+                            </if>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+
+            <!-- 学习台账 自动ajax加载,上拉加载更多 -->
+            <div tab-2 class="am-tab-panel">
+                <div id="list"></div>
+                <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text-2"><i id="loading-icon-2" class="am-icon-spinner am-icon-spin"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹出评论表单 -->
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+        <div class="am-modal-dialog">
+            <!--<div class="am-modal-hd">Amaze UI</div>-->
+            <div class="am-modal-bd" style="">
+                <textarea id="comment" class="am-modal-prompt-input" style="height: 80px" placeholder="说点什么吧..."></textarea>
+                <input type="hidden" id="advice">
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="scripts">
+
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/echart/echarts.min.js"></script>
+    <script type="text/javascript">
+        var div_width = $(document).width();
+        var div_height = div_width*5/8;
+        $('#pay-info').width(div_width);
+        $('#pay-info').height(div_height);
+
+        var payChart = echarts.init(document.getElementById('pay-info'));
+        payoption = {
+            title : {
+                text: '意见征集情况',
+                x:'center',
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+//            legend: {
+//                orient: 'vertical',
+//                left: 'left',
+//                bottom:'bottom',
+//                data: ['同意人数','反对人数','未投人数']
+//            },
+            series : [
+                {
+                    name: '人数及占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:"{$detail.agree_count}", name:'同意人数'},
+                        {value:"{$detail.disagree_count}", name:'反对人数'},
+                        {value:"{$notAdviceCount}", name:'未投人数'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        payChart.setOption(payoption);
+    </script>
+
+    <script type="text/javascript">
+        var uid = "{$detail.uid}"
+        var collectId = "{$collectId}";
+        var type_name = 1; // 当前选中标签页(1:意见征集页； 2:学习台账页)
+
+        var create_time_1 = 0; // 意见列表动态加载控制变量
+        var is_loading_1 = 1;  // 意见列表动态加载控制变量
+
+        var create_time_2 = 0;  // 学习台账动态加载控制变量
+        var is_loading_2 = 1;   // 学习台账动态加载控制变量
+        var isFirst = true;   // 学习台账动态加载控制变量
+
+        $(function() {
+            $('#doc-my-tabs').tabs();
+        })
+
+        $(window).load(function(){
+            ajax_loading();
+        });
+
+        $('#doc-my-tabs').find('a').on('opened.tabs.amui', function(e) {
+            if ($(this).text() == '意见征集') {
+                type_name = 1;
+            }else if ($(this).text() == '学习台账') {
+                type_name = 2;
+                if(isFirst){
+                    isFirst = false;
+                    ajax_loading();
+                }
+            }
+        })
+
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    if (type_name == 1 && is_loading_1 == 1) {
+                        is_loading_1 = 0;
+                        $("#loading-text-1").html('');
+                        $('#loading-icon-1').show();
+                        ajax_loading();
+                    }else if(type_name == 2 && is_loading_2 == 1){
+                        is_loading_2 = 0;
+                        $("#loading-text-2").html('');
+                        $('#loading-icon-2').show();
+                        ajax_loading();
+                    };
+                }
+            });
+        });
+
+        function ajax_loading(){
+            var ajaxUrl;
+            var ajaxData;
+            if(type_name == 1){
+                ajaxUrl = '__ROOT__/Home/Work/ajaxLoadingOfficialCollectDetail';
+                ajaxData = {'collectId':collectId, 'create_time':create_time_1,};
+            }else if(type_name == 2){
+//                alert("uid = " + uid);
+                ajaxUrl = '__ROOT__/Home/Study/ajaxStandingBookLoading';
+                ajaxData = { 'type':0,  'create_time':create_time_2, 'uid':uid};
+            }
+            $.ajax({
+                data: ajaxData,
+                type: 'POST',
+                dataType: 'json',
+                url: ajaxUrl,
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var html_content = '';
+                            if(type_name == 1){
+                                $.each(data['data'],function(i,vo)
+                                {
+                                    var createTimeString = new Date(vo.create_time*1000).Format("yyyy-MM-dd");
+                                    html_content = '';
+                                    html_content += '<li class="am-comment">' +
+                                                        '<img class="am-comment-avatar" src="' + get_head_url(vo.headimgurl) + '"/>' +
+                                                        '<div class="am-comment-main">' +
+                                                            '<header class="am-comment-hd">' +
+                                                                '<div class="am-comment-meta">' +
+                                                                    '<span class="am-comment-author">' + vo.user_realname + '</span>' +
+                                                                    '<time datetime="" style="margin-left: 5px">' + createTimeString + '</time>';
+
+                                    if(vo.advice == 1){
+                                        html_content +=  '<span class="agree am-icon-thumbs-o-up"> 同意</span>';
+                                    }else{
+                                        html_content +=  '<span class="disagree am-icon-thumbs-o-down"> 反对</span>';
+                                    }
+                                    html_content +=  '</div>' +  '</header>' +
+                                            '<div class="am-comment-bd">' + vo.comment + '</div>'+ '</div>' + '</li>';
+
+
+
+
+
+                                    $('#adviceList').append(html_content);
+                                    create_time_1 = vo.create_time;
+                                });
+                                is_loading_1 = 1;
+                                $('#loading-icon-1').hide();
+                            }else if(type_name == 2){
+                                $.each(data['data'],function(i,vo)
+                                {
+                                    var createTimeString = new Date(vo.create_time*1000).Format("yyyy-MM-dd");
+                                    var attendTimeString = new Date(vo.attend_time*1000).Format("yyyy-MM-dd");
+                                    html_content = '';
+                                    html_content += '<a style="width: 100%" href="' + __root__ + '/Home/Study/standingBookDetail?id=' + vo.id + '&isOthers=1">' +
+                                                        '<div class="item">' +
+                                                            '<img class="time-zhou" src="__IMG__icon_time_zhou.png"/>' +
+                                                            '<div class="item-sub">' +
+                                                                '<p class="date">' + createTimeString + '</p>' +
+                                                                '<p class="item-content">' + vo.theme + '</p>' +
+                                                                '<p class="item-intro">举办日期：' + attendTimeString + '</p>' +
+                                                                '<span class="btn-text">查看 > </span>' +
+                                                            '</div>' +
+                                                        '</div>' +
+                                                    '</a>';
+
+                                    $('#list').append(html_content);
+                                    create_time_2 = vo.create_time;
+                                });
+                                is_loading_2 = 1;
+                                $('#loading-icon-2').hide();
+                            }
+                        }else{
+                            if(type_name == 1){
+                                is_loading_1 = 1;
+                                $('#loading-icon-1').hide();
+                                $("#loading-text-1").html('没有更多了');
+                            }else if(type_name == 2){
+                                is_loading_2 = 1;
+                                $('#loading-icon-2').hide();
+                                $("#loading-text-2").html('没有更多了');
+                            }
+                        }
+                    } else {
+                        if(type_name == 1){
+                            alert_modal(data['msg']);
+                            is_loading_1 = 1;
+                            $('#loading-icon-1').hide();
+                        }else if(type_name == 2){
+                            alert_modal(data['msg']);
+                            is_loading_2 = 1;
+                            $('#loading-icon-2').hide();
+                        }
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        }
+
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+
+    <script>
+        $(function() {
+            $('#btn-agree').click(function() {
+//            alert_modal("同意");
+//                $('#my-prompt').modal();
+                $('#advice').val(1);
+                showPrompt();
+                return false;
+            });
+
+
+            $('#btn-disagree').click(function(){
+//                alert_modal("反对");
+//                $('#my-prompt').modal();
+                $('#advice').val(0);
+                showPrompt();
+                return false;
+            });
+
+            function showPrompt(){
+                $('#my-prompt').modal({
+                    relatedTarget: this,
+                    onConfirm: function(e) {
+                        var adviceStatus = $('#advice').val();
+                        var comment = $('#comment').val();
+//                        alert('advice = ' + adviceStatus + " comment = " + comment);
+                        $.ajax({
+                            data: {
+                                id:collectId,
+                                advice:adviceStatus,
+                                comment:comment
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            url: "__ROOT__/Home/Work/ajaxSubmitOfficialAdvice",
+                            success: function (data) {
+//                                alert_modal(data['msg']);
+                                if(data['status'] == 0){
+                                    window.location.href = window.location.href;
+                                }else {
+                                    alert_modal(data['msg']);
+                                }
+                            },
+                            error: function (data) {
+                                alert_modal('网络异常');
+                            }
+                        })
+                    },
+                    onCancel: function(e) {
+//                        alert('不想说!');
+                    },
+                });
+            }
+
+
+        });
+
+    </script>
+
+</block>

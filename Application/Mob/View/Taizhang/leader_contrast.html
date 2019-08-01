@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" />
+    <title>领导积分大比拼</title>
+    <!-- 引入 echarts.js -->
+    <link rel="stylesheet" href="__STATICS__/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/Common/css/public.css">
+    <link rel="stylesheet" href="__PUBLIC__/Mob/css/ExpensesPay/global.css" />
+</head>
+<style type="text/css">
+    body{
+        background-color: #eee;
+    }
+    .top-content{
+        background: url("__ROOT__/Public/Experiment/icon_bg.png");
+        /*background-size: 100%;*/
+        width: 100%;
+        padding-bottom: 10px;
+    }
+    .userinfo{
+        text-align: center;
+        padding-top: 35px;
+    }
+    .userinfo img{
+        border-radius:50%;
+        width: 70px;
+    }
+    .userinfo p{
+        color: #fff;
+        margin: 1px 0px 0px 0px;
+    }
+    .userinfo span{
+        border-radius:3px;
+        border:1px solid #fdd540;
+        font-size: 12px;
+        padding: 1px;
+        color: #fdd540;
+    }
+    .middle-content{
+        text-align: center;
+        background-color: #fff;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .middle-content img{
+        height: 40px;
+        width: 40px;
+        vertical-align: sub;
+    }
+    .middle-content span{
+        font-size: 35px;
+        color: #FF8F17;
+        line-height: 40px;
+    }
+    .intro-text{
+        color: #999999;
+        font-size: 12px;
+        background-color: #fff;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        padding: 7px 0px;
+    }
+    .list{
+        /*margin-top: 20px;*/
+        background-color: #fff;
+    }
+    .list .item{
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+    }
+    .list .item .number{
+        width: 50px;
+        text-align: center;
+        float: left;
+    }
+    .list .item .number img{
+        width: 35px;
+        margin-top: 10px;
+        margin-bottom: 6px;
+    }
+    .list .item .number span{
+        color: #999;
+        font-size: 16px;
+        margin-top: 10px;
+        line-height: 55px;
+        font-weight:bold;
+    }
+    .item-user{
+        float: left;
+    }
+    .item-user img{
+        width: 35px;
+        margin-top: 10px;
+        /*vertical-align: center;*/
+
+    }
+    .item-user span{
+        color: #242928;
+        font-size: 16px;
+        line-height: 40px;
+        vertical-align: -webkit-baseline-middle;
+    }
+    .item-integral{
+        float: right;
+        text-align: center;
+        margin-right: 15px;
+    }
+    .item-integral .integral{
+        margin: 6px 0px 0px 0px;
+        font-size: 17px;
+        color: #FF8F17;
+        padding-bottom: 0px;
+    }
+    .item-integral .text{
+        margin: 0px;
+        font-size: 12px;
+        color: #ccc;
+        margin-top: -8px;
+    }
+</style>
+<body>
+<div class="g-nav-bar">
+    <div class="back-btn" onclick="history.go(-1);"></div>
+    <span class="nav-title">领导积分排名</span>
+</div>
+<div class="list">
+    <volist name="list" id="vo">
+        <a href="__ROOT__/Mob/PartyServe/integral?uid={$vo.uid}">
+        <div class="item" id="{$vo.uid}">
+            <div class="number">
+
+                <if condition="$i eq 1">
+                    <img src="__IMG__/party_group/icon_The1.png">
+                    <elseif condition="$i eq 2" />
+                    <img src="__IMG__/party_group/icon_The2.png">
+                    <elseif condition="$i eq 3" />
+                    <img src="__IMG__/party_group/icon_The3.png">
+                    <elseif condition="$i eq 4" />
+                    <img src="__IMG__/party_group/icon_The4.png">
+                    <elseif condition="$i eq 5" />
+                    <img src="__IMG__/party_group/icon_The5.png">
+                    <else/>
+                    <span>{$i}</span>
+                </if>
+            </div>
+            <div class="item-user">
+                <img class="am-circle" src="{$vo.headimgurl|get_head_url}" />
+                <span>{$vo.realname}</span>
+
+            </div>
+            <div class="item-integral">
+                <if condition="$vo.score eq null || $vo.score eq ''">
+                    <p class="integral">0</p>
+                    <else/>
+                    <p class="integral">{$vo.score|round}</p>
+
+                </if>
+                <p class="text">积分</p>
+            </div>
+        </div>
+        </a>
+    </volist>
+</div>
+</body>
+</html>

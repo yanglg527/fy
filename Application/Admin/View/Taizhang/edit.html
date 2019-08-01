@@ -1,0 +1,832 @@
+<extend name="./Application/Admin/View/Common/base.html" />
+<block name="styles">
+  <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="__STATICS__/diyUpload/css/globle.css" />
+  <style type="text/css">
+    .uplosd_image {
+      height: 120px !important;
+      width: 180px !important;
+    }
+
+    .info-cover {
+      width: 180px;
+      height: 120px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    .info-cover-span {
+      background-color: rgba(0, 0, 0, 0.3);
+      position: absolute;
+      bottom: 0px;
+      margin: 0 !important;
+      /* margin-left: 10px !important; */
+      font-size: 14px !important;
+      width: 180px;
+      text-align: center;
+      color: white !important;
+      cursor: pointer;
+    }
+
+    .hidden_div {
+      display: none;
+    }
+  </style>
+</block>
+<block name="content">
+  <div class="admin-content-body">
+
+    <div class="am-cf am-padding am-padding-bottom-0">
+
+      <div class="am-fl am-cf">
+        <a href="#" onclick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg" aizhang="">台帐管理</strong></a>
+        /
+        <small>
+          新增台帐
+        </small>
+      </div>
+
+    </div>
+
+    <hr />
+
+    <div class="am-tabs-bd" style="margin:20px;    border: 1px solid #ddd;">
+
+      <div class="am-tab-panel am-fade am-in am-active">
+
+        <div class="am-form" id="upload-form">
+
+          <input type="hidden" id="item_id" value="{$item.id}">
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+              主题
+            </div>
+            <div class="am-u-sm-8 am-u-md-6">
+              <input type="text" id="title" value="{$item.title}" class="am-input-sm" />
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help">
+              *必填，长度不超过50字符。
+            </div>
+          </div>
+
+          <if condition="$item.type eq 2">
+
+            <div class="am-g am-margin-top-sm">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">党委</div>
+              <div class="am-u-sm-6 am-u-md-4 ">
+                <select id="party_organization">
+                  <volist name="party_organization" id="vo">
+                    <option value="{$vo.id}" <if condition="$item.organization_id eq $vo['id']">selected = "selected"
+          </if>>{$vo.name}</option>
+          </volist>
+          </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+      </div>
+
+      </if>
+
+      <if condition="$item.type neq 2">
+        <div class="am-g am-margin-top-sm">
+          <div class="am-u-sm-4 am-u-md-2 am-text-right">台账主体人员</div>
+          <div class="am-u-sm-8 am-u-md-10">
+            <button type="button" data-name="{$item.user_realname}" data-id="{$item.id}" class="am-btn am-btn-xs am-btn-primary btn-post"
+              data-am-modal="{target: '#user-modal-1', closeViaDimmer: 0, width: 500, height: 600}" style="width: 150px">
+              <if condition="$item.uid == null || $item.uid == '' ">
+                <?php if($item['uid'] == null ||$item['uid'] == ''){
+                echo '点击选择台账主体人员';
+             }else{
+               echo $item['user_realname'];
+             }
+             ?>
+
+
+            </button>
+          </div>
+        </div>
+        <input type="hidden" id="user_uid" value="{$item.uid}">
+      </if>
+
+
+
+      <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          台账类型
+        </div>
+        <div class="am-u-sm-6 am-u-md-2">
+          <if condition="$item.type eq 1">
+            <p id="type" data-id="1">个人台账</p>
+            <elseif condition="$item.type eq 2" />
+            <p id="type" data-id="2">党组台账</p>
+            <elseif condition="$item.type eq 3" />
+            <p id="type" data-id="3">领导台账</p>
+            <elseif condition="$item.type eq 4" />
+            <p id="type" data-id="4">支部台账</p>
+          </if>
+        </div>
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+      </div>
+
+      <!-- <div class="am-g am-margin-top-sm"> 
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          指标 
+        </div> 
+        <div class="am-u-sm-6 am-u-md-4"> 
+           <select id="norm">
+            <volist name="norms" id="vo">
+              <option value="{$vo.id}" <if condition="$item.norm_id eq $vo['id']">selected = "selected"</if>>{$vo.title}</option>
+             </volist>
+            </select>
+        </div> 
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div> 
+       </div>  -->
+
+      <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          标签
+        </div>
+        <div class="am-u-sm-6 am-u-md-4">
+          <select id="tag">
+            <volist name="tags" id="vo">
+              <option value="{$vo.id}" <if condition="$item.tag_id eq $vo['id']">selected = "selected"</if>>{$vo.title}</option>
+            </volist>
+          </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+      </div>
+
+      <!-- <div class="am-g am-margin-top-sm"> 
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          类别 
+        </div> 
+        <div class="am-u-sm-6 am-u-md-4"> 
+           <select id="spec">
+              <option value="0" <if condition="$item.type2 eq 0">selected = "selected"</if>>创新动作</option>
+              <option value="1" <if condition="$item.type2 eq 1">selected = "selected"</if>>规定动作</option>
+            </select>
+        </div> 
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div> 
+       </div>  -->
+
+      <!-- <div class="am-g am-margin-top-sm"> 
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          选择模板 
+        </div> 
+        <div class="am-u-sm-6 am-u-md-4"> 
+           <select id="temp">
+              <option value="1" <if condition="$item.template_id eq 1">selected = "selected"</if>>模板一</option>
+              <option value="2" <if condition="$item.template_id eq 2">selected = "selected"</if>>模板二</option>
+            </select>
+        </div> 
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div> 
+       </div>  -->
+
+      <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          单位
+        </div>
+        <div class="am-u-sm-6 am-u-md-4">
+          <input type="text" id="party_name" value="{$item.party_name}" class="am-input-sm" />
+        </div>
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+      </div>
+
+      <!-- <div class="am-g am-margin-top-sm"> 
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          主要负责人 
+        </div> 
+        <div class="am-u-sm-6 am-u-md-4"> 
+         <input type="text" id="publish_name" value="{$item.publish_name}" class="am-input-sm" /> 
+        </div> 
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div> 
+       </div>  -->
+
+      <!-- <div class="am-g am-margin-top-sm"> 
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          时间 
+        </div> 
+        <div class="am-u-sm-6 am-u-md-4"> 
+         <input type="text" id="publish_time" value="{$item.publish_time}" class="am-input-sm" /> 
+        </div> 
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div> 
+       </div>  -->
+
+      <div class="am-g am-margin-top-sm">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          地点
+        </div>
+        <div class="am-u-sm-6 am-u-md-4">
+          <input type="text" id="address" value="{$item.address}" class="am-input-sm" />
+        </div>
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+      </div>
+
+      <div class="am-g am-margin-top-sm"> 
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          内容 
+        </div> 
+        <div class="am-u-sm-6 am-u-md-4"> 
+         <!-- <input type="text" id="address" value="" class="am-input-sm" />  -->
+         <textarea name="" id="tz_content" cols="30" rows="10">{$item.tz_content}</textarea>
+        </div> 
+        <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div> 
+       </div> 
+
+      <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+          图片上传
+        </div>
+        <div class="am-u-sm-6 am-u-md-4">
+          <ul class="upload-ul clearfix">
+            <volist name="item.pic_arr" id="items">
+              <!-- <li class="upload-pick">
+                              <div class="webuploader-container clearfix" id="goodsUpload"></div>
+                          </li> -->
+              <li id="imgdone_{$items.id}" class="diyUploadHover ">
+                <div class="viewThumb">
+                  <input type="hidden">
+                  <div class="diyBar">
+
+                    <div class="diyProgress">0%</div>
+                  </div>
+                  <p class="diyControl">
+
+                    <span class="diyCancel" onclick="img_cancel({$items.id})"><i></i></span>
+
+                  </p>
+                  <img src="{$items.image}" alt="" id="{$items.id}">
+                </div>
+              </li>
+            </volist>
+            <li class="upload-pick">
+              <div class="webuploader-container clearfix" id="goodsUpload"></div>
+            </li>
+          </ul>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+        <script>
+          function img_cancel(id) {
+
+            $('#imgdone_' + id).remove();
+          }
+
+        </script>
+      </div>
+
+      <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">是否启用</div>
+        <div class="am-u-sm-8 am-u-md-10">
+          <div class="am-btn-group" data-am-button>
+            <label class="am-btn am-btn-default am-btn-xs">
+              <input type="radio" name="hidden" id="option1" value=2 <if condition="$item.status == 2 ">checked</if>>
+              审核通过
+            </label>
+            <label class="am-btn am-btn-default am-btn-xs">
+              <input type="radio" name="hidden" id="option2" value=0 <eq name="item.status" value="0">checked</eq>> 未审核
+            </label>
+            <label class="am-btn am-btn-default am-btn-xs">
+              <input type="radio" name="hidden" id="option3" value=1 <if condition="$item.status == 1 ">checked</if>>
+              审核未通过
+            </label>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+      <div class="am-margin">
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="submit_info();">提交保存</button>
+        <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="am-modal" tabindex="-1" id="add_content_modal">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd" style='border-bottom:1px solid #ccc' id="add_content_modal_title"></div>
+      <div class="am-modal-bd">
+        <div class="am-form">
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-3 am-text-right">文章封面</div>
+            <div class="am-u-sm-8 am-u-md-8">
+              <div class="am-form-group am-form-file">
+                <input type="hidden" name="img_url" id="upload_img_path" value="">
+                <div class="uplosd_image" id="info-cover">
+                  <img src="{$article.cover_path|show_img}" id="upload_img_show" class="info-cover" />
+                  <span class="info-cover-span">点击选择封面</span>
+                </div>
+              </div>
+            </div>
+            <div class="am-hide-sm-only am-u-md-1 am-form-help"></div>
+          </div>
+          <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-3 am-text-right">
+              详细内容
+            </div>
+            <div class="am-u-sm-8 am-u-md-9">
+              <textarea class="" rows="5" id="content"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="am-modal-footer">
+        <!-- <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn" data-am-modal-confirm>提交</span> -->
+        <span class="am-modal-btn" onclick="cancel_model()">取消</span>
+        <span class="am-modal-btn" onclick="confirm_model()">提交</span>
+      </div>
+    </div>
+  </div>
+  <div style="display:none">
+    <div id="temp1">
+      <div class="am-u-sm-3 content_data" data-type="temp1" alt="#id#">
+        <div class="am-thumbnail">
+          <img src="#img_url#" alt="#save_img_url#" class="data_img" />
+          <div class="am-thumbnail-caption">
+            <p style='font-size:12px;' class="data_content">#content#</p>
+            <button class="am-btn am-btn-default am-btn-xs" onclick="edit_content(this)">修改</button> <button class="am-btn am-btn-default am-btn-xs"
+              onclick='del_content(this)'>删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="temp2">
+      <div class="am-u-sm-3 content_data" data-type="temp2" alt="#id#">
+        <div class="am-thumbnail">
+          <div class="am-thumbnail-caption">
+            <p style='font-size:12px;' class="data_content">#content#</p>
+            <button class="am-btn am-btn-default am-btn-xs" onclick="edit_content(this)">修改</button> <button class="am-btn am-btn-default am-btn-xs"
+              onclick='del_content(this)'>删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="temp3">
+      <div class="am-thumbnail">
+        <img src="#img_url#" alt="#save_img_url#" class="data_img" />
+        <div class="am-thumbnail-caption">
+          <p style='font-size:12px;' class="data_content">#content#</p>
+          <button class="am-btn am-btn-default am-btn-xs" onclick="edit_content(this)">修改</button> <button class="am-btn am-btn-default am-btn-xs"
+            onclick='del_content(this)'>删除</button>
+        </div>
+      </div>
+    </div>
+    <div id="temp4">
+      <div class="am-thumbnail">
+        <div class="am-thumbnail-caption">
+          <p style='font-size:12px;' class="data_content">#content#</p>
+          <button class="am-btn am-btn-default am-btn-xs" onclick="edit_content(this)">修改</button> <button class="am-btn am-btn-default am-btn-xs"
+            onclick='del_content(this)'>删除</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <include file="_add_upload" />
+  <include file="_user_selecter" />
+</block>
+<block name="scripts">
+  <script src="__STATICS__/cropper/cropper.min.js"></script>
+  <script src="__STATICS__/diyUpload/js/webuploader.min.js"></script>
+  <script src="__STATICS__/diyUpload/js/diyUpload.js"></script>
+
+  <script>
+    //初始判断刚进来的时候是否有图片
+    img_flag = false;
+    if ($('.upload-ul').find('li').length > 1) {
+      img_flag = true;
+    }
+    console.log(img_flag)
+    //上传图片
+
+    var $tgaUpload = $('#goodsUpload').diyUpload({
+
+      success: function (data) { },
+      error: function (err) { },
+      buttonText: '',
+      accept: {
+        title: "Images",
+        extensions: 'gif,jpg,jpeg,bmp,png'
+      },
+      thumb: {
+        width: 500,
+        height: 500,
+        quality: 100,
+        allowMagnify: true,
+        crop: false,
+        type: "image/jpeg"
+      },
+
+    });
+
+
+    function uploadImg(id, flag) {
+      if (id == '') {
+        return false;
+      }
+      var arr = Array();
+      var already_save_arr = Array();
+      var j = 0;
+      $('.viewThumb').children('img').each(function (index, el) {
+
+        console.log($(this).attr('id'))
+        if ($(this).attr('id') == undefined) {
+          arr[index] = $(this).attr('src');
+        } else {
+
+          already_save_arr[j] = $(this).attr('id');  //对比是否有删减
+          j++;
+        }
+
+
+      })
+      console.log(already_save_arr)
+      $.ajax({
+        data: { id: id, img: arr, already_save_arr: already_save_arr },
+        type: 'POST',
+        dataType: 'json',
+        url: '__ROOT__/Admin/Taizhang/saveImg',
+
+        success: function (data) {
+          console.log(data)
+                   self.location = document.referrer;
+          //   loading_page(__root__ + '/Admin/Taizhang/index1');
+        },
+        error: function (data) {
+          close_loading();
+          alert_modal(data.msg);
+        }
+      })
+
+    }
+  </script>
+  <script type="text/javascript">
+    var type = '';
+    var div_obj;
+    var cz_type = '';
+
+    function add_content(data_type, text) {
+      type = data_type;
+      cz_type = 'add';
+      $("#add_content_modal_title").text(text);
+      $("#upload_img_show").attr("src", "{$article.cover_path|show_img}");
+      $("#upload_img_path").val("");
+      $("#content").val("");
+      $('#add_content_modal').modal();
+      // $('#add_content_modal').modal({
+      //    relatedTarget: this,
+      //     onConfirm: function(e) {
+      //      var image_path=$("#upload_img_path").val();
+      //      var html='';
+      //      if (image_path == null || image_path == '') {
+      //        html=$("#temp2").html();
+      //      }else{
+      //        html=$("#temp1").html();
+      //        html = html.replace("#save_img_url#",image_path);
+      //        html = html.replace("#img_url#",$("#upload_img_show")[0].src);
+
+      //      };
+      //      html = html.replace("#id#",type);
+      //      html = html.replace("#content#",$("#content").val());
+      //      if (type == 1) {
+      //        $("#add_btn_1").before(html);
+      //      }else if(type == 2){
+      //        $("#add_btn_2").before(html);
+      //      }else if(type == 3){
+      //        $("#add_btn_3").before(html);
+      //      };
+
+      //  },
+      //  onCancel: function(e) {
+      //  }
+      // });
+    }
+
+    function cancel_model() {
+      $('#add_content_modal').modal('close');
+    }
+
+
+    function confirm_model() {
+      $('#add_content_modal').modal('close');
+      var image_path = $("#upload_img_path").val();
+      var html = '';
+      if (cz_type == 'add') {
+        if (image_path == null || image_path == '') {
+          html = $("#temp2").html();
+        } else {
+          html = $("#temp1").html();
+          html = html.replace("#save_img_url#", image_path);
+          html = html.replace("#img_url#", $("#upload_img_show")[0].src);
+
+        };
+        html = html.replace("#id#", type);
+        html = html.replace("#content#", $("#content").val());
+        if (type == 1) {
+          $("#add_btn_1").before(html);
+        } else if (type == 2) {
+          $("#add_btn_2").before(html);
+        } else if (type == 3) {
+          $("#add_btn_3").before(html);
+        };
+      } else if (cz_type == 'edit') {
+        var html = '';
+        if (image_path == null || image_path == '') {
+          html = $("#temp4").html();
+          div_obj.attr('data-type', 'temp2');
+        } else {
+          html = $("#temp3").html();
+          div_obj.attr('data-type', 'temp1');
+          html = html.replace("#save_img_url#", image_path);
+          html = html.replace("#img_url#", $("#upload_img_show")[0].src);
+        };
+        html = html.replace("#content#", $("#content").val());
+        div_obj.find('.am-thumbnail').remove();
+        div_obj.append(html);
+      };
+
+    }
+
+
+    function edit_content(obj) {
+      cz_type = 'edit';
+      div_obj = $(obj).parent().parent().parent();
+      var data_type = $(obj).parent().parent().parent().attr('data-type');
+
+      var content = $(obj).parent().find('p').html();
+      $("#add_content_modal_title").text('修改');
+      if (data_type == 'temp1') {
+        var img_save = $(obj).parent().parent().find('img').attr('alt');
+        var img_show = $(obj).parent().parent().find('img')[0].src;
+        $("#upload_img_show").attr("src", img_show);
+        $("#upload_img_path").val(img_save);
+      } else {
+        $("#upload_img_show").attr("src", "{$article.cover_path|show_img}");
+        $("#upload_img_path").val('');
+      };
+      $("#content").val(content);
+      $('#add_content_modal').modal();
+      //   $('#add_content_modal').modal({
+      //    relatedTarget: this,
+      //     onConfirm: function(e) {
+      //      // var image_path=$("#upload_img_path").val();
+      //      // alert(div_obj.find('p').html());
+      //      // // var div_obj = $(obj).parent().parent().parent();
+      //      // var html='';
+      //      // if (image_path == null || image_path == '') {
+      //      //  html=$("#temp4").html();
+      //      //  div_obj.attr('data-type','temp2');
+      //      // }else{
+      //      //  html=$("#temp3").html();
+      //      //  div_obj.attr('data-type','temp1');
+      //      //  html = html.replace("#save_img_url#",image_path);
+      //      //  html = html.replace("#img_url#",$("#upload_img_show")[0].src);
+      //      // };
+      //      // html = html.replace("#content#",$("#content").val());
+      //      // div_obj.find('.am-thumbnail').remove();
+      //      // div_obj.append(html);
+      //      // div_obj='';
+
+      //  },
+      //  onCancel: function(e) {
+      //  }
+      // });
+
+
+    }
+
+    function del_content(obj) {
+      $(obj).parent().parent().parent().remove();
+    }
+
+    function submit_info() {
+
+      var data = {};
+      var content = {}
+      data['title'] = $('#title').val();
+      if (data['title'] == '') {
+        alert_modal("主题不能为空");
+        return false;
+      }
+      data['id'] = $('#item_id').val();
+      data['type'] = $('#type').attr('data-id');
+      data['norm_id'] = $('#norm option:selected').val();
+      data['tag_id'] = $('#tag option:selected').val();
+      data['temp_id'] = 3; //现在默认是第三个模板
+      data['spec_id'] = $('#spec option:selected').val();
+      data['party'] = $('#party_name').val();
+      data['name'] = $('#publish_name').val();
+      data['time'] = $('#publish_time').val();
+      data['address'] = $('#address').val();
+      data['uid'] = $('#user_uid').val();
+      data['organization_id'] = $('#party_organization option:selected').val();
+      data['status'] = $('input[name="hidden"]:checked').val();
+      data['tz_content'] = $('#tz_content').val()
+      console.log(data)
+      //  contents=[];
+      // $('.admin-content-body .content_data').each(function(){
+      //   var temp_type=$(this).attr('data-type');
+      //   content['type']=$(this).attr('alt');
+      //   if (temp_type == 'temp1') {
+      //     content['image']=$(this).find('.data_img').attr('alt');
+      //   }
+      //   content['content']=$(this).find('.data_content').html();
+
+      //   contents.push(content);
+      //   content={};
+
+      // })
+
+
+      $.ajax({
+        data: { 'tz': data },
+        type: 'POST',
+        dataType: 'json',
+        url: '__ROOT__/Admin/Taizhang/ajaxTaizhangEdit',
+        beforeSend: function () {
+          loading();
+        },
+        success: function (data) {
+          if (data['status'] == 0) {
+            if ($('.upload-ul').find('li').length > 1 || img_flag) {
+              uploadImg(data.data);
+            } else {
+              self.location = document.referrer;
+            }
+        
+
+
+            // 
+          } else {
+            close_loading();
+            alert_modal(data.msg);
+          }
+        },
+        error: function (data) {
+          close_loading();
+          alert_modal(data.msg);
+        }
+      })
+    };
+    $('#btn-cancel').click(function () {
+      $('#confirm-text').text('确认取消编辑吗?');
+      $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function (options) {
+          javascript: history.back(1);
+        },
+        onCancel: function () {
+
+        }
+      });
+    });
+
+    $('#selector-btn-search').click(function () {
+      $('#select-content').html("加载中...");
+      var keyword = $('#selector-search-input').val();
+      $.ajax({
+        url: '__ROOT__/Admin/Taizhang/ajaxGetUsers',
+        type: 'POST', //GET
+        data: { keyword: keyword },  //
+        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+        success: function (data) {
+          $('#select-content').html("");
+          if (data.status == 0) {
+            var html = "";
+
+            $.each(data.data, function (index, item) {
+              html += item.html;
+            });
+            $('#select-content').html(html);
+          } else {
+            alert_modal(data.msg);
+          }
+        },
+        error: function (xhr, textStatus) {
+          $('#select-content').html("服务器暂时无法连接，请稍候再试");
+          alert_modal("服务器暂时无法连接，请稍候再试");
+        }
+      })
+    })
+
+    $('#user-modal-1').on('click', '.canselect', function () {
+      var uid = $(this).attr('data-id');
+      var realname = $(this).attr('data-name');
+
+      $('#user_uid').val(uid);
+      $('.btn-post').text(realname);
+      $('#user-modal-1').modal('close');
+
+    })
+
+
+    /*****************弹窗里面的 js*********************/
+    //弹出封面裁剪界面
+    $('#info-cover').click(function () {
+      $('#doc-modal-1').modal();
+    })
+
+    var options = {
+      aspectRatio: 18 / 12,
+      strict: false,
+      preview: '.img-preview',
+      crop: function (e) {
+        $('input[name="avatar_data"]').val(JSON.stringify(e));
+      }
+    };
+
+    var $image = $('#show_img');
+    var console = window.console || { log: function () { } };
+
+    var URL = window.URL || window.webkitURL;
+    var blobURL;
+    $image.on({
+    }).cropper(options);
+
+    $('#avatarInput').change(function () {
+
+
+      var files = this.files;
+      var file;
+
+      if (!$image.data('cropper')) {
+        return;
+      }
+
+      if (files && files.length) {
+        file = files[0];
+
+        if (/^image\/\w+$/.test(file.type)) {
+          blobURL = URL.createObjectURL(file);
+          $image.one('built.cropper', function () {
+
+            // Revoke when load complete
+            URL.revokeObjectURL(blobURL);
+          }).cropper('reset').cropper('replace', blobURL);
+          //                    $(this).val('');
+        } else {
+          window.alert('Please choose an image file.');
+        }
+      }
+
+
+
+    })
+    /*******************************************/
+
+
+
+    $('.avatar-save').click(function () {
+      var avatar = $('input[name="avatar_data"]').val();
+      // if (avatar == '') {
+      //     toastError('请先选择图片');
+      //     return false;
+      // }
+      var formData = new FormData($('.cover-form')[0]);
+      //            var formData = $('.cover-form').serialize();
+      $.ajax({
+        data: formData,
+        type: 'POST',
+        dataType: 'json',
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        url: __root__ + '/Admin/Image/ajaxSaveTaizhangImg',
+        success: function (data) {
+          if (data['status'] == 0) {
+            $('input[name="img_url"]').val(data.data.save_path);
+            $('.info-cover').attr('src', data.data.show_path);
+            $('#doc-modal-1').modal('close');
+          } else {
+            alert_modal(data.msg);
+          }
+        },
+        error: function (data) {
+          alert_modal('网络异常,请稍候重试');
+        }
+
+
+      })
+    });
+
+
+
+
+  </script>
+</block>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<extend name="./Application/Home/View/Common/base.html" xmlns="http://www.w3.org/1999/html"/>
+<block name="styles">
+    <style>
+        .item {
+            position: relative;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border-top:1px solid #e8e8e8;
+            border-bottom: 1px solid #e8e8e8;
+            background: white;
+        }
+
+        .item-left {
+            position: absolute;
+            height: 40px;
+            line-height: 40px;
+            left: 15px;
+            color: #1a1a1a;
+            font-size: 16px;
+        }
+
+        .item-right {
+            position: absolute;
+            height: 40px;
+            line-height: 40px;
+            left: 100px;
+            color: #1a1a1a;
+            right: 15px;
+            height: 45px;
+            font-size: 16px;
+        }
+
+
+
+        .btn-bottom{
+            width: 274px;
+            min-width: 250px;
+            height: 40px;
+            line-height: 40px;
+            margin: 30px auto;
+            border-radius: 40px;
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+        .nodo{
+            background: #00C2E5;
+        }
+        .wait{
+            background: #999999;
+        }
+        .done{
+            background: #cccccc;
+        }
+
+        .disable{
+            background: #aaaaaa !important;
+        }
+
+        .title{
+            height: 20px;
+            line-height: 20px;
+            color: black;
+            font-size: 15px;
+            border-left: 5px solid #99FFD6;
+            padding: 0px 5px;
+            margin: 5px 15px;
+        }
+
+        .text-content{
+            padding: 5px 15px;
+            font-size: 14px;
+            color: #666666;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            min-height: 100px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <!--<div class="title" style="margin-top: 20px">标题</div>-->
+    <!--<div class="text-content">我是标题我是标题我是标题我是标题</div>-->
+
+    <!--<div class="title" style="margin-top: 30px">内容</div>-->
+    <!--<div class="text-content">我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容</div>-->
+
+    <!--<div class="title" style="margin-top: 30px">要求</div>-->
+    <!--<div class="text-content">1.我是要求我是要求我是要求我是要求</br>2.我是要求我是要求我是要求我是要求</br>3.我是要求我是要求我是要求我是要求</br>4.我是要求我是要求我是要求我是要求</div>-->
+
+    <!--<div class="title" style="margin-top: 30px">发布日期</div>-->
+    <!--<div class="text-content">2016-12-12</div>-->
+
+    <!--<div class="title" style="margin-top: 30px">截止日期</div>-->
+    <!--<div class="text-content">2016-12-30</div>-->
+
+    <!--<div style="height: 10px; background: #f7f8f8"></div>-->
+
+    <div class="item">
+        <span class="item-left">标 题：</span>
+        <span class="item-right">{$todo.title}</span> <!-- 我是标题我是标题我是标题我是标题 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">发布日期：</span>
+        <span class="item-right">{$todo.create_time|date="Y-m-d",###}</span> <!-- 2016-12-12 -->
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">完成时间：</span>
+        <span class="item-right">{$todo.request_finish_date|date="Y-m-d",###}</span>
+    </div>
+    <div class="item" style="border-top: 0px">
+        <span class="item-left">发布支部：</span>
+        <span class="item-right">{$todo.branch_name}</span> <!-- 2016-12-30 -->
+    </div>
+
+    <div class="item" style="margin-top: 10px;">
+        <span class="item-left">内容</span>
+    </div>
+    <div class="text-content">{$todo.content}</div>
+    <!--我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容-->
+    <div class="item" style="margin-top: 10px;">
+        <span class="item-left">要求</span>
+    </div>
+    <div class="text-content">{$todo.request}</div>
+    <!--1.我是要求我是要求我是要求我是要求</br>2.我是要求我是要求我是要求我是要求</br>3.我是要求我是要求我是要求我是要求</br>4.我是要求我是要求我是要求我是要求</br>-->
+
+    <if condition="$todo.todo_user_status eq 1">
+        <div class="btn-bottom done">已办</div>
+    <elseif condition="$todo.type eq 'SYSTEM'"/>
+        <div class="btn-bottom nodo" id="btn-submit" data-id="{$todo.id}">确认已办</div>
+        <elseif condition="$todo.type eq 'COST'"/>
+
+        <a href="__ROOT__{$userTodo.url}"><div class="btn-bottom nodo" id="btn-goto" data-id="{$todo.id}">立即去办</div></a>
+        <else/>
+        <!--<div class="btn-bottom nodo" id="btn-submit" data-id="{$todo.id}">确认已办</div>-->
+        <a href="__ROOT__{$todo.url}"><div class="btn-bottom nodo" id="btn-goto" data-id="{$todo.id}">立即去办</div></a>
+    </if>
+
+    <!--<if condition="$todo.todo_user_status lt 1">-->
+        <!--<div class="btn-bottom nodo" id="btn-submit" data-id="{$todo.id}">确认已办</div>-->
+    <!--<elseif condition="$todo.todo_user_status eq 1"/>-->
+        <!--<div class="btn-bottom wait">待审核</div>-->
+    <!--<elseif condition="$todo.todo_user_status eq 2"/>-->
+        <!--<div class="btn-bottom done">已办</div>-->
+    <!--</if>-->
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        $('#btn-submit').one("click",function() {
+            var button = this;
+            id = $(this).attr('data-id');
+//            alert(id);
+            $.ajax({
+                url:'__ROOT__/Todo/index/ajaxConfirmTodo',
+                type:'POST', //GET
+                data:{id:id},
+                dataType:'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                    if(data.status == 0){
+                        $(button).removeClass('nodo');
+                        $(button).addClass('wait');
+                        $(button).html("待审核");
+                    }else{
+                        alert_modal(data.msg);
+                    }
+                },
+                closeOnConfirm: false,
+                error:function(xhr,textStatus){
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+    </script>
+
+</block>

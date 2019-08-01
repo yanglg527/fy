@@ -1,0 +1,19 @@
+/* Write your styles */
+.nav {
+	background-color: #d7342e;
+}
+.nav-left {
+	color:#ffffff;
+}
+.nav-right {
+	color:#ffffff;
+	float:right;
+}
+.content {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    padding: 15px;
+}
+.article-content img{
+	max-width: 100% !important;
+}

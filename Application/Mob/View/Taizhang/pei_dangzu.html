@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$dangzu.name}积分轨迹</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2" />
+     <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/pei/pei.css"/>
+
+
+
+    <style type="text/css">
+        table.imagetable {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #999999;
+            border-collapse: collapse;
+        }
+        table.imagetable th {
+            background:#b5cfd2 url('__IMG__branch/cell-blue.jpg');
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #999999;
+        }
+        table.imagetable td {
+            background:#dcddc0 url('__IMG__branch/cell-grey.jpg');
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #999999;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="head">{$dangzu.name}积分构成图</div>
+
+    <!-- <div id="sixChart" style="height: 14rem;margin-top: 1rem"></div> -->
+    <div class="canvas" id="lineChart" style="height:14rem;margin-top: 1rem;">
+    </div>
+
+
+<script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
+
+<!-- <script>
+
+    //六个打通饼图
+    option = {
+        title : {
+            text: '党建平台的积分构成',
+            x:'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            // orient: 'vertical',
+
+            x: 'center',
+            y: 'bottom',
+            data:['绩效系统','工作创新指数','纪律审查信息管理系统','廉政风险防控平台','数字人事系统','智慧人事系统',
+                '工作强度指数','工作奉献指数','学习创新平台','智慧党建平台' ]
+        },
+        series: [
+            {
+                name:'积分统计',
+                type:'pie',
+                radius: ['80%', '40%'],
+                avoidLabelOverlap: false,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+
+                data:[
+
+                    {value:335, name:'绩效系统'},
+                    {value:310, name:'工作创新指数'},
+                    {value:234, name:'纪律审查信息管理系统'},
+                    {value:135, name:'廉政风险防控平台'},
+                    {value:1548, name:'数字人事系统'},
+                    {value:450, name:'智慧人事系统'},
+                    {value:450, name:'工作强度指数'},
+                    {value:450, name:'工作奉献指数'},
+                    {value:450, name:'学习创新平台'},
+                    {value:450, name:'智慧党建平台'},
+
+                ]
+            }
+        ]
+    };
+    var sixChart = echarts.init(document.getElementById('sixChart'));
+    sixChart.setOption(option);
+
+</script> -->
+<script >
+
+var option = {
+    title : {
+        text: '{$dangzu.name}积分构成图',
+        x:'center'
+    },
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+
+         x : 'center',
+        y : 'bottom',
+
+        data:[
+        '{$types[0]["name"]} {:show_rate($count[0],$total)}%',
+        '{$types[1]["name"]} {:show_rate($count[1],$total)}%',
+        '{$types[2]["name"]} {:show_rate($count[2],$total)}%',
+        '{$types[3]["name"]} {:show_rate($count[3],$total)}%',
+        '{$types[4]["name"]} {:show_rate($count[4],$total)}%',
+        '{$types[5]["name"]} {:show_rate($count[5],$total)}%',
+        '{$types[6]["name"]} {:show_rate($count[6],$total)}%',
+        
+        ]
+    },
+    series: [
+        {
+            name:'积分来源',
+            type:'pie',
+
+            center : ['50%', '40%'],
+            data:[
+                {value:{$countPei[0]}, name:"{$types[0]['name']} {:show_rate($count[0],$total)}%"},
+                {value:{$countPei[1]}, name:'{$types[1]["name"]} {:show_rate($count[1],$total)}%'},
+                {value:{$countPei[2]}, name:'{$types[2]["name"]} {:show_rate($count[2],$total)}%'},
+                {value:{$countPei[3]}, name:'{$types[3]["name"]} {:show_rate($count[3],$total)}%'},
+                {value:{$countPei[4]}, name:'{$types[4]["name"]} {:show_rate($count[4],$total)}%'},
+                {value:{$countPei[5]}, name:'{$types[5]["name"]} {:show_rate($count[5],$total)}%'},
+                {value:{$countPei[6]}, name:'{$types[6]["name"]} {:show_rate($count[6],$total)}%'},
+                // {value:{$countPei[7]}, name:'{$types[7]["name"]} {:show_rate($count[7],$total)}%'}
+            ]
+        }
+    ]
+};
+
+		var lineChart = echarts.init(document.getElementById('lineChart'));
+		lineChart.setOption(option);
+
+</script>
+</body>
+</html>

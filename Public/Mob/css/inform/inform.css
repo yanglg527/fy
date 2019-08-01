@@ -1,0 +1,546 @@
+.page{
+    background-color: #e6e6e6
+    ;
+    padding-bottom: 0.4rem;
+}
+/*banner*/
+.banner{
+    width:100%;
+    height:1rem;
+}
+.banner .head{
+    width:100%;
+    height:1rem;
+    line-height: 1rem;
+    position: relative;
+    z-index: 10;
+    background-color: #ce3d37;
+    color:#ffffff;
+    font-size:12px;
+    text-align: center;
+}
+.banner .head>i{
+    display: inline-block;
+    width:0.5rem;
+    height:0.5rem;
+    background:url("../../../images/ledger_list/return.png") no-repeat 100%;
+    background-size: 100%;
+    position: absolute;
+    left:0.26rem;
+    top:25%;
+}
+.banner .banner_bg{
+    position: relative;
+  
+    width:100%;
+    height: 150px;
+    background: url("../../../images//inform/bg.png") center/100% 100%;
+}
+.banner .banner_bg>img{
+    width:100%;
+    height:100%;
+}
+
+/*正文*/
+.content{
+    position: relative;
+    z-index: 100;
+}
+.content>.header{
+    margin:1rem 0 0.6rem;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    align-items: center;
+    font-size: 13px;
+}
+.content>.header>.item{
+    flex: 1;
+    text-align: center;
+    color:#c2c2c2;
+}
+.content>.header>.item.active{
+    color:#ffffff;
+}
+.content>.header>.item>.icon_bg {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    padding: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    top: -0.3rem;
+    text-align: center;
+}
+@media(max-width:345px){
+    .content>.header>.item>.icon_bg{
+        padding:1px;
+    }
+}
+.content>.header>.item>.icon_bg.focus{
+    display: none;
+}
+.content>.header>.item>.icon_bg>span.num{
+    display: inline-block;
+    width:0.38rem;
+    height:0.38rem;
+    line-height:0.38rem;
+    background-color: #ffffff;
+    color:#ce3d3a;
+    border-radius: 50%;
+}
+.content>.header>.item>p.active{
+    width:0.6rem;
+    height:0.08rem;
+    margin-left:0.8rem;
+    background-color: #ffffff;
+    margin-top:0.26rem;
+}
+/*评论列表*/
+/* .comment_list{
+    width:95%;
+    margin: 0 auto;
+} */
+.comment_list dl{
+    width:100%;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    padding: 0.2rem 0.27rem;
+    background-color: #f4f6f7;
+    margin-bottom: 0.32rem;
+}
+.comment_list dl dt{
+    flex:0 0 1.2rem;
+    padding-right: .21rem;
+}
+.comment_list dl dt>img{
+    width:100%;
+    border-radius: 50%;
+}
+.comment_list dl dd.container{
+    flex:1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top:0.2rem;
+}
+.comment_list dl dd.container>span{
+    font-size: 13px;
+    color:#666666;
+    margin-bottom: 0.2rem;
+}
+.comment_list dl dd.container>.content{
+    font-size: 14px;
+    color:#333333;
+}
+.comment_list dl dd.container>.content>.title{
+    color:#ce3d3a;
+}
+.comment_list dl dd.container>.overview{
+    margin:0.5rem 0.15rem;
+    font-size: 13px;
+    line-height: 0.5rem;
+}
+.comment_list dl dd.container>.foot>i{
+    display: inline-block;
+    width:0.3rem;
+    height:0.3rem;
+    background: url("../../../images/inform/time.png") no-repeat;
+    background-size: 100%;
+    margin-right: 0.1rem;
+}
+.comment_list dl dd.container>.foot>.time{
+    color:#999999;
+    position: relative;
+    top:-1px;
+}
+
+/*得到的赞*/
+.like_list>dl>dd.container>.content{
+    margin-bottom: 0.2rem;
+}
+.like_list>dl>dd.container>.foot{
+    margin-bottom: 0.6rem;
+}
+.like_list>dl>dd.container>.foot:last-child{
+    margin-bottom: 0.26rem;
+}
+/*任务列表*/
+.mission_list {
+    width:95%;
+    margin: 0 auto;
+    background-color:#f4f6f7;
+}
+.comment_list {
+    width:95%;
+    margin: 0 auto;
+    background-color:#f4f6f7;
+}
+.like_list {
+    width:95%;
+    margin: 0 auto;
+    background-color:#f4f6f7;
+}
+.jiancha_list {
+    width:95%;
+    margin: 0 auto;
+    background-color:#f4f6f7;
+}
+.mission_list>.head{
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    height: 1rem;
+    line-height: 1rem;
+    position: relative;
+}
+/*日历*/
+.date_nav{
+    margin-top:0.5rem;
+}
+.week{
+    padding:0.3rem 0;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+}
+.week>.item{
+    flex:1;
+    text-align: center;
+    color:#c2c2c2;
+}
+.date{
+    border-bottom: 1px solid #e2e2e2;
+}
+.swiper_date>.swiper-wrapper>.swiper-slide{
+    color:#333333;
+    font-size: 14px;
+    padding: 0.5rem 0 0.3rem 0;
+    text-align: center;
+}
+.swiper_date>.swiper-wrapper>.swiper-slide.prevdate,.swiper_date>.swiper-wrapper>.swiper-slide.nextdate{
+    color:#c2c2c2;
+}
+.swiper-wrapper>.swiper-slide.current>i{
+    display: inline-block;
+    width:0.1rem;
+    height:0.1rem;
+    background-color: #b7b7c6;
+    border-radius: 50%;
+    position: absolute;
+    top:0.1rem;
+    left:45%;
+}
+.swiper_date>.swiper-wrapper span{
+    display: inline-block;
+    width:0.8rem;
+    height:0.8rem;
+    line-height:0.8rem;
+}
+.swiper_date>.swiper-wrapper>.swiper-slide.active span{
+    color:#ffffff;
+    background-color: #ce3d3a;
+    border-radius: 50%;
+    position: relative;
+    top:-0.055rem;
+}
+.swiper_date>.swiper-wrapper>.swiper-slide.day>i{
+    display: inline-block;
+    width:0.2rem;
+    height:0.2rem;
+    background-color: #b7b7c6;
+    border-radius: 50%;
+    position: absolute;
+    top:0.1rem;
+    left:40%;
+}
+
+/*提醒列表*/
+.warn_list{
+    position: relative;
+    padding-top:0.3rem;
+    overflow: auto;
+    border-top:1px solid #e2e2e2;
+}
+.warn_list>li{
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    justify-content: space-between;
+    margin-bottom: 0.28rem;
+}
+.warn_list>li>.btn{
+    color:#ce3d3a;
+    background-color: #ffffff;
+    border: 2px solid #ce3d3a;
+    padding:0.2rem;
+    float: right;
+    height:0.8rem;
+    margin:0.6rem 0.2rem 0 0;
+}
+.warn_list>li>.content{
+    width:75%;
+    background-color: #ce3d3a;
+    padding:0.26rem;
+    border-radius: 0 2rem 2rem 0;
+}
+.warn_list>li>.content>.text{
+    color:#ffffff;
+    line-height:0.5rem;
+    margin-left:0.4rem;
+    font-size:12px;
+}
+.warn_list>li>.content>.head{
+    font-size: 10px;
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    margin-bottom: 0.2rem;
+}
+.warn_list>li>.content>.head>div.title{
+    color:#ffc556;
+}
+.warn_list>li>.content>.head>div.title>i{
+    display: inline-block;
+    width:0.2rem;
+    height:0.2rem;
+    background-color: #ffc556;
+    border-radius: 50%;
+    margin-right:0.2rem;
+}
+.warn_list>li>.content>.head>div.time{
+    color:#ffa8a6;
+    flex:1;
+    text-align: right;
+    padding-right: 0.2rem;
+}
+
+
+
+/********************请选择党组遮罩层，请选择标签遮罩层****************/
+.blackgroup_box,.blacktag_box,.blackspec_box,.tem_box,.content_box{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7,17,27,0.8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: none;
+}
+.blackgroup_box>.blackgroup_content,.blacktag_box>.blacktag_content,.blackspec_box>.blackspec_content,.tem_box>.tem_content,.content_box>.content_content{
+    width: 85%;
+    margin: 39% auto;
+    font-size: 12px;
+    color: #333333;
+    background-color: #ffffff;
+}
+h3.group_h3,h3.tag_h3,h3.spec_h3,h3.content_h3{
+    background: #ce3d2a;
+    color: #fff;
+    text-align: center;
+    line-height: 1.5rem;
+    font-size: 0.38rem;
+}
+.group_content,.tag_content,.spec_content{
+
+}
+.group_classify,.tag_classify,.content_classify{
+    margin: 0.3rem auto 0.5rem;
+    width: 90%;
+}
+.spec_classify{
+    margin: 0.3rem auto 2.7rem;
+    width: 90%;
+}
+.group_classify span,.tag_classify span,.content_classify span{
+    border: 1px solid #ce3d2a;
+    border-radius: 36px;
+    color: #ce3d2a;
+    display: inline-block;
+    line-height: 0.6rem;
+    padding: 0rem 0.15rem;
+    margin-top: 3%;
+    margin-left: 0.6%;
+}
+.spec_classify>p{
+    border: 1px solid #ce3d2a;
+    border-radius: 36px;
+    color: #ce3d2a;
+    text-align: center;
+    line-height: 0.6rem;
+    padding: 0rem 0.15rem;
+    width: 33%;
+    margin: 7% auto 0;
+}
+.group_classify>p,.tag_classify>p{
+    padding-left: 6%;
+}
+.group_classify span.active,.tag_classify span.active,.spec_classify>p.active{
+    background-color: #ce3d2a;
+    color: #fff;
+}
+.group_submit,.tag_submit,.spec_submit,.content_submit{
+    border-top: 1px solid #e3e9ef;
+}
+.group_submit>button,.tag_submit>button,.spec_submit>button,.content_submit>button{
+    width: 50%;
+    float: left;
+    border: 1px solid #e3e9ef;
+    border-top: none;
+    border-bottom: none;
+    background-color: #fff;
+    line-height: 1.2rem;
+    font-size: 0.36rem;
+}
+.group_submit button:nth-child(1),.tag_submit button:nth-child(1),.spec_submit button:nth-child(1),.content_submit button:nth-child(1){
+    color: #c2c2c2;
+}
+.group_submit button:nth-child(2),.tag_submit button:nth-child(2),.spec_submit button:nth-child(2),.content_submit button:nth-child(2){
+    border-left: none;
+    color: #ce3d3a;
+}
+.head .title{
+    font-size: 14px!important;
+    /* float: left; */
+    position: relative;
+    font-weight:normal!important;
+    top:0.06rem!important;
+}
+/* 2018-03-27样式更新 */
+.mission_style{
+    padding: 0.5rem;
+    font-size:0.47rem;
+}
+.all_mission_top>span{
+    color: #999999;
+}
+.all_mission_li>span{
+    font-size: 0.7em;
+    line-height: 0.6rem;
+    display: inline-block;
+    margin: 16px 0;
+    width: 23%;
+    height:3rem;
+    word-wrap: break-word;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+.all_mission_li>span.status{
+    font-size:1.2em;
+    line-height: 1rem;
+}
+.all_mission_li>span.status .status_not_done{
+    color: red;
+}
+.all_mission_li>span.status .status_done{
+    color:#3ed34b;
+}
+.all_mission_li>span.status a{
+    font-size:0.7em;
+    color:rgb(101, 131, 233);
+}
+
+
+.flip-container {
+    -webkit-perspective: 500;
+    -moz-perspective: 500;
+    -ms-perspective: 500;
+    perspective: 500;
+    -ms-transform: perspective(500px);
+    -moz-transform: perspective(500px);
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    /* margin: 30px;
+    display: inline-block;
+    border: 1px solid #aaa; */
+    position: relative;
+}
+/*由于内层绝对定位导致高度缺少，这里显式设置了宽高*/
+.flip-container, .front, .back {
+    /* width: 400px;
+    height: 200px; */
+}
+
+/* .flip-container:hover .front {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+} 
+ .flip-container:hover .back {
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+  
+} */
+  /* z-index: 3; 降级处理不支持CSS3的浏览器，只是简单的将back上升盖住front */
+
+.front, .back {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: 0.6s;
+    -moz-transition: 0.6s;
+    -o-transition: 0.6s;
+    -ms-transition: 0.6s;
+    transition: 0.6s;
+    position: absolute;
+    /* top: 0px;
+    left: 0px; */
+}
+.front {
+  /* /  background: red; */
+    z-index: 2;
+    background: #ffffff;
+}
+.back {
+    background: #ffffff;
+    /* background: green; */
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+}
+
+.mission_detail>div>span{
+    line-height: 2em;
+    width: 48%;
+    display: inline-block;
+    font-size: 2em;
+    /* margin-top: 10px; */
+    padding: 10px;
+    text-align: center;
+    color: #313131;
+    vertical-align: top;
+   /* border-bottom: #999999 solid; */
+}
+/* .mission_detail>div>:first-child{
+    border-right: #999999 solid;
+} */
+
+/* 顶部导航 */
+.header .head-icon-normal,
+.header .head-icon-active{
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.head-icon-normal{
+    display: inline-block;
+}
+
+.head-icon-active{display: none;}
+
+.header .item.active .head-icon-normal{
+    display: none;
+}
+
+
+.header .item.active .head-icon-active{
+    display: inline-block;
+}

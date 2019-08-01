@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="__PUBLIC__/Common/css/global.css" />
+    <link rel="stylesheet" href="__CSS__Tasks/styles.css" />
+    <script src="__JS__/tasks/main.js"/></script>
+    <script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+    <title>待办任务</title>
+</head>
+<body>
+    <div class="g-full-flex">
+        <div class="g-nav-bar">
+            <div class="back-btn"></div>
+            <span class="nav-title">待办任务</span>
+            <!-- isEditable -->
+            <if condition="$isEditable">
+                <div class="right" onclick="onAddToggle()">
+                    <i class="add-record"></i>
+                </div>
+            </if>
+        </div>
+
+        <div class="g-content-container todo-list">
+
+            <div class="todo-list__top-banner">
+                <div class="search-box">
+                    <div class="content">
+                        <input type="text" class="search-input" id="search-input" maxlength="10" placeholder="请输入搜索内容">
+                        <div class="search-btn"></div>
+                    </div>
+                </div>
+
+                <div class="todo-list__top-tabs">
+                    <div class="item active" date-type="2">
+                        <i class="my-ico"></i><span>个人</span>
+                    </div>
+                    <div class="item" date-type="1">
+                        <i class="group-ico"></i><span>小组</span>
+                    </div>
+                    <div class="item" date-type="0">
+                        <i class="branch-ico"></i><span>支部</span>
+                    </div>
+                    <div class="item" date-type="3">
+                        <i class="dis-ico"></i><span>纪检</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="todo-list__content-wrapper">
+                <div class="todo-list__content-wrapper__top">
+                    <div class="item total"></div>
+                    <div class="item ing"></div>
+                    <div class="item end"></div>
+                </div>
+
+                <!-- 个人tab部分让人痛哭流涕的状态栏 -->
+                <div class="todo-list_personal-bar">
+                    <span class="date"></span>
+                    <div class="switch-btn">
+                        <span class="text" onclick="stateSwitch(2)">进行中</span>
+                        <span class="text" onclick="stateSwitch(1)">全部</span>
+                        <!-- right -->
+                        <i class="cover"></i>
+                    </div>
+                </div>
+
+                <!-- 下拉刷新 -->
+                <div class="status"><p>刷新中..</p></div>
+
+                <div class="todo-list__list">
+                    <div class="item">
+                        <div class="top">
+                            <h3 class="title">XXX</h3>
+                            <p class="info">
+                                <span>发布人：XXX</span>
+                                <span>发表日期：0000-00-00</span>
+                            </p>
+                        </div>
+                        <hr class="cutting" />
+                        <div class="main-content">
+                            <div class="left">
+                                <p class="content-item">开始时间：0000-00-00 00:00</p>
+                                <p class="content-item">结束时间：0000-00-00 00:00</p>
+                                <p class="content-item">工作内容：</p>
+                            </div>
+                            <div class="right-btn yellow">已办结</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 新增遮罩层 active-->
+        <div class="add-container">
+            <div class="shadow-box" onclick="onAddToggle()"></div>
+            <div class="content-box">
+                <div class="item" onclick="onChooseTypeToggle()">发布任务</div>
+                <a class="item" href="__ROOT__/Mob/Tasks/tasksVerify">任务审核</a>
+                <a class="item" href="__ROOT__/Mob/Tasks/tasksPool">任务汇总</a>
+                <div class="item" onclick="onAddToggle()">取消</div>
+            </div>
+        </div>
+        <!-- 任务类型选择框 -->
+        <div class="choose-type">
+            <div class="shadow-box" onclick="onChooseTypeToggle()"></div>
+            <div class="content-box">
+                <a class="item" href="__ROOT__/Mob/Tasks/initData?tasksType=0">党支部</a>
+                <a class="item" href="__ROOT__/Mob/Tasks/initData?tasksType=1">党小组</a>
+                <a class="item" href="__ROOT__/Mob/Tasks/initData?tasksType=2">个人</a>
+                <a class="item" href="__ROOT__/Mob/Tasks/initData?tasksType=3">纪检</a>
+                <div class="item" onclick="onChooseTypeToggle()">取消</div>
+            </div>
+        </div>
+    </div>
+    <script>
+    const baseurl = '__ROOT__';
+    var pageData = {};
+    var page = 1;
+    var activestatus = 2;  // 默认狀態
+    var activetype = 2; // 默认的类型
+
+    $(function(){
+        var myDate = new Date();
+        var y = myDate.getFullYear();
+        var m = myDate.getMonth()+1;
+        var d = myDate.getDate();
+        $('.date').html(y+'年 '+m+'月 '+d+'日');
+        // 初始化渲染数据
+        let res = ajaxLoadData(activetype, activestatus, page);
+        if (0 === res.status) {
+            pageData['tab'+activetype+activestatus] = res.data;
+            console.log('返回数据',res.data);
+            render(res.data);
+        }
+    })
+
+    //返回按钮
+    $('.back-btn').click(function(e) {
+        history.go(-1)
+    })
+
+    // 搜索框
+    $('.search-btn').click(function(event) {
+        /* Act on the event */
+        var keyword = $('#search-input').val();
+        if (!keyword) return false;
+        var type = $('.active').attr('date-type');
+        console.log('type', type);
+        var res = ajaxLoadData(type, 1, 1, keyword);
+        render(res.data);
+    });
+
+    // 头部点击切换
+    $('.todo-list__top-banner .item').click(function(event) {
+        /* 如果已经是选择 什么都不做 */
+        if ($(this).hasClass('active')) return ;
+
+        // 先删除 然后 再添加
+        $('.cover').removeClass('right')
+        $('.todo-list__top-banner .item').removeClass('active');
+        $(this).addClass('active');
+
+        // 获得当前类型
+        var type = $(this).attr('date-type');
+        // 已有数据 不用加载
+        if (pageData['tab'+type+activestatus]) {
+            console.log('有数据..', pageData);
+            render(pageData['tab'+type+activestatus]);
+            return;
+        }
+
+        console.log('异步..');
+        let res = ajaxLoadData(type, activestatus, page);
+        if (0 === res.status) {
+            pageData['tab'+type+activestatus] = res.data;
+            console.log('返回数据',res.data);
+            render(res.data);
+        }
+
+    });
+    </script>
+
+    <script>
+    //------------------------下拉刷新-------------------------------
+    //定义的全局变量
+    var disY, startY, endY;
+    //触摸事件开始时触发
+    $('.todo-list__content-wrapper').on('touchstart', function (e) {
+        startY = e.changedTouches[0].pageY;
+    });
+    //触摸事件移动中时触发
+    $('.todo-list__content-wrapper').on('touchmove', function (e) {
+        endY = e.changedTouches[0].pageY;
+        disY = endY - startY;
+        if (disY > 30) {
+            $('.status').css({
+                display: 'block',
+                height: disY + 'px',
+            });
+        }
+    });
+    //触摸事件结束时触发
+    $('.todo-list__content-wrapper').on('touchend', function (e) {
+        endY = e.changedTouches[0].pageY;
+        disY = endY - startY;
+        if (disY > 72) {
+            //定义一个定时器，返回下拉到一定的高度
+            var timer = setInterval(function () {
+                disY -= 13;
+                if (disY <= 60) {
+                    $('.status').css({
+                        height: 52 + 'px',
+                    });
+                    clearInterval(timer);
+                    refresh();
+                }
+                $('.status').css({
+                    height: disY + 'px',
+                });
+            }, 75);
+        }
+    });
+    //请求刷新数据
+    function refresh() {
+        // 获取当前选择的类型
+        $('.status').css({
+            display: 'none',
+            height:0
+        });
+        var type = $('.active').attr('date-type');
+        var status = $('.cover').hasClass('right') ? 1:2;
+        var res = ajaxLoadData(type, status);
+        render(res.data);
+    }
+
+</script>
+</body>
+</html>

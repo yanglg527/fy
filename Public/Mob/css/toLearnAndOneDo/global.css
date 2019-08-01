@@ -1,0 +1,101 @@
+html,
+body {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* 页面容器 */
+.g-fill-flex {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 顶部导航 */
+.g-nav-bar {
+    position: relative;
+    display: flex;
+    height: 42px;
+    background-color: #ce3d37;
+}
+
+.g-nav-bar .back-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 42px;
+    height: 42px;
+}
+
+.g-nav-bar .back-btn::before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.g-nav-bar .nav-title {
+    display: block;
+    width: 60%;
+    height: 42px;
+    line-height: 42px;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+    font-size: 18px;
+}
+
+.g-nav-bar .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 42px;
+}
+
+/* 主内容容器 */
+.g-content-container {
+    flex: 1 1;
+    overflow-y: auto;
+}
+
+/* 头部标题 */
+.header {
+    margin: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.categories-title {
+    display: inline-block;
+    color: #d3231a;
+}
+
+.header .title {
+    display: inline-block;
+}
+
+/* 简要信息 */
+.sub-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    font-size: 12px;
+    color: #9b999a;
+}
+
+/* 分割线 */
+.line {
+    margin: 20px 10px;
+    height: 1px;
+    background-color: #e0e0e0;
+}

@@ -1,0 +1,98 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+        .branch-list{
+            background: #F7F8F8;
+        }
+
+        .list-item{
+            background: white;
+            margin-bottom: 10px;
+            padding: 18px 21px 5px 21px;
+        }
+
+        .item-title{
+            height: 39px;
+            line-height: 39px;
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            position: relative;
+            padding-left: 38px;
+        }
+        .item-item img{
+            width: 80px;
+            height: 80px;
+            
+            /*position: absolute;
+            top: 0px;bottom: 0px;left: 0px;
+            margin: auto;*/
+        }
+
+        .item-info{
+            height: 35px;
+            line-height: 35px;
+            padding-left: 38px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="branch-list">
+            <a href="__ROOT__/Home/Branch/index.html">
+                <div class="list-item" style="overflow:hidden;">
+                	<img src="__IMG__zhuhai.jpg" style="width:65px;height:65px;float:left;">
+                	<div style="float:left;">
+                    <div class="item-title">
+                        <span>珠海</span>
+                    </div>
+                    <div class="item-info">
+                        <span>{$count}</span>支部
+                    </div>
+                    </div>
+                    
+                </div>
+            </a>
+            <a href="#">
+                <div class="list-item" style="overflow:hidden;">
+                	<img src="__IMG__guangzhou.jpg" style="width:65px;height:65px;float:left;">
+                	<div style="float:left;">
+                    <div class="item-title">
+                        <span>广州</span>
+                    </div>
+                    <div class="item-info">
+                        <span>待开通</span>
+                    </div>
+                    </div>
+                    
+                </div>
+            </a>
+             <a href="#">
+                <div class="list-item" style="overflow:hidden;">
+                    <img src="__IMG__shengju.jpg" style="width:65px;height:65px;float:left;">
+                    <div style="float:left;">
+                    <div class="item-title">
+                        <span>省局机关</span>
+                    </div>
+                    <div class="item-info">
+                        <span>待开通</span>
+                    </div>
+                    </div>
+                    
+                </div>
+            </a>
+            
+    </div>
+
+</block>
+<block name="scripts">
+
+</block>

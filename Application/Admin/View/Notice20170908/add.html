@@ -1,0 +1,96 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+
+<block name="styles">
+  <link rel="stylesheet" href="__STATICS__/datetimepicker/css/amazeui.datetimepicker.css"/>
+    <style>
+
+    </style>
+</block>
+<block name="content">
+<div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <a href="#" onClick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg">代办事项</strong></a> /
+        <small>新增</small>
+      </div>
+    </div>
+
+    <hr>
+
+      <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+        <div class="am-tab-panel am-fade am-in am-active" >
+          <include file="_add"/>
+        </div>
+    </div>
+
+    <div class="am-margin">
+      <button type="button" class="am-btn am-btn-primary am-btn-xs" onClick="submit_info();">提交保存</button>
+      <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+    </div>
+  </div>
+  <include file="_add_upload"/>
+
+
+</block>
+<block name="scripts">
+    <script src="__STATICS__/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+    <script type="text/javascript" src="__STATICS__/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"
+            charset="UTF-8"></script>
+    <script type="text/javascript">
+        function submit_info() {
+            var type_id = $('#type').val();
+            var publish_time = $('#start_time').text();
+            var finish_time = $('#end_time').text();
+            var content = $('#content').val();
+            $.ajax({
+                data: {
+                    'type_id':type_id,
+                    'publish_time': publish_time,
+                    'finish_time': finish_time,
+                    'content': content,
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Admin/Notice/ajaxAdd',
+                beforeSend: function () {
+                  loading();
+                },
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        loading_page(__root__ + '/Admin/Notice/index?p={$p}');
+                    } else {
+                      close_loading();
+                      alert_modal(data.msg);
+                    }
+                },
+                error: function (data) {
+                    close_loading();
+                    alert_modal(data.msg);
+                }
+            })
+        };
+
+        $('#btn-cancel').click(function(){
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+        $('#btn-start-date').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $('#start_time').text($('#btn-start-date').data('date'));
+            $(this).datepicker('close');
+        });
+        $('#btn-end-date').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $('#end_time').text($('#btn-end-date').data('date'));
+            $(this).datepicker('close');
+        });
+    </script>
+</block>

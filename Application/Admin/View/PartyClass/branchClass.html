@@ -1,0 +1,266 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+
+    <style>
+        .sign-sum-title {
+            border-left: 5px solid #999999;
+            color: #999999;
+            font-size: 14px;
+            height: 18px;
+            line-height: 18px;
+            padding-left: 5px;
+        }
+
+        .sign-sum {
+            color: #5eb95e;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .unit {
+            color: #999999;
+            font-size: 14px;
+            height: 18px;
+            line-height: 18px;
+        }
+
+        .am-form-field{
+            height: 33px !important;
+        }
+
+        .am-datepicker-date .am-btn{
+            height: 33px;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">
+                <if condition="$auth == 1">{$branch.name} -</if>
+                微党课</strong></div>
+        </div>
+        <hr>
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-3">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <div style="line-height: 33px; padding-left: 5px">
+                            <span class="sign-sum-title">微心得总量：</span>
+                            <span class="sign-sum">{$page.pageInfo.size}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="am-u-sm-12 am-u-md-9" id="search-form">
+                <input type="hidden" class="am-form-field" name="branch_id" value="{$branch.id}">
+                <div class="am-input-group am-input-group-sm" style="width: 200px; float: right; margin-left: 15px">
+                    <input type="text" class="am-form-field" name="keyword" value="{$search.keyword}" placeholder="请输入主讲人姓名">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" type="submit">搜索</button>
+                        </span>
+                </div>
+                <div style="width: 200px;float: right;" class="am-input-group am-datepicker-date">
+                    <input type="text" name="end_date" class="am-form-field" placeholder="结束日期" readonly value="{$search['end_date']}">
+					    <span class="am-input-group-btn am-datepicker-add-on">
+					        <button class="am-btn am-btn-default" type="button" id="my-end">
+                                <span class="am-icon-calendar"></span>
+                            </button>
+					  	    <button class="am-btn am-btn-default btn-cancel-date" type="button" style="padding: 5px 10px;">
+                                <span class="am-icon-remove"></span>
+                            </button>
+					    </span>
+                </div>
+
+                <span style="float: right; margin: 0 5px; line-height: 33px;"> 至 </span>
+
+                <div style="width: 200px;float: right;" class="am-input-group am-datepicker-date">
+                    <input readonly type="text" name="start_date" class="am-form-field" placeholder="开始日期" value="{$search['start_date']}">
+					    <span class="am-input-group-btn am-datepicker-add-on">
+					        <button class="am-btn am-btn-default" type="button" style="padding: 5px 10px;" id="my-start">
+                                <span class="am-icon-calendar"></span></button>
+					        <button class="am-btn am-btn-default btn-cancel-date" type="button" style="padding: 5px 10px;">
+                                <span class="am-icon-remove"></span></button>
+					    </span>
+                </div>
+            </form>
+        </div>
+        <!--<div class="am-g">-->
+            <!--<div class="am-u-sm-12 am-u-md-6">-->
+                <!--<div class="am-btn-toolbar">-->
+                    <!--<div class="am-btn-group am-btn-group-xs">-->
+                        <!--&lt;!&ndash;<button  onclick="loading_page('__ROOT__/Admin/Vote/edit');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>&ndash;&gt;-->
+                        <!--&lt;!&ndash; <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>-->
+                        <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> &ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="am-u-sm-12 am-u-md-3">-->
+                <!--<div class="am-form-group">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<form action="__ROOT__/Admin/PartyClass/branchClass" class="am-u-sm-12 am-u-md-3">-->
+                <!--<input type="hidden" class="am-form-field" name="branch_id" value="{$branch.id}">-->
+
+                <!--<div class="am-input-group am-input-group-sm">-->
+                    <!--<input type="text" class="am-form-field" name="keyword" value="{$search.keyword}">-->
+          <!--<span class="am-input-group-btn">-->
+            <!--<button class="am-btn am-btn-default" type="submit">搜索{$auth}</button>-->
+          <!--</span>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <div class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <!-- <th class="table-check"><input type="checkbox" /></th> -->
+                            <th class="table-title">ID</th>
+                            <th class="table-title">标题</th>
+                            <!-- <th class="am-hide-sm-only">章节</th> -->
+                            <th class="table-author am-hide-sm-only">主讲人</th>
+                            <!--<th class="am-hide-sm-only">所属支部</th>-->
+                            <!--<th class="am-hide-sm-only">点赞数</th>-->
+                            <!--<th class="am-hide-sm-only">评论数</th>-->
+                            <!--<th class="am-hide-sm-only">收藏数</th>-->
+                            <th class="table-date am-hide-sm-only">发布日期</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="vo">
+                            <tr>
+                                <!-- <td><input type="checkbox" /></td> -->
+                                <td>{$vo.id}</td>
+                                <td><a href="#">{$vo.title}</a></td>
+                                <!-- <td>第{$vo.class_index}讲</td> -->
+                                <td class="am-hide-sm-only">{$vo.speaker}</td>
+                                <!--<td class="am-hide-sm-only">{$vo.branch_name}</td>-->
+                                <td class="am-hide-sm-only">{$vo.create_time|date="Y-m-d H:i:s",###}</td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary btn-play"
+                                                    data-id="{$vo.id}" type="button"><span
+                                                    class="am-icon-play-circle"></span> 播放
+                                            </button>
+                                            <!--<button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/PartyClass/branchSituation?partyClassId={$vo.id}');" type="button"><span  class="am-icon-indent"></span> 支部完成情况</button>-->
+                                            <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec"
+                                               type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <!--<hr/>-->
+                    <!--<p>注：.....</p>-->
+                </div>
+            </div>
+
+        </div>
+
+        <div class="am-modal am-modal-prompt" tabindex="-1" id="form-prompt">
+            <div class="am-modal-dialog" style="width: 50%; height: 50%">
+                <!--<video style="width: 100%; height: 100%; background-color: #000;" controls="controls" autoplay>-->
+                <!--<source id="class-video" src="" type="video/ogg">-->
+                <!--<source id="class-video" src="" type="video/mp4">-->
+                <!--<span style="color: white">您的浏览器不支持此种视频格式。</span>-->
+                <!--</video>-->
+                <volist name="page.list" id="vo">
+                    <video id="video-show-{$vo.id}" class="video-js am-hide" controls data-setup="{}" tabindex="6"
+                           style="width: 100%; height:100%;background-color: #000;">
+                        <source src="{$vo.video|show_img}" type="video/mp4">
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a web browser that
+                            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                        </p>
+                    </video>
+                </volist>
+                <!--<video style="width: 100%; height: 100%; background-color: #000;" id="class-video" controls="controls" src="" autoplay></video>-->
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+    <link rel="stylesheet" href="__STATICS__/video5.18.4.js/css/video-js.css"/>
+    <script src="http://vjs.zencdn.net/5.18.4/video.min.js"></script>
+    <script>
+        var playerMap = {};
+    </script>
+    <volist name="page.list" id="vo">
+        <script>
+
+            playerMap["play-{$vo.id}"] = videojs('video-show-{$vo.id}');
+        </script>
+    </volist>
+    <script>
+        $('#my-start').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $(this).parent().prev().val($('#my-start').data('date'));
+            $(this).datepicker('close');
+        });
+        $('#my-end').datepicker().
+        on('changeDate.datepicker.amui', function(event) {
+            $(this).parent().prev().val($('#my-end').data('date'));
+            $(this).datepicker('close');
+        });
+        $('.btn-cancel-date').click(function(){
+            $(this).parent().prev().val('');
+
+            return false
+        })
+
+        $('.btn-play').on('click', function () {
+            var id = $(this).attr('data-id');
+//  console.log("url = " + url);
+            $('.video-js').addClass('am-hide')
+            $("#video-show-" + id).removeClass('am-hide');
+            var payer = playerMap["play-" + id];
+            payer.play();
+//  $('#class-video').attr('src', "http://www.example.com/path/to/video.mp4");
+
+            $('#form-prompt').modal({
+                relatedTarget: this,
+
+            });
+        });
+
+        var id = 0;
+        $('.btn-dec').click(function () {
+            id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/PartyClass/ajaxDecClass',
+                        type: 'POST', //GET
+                        data: {id: id},
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+    </script>
+</block>

@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>学习交流</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="flexible" content="initial-dpr=2" />
+		<link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+		<link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+		<script src="__STATICS__/flexible/flexible.js"></script>
+		<link rel="stylesheet" href="__CSS__/reset.css">
+		<link rel="stylesheet" type="text/css" href="__CSS__/notes/notes.css"/>
+	</head>
+		
+	<body>
+	<div class="page">
+		<div class="icon"><img src="__IMG__/notes/bookmark.png" alt=""></div>
+		<h1 class="title">个人学习笔记</h1>
+
+
+	</div>
+
+	<script src="__STATICS__/mui/mui.min.js"></script>
+	<script src="__STATICS__/zepto/zepto.js"></script>
+	<script src="__STATICS__/zepto/event.js"></script>
+	<script src="__STATICS__/zepto/touch.js"></script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="__JS__/notes/notes.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript">
+		//启用双击监听
+		mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'__ROOT__/Mob/Notes/_sub_notes',
+				id:'_sub_notes.html',
+				styles:{
+					top: '70px',
+					bottom: '15px',
+				}
+			}]
+		});
+
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+	</script>
+
+		<!--<script src="../plugin/zepto/zepto.js"></script>-->
+		<!--<script src="../plugin/zepto/event.js"></script>-->
+		<!--<script src="../plugin/zepto/touch.js"></script>-->
+		<!--<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>-->
+		<!--<script src="../js/notes/back_notes.js" type="text/javascript" charset="utf-8"></script>-->
+	</body>
+
+</html>

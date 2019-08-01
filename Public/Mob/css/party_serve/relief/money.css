@@ -1,0 +1,169 @@
+/*--------------金额点击变化背景颜色--------*/
+.amount-of-money .kek{
+	background-color:#CE3D3A;
+	color:#fff;
+	
+}
+/*--------------------选择支付方式---------*/
+.money .weChat .back{
+	background-color:#CE3D3A;
+}
+
+
+/*---------------支付时选择支付方式------------------*/
+.money .conf{
+	width:1.2rem;
+	height:100%;
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+}
+.money .conf i{
+	width:0.55rem;
+	height:0.55rem;
+	line-height:0.5rem;
+	border:1px solid #CE3D3A;
+	border-radius:50%;
+	text-align: center;
+	display: block;
+	margin:0.275rem auto 0 ;
+}
+.money .conf .confirm{
+	width:0.5rem;
+	height:0.5rem;
+}
+.money .conf .fff{
+	width:0.35rem;
+	height:0.3rem;
+	margin-top:0.1rem;
+}
+/*-----------------------------页面----------------*/
+.money{
+	position:absolute;
+	top:1.3rem;
+	left:0;
+	right:0;
+	bottom:0;
+	width:100%;
+	font-size:0.36rem;
+}
+.heart{
+	width:100%;
+	height:100%;
+}
+.money header{
+	width:100%;
+	height:1rem;
+	line-height:1rem;
+}
+.money .zhibu{
+	padding-left:0.35rem;
+	box-sizing:border-box;
+	font-weight:bold;
+	color:#333;
+}
+
+
+.main{
+	width:100%;
+}
+.main header{
+	background-color:#F0F0F0;
+	color:#666;
+	padding:0 0.35rem;
+	box-sizing:border-box;
+}
+.main .payment{
+	width:100%;
+	position:relative;
+	padding:0 0.35rem;
+	border:1px solid #f0f0f0;
+	color:#333;
+	
+}
+.main .payment .weChat{
+	height:1.2rem;
+	line-height:1.2rem;
+	padding-left:0.8rem;
+}
+.main .payment .weChat>img{
+	width:0.7rem;
+	display:block;
+	position:absolute;
+	top:0.32rem;
+	left:0.35rem;
+}
+
+.main .amount-of-money{
+	width:100%;
+	padding:0 0.35rem;
+}
+.amount-of-money header{
+	font-weight:bold;
+	background-color:#fff;
+	color:#333;
+	padding-left: 0;
+}
+.amount-of-money ul{
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
+.amount-of-money li{
+	width:30.8%;
+	height:1.3rem;
+	line-height:1.3rem;
+	text-align:center;
+	border:1px solid #CE3D3A;
+	color:#CE3D3A;
+	float:left;
+	margin-bottom:0.35rem;
+	border-radius:0.2rem;
+	font-size:0.42rem;
+}
+.amount-of-money li:nth-child(3n-1){
+	margin:0 0.35rem;
+}
+.amount-of-money #money{
+	width:100%;
+	height:1rem;
+	color:#666;
+	margin-bottom:0.35rem;
+	border:1px solid #F0F0F0;
+	padding:0.1rem 0.3rem;
+	box-sizing:border-box;
+}
+.amount-of-money #money:-ms-input-placeholder{
+	color:#666;
+}
+
+
+
+.money footer{
+	width:100%;
+}
+.money footer header{
+	background-color:#F0F0F0;
+	color:#333;
+	padding-left:0.35rem;
+}
+.money .text{
+	margin:0.35rem;
+	padding:0.15rem;
+	height:2rem;
+	border:1px solid #F0F0F0;
+	color:#666;
+	overflow:hidden;
+	line-height:0.5rem;
+}
+.money footer #help{
+	width:3rem;
+	height:1.2rem;
+	line-height:1.2rem;
+	border:0;
+	color:#fff;
+	background-color:#CE3D3A;
+	margin:0.2rem auto;
+	display:block;
+}

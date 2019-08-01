@@ -1,0 +1,253 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/ledger_list/ledger_list.css">
+    <link rel="stylesheet" href="__CSS__/ledger_list/ledger.css">
+    <style>
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .title_img .title {
+            background: url(__IMG__/branch/title@2x.png) no-repeat 100% 100%;
+            background-size: 100%;
+        }
+
+        .banner .head .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+        html{
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <div class="banner ">
+            <div class="title hide"><i onclick="history.go(-1);"></i>{$norm.title}</div>
+            <div class="banner_bg "><img src="__IMG__/ledger_list/bg.png" alt=""></div>
+        </div>
+        <div class="content">
+            <div class="search">
+                <input type="search" placeholder="请输入关键字"><i id="search-btn"></i>
+            </div>
+            <nav class="nav" id="orderby">
+                <div class="item orderby-item active time" data-id="time">发布时间<i></i>
+                    <p></p></div>
+                <div class="item orderby-item like" data-id="dz">点赞最多<p class="hide"></p></div>
+                <div class="item screen"><i></i>筛选<p class="hide"></p></div>
+            </nav>
+            <div class="list">
+
+
+            </div>
+            <!--弹框组-->
+            <div class="shade hide">
+                <ul class="content">
+                    <li  data-id="publish_time desc">最新发布<i></i></li>
+                    <li  data-id="publish_time asc">最早发布<i></i></li>
+                </ul>
+            </div>
+            <div class="screen_shade hide">
+                <div class="content">
+                    <div class="head">筛选</div>
+                    <div class="title">标签</div>
+                    <div class="container tag-items" id="tag">
+                        <div class="item tag-item" data-id="">不选择</div>
+                        <volist name="tags" id="item">
+                            <php>if($detail['tag_id'] == $item['id']){</php>
+                            <div class="item tag-item active" data-id="{$item.id}">{$item.title}</div>
+                            <php>}else{</php>
+                            <div class="item tag-item" data-id="{$item.id}">{$item.title}</div>
+                            <php>}</php>
+                        </volist>
+                    </div>
+                    <div class="foot hidden" style="display: none">
+                        <div class="title">发布时间</div>
+                        <div class="container">
+                            <label><input type="date" class="star"><i></i></label><i>-</i><label><input type="date"
+                                                                                                        class="end"><i></i></label>
+                        </div>
+                    </div>
+                    <footer>
+                        <div class="reset">重置</div>
+                        <div class="save" id="search">完成</div>
+                        <div class=""></div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hide" id="listItem" style="display: none">
+        <a href="__ROOT__/Mob/Taizhang/show?id=#id#&t_id=#template_id#">
+        <dl>
+            <dt><img src="#cover#" style="overflow: hidden"></dt>
+            <dd class="content">
+                <div class="tag1">
+                    <!--<img src="__IMG__/ledger_list/1.png" style="overflow: hidden" alt="标签1">-->
+                </div>
+                <h2>#title#</h2>
+                <div class="content">#content#</div>
+                <div class="overview">
+                    #tags#
+                    <!--<span>主体责任落实</span>-->
+                    <!--<span>主体责任落实</span>-->
+                    <!--<span>干部关爱</span>-->
+                    <!--<span>廉政谈话</span>-->
+                    <i></i>
+                </div>
+                <div class="foot">
+                    <div class="foot_title">
+                        <img src="#header#" style="overflow: hidden" alt="">
+                        <span class="name">#realname#</span>
+                        <span class="position">#post_name#</span>
+                        <i class="time">
+                            #time#
+                        </i>
+                    </div>
+
+                </div>
+            </dd>
+        </dl>
+        </a>
+        <div class="footer">
+            <div class="collect" data-id="#id#"><i></i>收藏(<span class="count">#sc#</span>)</div>
+            <div class="comment"><a href="__ROOT__/Mob/Taizhang/tz_comment?id=#id#"><i></i>评论(<span>#pl#</span>)</a></div>
+            <div class="like" data-id="#id#"><i></i>点赞(<span class="count">#dz#</span>)</div>
+        </div>
+    </div>
+    <include file="Common/_loading"/>
+</block>
+<block name="scripts">
+
+    <script src="__JS__/ledger_list/ledger_list.js"></script>
+     <script>var __root__ = "__ROOT__";</script>
+	<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="__JS__/ledger_list/dz.js"></script>
+    <script>
+
+        var itemHtml = $('#listItem').html();
+
+
+
+        refresh();
+
+        function refresh() {
+            var tag_id = $('.tag-items .active').attr('data-id');
+            var keyword = $('.search input').val();
+            var order = $('#orderby .active').attr('data-id');
+            var sort = $('.shade .content active').attr('data-id');
+            var order_time = $('.order_time').attr('data-id');
+            console.log('order_time',order_time)
+            if(order == 'dz'){
+                sort = 'dz_count desc';
+            }else{
+                sort = $('.shade .content active').attr('data-id');
+            }
+
+            $('.list').html('');
+            $('.list').append("<div class='div-loading' style='font-size: 12px;text-align: center;height: 30px;line-height: 30px;color: dimgrey'>加载中...</div>");
+            ajaxLoading(keyword,tag_id,sort,order_time);
+        }
+        $('#search').click(function () {
+            refresh();
+        })
+        $('.reset').click(function () {
+            $('#tag div').removeClass('active')//移除某一个属性
+        })
+        function  ajaxLoading(keyword,tag_id,sort,order_time) {
+            $.ajax({
+                data: {
+                    keyword: keyword,
+                    id: '{$detail.id}',
+                    type:'{$detail.type}',
+                    tag_id:tag_id,
+                    sort:sort,
+                    order_time:order_time,
+                    norm_id:'{$detail.norm_id}'
+                },
+                type: 'POST',
+                dataType: 'json',
+                url: '__ROOT__/Mob/Taizhang/ajax_loading_tz',
+                success: function (data) {
+                    $('.div-loading').remove()
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var html_content = '';
+                            $.each(data['data'], function (i, vo) {
+                                var item = replaceStr(itemHtml, '#title#',vo.title);
+                                item = replaceStr(item, '#id#',show_name(vo.id));
+                                item = replaceStr(item, '#template_id#',show_name(vo.template_id));
+                                item = replaceStr(item, '#realname#',show_name(vo.user_realname));
+                                item = replaceStr(item, '#post_name#',show_name(vo.organization_name));
+                                if(check_null(vo.tag_name)){
+                                    item = replaceStr(item, '#tags#',"");
+                                }else{
+                                    item = replaceStr(item, '#tags#',"<span>" + vo.tag_name + "</span>");
+                                }
+                                item = replaceStr(item, '#content#',get_content(vo.content,10));
+                                item = replaceStr(item, '#time#',get_time(vo.create_time));
+                                item = replaceStr(item, '#cover#',get_tz_img_url(vo.cover));
+                                item = replaceStr(item, '#header#',get_head_url(vo.user_headimgurl));
+                                item = replaceStr(item, '#sc#',show_count(vo.sc_count));
+                                item = replaceStr(item, '#dz#',show_count(vo.dz_count));
+                                item = replaceStr(item, '#pl#',show_count(vo.pl_count));
+                                html_content += item;
+                            });
+                            $('.list').append(html_content);
+                        } else {
+                            $('.list').append("<div class='div-loading' style='font-size: 12px;text-align: center;height: 30px;line-height: 30px;color: dimgrey'>没有更多了</div>");
+                        }
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (data) {
+                    $('.div-loading').remove()
+                    alert('网络异常');
+                }
+            })
+        }
+
+        //点击指示1
+        $(".orderby-item").click(function(){
+            $('nav .item').removeClass('active');
+            $(this).addClass('active');
+
+            if( $(this).attr('data-id')=='dz'){
+                refresh();
+            }else if($(this).attr('data-id')=='time'){
+                $(".shade").removeClass("hide");//显示 发布时间 遮罩层
+                flag=1;
+                refresh();
+            }
+
+        })
+        $('#search-btn').click(function () {
+            refresh()
+        })
+
+        $(".shade>.content>li").click(function(){
+            $(".shade>.content>li.active").removeClass("active");
+            $(this).addClass("active");
+            setTimeout(function(){
+                $(".shade").addClass("hide");　　　//隐藏遮罩
+                refresh();
+            },1000);　　　　　　　　　　　　//重置为0
+        });
+
+    </script>
+</block>
+

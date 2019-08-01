@@ -1,0 +1,210 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="__STATICS__/webuploader-0.1.5/webuploader.css">
+<style>
+  #vld-tooltip {
+    position: absolute;
+    z-index: 1000;
+    padding: 5px 10px;
+    background: #F37B1D;
+    min-width: 150px;
+    color: #fff;
+    transition: all 0.15s;
+    box-shadow: 0 0 5px rgba(0,0,0,.15);
+    display: none;
+  }
+
+  #vld-tooltip:before {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    content: "";
+    border-width: 0 8px 8px;
+    border-color: transparent transparent #F37B1D;
+    border-style: none inset solid;
+  }
+</style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">扶贫专项</strong></a> /
+                <small><empty name="detail">新增<else/>编辑《{$detail.name}》</empty></small>
+            </div>
+        </div>
+        <hr>
+        <div class="am-tabs-bd" style="margin:20px; border: 1px solid #ddd;">
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form am-form-horizontal" id="formData" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{$detail.id}"/>
+                    <div class="am-form-group">
+                        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">排序</label>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" name="sort" value="{$detail.sort}" placeholder="排序">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+                    </div>
+
+                    <div class="am-form-group">
+                    <label for="doc-ipt-3" class="am-u-md-2 am-form-label">标题</label>
+                    <div class="am-u-sm-8 am-u-md-6">
+                    <input type="text" name="name" value="{$detail.name}" placeholder="标题(至少 3 个字符)" minlength="2" required/>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-form-help">* 请输入标题</div>
+                    </div>
+
+                    <div class="am-form-group">
+                    <label for="doc-ipt-3" class="am-u-md-2 am-form-label">网址</label>
+                    <div class="am-u-sm-8 am-u-md-6">
+                    <input type="url" name="url" value="{$detail.url}" placeholder="地址(至少 3 个字符)" required>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-form-help">* 请输入网址</div>
+                    </div>
+
+                    <div class="am-form-group">
+                    <label for="doc-ipt-3" class="am-u-md-2 am-form-label">图片</label>
+                    <div class="am-u-sm-8 am-u-md-6">
+                        <div class="am-form-group am-form-file">
+                          <button type="button" class="am-btn am-btn-default am-btn-sm">
+                            <i class="am-icon-cloud-upload"></i> 选择要上传的文件</button>
+                          <input type="file" name="file" multiple>
+                        </div>
+                        <if condition="$detail['img']">
+                            <img src="{$detail.img}" class="am-img-thumbnail">
+                        </if>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+
+                    <div class="am-form-group">
+                    <label for="doc-ipt-3" class="am-u-md-2 am-form-label">启用</label>
+                    <div class="am-u-sm-8 am-u-md-6">
+                    <label class="am-radio-inline">
+                    <input type="radio"  value="0" name="status" <if condition="!$detail['status']">checked</if>> 禁用
+                    </label>
+                    <label class="am-radio-inline">
+                    <input type="radio"  value="1" name="status" <if condition="$detail['status'] == 1">checked</if>> 启用
+                    </label>
+                    </div>
+                    <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                    </div>
+                    <div class="am-form-group">
+                        <div class="am-u-sm-10 am-u-sm-offset-2">
+                            <button type="submit"
+                            class="am-btn am-btn-default btn-loading-example">提交</button>
+                            <button type="button" class="am-btn am-btn-default" id="btn-cancel">放弃</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</block>
+<block name="scripts">
+<script>
+    $(function() {
+      var $form = $('#formData');
+      var $tooltip = $('<div id="vld-tooltip">提示信息！</div>');
+      $tooltip.appendTo(document.body);
+
+      $form.validator({
+          validateOnSubmit: true,
+          submit: function() {
+              if(this.isFormValid()) {
+                  console.log('提交中。。。');
+                  $('.btn-loading-example').on('click', function(){
+                      $.AMUI.progress.start();
+                  })
+                  var forms = new FormData($("#formData")[0]);
+                  $.ajax({
+                  url: '__ROOT__/Admin/Special/ajaxSave',
+                  type: 'POST',
+                  data: forms,
+                  dataType: 'json',
+                  async: false,
+                  cache:false,
+                  traditional: true,
+                  contentType: false,
+                  processData: false,
+                  success: function (data) {
+                      console.log(data);
+                  if (data.status == 0) {
+                          loading_page('__ROOT__/Admin/Special/index');
+                      } else {
+                              alert_modal(data.msg);
+                          }
+                      },
+                      error: function (xhr, textStatus) {
+                          alert_modal("服务器暂时无法连接，请稍候再试");
+                      }
+                  });
+              }
+              return false;
+          }
+      });
+
+      var validator = $form.data('amui.validator');
+
+      $form.on('focusin focusout', '.am-form-error input', function(e) {
+        if (e.type === 'focusin') {
+          var $this = $(this);
+          var offset = $this.offset();
+          var msg = $this.data('foolishMsg') || validator.getValidationMessage($this.data('validity'));
+
+          $tooltip.text(msg).show().css({
+            left: offset.left + 10,
+            top: offset.top + $(this).outerHeight() + 10
+          });
+        } else {
+          $tooltip.hide();
+        }
+      });
+    });
+
+function ajaxSave(){
+    var form = new FormData($("#formData")[0]);
+    $.ajax({
+    url: '__ROOT__/Admin/Special/ajaxSave',
+    type: 'POST',
+    data: form,
+    dataType: 'json',
+    async: false,
+    cache:false,
+    traditional: true,
+    contentType: false,
+    processData: false,
+    success: function (data) {
+        console.log(data);
+    // if (data.status == 0) {
+        //     loading_page('__ROOT__/Admin/PartyBranch/index?p={$p}');
+        // } else {
+            //     alert_modal(data.msg);
+            // }
+        },
+        error: function (xhr, textStatus) {
+            alert_modal("服务器暂时无法连接，请稍候再试");
+        }
+    });
+    return false;
+}
+
+// 放弃保存
+$('#btn-cancel').click(function () {
+    $('#confirm-text').text('确认取消编辑吗?');
+    $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function (options) {
+            javascript :history.back(1);
+        },
+        onCancel: function () {
+        }
+    })
+})
+</script>
+</block>

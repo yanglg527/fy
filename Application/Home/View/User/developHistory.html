@@ -1,0 +1,420 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .main{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            background: white;
+        }
+
+        body{
+            background-color: white;
+        }
+        .container{
+            background-color: white;
+        }
+
+        .header-div{
+            height: 60px;
+            width: 60px;
+            margin: auto;
+            border-radius:60px;
+            box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+            -moz-border-radius: 60px;
+            -webkit-border-radius: 60px;
+        }
+        .header-div img{
+            width:60px;
+            height:60px;
+            border-radius: 50%;	/* relative value */
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            transition: linear 0.25s;
+        }
+
+        .user-name{
+            margin-top: 6px;
+            text-align: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .user-branch{
+            text-align: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .post{
+            padding: 0px 3px;
+            border-radius: 3px;
+            background: #FFE600;
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-left: 15px;
+        }
+
+        .sex-icon{
+            width: 11px;
+            margin-left: 5px;
+            margin-bottom: 3px;
+        }
+
+        .user-point{
+            width: 100px;
+            height: 20px;
+            line-height: 20px;
+            border-radius: 9px;
+            background: #FFB400;
+            font-size: 12px;
+            color: white;
+            margin: auto;
+            margin-top: 5px;
+            padding: 0px 20px;
+            position: relative;
+            text-align: center;
+        }
+        .user-point img{
+            width: 12px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 5px;
+            margin: auto;
+        }
+
+        /*.item{*/
+            /*width: 100%;*/
+            /*height: 75px;*/
+            /*padding-left: 20px;*/
+        /*}*/
+        /*.item{*/
+            /*width: 100%;*/
+            /*height: 90px;*/
+            /*padding-left: 20px;*/
+            /*position: relative;*/
+        /*}*/
+
+        /*.time-zhou{*/
+            /*height: 100%;*/
+            /*float: left;*/
+        /*}*/
+
+        /*.item-sub{*/
+            /*height: 100%;*/
+            /*margin-left: 20px;*/
+            /*border-bottom: 1px solid #E8E8E8;*/
+            /*position: relative;*/
+        /*}*/
+
+        /*.date{*/
+            /*position: absolute;*/
+            /*left: 0px;*/
+            /*top: 10px;*/
+            /*height: 16px;*/
+            /*line-height: 16px;*/
+            /*padding: 0px 4px;*/
+            /*font-size: 12px;*/
+            /*color: white;*/
+            /*background: #35B7DD;*/
+            /*border-radius: 7px;*/
+        /*}*/
+
+        /*.item-content{*/
+            /*position: absolute;*/
+            /*left: 0px;*/
+            /*top: 18px;*/
+            /*font-size: 16px;*/
+            /*color: #1a1a1a;*/
+        /*}*/
+
+        /*.btn-text{*/
+            /*position: absolute;*/
+            /*right: 20px;*/
+            /*top: 27px;*/
+            /*font-size: 13px;*/
+            /*color: #999999;*/
+        /*}*/
+
+        .item{
+            width: 100%;
+            height: 90px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .time-zhou{
+            height: 100%;
+            float: left;
+        }
+
+        .item-sub{
+            height: 100%;
+            margin-left: 20px;
+            border-bottom: 1px solid #E8E8E8;
+            position: relative;
+        }
+
+        .date{
+            position: absolute;
+            left: 0px;
+            top: 13px;
+            height: 16px;
+            line-height: 16px;
+            padding: 0px 4px;
+            font-size: 12px;
+            color: white;
+            background: #35B7DD;
+            border-radius: 7px;
+        }
+
+        .item-content{
+            position: absolute;
+            left: 0px;
+            top: 17px;
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+
+        .item-intro{
+            position: absolute;
+            left: 0px;
+            top: 43px;
+            font-size: 14px;
+            color: #aaaaaa;
+
+            width: 90%;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
+
+        .btn-text{
+            position: absolute;
+            right: 20px;
+            top: 37px;
+            bottom: 0px;
+            margin: auto;
+            font-size: 13px;
+            color: #999999;
+        }
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="main" style="padding-bottom: 40px">
+        <!--<a href="__ROOT__/Home/Branch/partyInfo?uid={$party.uid}">-->
+            <!--<div style="margin-top: 45px; background: url('__IMG__icon_history_bg.png') 100% 100%; padding: 15px 0px">-->
+                <!--<div class="header-div">-->
+                    <!--<img src="__IMG__headImg.jpg">-->
+                <!--</div>-->
+                <!--<div class="user-name">-->
+                    <!--<span>{$party.realname}</span>-->
+                    <!--<span><if condition="$party.gender == 0"><img class="sex-icon" src="__IMG__icon_girl.png"><else/><img class="sex-icon" src="__IMG__icon_nan.png"></if></span>-->
+                <!--</div>-->
+                <!--<div class="user-branch">-->
+                    <!--<span>{$party.branch_name}</span>-->
+                    <!--<span><if condition="$user.post_id gt 0"><span class="post">{$party.post_name}</span><else/><span class="post">{$user.role_name}</span></if></span>-->
+                <!--</div>-->
+                <!--<div class="user-point"> <img src="__IMG__icon_point.png"/> <span>积分 </span> <span id="user-point">{$user.score}</span> </div>-->
+            <!--</div>-->
+        <!--</a>-->
+        <a href="__ROOT__/Home/Branch/partyInfo?uid={$party.uid}">
+            <div style="margin-top: 45px; background: url('__IMG__icon_history_bg.png') 100% 100%; padding: 15px 0px">
+                <div class="header-div">
+                    <img src="{$party.headimgurl|get_head_url}">
+                </div>
+                <div class="user-name">
+                    <span>{$party.realname}</span>
+                    <span><if condition="$party.gender == 0"><img class="sex-icon" src="__IMG__icon_girl.png"><else/><img class="sex-icon" src="__IMG__icon_nan.png"></if></span>
+                </div>
+                <div class="user-branch">
+                    <span>{$party.branch_name}</span>
+                    <span><empty name="party.post_id"> <span class="post">{$party.role_name}</span> <else/> <span class="post">{$party.post_name}</span> </empty></span>
+                </div>
+                <div class="user-point"> <img src="__IMG__icon_point.png"/> <span>积分 </span> <span id="user-point">{$party.score}</span> </div>
+            </div>
+        </a>
+
+        <div style="height: 10px; background: #f7f8f8; width: 100%"></div>
+        <div style="height: 44px; line-height: 44px; font-size: 15px; color: #666666; padding-left: 15px; border-bottom: 1px solid #E8E8E8">发展历程</div>
+
+        <div style="padding: 5px 0px">
+            <volist name="list" id="item">
+                <!--<a href="__ROOT__/Home/User/mySpaceDetail?id={$item.id}&isOthers={$isOthers}">-->
+                    <div class="item" style="clear: both">
+                        <img class="time-zhou" src="__IMG__icon_time_zhou.png"/>
+                        <div class="item-sub">
+                            <p class="date">{$item.create_time|date="Y-m-d",###}</p>
+                            <p class="item-content">{$item.title}</p>
+                            <p class="item-intro">{$item.intro|show_sub_title}</p>
+                            <!--<span class="btn-text">查看 > </span>-->
+                            <if condition="$item.type eq 0">
+                                <a href="__ROOT__/Home/User/mySpaceDetail?id={$item.id}&isOthers={$isOthers}" class="btn-text">查看 > </a>
+                            </if>
+                        </div>
+                    </div>
+                <!--</a>-->
+            </volist>
+
+            <!--<volist name="list" id="item">-->
+                <!--<div class="item">-->
+                    <!--<img class="time-zhou" src="__IMG__icon_time_zhou.png"/>-->
+                    <!--<div class="item-sub">-->
+                        <!--<p class="date">{$item.create_time|date="Y-m-d",###}</p>-->
+                        <!--<p class="item-content">{$item.content}</p>-->
+                        <!--<if condition="$item.url neq null">-->
+                            <!--<div><a class="btn-text" href="__ROOT__{$item.url}">查看 > </a></div>-->
+                        <!--</if>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</volist>-->
+
+            <if condition="$showBtn eq 1">
+                <if condition="$role_id == 2">
+                    <div style="text-align: center; background: white; width: 100%; height: 40px; margin: 30px 0px">
+                        <button id="btn-official" data-arg="{$party.uid}" style="width: 50%; height: 100%; font-size: 15px" type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">转为党员</button>
+                    </div>
+                <elseif condition="$role_id == 3"/>
+                    <div style="text-align: center; background: white; width: 100%; height: 40px; margin: 30px 0px">
+                        <button id="btn-ready" data-arg="{$party.uid}" style="width: 50%; height: 100%; font-size: 15px" type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">转为预备党员</button>
+                    </div>
+                <elseif condition="$role_id == 4"/>
+                    <div style="text-align: center; background: white; width: 100%; height: 40px; margin: 30px 0px">
+                        <button id="btn-develop" data-arg="{$party.uid}" style="width: 50%; height: 100%; font-size: 15px" type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">转为拟发展对象</button>
+                    </div>
+                </if>
+            </if>
+        </div>
+
+    </div>
+
+</block>
+<block name="scripts">
+
+    <script type="text/javascript">
+        // 预备党员转为党员
+       $('#btn-official').click(function(){
+           var thisObject = this;
+           id = $(thisObject).attr('data-arg');
+           $('#success-sign-tip').html("确定将该成员从预备党员转为党员吗?");
+           $('.am-modal-btn').html("确定");
+           $('#my-confirm').modal({
+               relatedTarget: this,
+               onConfirm: function(options) {
+                   $.ajax({
+                       url:'__ROOT__/Home/User/ajaxTobeOfficial',
+                       type:'POST', //GET
+                       data:{
+                         uid:id,
+                       },
+                       dataType:'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                       success:function(data){
+                           option={closeViaDimmer:false};
+                           $("#tip-content").html(data.msg);
+                           $('#my-alert').modal(option);
+//                           if(data.status == 0){
+//
+//                           }else{
+//                               alert_modal(data.msg);
+//                           }
+                       },
+                       closeOnConfirm: false,
+                       error:function(xhr,textStatus){
+                           alert_modal("服务器暂时无法连接，请稍候再试");
+                       }
+                   })
+               },
+               onCancel: function() {
+
+               }
+           });
+       });
+
+       // 发展对象转为预备党员
+       $('#btn-ready').click(function(){
+           var thisObject = this;
+           id = $(thisObject).attr('data-arg');
+           $('#success-sign-tip').html("确定将该成员从拟发展对象转为预备党员吗?");
+           $('.am-modal-btn').html("确定");
+           $('#my-confirm').modal({
+               relatedTarget: this,
+               onConfirm: function(options) {
+                   $.ajax({
+                       url:'__ROOT__/Home/User/ajaxTobeReady',
+                       type:'POST', //GET
+                       data:{
+                           uid:id,
+                       },
+                       dataType:'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                       success:function(data){
+                           option={closeViaDimmer:false};
+                           $("#tip-content").html(data.msg);
+                           $('#my-alert').modal(option);
+//                           if(data.status == 0){
+//
+//                           }else{
+//                               alert_modal(data.msg);
+//                           }
+                       },
+                       closeOnConfirm: false,
+                       error:function(xhr,textStatus){
+                           alert_modal("服务器暂时无法连接，请稍候再试");
+                       }
+                   })
+               },
+               onCancel: function() {
+
+               }
+           });
+       });
+
+       // 积极分子转为发展对象
+       $('#btn-develop').click(function(){
+           var thisObject = this;
+           id = $(thisObject).attr('data-arg');
+           $('#success-sign-tip').html("确定将该成员从积极分子转为拟发展对象吗?");
+           $('.am-modal-btn').html("确定");
+           $('#my-confirm').modal({
+               relatedTarget: this,
+               onConfirm: function(options) {
+                   $.ajax({
+                       url:'__ROOT__/Home/User/ajaxTobeDevelop',
+                       type:'POST', //GET
+                       data:{
+                           uid:id,
+                       },
+                       dataType:'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                       success:function(data){
+                           option={closeViaDimmer:false};
+                           $("#tip-content").html(data.msg);
+                           $('#my-alert').modal(option);
+//                           if(data.status == 0){
+//
+//                           }else{
+//                               alert_modal(data.msg);
+//                           }
+                       },
+                       closeOnConfirm: false,
+                       error:function(xhr,textStatus){
+                           alert_modal("服务器暂时无法连接，请稍候再试");
+                       }
+                   })
+               },
+               onCancel: function() {
+
+               }
+           });
+       });
+
+        $('#btn-sure-my-alert').click(function(){
+//            window.location.href=
+//            history.go(-1);
+            window.location.href = window.location.href;
+        });
+
+    </script>
+
+</block>

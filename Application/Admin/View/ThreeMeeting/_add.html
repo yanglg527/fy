@@ -1,0 +1,227 @@
+<form class="am-form am-form-horizontal" id="form-data" method="post">
+<!-- action="__ROOT__/Admin/ThreeMeeting/ajaxSave"> -->
+    <input type="hidden" name="id" value=""/>
+    <input type="hidden" id="file_id" name="file_id"/>
+    <input type="hidden" id="surplus_file_id" name="surplus_file_id"/>
+    <input type="hidden" id="status" name="status"/>
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">会议类型</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="meeting_type" required id="meetingType">
+                <foreach name="meetingtype" item="vo" key="key">
+                    <option value="{$key}">{$vo}</option>
+                </foreach>
+            </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+    <div class="am-alert am-alert-danger" id="my-alert" style="display: none">
+      <p>开始日期应小于结束日期！</p>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">党组织</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="branchId" id="branchId" required >
+                <option value="">选择支部</option>
+                <foreach name="brancds" item="vo">
+                    <option value="{$vo.id}"
+                    <if condition="$vo.id == $branchid">selected="selected"</if>>
+                           {$vo.name}
+                    </option>
+                </foreach>
+            </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">关联任务</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="tasks_id">
+                <option value="">请选择任务</option>
+                <foreach name="tasks" item="t">
+                    <option value="{$t.id}">{$t.tasks_title}</option>
+                </foreach>
+            </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">找不到？ <a href="__ROOT__/Admin/Tasks/index">结办试试</a></div>
+    </div>
+
+    <!-- disabled="disabled" -->
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">召开日期</label>
+        <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+          <input type="text" readonly="readonly" name="start_time" id="start_time" class="am-form-field" placeholder="选择召开日期" required>
+          <span class="am-input-group-btn am-datepicker-add-on">
+            <button class="am-btn am-btn-default" type="button" id="startDate">
+                <span class="am-icon-calendar"></span></button>
+          </span>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选召开日期
+        </div>
+    </div>
+
+    <!-- <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">截止时间</label>
+        <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+          <input type="text"  readonly="readonly" name="end_time" id="end_time" class="am-form-field" placeholder="选择截止时间" required>
+          <span class="am-input-group-btn am-datepicker-add-on">
+            <button class="am-btn am-btn-default" id="endDate"  type="button">
+                <span class="am-icon-calendar"></span></button>
+          </span>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填，请选择时间
+        </div>
+    </div> -->
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">召开地点</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="place" placeholder="输入召开地点(至少 3 个字符)" minlength="3" required/>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group group-name">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">党小组名称</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" id="group-name" disabled="disabled" name="party_group_name" placeholder="党小组名称(至少 2 个字符)" minlength="2"/>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">会议主题</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="theme" placeholder="会议主题(至少 3 个字符)" required>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">主持人</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="hostId" class="zhuchi" required>
+                <option value="">选择主持人</option>
+                <foreach name="users" item="vo">
+                    <option value="{$vo.uid}">
+                           {$vo.realname}
+                    </option>
+                </foreach>
+                </div>
+            </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">记录人</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="recordId" class="jilu" required>
+                <option value="">选择记录人</option>
+                <foreach name="users" item="vo">
+                    <option value="{$vo.uid}"
+                    <if condition="$vo.uid == $info['record_id']">selected="selected"</if>>
+                           {$vo.realname}
+                    </option>
+                </foreach>
+            </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">会议议题</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <textarea name="remarks" rows="5" required></textarea>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">会议记录</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <!-- content -->
+            <textarea class="am-validate" name="content" id="content" required></textarea>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group" id="lxBox">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">列席人员</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <select name="lx[]" data-am-selected="{dropUp: 1,searchBox: 8,btnWidth: '100%', maxHeight:500}"
+             id="lxSelect" multiple>
+             <foreach name="allUser" item="v">
+                 <option value="{$v.uid}">{$v.realname}</option>
+             </foreach>
+             </select>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">出席人员</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <label class="am-checkbox-inline allpick " style="margin-left: -10px">
+                <div class="am-btn am-btn-success am-btn-xs" onclick="onAll()">全选</div>
+            </label>
+            <label class="am-checkbox-inline allnotpick close" style="margin-left: -10px">
+                <div class="am-btn am-btn-success am-btn-xs" onclick="closeAll()">取消全选</div>
+            </label>
+            <div class="chuxi">
+            <foreach name="users" item="data">
+                <label class="am-checkbox-inline first-checkbox">
+                <input type="checkbox"  value="{$data.uid}" name="cx[]" minchecked="2" onclick="mutuallyExclusive('cx',{$data.uid})" required/> {$data.realname}
+                </label>
+            </foreach>
+            </div>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">请假人员</label>
+        <div class="am-u-sm-8 am-u-md-6 qingjia">
+            <foreach name="users" item="data">
+                <label class="am-checkbox-inline first-checkbox">
+                <input type="checkbox"  value="{$data.uid}" name="qj[]" onclick="mutuallyExclusive('qj',{$data.uid})"> {$data.realname}
+                </label>
+            </foreach>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">缺勤人员</label>
+        <div class="am-u-sm-8 am-u-md-6 queqin">
+            <foreach name="users" item="data">
+                <label class="am-checkbox-inline first-checkbox">
+                <input type="checkbox"  value="{$data.uid}" name="qx[]" onclick="mutuallyExclusive('qx',{$data.uid})"> {$data.realname}
+                </label>
+            </foreach>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <label for="doc-ipt-3" class="am-u-md-2 am-form-label">附件</label>
+        <div class="am-u-sm-8 am-u-md-6">
+            <div id="easyContainer"></div>
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+    </div>
+
+    <div class="am-form-group">
+        <div class="am-u-sm-10 am-u-sm-offset-2">
+          <button type="submit"
+          class="am-btn am-btn-default btn-loading-example" onclick="onStatus(2)">提交推送</button>
+          <button type="submit"
+          class="am-btn am-btn-default btn-loading-example" onclick="onStatus(0)">保存草稿</button>
+          <button type="button" class="am-btn am-btn-default" id="btn-cancel">放弃保存</button>
+        </div>
+    </div>
+</form>

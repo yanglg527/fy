@@ -1,0 +1,477 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .topic-block {
+            background: rgb(255, 255, 255);
+            margin-bottom: 20px;
+        }
+
+        .topic-header {
+            border-top: 1px solid rgb(240, 240, 241);
+            display: block !important;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+            color: rgb(120, 120, 120);
+        }
+
+        .topic-header:active {
+            background: white !important;
+        }
+
+        .list-area {
+            border-bottom: 1px solid rgb(240, 240, 241);
+            display: table;
+            padding-left: 30px;
+        }
+
+        .list-area:active {
+            background: rgb(243, 243, 243);
+        }
+
+        .list-area li {
+            display: table-cell;
+            height: 80px;
+            vertical-align: middle;
+            padding-top: 15px;
+            padding-bottom: 15px;
+
+        }
+
+        .icon-item img {
+            height: 100%;
+            width: 100%;
+        }
+
+
+        .text-item span {
+            font-size: 18px;
+            color: rgb(59, 59, 59);
+        }
+
+        .content .list {
+            padding-left: .5em;
+        }
+
+        .content .list-item {
+            display: table;
+            width: 100%;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .content .list-item .list-item-row {
+            display: table-row;
+            height: 6em;
+        }
+
+        .content .list-item .list-item-cell {
+            display: table-cell;
+        }
+
+        .content .list-item .list-item-cell img {
+            width: 5em;
+            height: 5em;
+            margin: .5em 0;
+        }
+
+        .content .list-item .list-item-cell p {
+            margin-bottom: .5em;
+            line-height: 1;
+        }
+
+        .content .list-item .list-item-cell .list-item-cell-bottom {
+            position: absolute;
+            bottom: .5em;
+            float: right;
+            right: .5em;
+            left: .5em;
+        }
+
+        .content .list-item .list-item-cell .list-item-cell-bottom .time {
+            color: #aaa;
+            font-size: 12px;
+            float: right;
+        }
+
+        .content .list-item .list-item-cell p.intro {
+            color: #CCCCCC;
+        }
+
+        .content .list-item .list-item-cell-right {
+            position: relative;
+            width: 100%;
+            padding: .5em;
+            vertical-align: top;
+        }
+
+        .fs12 {
+            font-size: .9em;
+        }
+
+        .fs16 {
+            font-size: 1.1em;
+        }
+
+        .b0 {
+            border-width: 0 !important;
+        }
+
+        .bl0 {
+            border-left-width: 0 !important;
+        }
+
+        .br0 {
+            border-right-width: 0 !important;
+        }
+
+        .bt0 {
+            border-top-width: 0 !important;
+        }
+
+        .bb0 {
+            border-bottom-width: 0 !important;
+        }
+
+        .br {
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .bl {
+            border-left: 1px solid #e5e5e5;
+        }
+
+        .bt {
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .bb {
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .b,
+        .ba {
+            border-right: 1px solid #e5e5e5;
+            border-left: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .radius-clear {
+            border-radius: 0 !important;
+        }
+
+        .pt0 {
+            padding-top: 0 !important;
+        }
+
+        .pt5 {
+            padding-top: 5px;
+        }
+
+        .pt10 {
+            padding-top: 10px;
+        }
+
+        .pt15 {
+            padding-top: 15px;
+        }
+
+        .pt20 {
+            padding-top: 20px;
+        }
+
+        .pt25 {
+            padding-top: 25px;
+        }
+
+        .pb0 {
+            padding-bottom: 0 !important;
+        }
+
+        .pb5 {
+            padding-bottom: 5px;
+        }
+
+        .pb10 {
+            padding-bottom: 10px;
+        }
+
+        .pb15 {
+            padding-bottom: 15px;
+        }
+
+        .pb20 {
+            padding-bottom: 20px;
+        }
+
+        .mt0 {
+            margin-top: 0;
+        }
+
+        .mt5 {
+            margin-top: 5px;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+
+        .mt15 {
+            margin-top: 15px;
+        }
+
+        .mt20 {
+            margin-top: 20px;
+        }
+
+        .mb0 {
+            margin-bottom: 0;
+        }
+
+        .mb5 {
+            margin-bottom: 5px;
+        }
+
+        .mb10 {
+            margin-bottom: 10px;
+        }
+
+        .mb15 {
+            margin-bottom: 15px;
+        }
+
+        .mb20 {
+            margin-bottom: 20px;
+        }
+
+        .list .sponsor {
+            position: absolute;
+            bottom: 1.8em;
+
+        }
+
+        .list .date {
+            font-size: .8em;
+            color: #aaa;
+        }
+
+        .list .address {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 1em;
+            font-size: .8em;
+            color: #aaa;
+        }
+
+        .list .date span,
+        .list .address span {
+            margin-right: .3em;
+        }
+
+        .list .address {
+            margin-right: 2em;
+        }
+
+        .list .count {
+            color: #FF7F0E;
+        }
+    </style>
+    <style>
+        .head-item .title {
+            padding: 5px;
+            height: auto;
+            line-height: normal;
+            margin-right: 20px;
+            margin-top: 25px;
+            color: #555
+        }
+
+        .head-item .title b {
+            margin-left: 10px;
+            border-top-color: #555;
+            border-bottom-color: #555;
+        }
+
+        .filter-items {
+            width: 200%;
+            height: auto
+        }
+
+        .filter-items .filter-item {
+            padding: 0;
+            height: auto;
+        }
+
+        .filter-items .select {
+            padding: 0;
+            background-color: #50d246;
+        }
+
+        .filter-items .select a {
+            color: #fffdf7 !important;
+        }
+
+        .filter-items .filter-item a {
+            color: #74726e;
+            padding: 0px;
+            padding-top: 10px;
+            padding-bottom: 10px
+        }
+        .am-tabs-default .am-tabs-nav > .am-active a {
+            background-color: #ce3d37;
+            color: #fff;
+        }
+    </style>
+</block>
+<block name="content">
+    <div data-am-widget="tabs" class="am-tabs am-tabs-default">
+        <ul class="am-tabs-nav am-cf">
+            <li class="am-active"><a href="[data-tab-panel-0]">进行中</a></li>
+            <li class=""><a href="[data-tab-panel-1]">已结束</a></li>
+        </ul>
+        <div class="am-tabs-bd">
+            <div data-tab-panel-0 class="am-tab-panel am-active">
+                <div class="content">
+                    <volist name="listsing" id="item">
+                        <if condition="empty($item['limit_branch_id']) OR !empty($item['limit_branch_id']) AND in_array($branchId, explode(',', $item['limit_branch_id']))">
+                            <empty name="item.cover">
+                                <a class="list-item" style="color: black" href="__ROOT__/Vote/Index/detail?id={$item.id}">
+                                    <div class="list-item-row" style="background-color: white;">
+                                        <div class="list-item-cell list-item-cell-right">
+                                            <div class="fs16" style="width:100%;height: 1.2em;line-height: 1.2em;overflow: hidden">
+                                                <div style="width: 70%;display: inline-block">
+                                                    <span style="height: 1.2em;line-height: 1.2em;overflow: hidden;font-size: 16px"> {$item.title}</span>
+                                                </div>
+                                                <span style="font-size:14px;float:right;padding-left:5px;padding-right:5px;margin-left:10px;color:white;background-color:orangered;padding-bottom:3px;border-radius: 3px">进行中
+                                                                </span>
+                                            </div>
+
+                                            <p class="intro mt15 fs12 sponsor" style="padding-bottom: 5px"><span class="date">
+                            <i class="am-icon-clock-o" aria-hidden="true"></i> {$item.limited_time|date='Y-m-d H:i',###}
+                            </span>
+                                            </p>
+
+                                            <div class="list-item-cell-bottom" style="line-height: 1em;vertical-align: middle">
+
+                             <span class="address">
+                                <span class="glyphicon glyphicon-map-marker"
+                                      style="line-height: 1em;height: 1em;overflow: hidden"> {$item.realname}</span>
+                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <else/>
+                                <div class="list list-have-img" style="background-color: white;">
+                                    <a class="list-item" style="color: black" href="__ROOT__/Vote/Index/detail?id={$item.id}">
+                                        <div class="list-item-row">
+                                            <div class="list-item-cell">
+                                                <img src="{$item.cover|show_img}">
+                                            </div>
+                                            <div class="list-item-cell list-item-cell-right">
+                                                <div class="fs16" style="width:100%;height: 1.2em;line-height: 1.2em;overflow: hidden">
+                                                    <div style="width: 70%;display: inline-block">
+                                                        <span style="height: 1.2em;line-height: 1.2em;overflow: hidden;font-size: 16px"> {$item.title}</span>
+                                                    </div>
+                                                    <span style="font-size:14px;float:right;padding-left:5px;padding-right:5px;margin-left:10px;color:white;background-color:orangered;padding-bottom:3px;border-radius: 3px">进行中
+                                                                </span>
+                                                </div>
+
+                                                <p class="intro mt15 fs12 sponsor" style="padding-bottom: 5px"><span class="date">
+                            <i class="am-icon-clock-o" aria-hidden="true"></i> {$item.limited_time|date='Y-m-d H:i',###}
+                            </span>
+                                                </p>
+
+                                                <div class="list-item-cell-bottom" style="line-height: 1em;vertical-align: middle">
+
+                             <span class="address">
+                                <span class="glyphicon glyphicon-map-marker"
+                                      style="line-height: 1em;height: 1em;overflow: hidden"> {$item.realname}</span>
+                            </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </empty>
+                        </if>
+                    </volist>
+
+                </div>
+            </div>
+            <div data-tab-panel-1 class="am-tab-panel ">
+                <div class="content">
+                    <volist name="listsed" id="item">
+                        <if condition="empty($item['limit_branch_id']) OR !empty($item['limit_branch_id']) AND in_array($branchId, explode(',', $item['limit_branch_id']))">
+                            <empty name="item.cover">
+                                <a class="list-item" style="color: black" href="__ROOT__/Vote/Index/detail?id={$item.id}">
+                                    <div class="list-item-row" style="background-color: white;">
+                                        <div class="list-item-cell list-item-cell-right">
+                                            <div class="fs16" style="width:100%;height: 1.2em;line-height: 1.2em;overflow: hidden">
+                                                <div style="width: 70%;display: inline-block">
+                                                    <span style="height: 1.2em;line-height: 1.2em;overflow: hidden;font-size: 16px"> {$item.title}</span>
+                                                </div>
+                                                <span style="font-size:14px;float:right;padding-left:5px;padding-right:5px;margin-left:10px;color:white;background-color:orangered;padding-bottom:3px;border-radius: 3px">已结束
+                                                                </span>
+                                            </div>
+
+                                            <p class="intro mt15 fs12 sponsor" style="padding-bottom: 5px"><span class="date">
+                            <i class="am-icon-clock-o" aria-hidden="true"></i> {$item.limited_time|date='Y-m-d H:i',###}
+                            </span>
+                                            </p>
+
+                                            <div class="list-item-cell-bottom" style="line-height: 1em;vertical-align: middle">
+
+                             <span class="address">
+                                <span class="glyphicon glyphicon-map-marker"
+                                      style="line-height: 1em;height: 1em;overflow: hidden"> {$item.realname}</span>
+                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <else/>
+                                <div class="list list-have-img" style="background-color: white;">
+                                    <a class="list-item" style="color: black" href="__ROOT__/Vote/Index/detail?id={$item.id}">
+                                        <div class="list-item-row">
+                                            <div class="list-item-cell">
+                                                <img src="{$item.cover|show_img}">
+                                            </div>
+                                            <div class="list-item-cell list-item-cell-right">
+                                                <div class="fs16" style="width:100%;height: 1.2em;line-height: 1.2em;overflow: hidden">
+                                                    <div style="width: 70%;display: inline-block">
+                                                        <span style="height: 1.2em;line-height: 1.2em;overflow: hidden;font-size: 16px"> {$item.title}</span>
+                                                    </div>
+                                                    <span style="font-size:14px;float:right;padding-left:5px;padding-right:5px;margin-left:10px;color:white;background-color:orangered;padding-bottom:3px;border-radius: 3px">已结束
+                                                                </span>
+                                                </div>
+
+                                                <p class="intro mt15 fs12 sponsor" style="padding-bottom: 5px"><span class="date">
+                            <i class="am-icon-clock-o" aria-hidden="true"></i> {$item.limited_time|date='Y-m-d H:i',###}
+                            </span>
+                                                </p>
+
+                                                <div class="list-item-cell-bottom" style="line-height: 1em;vertical-align: middle">
+
+                             <span class="address">
+                                <span class="glyphicon glyphicon-map-marker"
+                                      style="line-height: 1em;height: 1em;overflow: hidden"> {$item.realname}</span>
+                            </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </empty>
+                        </if>
+                    </volist>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+
+</block>

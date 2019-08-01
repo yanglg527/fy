@@ -1,0 +1,143 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .item {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .item-left {
+            position: absolute;
+            left: 10px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .item-right {
+            position: absolute;
+            left: 80px;
+            color: black;
+            right: 10px;
+            height: 50px;
+            font-size: 14px;
+
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: 0;
+            color: black;
+        }
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 10px 0px;
+            font-size: 14px;
+            color: black;
+        }
+        .item-right .am-selected{
+            width: 90%;
+        }
+
+
+
+        .container {
+            background: white;
+        }
+
+        .write-button {
+            position: absolute;
+            height: 50px;
+            width: 100%;
+            bottom: 0;
+            background: #0084c7;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            font-size: 16px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <form class="uploadform">
+        <div class="item">
+            <span class="item-left">标&nbsp;&nbsp;&nbsp;题：</span>
+            <span class="item-right"><input name="title" type="text" placeholder="请填写标题"></span>
+
+        </div>
+        <div class="item">
+            <span class="item-left">发件人：</span>
+            <span class="item-right">{$user.realname}</span>
+
+
+        </div>
+        <div class="item">
+            <span class="item-left">收件人：</span>
+            <span class="item-right">
+                <select data-am-selected name="rUid" style="border: none">
+                    <option value="0">点击选择书记</option>
+                    <volist name="sjlist" id="item">
+                        <option value="{$item.uid}">{$item.realname}(<empty name="item.branch_hq_id">{$item.branch_name}<else/>{$item.branch_hq_name}</empty>)</option>
+                    </volist>
+                </select>
+            </span>
+
+        </div>
+        <div class="item">
+            <span class="item-left">类&nbsp;&nbsp;&nbsp;型：</span>
+            <span class="item-right" >
+                <select data-am-selected name="type" style="border: none">
+                    <option value="0">意见和建议</option>
+                    <option value="1">寻求帮助</option>
+                </select>
+            </span>
+
+        </div>
+        <div style="height: 10px;background: #f8f8f8;width: 100%">
+
+        </div>
+
+        <div class="item" style="border-top: 1px solid gainsboro;">
+            <span class="item-left">内容</span>
+        </div>
+        <textarea name="content" rows="8"
+                  style="padding: 10px;width: 100%;border: none;border-bottom: 1px solid gainsboro;"></textarea>
+    </form>
+    <a class="write-button" id="btn-send">
+        发送
+    </a>
+
+</block>
+<block name="scripts">
+    <script>
+        $('#btn-send').click(function () {
+            $.ajax({
+                url: '__ROOT__/Mail/Index/ajaxSend',
+                type: 'POST', //GET
+                data: $('.uploadform').serialize(),
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if (data.status == 0) {
+                        window.location.href = '__ROOT__/Mail/Index/index?type=1';
+                    } else {
+                        alert(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    alert("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+    </script>
+
+</block>

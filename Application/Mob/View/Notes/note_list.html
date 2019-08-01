@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>本月学习笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/notes/notes.css"/>
+
+    <style>
+        .btn-delete{
+            width: 0.45rem;
+            height: 100%;
+            line-height: 100%;
+            float: right;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .btn-delete img {
+            width: 100%;
+            height: 60%;
+            display: inline-block;
+            margin-top:0.2rem;
+        }
+
+        .btn-edit{
+            width: 0.45rem;
+            height: 100%;
+            line-height: 100%;
+            float: right;
+            text-align: center;
+        }
+
+        .btn-edit img {
+            width: 100%;
+            height: 60%;
+            display: inline-block;
+            margin-top:0.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="icon"><img src="__IMG__/notes/bookmark.png" alt=""></div>
+        <h1 class="title">本月笔记</h1>
+
+        <ul class="notes" style="position: absolute;top: 60px; bottom: 30px; left: 50px; right: 20px; padding-bottom: 20px; overflow-y: scroll">
+            <volist name="list" id="vo">
+                <li class="li-item" data-href="./notes_book.html?id={$vo.id}&type=1">
+                    <div style="margin-top: 0.4rem; padding: 0px 0.3rem">{$vo.title}</div>
+                    <p>{$vo.content|get_content=###,50}</p>
+                    <footer>
+                        <div class="time">{$vo.create_time|date="Y-m-d",###}<span style="margin-left: 10px">共 {$vo.study_time} 小时</span></div>
+                        <div class="btn-edit" data-id="{$vo.id}"><img class="gou" src="__IMG__/notes/icon-edit.png"/></div>
+                        <div class="btn-delete" data-id="{$vo.id}"><img class="gou" src="__IMG__/notes/delete.png"/></div>
+                    </footer>
+                </li>
+            </volist>
+        </ul>
+    </div>
+    <a id="btn-edit" href="notes_edit.html" class="edit"><img src="__IMG__/notes/edit.png"/></a>
+</body>
+
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__STATICS__/dateUtil.js"></script>
+
+<script>
+    mui(".notes").on('tap','.li-item',function(){
+        var href = this.getAttribute("data-href");
+        console.log("href = " + href);
+        window.location.href = href;
+        return false;
+    })
+
+    mui("li").on('tap','.btn-delete',function(){
+        var id = this.getAttribute("data-id");
+        mui.confirm('是否要删除此笔记？', '提示', ["否", "是"], function(e) {
+            if (e.index == 1) {
+                ajaxDeleteNote(id);
+            }
+        });
+        return false;
+    })
+
+    mui("li").on('tap','.btn-edit',function(){
+        var id = this.getAttribute("data-id");
+        parent.window.location.href = "notes_edit.html?id=" + id;
+        return false;
+    })
+
+    function ajaxDeleteNote(id) {
+        mui.ajax('__ROOT__/Mob/Notes/ajaxDeleteNote',{
+            data:{
+                "id" : id
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                if (data['status'] == 0) {
+                    window.location.href = window.location.href;
+                }else{
+                    alert("errorMsg = " + data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                console.log(type);
+                alert('网络异常');
+            }
+        });
+    }
+</script>
+</html>

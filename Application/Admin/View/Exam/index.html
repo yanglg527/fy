@@ -1,0 +1,312 @@
+<extend name="./Application/Common/View/Common/base.html"/>
+<block name="styles">
+    <link href="__CSS__/public_2.css" rel="stylesheet">
+    <link href="__CSS__/class/index.css" rel="stylesheet">
+    <link href="__CSS__/page.css" rel="stylesheet">
+</block>
+<block name="nav">
+    <include file="./Application/Common/View/Common/nav.html"/>
+</block>
+
+<block name="content">
+   	<div class="content"> 
+		<include file="Common/_nav"/>
+		<div class="side_nav_right tests">
+			<div class="page-header">
+			  <button type="button" class="btn btn-success pull-right margin_right_20"  onclick="check_cer2();">新增测试</button>
+			  <h4>测试管理</h4>
+			</div>
+			<div id="alert_div" class="alert alert-warning alert-dismissible" role="alert" style="display:none;">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <p id="alert_p"></p>
+			</div>
+
+			  	<div class="table-responsive table_padding">
+				  <table class="table">
+				    <include file="_index"/>
+				  </table>
+				  <!--底部分页-->
+					<div class="page text_algin_center">
+					    {$page.show}
+					</div>
+				</div>
+		</div>
+
+	</div>
+
+<include file="_add" />
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增测试</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-horizontal">
+        	<input type="hidden" name="e_id" id='e_id' value="">
+		  <div class="form-group">
+		    <label for="e_title" class="col-sm-2 control-label">标题</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" name="e_title" id="e_title" placeholder="请输入测试的标题">
+		    </div>
+		  </div>
+		  <div class="form-group">
+			    <label for="e_room_title" class="col-sm-2 control-label">关联课堂</label>
+			    <div class="col-sm-10">
+					<!-- <p for="class" id="e_room_title" class="col-sm-10 control-label"></p> -->
+					<select name="e_room_title" id='e_room_title' class="form-control">
+					  <volist name="rooms" id="room">
+	                        <option value="{$room.id}" id='{$room.type_name}'>{$room.title}</option>
+	                   </volist>
+					</select>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="e_course_id" class="col-sm-2 control-label">所属科目</label>
+			    <div class="col-sm-5">
+			      <select class="form-control" id="e_course_id" name="e_course_id">
+					  <volist name="courses" id="course">
+	                        <option value="{$course.id}" >{$course.chn}</option>
+	                   </volist>
+					</select>
+			    </div>
+			  </div>
+		  	<div class="form-group" id="e_type_name_div">
+			    <label for="intro" class="col-sm-2 control-label">是否公开</label>
+			    <div class="col-sm-10">
+			      	<label class="radio-inline">
+					  <input type="radio" name="e_type_name" id="e_type_name1" value='1' checked> 公开
+					</label>
+					<label class="radio-inline">
+					  <input type="radio" name="e_type_name" id="e_type_name2" value='0'> 私密
+					</label>
+					<p class="help-block">如果设定为私密，仅有您的课堂的学生才可以做这份测试。</p>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="e_intro" class="col-sm-2 control-label">简短描述</label>
+			    <div class="col-sm-10">
+			      <textarea class="form-control" id="e_intro" name="e_intro" rows="3" placeholder="请输入该测试的简短介绍，长度不超过100个字。"></textarea>
+			    </div>
+			  </div>
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="change_info_ajax();">确&nbsp;定</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关&nbsp;闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+</block>
+
+<block name="scripts">
+
+	<script type="text/javascript">
+		function change_info(id,title,room_id,course_id,type_name,intro,room_type){
+			$('#e_title').val(title);
+			$('#e_id').val(id);
+			$('#e_room_title').val(room_id);
+			$('#e_course_id').val(course_id);
+			var radio_str = 'input[type=radio][name=e_type_name][value='+type_name+']';
+			$(radio_str).attr("checked",'checked');
+			$('#e_intro').val(intro);
+			if (room_type == '1') {
+				$('#e_type_name_div').css("display", "block");  
+			}else{
+				$('#e_type_name_div').css("display", "none");  
+			};
+			$('#myModal').modal('show');
+		}
+
+		function change_info_ajax(){
+			var title = $('#e_title').val();
+			var id = $('#e_id').val();
+			var course_id = $('#e_course_id').val();
+			var type_name = $('input[name="e_type_name"]:checked').val();
+			var intro = $('#e_intro').val();
+			var room_id = $('#e_room_title option:checked').val();
+			var option_id = $('#e_room_title option:checked').attr('id');
+			if (option_id != 1) {
+				type_name = 1;
+			};
+			$.ajax({
+                data:{title:title,id:id,course_id:course_id,type_name:type_name,intro:intro,room_id:room_id},
+                type:'POST',
+                dataType:'json',
+                url: __root__+'/Center/Exam/ajaxExamChangeInfo',
+                beforeSend: function(){
+				     $('#myModal').modal('hide');
+				},
+                success:function(data){
+                    if(data['status'] == 0){
+                    	var h4_id = '#'+data['data']+'_h4';
+                    	var span_id = '#'+data['data']+'_span';
+                    	var p_id = '#'+data['data']+'_p';
+                    	var exam_id = '#'+data['data']+'_exam';
+                    	$(h4_id).html(title);
+                    	$(span_id).html($('#e_course_id').find("option:selected").text());
+                    	$(p_id).html(intro);
+                    	var onclick_fun = "change_info('"+id+"','"+title+"','"+room_id+"','"+course_id+"','"+type_name+"','"+intro+"','"+option_id+"')";
+                    	$(exam_id).attr('onclick',onclick_fun);
+                    	$('#alert_p').text(data['msg']);
+                        $("#alert_div")[0].style.display = ''; 
+                    }else{
+                    	$('#alert_p').text(data['msg']);
+                    	$("#alert_div")[0].style.display = ''; 
+                    }
+                },
+                error:function(data){
+                    alert('网络异常,请稍候重试');
+                }
+
+            })
+
+		};
+
+		function addExam(){
+			var title = $('#title').val();
+			var room_id = $('#room_id').val();
+			var course_id = $('#course_id').val();
+			var intro = $('textarea[name="intro"]').val();
+			$.ajax({
+                data:{
+                    'title':title,
+                    'room_id':room_id,
+                    'course_id':course_id,
+                    'intro':intro,
+                },
+                type:'POST',
+                dataType:'json',
+                url: __root__+'/Center/Exam/ajaxAddExam',
+                success:function(data){
+                    if(data['status'] == 0){
+                        window.location.href = __root__ + '/Center/Exam/publish?id='+data.data;
+                    }else{
+                        toastError(data.msg);
+                    }
+                },
+                error:function(data){
+                    toastError(data);
+                }
+
+
+            });
+
+
+		};
+
+		function show_modal(){
+			$('#addExam').modal('show');
+			var id = $('#room_id option:checked').attr('id');
+			if(id == 1){
+				$("#is_gk").css('display','block'); 
+			}else{
+				$("#is_gk").css('display','none'); 
+			}
+		}
+		function show_change_modal(){
+			$('#myModal').modal('show');
+			var id = $('#e_room_title option:checked').attr('id');
+			if(id == 1){
+				$("#e_type_name_div").css('display','block'); 
+			}else{
+				$("#e_type_name_div").css('display','none'); 
+			}
+		}
+
+
+
+		$('#room_id').change(function(){
+			var id = $('#room_id option:checked').attr('id');
+			if(id == 1){
+				$("#is_gk").css('display','block'); 
+			}else{
+				$("#is_gk").css('display','none'); 
+			}
+		});
+		$('#e_room_title').change(function(){
+			var id = $('#e_room_title option:checked').attr('id');
+			if(id == 1){
+				$("#e_type_name_div").css('display','block'); 
+			}else{
+				$("#e_type_name_div").css('display','none'); 
+			}
+		});
+
+	</script>
+
+	<script type="text/javascript">
+		function check_cer1(id, p, title){
+			$.ajax({
+				data:{},
+				type:'POST',
+				dataType:'json',
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+				url: __root__+'/Center/Class/ajaxCheckAdd',
+				success:function(data){
+					if(data['status'] == 0){
+						beam_dialog('__ROOT__/Center/Exam/changeExam?id='+ id +'&p=' + p,'确定发布测试：'+title+'？');
+					}else{
+						toastError(data.msg);
+					}
+				},
+				error:function(data){
+					toastError('网络异常,请稍候重试');
+				}
+
+
+			})
+
+			return false;
+		}
+
+		function check_cer2(){
+			$.ajax({
+				data:{},
+				type:'POST',
+				dataType:'json',
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+				url: __root__+'/Center/Class/ajaxCheckAdd',
+				success:function(data){
+					if(data['status'] == 0){
+						show_modal();
+					}else{
+						toastError(data.msg);
+					}
+				},
+				error:function(data){
+					toastError('网络异常,请稍候重试');
+				}
+
+			})
+
+			return false;
+		}
+	</script>
+</block>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

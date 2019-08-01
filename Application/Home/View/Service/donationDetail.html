@@ -1,0 +1,448 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        body {
+            padding-bottom: 0px;
+        }
+
+        .uploadform {
+            background-color: #f7f8f8;
+            /*padding-bottom: 40px;*/
+        }
+
+        .item {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-bottom: 1px solid #E8E8E8;
+            background-color: white;
+        }
+
+        .intro {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-top: 1px solid #E8E8E8;
+            border-bottom: 1px solid #E8E8E8;
+            margin-top: 10px;
+            background-color: white;
+        }
+
+        .item-left {
+            position: absolute;
+            left: 10px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .item-right {
+            position: absolute;
+            left: 80px;
+            color: black;
+            right: 10px;
+            height: 50px;
+            font-size: 14px;
+
+        }
+
+        .item-right input {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: 0;
+            color: black;
+        }
+
+        .item-right .am-btn {
+            width: 100% !important;
+            height: 100%;
+            background: none;
+            border: 0 !important;
+            padding: 10px 0px;
+            font-size: 14px;
+            color: black;
+        }
+
+        .item-right .am-selected {
+            width: 90%;
+        }
+
+        .container {
+            background: white;
+        }
+
+        .btn-save {
+            /*position: absolute;*/
+            height: 50px;
+            width: 100%;
+            /*bottom: 0;*/
+            background: #0084c7;
+            line-height: 50px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            font-size: 16px;
+        }
+
+        input:not([type=radio]):not([type=checkbox]) {
+            vertical-align: inherit;
+            padding: 0px 5px;
+        }
+
+        .am-gallery {
+            margin-top: 10px;
+            padding: 5px;
+            border-top: 1px solid #E8E8E8;
+            border-bottom: 1px solid #E8E8E8;
+            background-color: white;
+        }
+
+        .file-ul {
+            margin-top: 10px;
+            margin-bottom: 0px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            /*padding: 5px;*/
+            border-top: 1px solid #E8E8E8;
+            border-bottom: 1px solid #E8E8E8;
+            background-color: white;
+        }
+
+        .file-li {
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .file-li a {
+            font-size: 1.6rem;
+        }
+
+        .am-form-group {
+            text-align: center;
+            padding-bottom: 40px;
+        }
+
+        .title {
+            width: 100%;
+            line-height: 19px;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            padding: 5px 15px;
+            margin-top: 10px;
+        }
+
+        .item-status-red {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            right: 15px;
+            margin: auto;
+            height: 20px;
+            line-height: 18px;
+            border: 1px solid #EE0000;
+            color: #EE0000;
+            font-size: 13px;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-radius: 3px;
+        }
+
+        .item-status-green {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            right: 15px;
+            margin: auto;
+            height: 20px;
+            line-height: 18px;
+            border: 1px solid orangered;
+            color: orangered;
+            font-size: 13px;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-radius: 3px;
+        }
+
+        .item-status-gray {
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            right: 15px;
+            margin: auto;
+            height: 20px;
+            line-height: 18px;
+            border: 1px solid #999;
+            color: #999;
+            font-size: 13px;
+            padding: 0px 5px;
+            border-radius: 3px;
+        }
+
+        .progress-out {
+            margin: 10px 15px 2px 15px;
+            background: #cccccc;
+            height: 4px;
+            border-radius: 5px;
+        }
+
+        .progress-inside {
+            height: 4px;
+            border-radius: 5px;
+            /*width: 50%;*/
+            background: #00EE00;
+        }
+
+        .btn-help {
+            height: 30px;
+            width: 40%;
+            line-height: 30px;
+            margin-top: 10px;
+            margin-right: 15px;
+            background: orangered;
+            color: white;
+            font-size: 16px;
+            border-radius: 15px;
+            float: right;
+            text-align: center;
+        }
+
+        .btn-help-disable {
+            height: 30px;
+            width: 40%;
+            line-height: 30px;
+            margin-top: 10px;
+            margin-right: 15px;
+            background: #999999;
+            color: white;
+            font-size: 16px;
+            border-radius: 15px;
+            float: right;
+            text-align: center;
+        }
+
+        .donation-money{
+            color: #5eb95e;
+            float: right;
+        }
+
+        .am-comments-list .am-comment{
+            margin-bottom: 10px; !important;
+        }
+
+    </style>
+    <!--<link rel="stylesheet" href="__STATICS__/artEditor/css/style.css">-->
+</block>
+<block name="content">
+
+    <div style="position: absolute; top: 46px; bottom: 50px; overflow-y: scroll; background: white; padding-top: 10px;left:0;right:0">
+        <div style="height: 65px;  padding: 0px 15px; font-size: 16px; color: black; position: relative">
+            <!--<div class="header-icon">-->
+            <!--<img src="{$detail.proposer_header|get_head_url}">-->
+            <!--</div>-->
+            <span style="position: absolute; top: 0px; bottom: 0px; left: 15px; margin: auto; height: 20px; line-height: 20px">募捐人：{$detail.proposer_name}</span>
+            <if condition="$detail.status eq 1">
+                <span class="item-status-green">募捐中</span>
+                <elseif condition="$detail.result eq 1"/>
+                <span class="item-status-red">已成功</span>
+                <elseif condition="$detail.result eq -1"/>
+                <span class="item-status-gray">募捐失败</span>
+            </if>
+
+        </div>
+
+        <div class="title">{$detail.title}</div>
+
+        <div class="progress-out">
+            <div id="progress" class="progress-inside" style="width: {$width}"></div>
+        </div>
+
+        <div style="padding: 0px 15px; font-size: 12px">
+            <div style="float: left; margin-left: 5px">
+                <span style="margin-right: 5px; color: #666;">已筹到</span>
+                <span style="color: #5eb95e;font-size: 18px">{$detail.real_money}</span><span> 元</span>
+            </div>
+            <div style="float: right; margin-right: 5px">
+                <span style="margin-left: 5px; margin-right: 5px; color: #666;">目标金额</span>
+                <span style="color: orangered;font-size: 18px">{$detail.target}</span><span> 元</span>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+
+        <div style="height: 15px; border-top: 1px solid #e8e8e8; background: #f7f8f8; margin-top: 15px"></div>
+
+        <div style="height: 35px; line-height: 35px; font-size: 14px; color: #666; padding-left: 15px; border-bottom: 1px solid #e8e8e8">
+            困难详情
+        </div>
+
+        <!--border-bottom: 1px solid #E8E8E8;min-height: 200px-->
+        <div class="article-content" id="content" style="background: white; padding: 15px 15px;">
+            {$detail.intro}
+        </div>
+
+        <div style="height: 15px; border-top: 1px solid #e8e8e8; background: #f7f8f8; margin-top: 15px"></div>
+        <div style="height: 35px; line-height: 35px; font-size: 14px; color: #666; padding-left: 15px; border-bottom: 1px solid #e8e8e8">
+            雷锋榜
+        </div>
+        <ul class="am-comments-list am-comments-list-flip" style="padding: 0px 5px" id="adviceList">
+            <!--<li class="am-comment">-->
+                <!--<img class="am-comment-avatar" alt="" src="__IMG__/headImg.jpg"/> &lt;!&ndash; 评论者头像 &ndash;&gt;-->
+                <!--<div class="am-comment-main">-->
+                    <!--<header class="am-comment-hd">-->
+                        <!--<div class="am-comment-meta"> &lt;!&ndash; 评论元数据 &ndash;&gt;-->
+                            <!--<span class="am-comment-author">某某某</span> &lt;!&ndash; 评论者 &ndash;&gt;-->
+                            <!--<time datetime="">2016-12-12</time>-->
+                            <!--<span class="donation-money"> ￥10.0</span>-->
+                        <!--</div>-->
+                    <!--</header>-->
+                    <!--<div class="am-comment-bd">祝早日康复</div> &lt;!&ndash; 评论内容 &ndash;&gt;-->
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+        <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text-1"><i id="loading-icon-1" class="am-icon-spinner am-icon-spin"></i></div>
+    </div>
+
+    <div style="position: absolute; bottom: 0px; height: 50px; border-top: 1px solid #E8E8E8; width: 100%; line-height: 50px; padding-left: 15px; color: #666; font-size: 16px">
+        <span class="am-icon-user"> 活雷锋 </span>
+        <span style="color: orangered; font-size: 18px; font-weight: bold">{$detail.help_count}</span>
+        <span> 人</span>
+        <if condition="$detail.status eq 1">
+            <a href="__ROOT__/Home/Service/donationPay?id={$detail.id}" class="btn-help">帮助Ta</a>
+            <else/>
+            <div class="btn-help-disable">帮助Ta</div>
+        </if>
+
+    </div>
+
+    <!--<form class="uploadform">-->
+    <!--<input type="hidden" value="${detail.intro}" name="content">-->
+    <!--<div class="item">-->
+    <!--<span class="item-left">标&nbsp;&nbsp;&nbsp;题：</span>-->
+    <!--<span class="item-right">{$detail.title}</span>-->
+
+    <!--</div>-->
+
+
+    <!--<div class="intro" style="border-top: 1px solid #E8E8E8;">-->
+    <!--<span class="item-left">概&nbsp;&nbsp;&nbsp;述 </span>-->
+    <!--</div>-->
+    <!--&lt;!&ndash;<textarea name="content" rows="4"&ndash;&gt;-->
+    <!--&lt;!&ndash;style="padding: 10px;width: 100%;border: none; border-bottom: 1px solid #E8E8E8;"></textarea>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;<input type="hidden" id="target">&ndash;&gt;-->
+    <!--<div class="article-content" id="content" style="background: white; padding: 5px 10px;border-bottom: 1px solid #E8E8E8;min-height: 200px">-->
+    <!--{$detail.intro}-->
+    <!--</div>-->
+
+
+    <!--<div style="height: 40px; background: white"></div>-->
+    <!--</form>-->
+
+    <!--<if condition="$detail['uid'] == $user['uid']">-->
+        <!--<div style="text-align: center; background: white; width: 100%; position: absolute; bottom: 10px; height: 40px ">-->
+            <!--<a href="__ROOT__/Home/User/editMySpace?id={$detail.id}" style="width: 50%; height: 100%; font-size: 15px"-->
+               <!--type="button" class="am-btn am-btn-secondary am-btn-default am-radius am-btn-sm">编辑</a>-->
+        <!--</div>-->
+    <!--</if>-->
+</block>
+<block name="scripts">
+    <script>
+        var danationId = "{$detail.id}"
+        var create_time = 0; // 意见列表动态加载控制变量
+        var is_loading = 1;  // 意见列表动态加载控制变量
+        $(window).load(function(){
+            ajax_loading();
+        });
+
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    if (is_loading == 1) {
+                        is_loading = 0;
+                        $("#loading-text-1").html('');
+                        $('#loading-icon-1').show();
+                        ajax_loading();
+                    }
+                }
+            });
+        });
+
+        function ajax_loading(){
+            var ajaxUrl;
+            var ajaxData;
+            ajaxUrl = '__ROOT__/Home/Service/ajaxLoadingDonationLog';
+            ajaxData = {'danationId':danationId, 'create_time':create_time,};
+            $.ajax({
+                data: ajaxData,
+                type: 'POST',
+                dataType: 'json',
+                url: ajaxUrl,
+                success: function (data) {
+                    if (data['status'] == 0) {
+                        if (data['data']) {
+                            var html_content = '';
+                            $.each(data['data'],function(i,vo)
+                            {
+                                var createTimeString = new Date(vo.create_time*1000).Format("yyyy-MM-dd");
+                                html_content = '';
+                                html_content += '<li class="am-comment">' +
+                                                    '<img class="am-comment-avatar" src="' + get_head_url(vo.headimgurl) + '"/>' +
+                                                    '<div class="am-comment-main">' +
+                                                        '<header class="am-comment-hd">' +
+                                                            '<div class="am-comment-meta">' +
+                                                                '<span class="am-comment-author">' + vo.user_realname + '</span>' +
+                                                                '<time datetime="" style="margin-left: 5px">' + createTimeString + '</time>' +
+                                                                '<span class="donation-money"> ￥' + vo.fee + '</span>' +
+                                                            '</div>' +
+                                                        '</header>' +
+                                                        '<div class="am-comment-bd">' + vo.remark + '</div>' +
+                                                    '</div>' +
+                                                '</li>';
+                                $('#adviceList').append(html_content);
+                                create_time = vo.create_time;
+                            });
+                            is_loading = 1;
+                            $('#loading-icon-1').hide();
+                        }else{
+                            is_loading = 1;
+                            $('#loading-icon-1').hide();
+                            $("#loading-text-1").html('没有更多了');
+                        }
+                    } else {
+                        alert_modal(data['msg']);
+                        is_loading = 1;
+                        $('#loading-icon-1').hide();
+                    }
+                },
+                error: function (data) {
+                    alert_modal('网络异常');
+                }
+            })
+        }
+
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+</block>

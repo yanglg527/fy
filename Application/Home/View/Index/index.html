@@ -1,0 +1,304 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .module-icon{
+            width: 32px !important;
+            margin: auto;
+            left: 0px;right: 0px;
+            position: absolute;
+        }
+
+        .module-name{
+            color: #676767 !important;
+            font-size: 13px !important;
+        }
+
+        .dynamic-list{
+            margin-top: 8px;
+            background: white;
+        }
+
+        .list-item{
+            border-top: 1px solid #f7f8f8;
+            padding: 13px;
+        }
+        .list-item img{
+            width: 113px;
+            height: 74px;
+            float: left;
+            margin-right: 10px;
+        }
+
+
+        .item-title{
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 20px;
+            margin-left: 10px;
+        }
+
+        .item-info{
+            font-size: 12px;
+            color: #999999;
+            margin-top: 15px;
+            margin-left: 10px;
+        }
+        /*.item-info span{
+            margin-right: 15px;
+        }*/
+        .item-info .mar-right{
+            margin-right: 15px;
+        }
+        .am-tabs-d2 .am-tabs-nav > .am-active:after {
+            border-bottom-color: #00C2E5;
+        }
+        .am-tabs-d2 .am-tabs-nav > .am-active {
+            border-bottom: 2px solid #00C2E5;
+        }
+
+        .tip-count{
+            background: red;
+            color: white;
+            font-size: 12px;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            border-radius: 8px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        .am-header{
+            position: absolute;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <include file="Common/_top"/>
+
+    <div class="modules" style="margin-top: 8px">
+        <a class="am-u-sm-3 module" href="__ROOT__/Todo/index.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__index/icon_daiban.png">
+            <p class="module-name">待办事项</p>
+            <if condition="$tipCount gt 0"><span class="tip-count">{$tipCount}</span></if>
+        </a>  
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Branch/citys.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__index/icon_zhibu.png">
+            <p class="module-name">支部信息</p>
+        </a>
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Article/qt_articles.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__icon_shenghuoh.png">
+            <p class="module-name">群团组织</p>
+        </a>
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Cost/branchs" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__icon_zhuangzhengshenq.png">
+            <p class="module-name">党费统计及查询</p>
+        </a>
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Work/index.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__index/icon_job.png">
+            <p class="module-name">党务管理</p>
+        </a>
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Service/index.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__index/icon_fuw.png">
+            <p class="module-name">党员服务</p>
+        </a>
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Study/index.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__index/icon_xuex.png">
+            <p class="module-name">学习交流</p>
+        </a>
+        <a class="am-u-sm-3 module" href="__ROOT__/Home/Activity/index.html" onmousedown="changeColor(this,1)" onmouseup="changeColor(this,0)">
+            <img class="module-icon" src="__IMG__index/icon_huod.png">
+            <p class="module-name">组织活动</p>
+        </a>
+
+        <div style="clear: both"></div>
+    </div>
+    <div class="am-tabs am-tabs-d2" id="doc-my-tabs" style="margin-top:8px;background-color:#fff;">
+      <ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
+        <li class="am-active"><a href="" style="border:none;background-color:#fff;color:#555;">本局党建动态</a></li>
+        <li><a href="" style="border:none;background-color:#fff;color:#555;">党建每日读</a></li>
+      </ul>
+      <div class="am-tabs-bd">
+        <div class="am-tab-panel am-active" style="padding:0px;">
+            <div class="dynamic-list" style="margin-top:0" id="article-list-0">
+                <!-- <volist name="articles.list" id="vo">
+                  <a href="__ROOT__/Home/Article/branch_note.html?id={$vo.id}">
+                    <div class="list-item" style="overflow:hidden">
+                      <img src="{$vo.cover_path|show_article_img=small}" <if condition="$vo.cover_path eq null">style="display: none"</if>/>
+                      <div class="item-title">{$vo.title}</div>
+                      <div class="item-info">
+                        <span class="mar-right">{$vo.tags|get_first_tag_name}</span>
+                        <span class="mar-right">{$vo.comment_count}评论</span>
+                        <span>{$vo.published_at|time_to_string_ques}</span>
+                    </div>
+                    </div>
+                  </a>
+                </volist>  -->  
+            </div>
+            <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text-0"><i id="loading-icon-0" class="am-icon-spinner am-icon-spin"></i></div>
+        </div>
+        <div class="am-tab-panel" style="padding:0px;">
+            <div class="dynamic-list" style="margin-top:0" id="article-list-1">
+                
+            </div>
+            <div style='text-align:center;margin-bottom:30px;color:#999' id="loading-text-1"><i id="loading-icon-1" class="am-icon-spinner am-icon-spin"></i></div>
+        </div>
+      </div>
+    </div>
+
+
+
+</block>
+<block name="scripts">
+    <script>
+
+        var published_at_0 = 0;
+        var published_at_1 = 0;
+        var published_at = 0;
+        var type_name = 0;
+        var is_loading_0 = 1;
+        var is_loading_1 = 1;
+        $(function() {
+            $('#doc-my-tabs').tabs();
+        })
+        $(window).load(function(){
+            ajax_loading();
+        });
+        $('#doc-my-tabs').find('a').on('opened.tabs.amui', function(e) {
+          if ($(this).text() == '本局党建动态') {
+            type_name = 0;
+          }else if($(this).text() == '党建每日读'){
+            type_name = 1;
+            ajax_loading();
+          };
+        })
+
+        function ajax_loading(){
+          if (type_name == 0) {
+            published_at = published_at_0;
+          }else{
+            published_at = published_at_1;
+            };
+          $.ajax({
+                  data: {
+                      'type_name':type_name,
+                      'published_at':published_at,
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '__ROOT__/Home/Index/ajaxLoading',
+                  success: function (data) {
+                      if (data['status'] == 0) {
+                          if (data['data']) {
+                            var html_content = '';
+                            // alert(data['msg']);
+                            $.each(data['data'],function(i,vo)
+                            {
+                              html_content = '';
+                              createTimeString = new Date(vo.published_at*1000).Format("yyyy-MM-dd");
+                              html_content = html_content + '<a href="'+__root__+'/Home/Article/index.html?id='+vo.id+'"><div class="list-item" style="overflow:hidden">';
+                              if (vo.cover_path != '' && vo.cover_path != null) {
+                                html_content = html_content + '<img src="'+__root__+'/Uploads/'+vo.cover_path+'-s.png" />';
+                              };
+                              html_content = html_content + '<div class="item-title">'+vo.title+'</div><div class="item-info"><span class="mar-right">'+''+'</span><span class="mar-right">'+vo.comment_count+'评论</span><span class="mar-right">'+createTimeString+'</span></div></div</a>';
+                              // alert(html_content);
+                              if (type_name == 0) {
+                                $('#article-list-0').append(html_content);
+                                is_loading_0 = 1;
+                                published_at_0 = vo.published_at;
+                              }else{
+                                // alert("cccc");
+                                $('#article-list-1').append(html_content);
+                                is_loading_1 = 1;
+                                published_at_1 = vo.published_at;
+                              };
+                            });
+                            if (type_name == 0) {
+                              is_loading_0 = 1;
+                              $('#loading-icon-0').hide(); 
+                            }else{
+                              is_loading_1 = 1;
+                              $('#loading-icon-1').hide(); 
+                            };                          
+                          }else{
+                            if (type_name == 0) {
+                                is_loading_0 = 1;
+                                $('#loading-icon-0').hide();
+                                $("#loading-text-0").html('没有更多了');
+                              }else{
+                                is_loading_1 = 1;
+                                 $('#loading-icon-1').hide(); 
+                                $("#loading-text-1").html('没有更多了');
+                              };
+                          }
+                      } else {
+                        alert_modal('网络异常');
+                        if (type_name == 0) {
+                          is_loading_0 = 1;
+                          $('#loading-icon-0').hide();
+                        }else{
+                          $('#loading-icon-1').hide(); 
+                          is_loading_1 = 1;
+                        };
+                      }
+                  },
+                  error: function (data) {
+                      alert_modal('网络异常');
+                  }
+              })
+        }
+
+
+      $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                  if (type_name == 0 && is_loading_0 == 1) {
+                    is_loading_0 = 0;
+                    $("#loading-text-0").html('');
+                    $('#loading-icon-0').show();
+                    ajax_loading();
+                  }else if(type_name == 1 && is_loading_1 == 1){
+                    is_loading_1 = 0;
+                    $("#loading-text-1").html('');
+                    $('#loading-icon-1').show();
+                    ajax_loading();
+                  };
+                }
+            });
+        });
+
+
+      Date.prototype.Format = function (fmt) { //author: meizz 
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    </script>
+</block>
+
+
+
+
+
+
+
+
+
+

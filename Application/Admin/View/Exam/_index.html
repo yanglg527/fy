@@ -1,0 +1,34 @@
+				<volist name="page.list" id='vo'>
+					<tr >
+					  <td class="width_570">
+					  	<div>
+					  		<h4 id="{$vo.id}_h4" class="title"><a href="__ROOT__/Center/Exam/analysis?id={$vo.id}">{$vo.title}</a></h4>
+					  		<p id="{$vo.id}_p">{$vo.intro}</p>
+					  		<span id="{$vo.id}_span" class="subject">{$vo.course_name}</span>
+					  		<span class="person">{$vo.exam_count}人答题</span>
+					  		<if condition="$vo.status == 1">
+					  			<span class="label label-success" style="font-weight: 200;">已发布</span>
+					  		</if>
+					  		</br>
+					  	</div>
+					  </td>
+					  <td>
+					  	<div class="btn-group btn-group-xs" role="group" aria-label="...">
+					  	  <a type="button" class="btn btn-default" href="__ROOT__/Center/Exam/correct?correctType=next&examId={$vo.id}&entryType=correct">批改</a>
+							<button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">管理<span class="caret"></span></button>
+						  <ul class="dropdown-menu">
+						    <li><a id="{$vo.id}_exam" href="javascript:void(0);" onclick="change_info('{$vo.id}','{$vo.title}','{$vo.room_id}','{$vo.course_id}','{$vo.type_name}','{$vo.intro}','{$vo.room_type}');">编辑信息</a></li>
+						    <li><a href="__ROOT__/Center/Exam/publish?id={$vo.id}">编辑题目</a></li>
+						    <li><a href="__ROOT__/Center/Exam/answerers?id={$vo.id}">测试名单</a></li>
+						    <if condition="$vo.status == 1">
+						    	<li><a href="javascript:void(0);" onclick="beam_dialog('__ROOT__/Center/Exam/changeExam?id={$vo.id}&p={$_GET['p']}','确定取消发布测试：{$vo.title}？');" >取消发布</a></li>
+						    <elseif condition="$vo.status == 0"/>
+						    	<li><a href="javascript:void(0);" onclick="return check_cer1('{$vo.id}','{$_GET['p']}','{$vo.title}');" >发布测试</a></li>
+							</if>
+						    <li role="separator" class="divider"></li>
+						    <li><a href="javascript:void(0);" onclick="beam_dialog('__ROOT__/Center/Exam/deleteExam?id={$vo.id}&p={$_GET['p']}','确定删除测试：{$vo.title}？');" >删除测试</a></li>
+						  </ul>
+						</div>
+					  </td>
+					</tr>
+				</volist>

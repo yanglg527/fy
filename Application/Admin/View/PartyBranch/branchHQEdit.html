@@ -1,0 +1,295 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">总支部信息管理</strong></a> /
+                <small>编辑{$detail.name}</small>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="am-tabs-bd" style='margin:20px;    border: 1px solid #ddd;'>
+            <div class="am-tab-panel am-fade am-in am-active">
+                <form class="am-form" id="uploadform">
+
+                    <empty name="detail">
+                        <else/>
+                        <input type="hidden" name="id" value="{$detail.id}"></empty>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            排序
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="number" class="am-input-sm" name="sort" value="{$detail.sort}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+                    </div>
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                            支部名称
+                        </div>
+                        <div class="am-u-sm-8 am-u-md-6">
+                            <input type="text" class="am-input-sm" name="name" value="{$detail.name}">
+                        </div>
+                        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填</div>
+                    </div>
+                    <!-- <volist name="posts" id="item">
+                        <div class="am-g am-margin-top">
+                            <div class="am-u-sm-4 am-u-md-2 am-text-right">
+                                {$item.name}
+                            </div>
+                            <div class="am-u-sm-8 am-u-md-6">
+                                <button type="button" data-name="{$item.name}" data-id="{$item.id}"
+                                        class="am-btn am-btn-xs am-btn-primary btn-post"
+                                        data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"
+                                        style="width: 150px"><empty name="item.user.realname">点击选择职务人选<else/>{$item.user.realname}</empty>
+                                </button>
+                            </div>
+
+                            <input type="hidden" class="am-input-sm post" data-id="{$item.id}" name="post-{$item.id}"
+                                   value="{$item.user.uid}">
+
+                            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+                        </div>
+                    </volist> -->
+
+                    <!--<div class="am-g am-margin-top">-->
+                            <!--<div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+                                <!--书记-->
+                            <!--</div>-->
+                            <!--<div class="am-u-sm-8 am-u-md-6">-->
+                                <!--<button type="button" data-name="{$item.name}" data-id="1"-->
+                                        <!--class="am-btn am-btn-xs am-btn-primary btn-post"-->
+                                        <!--data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"-->
+                                        <!--style="width: 150px"><if condition="$detail.sj_realname eq null || $detail.sj_realname eq ''">点击选择职务人选<else/>{$detail.sj_realname}</if>-->
+                                <!--</button>-->
+                            <!--</div>-->
+
+                            <!--<input type="hidden" class="am-input-sm post" data-id="1" name="post-1"-->
+                                   <!--value="{$detail.sj_uid}">-->
+
+                            <!--<div class="am-hide-sm-only am-u-md-4 am-form-help"></div>-->
+                        <!--</div>-->
+                        <!--<div class="am-g am-margin-top">-->
+                            <!--<div class="am-u-sm-4 am-u-md-2 am-text-right">-->
+                                <!--管理员-->
+                            <!--</div>-->
+                            <!--<div class="am-u-sm-8 am-u-md-6">-->
+                                <!--<button type="button" data-name="{$item.name}" data-id="2"-->
+                                        <!--class="am-btn am-btn-xs am-btn-primary btn-post"-->
+                                        <!--data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0, width: 500, height: 600}"-->
+                                        <!--style="width: 150px"><if condition="$adm_username eq null || $adm_username eq ''">点击选择职务人选<else/>{$adm_username}</if>-->
+                                <!--</button>-->
+                            <!--</div>-->
+
+                            <!--<input type="hidden" class="am-input-sm post" data-id="2" name="post-2"-->
+                                   <!--value="{$detail.adm_uid}">-->
+
+                            <!--<div class="am-hide-sm-only am-u-md-4 am-form-help"></div>-->
+                        <!--</div>-->
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">所属党委</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label onclick="automatch('work_id','0')"  class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="work_id" value="0" <empty name="area.id">checked="true"</empty> >不设置
+                                </label>
+                                <volist name="Organiza" id="item">
+                                    <label onclick="automatch('work_id','{$item.id}')" class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="work_id" value="{$item.id}"
+                                        <if condition="$detail['work_id'] == $item['id']">checked="true"</if> >{$item.name}
+                                    </label>
+                                </volist>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="am-g am-margin-top">
+                        <div class="am-u-sm-4 am-u-md-2 am-text-right">所属工委</div>
+                        <div class="am-u-sm-8 am-u-md-10">
+                            <div class="am-btn-group" data-am-button>
+                                <label onclick="automatch('workingid','0')" class="am-btn am-btn-default am-btn-xs">
+                                    <input type="radio" name="workingid" value="0" <empty name="area.id">checked="true"</empty> >不设置
+                                </label>
+                                <volist name="Working" id="item">
+                                    <label onclick="automatch('workingid','{$item.id}')" class="am-btn am-btn-default am-btn-xs">
+                                        <input type="radio" name="workingid" value="{$item.id}"
+                                        <if condition="$detail['working_id'] == $item['id']">checked="true"</if> >{$item.name}
+                                    </label>
+                                </volist>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="am-margin">
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-save">保存职务</button>
+            <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃操作</button>
+        </div>
+    </div>
+    <include file="PartyBranch/_user_selecter"/>
+</block>
+<block name="scripts">
+    <script>
+
+        var btnPost = null;
+        var selectPostId = null;
+        $('.btn-post').click(function () {
+            btnPost = this;
+            selectPostId = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+
+
+            $('#selector-title').text(name + " 职务人选");
+            $('#select-content').html("");
+            $('#selector-search-input').val("");
+
+        })
+
+        $('#selector-btn-search').click(function () {
+            $('#select-content').html("加载中...");
+            var keyword = $('#selector-search-input').val();
+            $.ajax({
+                url: '__ROOT__/Admin/PartyBranch/ajaxGetUsers',
+                type: 'POST', //GET
+                data: {id:{$detail.id},keyword: keyword,type:'hq'},  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                $('#select-content').html("");
+                    if (data.status == 0) {
+                        var html = "";
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        $('#select-content').html(html);
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    $('#select-content').html("服务器暂时无法连接，请稍候再试");
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        })
+
+        $('#doc-modal-1').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+
+            var cancon = true;
+            $('.post').each(function (i) {
+                var postid = $(this).attr('data-id');
+                var value = $(this).val();
+                if (postid == selectPostId) {
+
+                } else {
+                    if (uid > 0){
+                        if (value == uid) {
+                            alert("本页面已有其他页面职务选中了");
+                            cancon = false;
+                        }
+                    }
+
+                }
+            });
+            if(cancon){
+                $(btnPost).text(realname);
+                $('input[name="post-' + selectPostId + '"]').val(uid);
+                $('#doc-modal-1').modal('close');
+            }else{
+
+            }
+
+        })
+
+        $('#btn-cancel').click(function () {
+            $('#confirm-text').text('确认取消编辑吗?');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function (options) {
+                    javascript :history.back(1);
+                },
+                onCancel: function () {
+
+                }
+            });
+        });
+
+
+        $('#btn-save').click(function () {
+            // $('#confirm-text').text('确认修改本支部职务吗?');
+            // $('#my-confirm').modal({
+            //     relatedTarget: this,
+            //     onConfirm: function (options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/PartyBranch/ajaxBranchHQEdit',
+                        type: 'POST', //GET
+                        data: $('#uploadform').serialize(),
+                        dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function (data) {
+                            if (data.status == 0) {
+                                loading_page('__ROOT__/Admin/PartyBranch/hq?p={$p}');
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        error: function (xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+            //     },
+            //     onCancel: function () {
+            //
+            //     }
+            // });
+
+        });
+
+        function automatch(type,value){
+            console.log(this.event.target)
+            $.ajax({
+                url: '__ROOT__/Admin/AutoMatch/auto',
+                type: 'POST', //GET
+                data: {type:type,value: value},
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (res) {
+
+                    if(type == "work_id"){
+                    }else {
+                        if (type == "branch_hq_id") {
+                            var committee = res.data.committee_id;
+                            $("input:radio[name='committee_id']").parent().removeClass('am-active');
+                            $("input:radio[name='committee_id'][value=" + committee + "]").parent().addClass('am-active');
+                            $("input:radio[name='committee_id'][value=" + committee + "]").attr("checked", "checked");
+                        }
+                        var work = res.data.work_id;
+                        $("input:radio[name='work_id']").parent().removeClass('am-active');
+                        $("input:radio[name='work_id'][value=" + work + "]").parent().addClass('am-active');
+                        $("input:radio[name='work_id'][value=" + work + "]").attr("checked", "checked");
+                    }
+                    var working = res.data.working_id;
+                    $("input:radio[name='workingid']").parent().removeClass('am-active');
+                    $("input:radio[name='workingid'][value=" + working + "]").parent().addClass('am-active');
+                    $("input:radio[name='workingid'][value=" + working + "]").attr("checked", "checked");
+                },
+                error: function (xhr, textStatus) {
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+    </script>
+</block>

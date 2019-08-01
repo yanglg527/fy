@@ -1,0 +1,188 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">录入绩效</strong></div>
+        </div>
+        <hr>
+        <form id="uploadForm" action="" method="post" enctype="multipart/form-data" >
+            <input type="file" name="file" style="display: none" id="file-upload"/>
+        </form>
+        <form class="am-g" id="search-form" action="__ROOT__/Admin/IntegralManagement/performance">
+            <div class="am-u-sm-12 am-u-md-2 right-align" >
+                <!--<eq name="auth" value="1">-->
+                <!--<button class="am-btn am-btn-sm am-btn-success"style="position: relative;top: 12px;" type="button" id="btn-async">同步通讯录</button>-->
+                <!--</eq>-->
+                <!--<button class="am-btn am-btn-sm am-btn-success"style="position: relative;top: 12px;" type="button" id="btn-import">导入通讯录(xls)</button>-->
+            </div>
+            <div class="am-u-sm-12 am-u-md-10 right-align" style="text-align: right">
+                <if condition="$auth == 1">
+                <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="branch_id">
+                    <option value="0">支部选择</option>
+                    <volist name="branchs" id="item">
+                        <if condition="$item[id] == $search['branch_id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                        <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+                </if>
+                <if condition="$auth == 2">
+                    <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="branch_id">
+                        <option value="0">支部选择</option>
+                        <volist name="branchs" id="item">
+                            <if condition="$item[id] == $search['branch_id']">
+                                <option value="{$item.id}" selected>{$item.name}</option>
+                                <else/>
+                                <option value="{$item.id}">{$item.name}</option>
+                            </if>
+                        </volist>
+                    </select>
+                </if>
+                <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="role_id">
+                    <option value="0">角色选择</option>
+                    <volist name="roles" id="item">
+                        <if condition="$item[id] == $search['role_id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                            <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+                <select data-am-selected="{btnWidth: '120px', btnSize: 'sm', }" name="post_id">
+                    <option value="0">职务选择</option>
+                    <volist name="posts" id="item">
+                        <if condition="$item[id] == $search['post_id']">
+                            <option value="{$item.id}" selected>{$item.name}</option>
+                            <else/>
+                            <option value="{$item.id}">{$item.name}</option>
+                        </if>
+                    </volist>
+                </select>
+                <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" placeholder="输入姓名关键词" name="keyword" value="{$search.keyword}">
+                </div></div>
+
+                <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+            </div>
+            <!--<div class="am-u-sm-12 am-u-md-1">-->
+
+            <!--</div>-->
+        </form>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form" action="__ROOT__/Admin/IntegralManagement/performance">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-title" id="btn-dec">uid</th>
+                            <th class="table-type">姓名</th>
+                            <!--<th class="table-author am-hide-sm-only">性别</th>-->
+                            <!--<th class="table-author am-hide-sm-only">身份</th>-->
+                            <th class="table-date am-hide-sm-only">角色</th>
+                            <th class="table-date am-hide-sm-only">党内职务</th>
+                            <th class="table-date am-hide-sm-only">所属支部</th>
+                            <th class="table-date am-hide-sm-only">绩效积分</th>
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.uid}</td>
+                                <td>{$item.realname}</td>
+                                <!--<td class="am-hide-sm-only">-->
+                                    <!--{$item.gender|get_sex}-->
+                                <!--</td>-->
+                                <!--<td class="am-hide-sm-only">{$item.native_place}</td>-->
+                                <td class="am-hide-sm-only">{$item.role_name}</td>
+                                <td class="am-hide-sm-only">{$item.post_name}</td>
+                                <td class="am-hide-sm-only">{$item.branch_name} <notempty name="item.branch_hq_name"> / {$item.branch_hq_name}</notempty></td>
+                                <td class="am-hide-sm-only">{$item.performance_score}</td>
+                                <td>
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button" data-id="{$item.uid}" class="am-btn am-btn-default am-btn-xs am-text-secondary btn-enter"
+                                                <span class="am-icon-pencil-square-o"></span> 录入绩效
+                                            </button>
+                                            <button type="button"
+                                                    class="am-btn am-btn-default am-btn-xs btn-link "
+                                                    onclick="loading_page('__ROOT__/Admin/IntegralManagement/performanceDetail?p={$page.pageInfo.pageNo}&uid={$item.uid}');">
+                                                <span class="am-icon-book"></span> 绩效明细
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <hr/>
+                    <!--<p>注：.....</p>-->
+                </form>
+            </div>
+
+        </div>
+
+        <div class="am-modal am-modal-prompt" tabindex="-1" id="form-prompt">
+            <div class="am-modal-dialog">
+                <!--<div class="am-modal-hd">Amaze UI</div>-->
+                <div class="am-modal-bd">
+                    录入绩效积分
+                    <input type="number" class="am-modal-prompt-input">
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                    <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+        $('.btn-enter').on('click', function() {
+            id = $(this).attr('data-id');
+            $('#form-prompt').modal({
+                relatedTarget: this,
+                onConfirm: function(e) {
+//                    alert('你输入的是：' + id + "  mmmm = " + e.data || '');
+                    if(e.data != null || e.data !=""){
+                        $.ajax({
+                            url: '__ROOT__/Admin/IntegralManagement/ajaxSavePerformanceScore',
+                            type: 'POST', //GET
+                            data: {uid: id, score:e.data},
+                            dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                            success: function (data) {
+                                if (data.status == 0) {
+                                    window.location.reload();
+                                } else {
+                                    alert(data.msg);
+                                }
+                            },
+                            error: function (xhr, textStatus) {
+                                alert("服务器暂时无法连接，请稍候再试");
+                            }
+                        })
+                    }
+                },
+                onCancel: function(e) {
+//                    alert('不想说!');
+                }
+            });
+        });
+    </script>
+
+</block>

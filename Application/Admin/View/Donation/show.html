@@ -1,0 +1,153 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">扶贫捐款</strong></a> /
+                <small>{$detail.title} 扶贫捐款</small>
+            </div>
+        </div>
+        <hr>
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-6">
+
+            </div>
+            <!--<form class="am-u-sm-12 am-u-md-3" id="search-form" action="__ROOT__/Admin/Donation/show">-->
+                <!--<div class="am-input-group am-input-group-sm">-->
+                    <!--<input type="hidden" class="am-form-field" name="id" value="{{$detail.id}}">-->
+                    <!--<input type="text" class="am-form-field" name="keyword" value="{$search.keyword}">-->
+                    <!--<span class="am-input-group-btn">-->
+                            <!--<button class="am-btn am-btn-default" type="submit">搜索</button>-->
+                        <!--</span>-->
+                <!--</div>-->
+            <!--</form>-->
+            <div class="am-u-sm-12 am-u-md-2">
+                <button type="button" style="height:32px" class="am-btn am-btn-secondary" id="export-excel">导出 excel</button>
+            </div>
+        </div>
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                            <tr>
+                                <th>姓名</th><th>金额</th><th>留言</th><th>捐款时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.user_realname}</td>
+                                <td>{$item.fee}元</td>
+                                <td>{$item.remark}</td>
+                                <td>{$item.order_pay_time|date="Y-m-d H:i",###}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <!--<hr />-->
+                    <!--<p>注：.....</p>-->
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <include file="PartyOrganization/_user_selecter"/>
+</block>
+<block name="scripts">
+
+    <script>
+        var type = 'normal';
+        function getUsers() {
+
+            var keyword = $('#selector-search-input').val();
+            if(type == 'normal'){
+                $('#select-content').html("加载中...");
+            }else{
+                keyword = $('#selector-search-input2').val();
+                $('#select-content2').html("加载中...");
+            }
+
+            $.ajax({
+                url: '__ROOT__/Admin/Donation/ajaxGetUsers',
+                type: 'POST', //GET
+                data: {id:'{$detail.id}',keyword: keyword},  //
+                dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success: function (data) {
+                    if(type == 'normal'){
+                        $('#select-content').html("");
+                    }else{
+                        $('#select-content2').html("");
+                    }
+
+                    if (data.status == 0) {
+                        var html = "";
+
+                        $.each(data.data, function (index, item) {
+                            html += item.html;
+                        });
+                        if(type == 'normal'){
+                            $('#select-content').html(html);
+                        }else{
+                            $('#select-content2').html(html);
+                        }
+
+                    } else {
+                        alert_modal(data.msg);
+                    }
+                },
+                error: function (xhr, textStatus) {
+                    if(type == 'normal'){
+                        $('#select-content').html("服务器暂时无法连接，请稍候再试");
+                    }else{
+                        $('#select-content2').html("服务器暂时无法连接，请稍候再试");
+                    }
+
+                    alert_modal("服务器暂时无法连接，请稍候再试");
+                }
+            })
+        }
+        $('#selector-btn-search').click(function () {
+            console.log(1);
+            getUsers()
+        })
+
+        $('#doc-modal-1').on('click', '.canselect', function () {
+            var uid = $(this).attr('data-id');
+            var realname = $(this).attr('data-name');
+            $('input[name="id"]').val(uid);
+            $('input[name="realname"]').val(realname);
+            $('.btn-post').text(realname);
+            $('#doc-modal-1').modal('close');
+
+        })
+    </script>
+    <script type="text/javascript">
+        $(function(){
+            //导出名单
+            $('#export-excel').click(function () {
+                $('#confirm-text').text("是否导出列表");
+                $('#my-confirm').modal({
+                    relatedTarget: this,
+                    onConfirm: function (options) {
+                        location.href = "__ROOT__/Admin/Donation/DonationListToExcel?data={$page.list}";
+                    },
+                    onCancel: function () {
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</block>

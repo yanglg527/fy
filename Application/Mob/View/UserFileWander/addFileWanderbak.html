@@ -1,0 +1,752 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{$title}</title>
+</head>
+
+<link rel="stylesheet" href="__CSS__/reset.css" />
+<link rel="stylesheet" href="__PUBLIC__/Common/css/file_extend_style.css" />
+<link rel="stylesheet" href="__CSS__Tasks/initData.css" />
+<style>
+    .header {
+        display: flex;
+        background: #ce3d37;
+        padding: 1rem 0.6rem;
+        justify-content: space-between;
+    }
+
+    .header .back {
+        color: #ffffff;
+        font-size: 20px;
+        position: relative;
+    }
+    .header .back::before {
+        display: block;
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 5px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: translateY(-50%) rotate(-45deg);
+    }
+    .header .header-title {
+        font-size: 18px;
+        color: #ffffff;
+    }
+
+    .header-add>img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contrainer .title {
+        color: #ffffff;
+        height: 6rem;
+        background: url("__IMG__/branch/head_bg3.png") no-repeat 85% 20%;
+        display: flex;
+        align-items: center;
+    }
+
+    .contrainer .title .title-topic {
+        margin-left: 1.2rem;
+    }
+
+    .contrainer .nav {
+        padding: 0.8rem;
+        vertical-align: middle;
+        position: relative;
+        display: flex;
+    align-items: center;
+    }
+
+    .contrainer .nav::after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        content: '';
+        background-color: #E0E0E0;
+        box-shadow: 0px 1px 1px #E0E0E0;
+    }
+
+    .contrainer .nav img {
+        width: 1.2rem;
+        margin: 0px 10px 0 15px;
+    }
+
+    .contrainer .content {
+        margin-top: 1.6rem;
+    }
+
+    .contrainer .content .item {
+        display: flex;
+        margin: 0 0 1rem 2rem;
+        width: 20rem;
+    }
+
+    .item .item-left {
+        white-space: nowrap;
+        color: #9D9D9E;
+        width: 4rem;
+        text-align: right;
+        line-height: 32px;
+    }
+
+    .item .item-right {
+
+        margin-left: 1.5rem;
+        color: #383838;
+        width: 100%;
+    }
+    .item .item-right>div {
+        min-height: 1.8rem;
+        width: 12rem;
+        border: 1px solid #E0E0E0;
+    }
+
+    .item .item-right input {
+        height: 1.8rem;
+        width: 100%;
+        border: 1px solid #E0E0E0;
+        padding-left: 7px;
+    }
+
+    .item .form-item {
+        display: block;
+        /* margin: 10px; */
+    }
+
+    .last-child {
+        /* display: block; */
+        margin-top: 1rem;
+    }
+
+    .appendix {
+        padding: 0 0 0 2rem;
+    }
+
+    .appendix-contrainer {
+        margin: 0 0 0 1rem;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .appendix-content {
+        width: 4rem;
+        margin-right: 2.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .appendix-content p {
+        width: 100%;
+        word-wrap: break-word;
+        word-break: break-all;
+
+    }
+
+    .appendix-content>img {
+        width: 4rem;
+    }
+
+    .nocontent {
+        text-align: center;
+        color: #9D9D9E;
+        margin-top: 2rem;
+    }
+
+    .nocontent>button {
+        background: #ce3d37;
+        width: 15rem;
+        height: 3rem;
+        line-height: 3rem;
+        color: #FFFFFF;
+    }
+
+    .date-img {
+        background: url('__IMG__/index/date-img.png') no-repeat
+    }
+
+    .date-selection {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .date-selection label {
+        display: block;
+        width: 100%;
+        border: 1px solid #e0e0ee;
+    }
+
+    .date-selection span {
+        display: block;
+        width: 100%;
+        height: 1.8rem;
+        line-height: 1.8rem;
+        padding-left: 7px;
+    }
+
+    .date-selection i {
+        display: block;
+        width: 1.3rem;
+        height: 1.3rem;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: url('__IMG__/index/date-img.png') center/cover no-repeat;
+    }
+
+    .date-selection .date-ele {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+
+
+    .appendix-btn {
+        position: relative;
+        display: block;
+        width: 100%;
+    }
+
+    .appendix-btn label {
+        display: block;
+        width: 100%;
+    }
+
+    .appendix-btn span {
+        display: block;
+        width: 100%;
+        height: 1.8rem;
+        line-height: 1.8rem;
+    }
+
+    .appendix-content {
+        position: relative;
+    }
+
+    .appendix-content .appendix-btn i {
+        display: block;
+        width: 4rem;
+        height: 4rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: url('__IMG__/index/add-btn.png') center/cover no-repeat;
+    }
+
+    .appendix-btn .add-appendix-input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    .appendix-content i {
+        width: 4rem;
+        display: block;
+        height: 4rem;
+        background: center/75% 75% no-repeat;
+    }
+    .item .over-nonormal{
+        white-space:normal;
+    }
+
+</style>
+
+<body>
+    <div class="header">
+        <a href="javascript:void(0);" onclick="history.back(-1)">
+            <div class="back">
+              
+            </div>
+        </a>
+        <div class="header-title">
+            {$title}
+        </div>
+        <div class="header-add">
+            <!-- 占位置 -->
+            <!-- <img src="__IMG__/index/file-add.png" alt="" /> -->
+        </div>
+    </div>
+    <div class="contrainer">
+        <form action="" id="form-data">
+            <input type="hidden" id="id" name="id" value="{$detail.id}">
+            <input type="hidden" id="file_id" name="file_id" value="{$detail.file_id}">
+            <input type="hidden" name='uid' value="{$detail.uid}">
+            <input type="hidden" name='surplus_file_id' id="surplus_file_id" >
+            
+            <div class="nav">
+                <img src="__IMG__/index/file.png" alt="" />
+                <span style="color:#565656">文件内容</span>
+            </div>
+            <div class="content">
+                <div class="item">
+                    <div class="item-left">文件标题:</div>
+                    <div class="item-right"> <input id="file-title" type="text" name='title' value="{$detail.title}"></div>
+                </div>
+                <div class="item">
+                    <div class="item-left">&nbsp;&nbsp;&nbsp;发布人:</div>
+                    <div class="item-right">
+
+                        <input type="text" name='add_name' value="{$detail.add_name}">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-left">发布日期:</div>
+                    <div class="item-right date-selection">
+                        <label for="date">
+                            <span>{$detail.create_time|date='Y-m-d',###}</span>
+                            <i></i>
+                            <input type="date" name="create_time" id="date" class="date-ele" value="{$detail.create_time|date='Y-m-d',###}" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="item-left">发布内容:</div>
+                    <div class="item-right">
+                        <textarea name="content" id="" cols="32" rows="5"
+                            style="border: 1px solid #E0E0E0">{$detail.content}</textarea>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="item-left">用户角色:</div>
+                    <div class="item-right form-item">
+                        <div class="value arrow" onclick="onShowSelect(true,'branch-form')">
+                            <p class="value-text branch-input">
+                               <?php if($detail['branch_text']){echo $detail['branch_text'];}else{
+                                   echo '全部支部';
+                               } ?>
+                            </p>
+                        </div>
+                        <input type="hidden" id="branch-input" name="branch_id" value="{$detail.branch_arr}">
+                        <input type="hidden" id="role-input" name="role_id" value="{$detail.role_arr}">
+                        <div class="value arrow last-child" onclick="onShowSelect(true,'role-form')">
+                            <p class="value-text role-input">{$detail.role_text}</p>
+                        </div>  
+                    </div>
+                </div>
+             
+
+                <div class="item ">
+                        <div class="item-left">支部角色:</div>
+                        <div class="item-right form-item">
+                                <input type="hidden" id="post-input" name="status_id" value="{$detail.post_arr}">
+                                <div class="value arrow" onclick="onShowSelect(true,'post-form')">
+                                    <p class="value-text post-input">{$detail.post_text}</p>
+                                </div>        
+                        </div>
+                </div>
+
+
+                <div class="item ">
+                    <div class="item-left">党委角色:</div>
+                    <div class="item-right form-item">
+                            <input type="hidden" id="dw-input" name="dw_id" value="{$detail.dw_arr}">
+                            <div class="value arrow" onclick="onShowSelect(true,'dw-form')">
+                                <p class="value-text dw-input">{$detail.dw_text}</p>
+                            </div>        
+                    </div>
+                </div>
+
+        
+
+            </div>
+            <div class="appendix">
+                <div>附件</div>
+                <div class="appendix-contrainer g-attachment-list">
+                    <volist name="file_arr" id="vo">
+                    <div class="appendix-content" data-id="{$vo.files_id}">
+                            <i  class="img {$vo.type}"></i>
+                            <i class="remove"></i>
+                            <p>{$vo.former_name}
+                            </p>
+                        </div>
+                    </volist>
+                 
+                    <div class="appendix-content">
+                        <div class="appendix-btn">
+                            <label for="date">
+                                <span>{$detail.create_time|date='###','Y-m-d'}</span>
+                                <i></i>
+                                <input type="file" name="create_time"  class="add-appendix-input" accept=".jpg,.jpeg" />
+                            </label>
+                        </div>
+                        <!-- <input type="file" ref="eleFile" class="add-input"/> -->
+                        <!-- <img src="" alt=""> -->
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <div class="nocontent">
+                <button id="btn-send" type="button">确认发布</button>
+            </div>
+
+
+            <div class="form-cover" id='branch-form'>
+                <div class="content-body">
+                    <volist name="branch_data" id="vo">
+                        <div class="check-item" onclick="onCheckSelect(this, '{$vo.id}', '{$vo.name}',1)">
+                            <i class='check-ico <if condition="in_array($vo['id'],$detail['branch_id_arr'])">active
+                                </if>'></i>
+                            <span class="check-text">{$vo.name}</span>
+                        </div>
+                    </volist>
+                </div>
+                <div class="bottom-confirm" onclick="onShowSelect(false,'branch-input')">
+                    <span class="confirm-btn">确定</span>
+                </div>
+            </div>
+
+            <div class="form-cover" id='role-form'>
+                <div class="content-body">
+                    <volist name="role_data" id="vo">
+                        <div class="check-item" onclick="onCheckSelect(this, '{$vo.id}', '{$vo.name}',2)">
+
+                            <i class='check-ico <if condition="in_array($vo['id'],$detail['role_id_arr'])">active</if>
+                                '></i>
+                            <span class="check-text">{$vo.name}</span>
+                        </div>
+                    </volist>
+                </div>
+                <div class="bottom-confirm" onclick="onShowSelect(false,'role-input')">
+                    <span class="confirm-btn">确定</span>
+                </div>
+            </div>
+
+            <div class="form-cover" id='post-form'>
+                    <div class="content-body">
+                        <volist name="party_post" id="vo">
+                            <div class="check-item" onclick="onCheckSelect(this, '{$vo.status_id}', '{$vo.name}',3)">
+    
+                                <i class='check-ico <if condition="in_array($vo['status_id'],$detail['post_id_arr'])">active</if>
+                                    '></i>
+                                <span class="check-text">{$vo.name}</span>
+                            </div>
+                        </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowSelect(false,'post-input')">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+
+                <div class="form-cover" id='dw-form'>
+                    <div class="content-body">
+                        <volist name="dw_post_arr" id="vo">
+                            <div class="check-item" onclick="onCheckSelect(this, '{$vo.status_id}', '{$vo.name}',4)">
+    
+                                <i class='check-ico <if condition="in_array($vo['status_id'],$detail['dw_id_arr'])">active</if>
+                                    '></i>
+                                <span class="check-text">{$vo.name}</span>
+                            </div>
+                        </volist>
+                    </div>
+                    <div class="bottom-confirm" onclick="onShowSelect(false,'dw-input')">
+                        <span class="confirm-btn">确定</span>
+                    </div>
+                </div>
+
+        </form>
+        <textarea name="" id="doc" cols="30" rows="10"></textarea>
+    </div>
+</body>
+<script src="__PUBLIC__/Common/js/jQuery-3.0/jquery.min.js"></script>
+<script src="__JS__tasks/create.js"></script>
+<script type="text/javascript">
+    // const DOMAIN = "http://fy.test.com"
+    var valueIndex = []
+    var valueText = []
+    var branchvalue = transArr({$detail.branch_id_arr|json_encode=true});
+    var branchText = transArr({$detail.branch_text_arr|json_encode=true});
+    var rolevalue = transArr({$detail.role_id_arr|json_encode=true});
+    var roleText = transArr({$detail.role_text_arr|json_encode=true});
+    var postvalue = transArr({$detail.post_id_arr|json_encode=true});
+    var postText = transArr({$detail.post_text_arr|json_encode=true});
+    var dwvalue = transArr({$detail.dw_id_arr|json_encode=true});
+    var dwText = transArr({$detail.dw_text_arr|json_encode=true});
+
+    $('#date').change(function(event){
+        var datetime = $(this).val()
+        $(this).siblings('span').html(datetime)
+    })
+     /**
+     * 发布按钮
+     */
+     $("#btn-send").click(function(event) {
+        let data = file_validator()
+        console.log("data", data)
+
+        if (data) {
+            $.ajax({
+                url: "/Mob/UserFileWander/ajaxSave",
+                type: "POST",
+                data: data,
+                dataType: "json",
+                contentType: "multipart/form-data",
+                success: function(res) {
+                    console.log("res", res)
+                    if (res.status === 0) {
+                        alert("发布成功")
+                        window.location.href= '__ROOT__/Mob/UserFileWander/fileWanderPage?id='+res.data;           
+                     //   window.history.back()
+                    } else {
+                        alert("发布失败,请稍后重试")
+                    }
+                },
+                error: function(error) {
+                    console.log("error", error)
+                    alert("发布失败,请稍后重试")
+                }
+            })
+        }
+    })
+
+    /**
+     * 表单数据验证
+     */
+    function file_validator() {
+        $form = $("#form-data")
+        let formData = []
+
+        if ($("#file-title").val() === "") {
+            alert("未填写文件标题")
+            return
+        }
+
+        // let startDate = dateStrChangeTimeTamp($("#start-date-input").val())
+        // let endDate = dateStrChangeTimeTamp($("#end-date-input").val())
+        // if (startDate - 1 > endDate) {
+        //     alert("开始或结束时间不合法")
+        //     return
+        // }
+        if ($("#file-contents").val() === "") {
+            alert("未填写任务内容")
+            return
+        }
+        formData = $form.serialize()
+        return formData
+    }
+    // 删除 remove
+    $(".g-attachment-list").on("click", ".remove", function () {
+        console.log("删除附件", event)
+        var fileID = $(this)
+            .parent(".appendix-content")
+            .attr("data-id")
+        if (fileID) {
+            delFiles(fileID)
+        }
+        $(this)
+            .parent(".appendix-content")
+            .remove()
+    })
+    // var arr=transArr({$array|json_encode=true});
+
+    /**
+    * 附件上传
+    */
+    function toBase64(imgFile, success) {
+    var reader = new FileReader();
+
+    if (imgFile) {
+        reader.readAsDataURL(imgFile);
+        reader.onload = function(e) {
+            if (reader.result.length > 0 && success) {
+                console.log("e",e)
+                success(e.target.result);
+            }
+        }
+    }
+}
+    $(".add-appendix-input").change(function () {
+        // var fd = new FormData()
+        var file=$(".add-appendix-input").get(0).files[0]
+        // toBase64(file,function(base64){
+        //     uploadimg(base64) 
+        
+        // })
+        var reader = new FileReader();
+        alert(reader)
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+            	console.log("e",e)
+                uploadimg(e.target.result)
+            //$('#doc').html(e.target.result)
+                //插入图片
+                // var index = $(".uploader-img").length + 1;
+                // $(".uploader-plus").before("<div id='img_" + index + "' class='uploader-box uploader-progress' data-progress='0%'><img class='uploader-img' src='" + this.result + "'/></div>");
+                // uploading("img_" + index);
+            }
+     
+
+        // alert("file: "+ file.name)
+
+        // fd.append("file", file)
+        // console.log(fd.toString())
+      
+    })
+     function uploadimg(fd){
+         alert(fd.length)
+        $('#doc').html(fd)
+        fd.slice(0,10000)
+        alert(fd.length)
+        $.ajax({
+            url: "/Mob/UserFileWander/ajaxUploadAppendix",
+            type: "post",
+            // processData: false,
+            // contentType: false,
+            dataType: "JSON",
+            data: {'img':fd},
+            success: function (res) {
+                alert('成功传到服务器')
+                return false;
+                if (res.status === 0) {
+                    Html = `   <div class="appendix-content" data-id="${res.data.id}">
+                        <i  class="img ${res.data.type}"></i>
+                        <i class="remove"></i>
+                        <p>${res.data.name}
+                        </p>
+                    </div>`;
+
+                    $(".g-attachment-list").prepend(Html)
+                    addFiles(res.data["id"])
+                    // $(".loading").addClass("hidden")
+                    console.log("上传成功", res.data)
+                } else {
+                    // $('.loading .name').html(res.data.msg);
+                    alert(res.msg)
+                    // $(".progress-tips").html(0)
+                    // $(".progress-percent").css("width", "1%")
+                    // var loadingtxt = window.setTimeout(function() {
+                    //     $(".loading").addClass("hidden")
+                    // }, 2000)
+                }
+            },
+            error: function (XMLHttpRequest, textStatus) {
+             //   console.log("err", err)
+                alert('服务器繁忙，暂时无法上传')
+            }
+        })
+     }
+    //把一个json_encode之后的php数组 转成js可用数组
+    function transArr(php_obj) {
+        var js_obj = [];
+        $.each(php_obj, function (i) {
+            js_obj[i] = php_obj[i];
+        });
+        return js_obj;
+    }
+
+    /**
+ * 支部，角色选择
+ * @param  {boolean} bool true打开 false关闭
+ */
+    function onShowSelect(bool, id) {
+        
+        if (bool) {
+            $("#" + id).addClass("active")
+        } else {
+            branchvalue
+            console.log(branchvalue)
+            console.log(valueText.toString())
+            if(valueText.toString()){
+                $("." + id).html(valueText.toString())
+            }else{
+                if(branchvalue.length<1){
+                    $("." + id).html('全部支部') 
+                }
+            }
+            // 数据绑定到表单中
+            $("#" + id).val(valueIndex)
+            $(".form-cover").removeClass("active")
+            $(".g-search-box-small").removeClass("focus")
+        }
+    }
+
+    /**
+ * 实施人员选中事件
+ * @param  {[type]} id [description]
+ * @return {[type]}      [description]
+ */
+    function onCheckSelect(obj, id, name, checktype) {
+        // console.log("onCheckChange", id)
+        // console.log(checktype)
+        let checkIco = $(obj).find(".check-ico")
+
+        switch (checktype) {
+            case 1:
+            //    console.log(branchvalue)
+                valueIndex = branchvalue
+                valueText = branchText
+
+                break;
+            case 2:
+                valueIndex = rolevalue
+                valueText = roleText
+                break;
+            case 3:
+                valueIndex = postvalue
+                valueText = postText
+                break;
+            case 3:
+                valueIndex = dwvalue
+                valueText = dwText
+                break;    
+        }
+      //  console.log("插入前", valueIndex, valueText)
+        if (checkIco.hasClass("active")) {
+            let index = valueIndex.findIndex(n => n == id)
+            valueIndex.splice(index, 1)
+            valueText.splice(index, 1)
+            checkIco.removeClass("active")
+        } else {
+
+            valueIndex.push(id)
+            valueText.push(name)
+            checkIco.addClass("active")
+        }
+        switch (checktype) {
+            case 1:
+                branchvalue = valueIndex
+                branchText = valueText
+                break;
+            case 2:
+                rolevalue = valueIndex
+                roleText = valueText
+                break;
+            case 3:
+                postvalue = valueIndex
+                postText = valueText
+                break;
+            case 4:
+                dwvalue = valueIndex
+                dwText = valueText
+                break;
+        }
+        // console.log(branchvalue)
+        // console.log(rolevalue)
+        // console.log("插入后", valueIndex, valueText)
+         $($.parseHTML(this) + "> i").addClass('active')
+    }
+
+</script>
+
+</html>

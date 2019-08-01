@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta>
+    <title>党员服务</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/party_serve/relief/relief.css">
+</head>
+<style type="text/css">
+.list dl {
+    background: url(__IMG__/party_serve/relief.png) no-repeat;
+    background-size: cover;
+}
+</style>
+<body>
+<div class="page">
+    <header class="head">
+        <a onclick="history.go(-1);"><div class="head_return"><i></i>扶贫捐款</div></a>
+    </header>
+    
+    
+</div>
+<script>
+	var __root__ = "__ROOT__";
+</script>
+	<script src="__STATICS__/mui/mui.min.js"></script>
+	<script src="__STATICS__/zepto/zepto.js"></script>
+	<include file="Common/_menu"/>
+<script>
+	mui.init({
+			gestureConfig:{
+				doubletap:true
+			},
+			subpages:[{
+				url:'_sub_donation.html',
+				id:'_sub_donation.html',
+				styles:{
+					top: '45px',
+					left: '0px',
+					right: '0px',
+					bottom: '0px',
+				},
+			}]
+		});
+
+		var contentWebview = null;
+		document.querySelector('header').addEventListener('doubletap',function () {
+			if(contentWebview==null){
+				contentWebview = plus.webview.currentWebview().children()[0];
+			}
+			contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+		});
+</script>
+</body>
+</html>

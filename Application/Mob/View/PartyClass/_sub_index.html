@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="__STATICS__/mui/mui.min.css">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/notes/exchange/lecture.css"/>
+
+
+</head>
+
+<body>
+<!--下拉刷新容器-->
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top: 0" style="background: transparent">
+    <div class="mui-scroll " style="background: transparent">
+
+        <!--数据列表-->
+        <ul class="mui-table-view mui-table-view-chevron list" style="background: transparent">
+            <a class="btn btn-add" style="z-index: 100000">我也要讲党课</a>
+        </ul>
+
+        <div id="list-template" style="display: none">
+            <dl class="list-item" href="__ROOT__/Mob/PartyClass/video?id=##id##">
+                <dt>
+                    <img src="##cover##" style="height: 100%;width: 100%;">
+                <div class="video"><i></i></div>
+                </dt>
+                <dd class="content">
+                        <h2>##title##</h2>
+                        <div class="content">主讲人:<span>##speaker##</span></div>
+                        <div class="foot">
+                            <div class="foot_title">
+                                <img src="##head##" alt="">
+                                <span class="name">##realname##</span>
+                                <span class="position" style="display: none;">##adm_post_name##</span>
+                                <i class="time">
+                                    ##time##
+                                </i>
+                            </div>
+                        </div>
+                </dd>
+            </dl>
+            <div class="footer">
+                <!--active样式控制图标的颜色-->
+                <div class="collect" data-id="##id##"><i></i>收藏(<span>##sc##</span>)</div>
+                <div class="comment" data-id="##id##"><i></i>评论(<span>##pl##</span>)</div>
+                <div class="like" data-id="##id##"><i></i>点赞(<span>##dz##</span>)</div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Common/_loading"/>
+<script>
+    var __root__ = "__ROOT__";
+</script>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/mui/mui.min.js"></script>
+<script src="__JS__/common.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+	
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    mui(".mui-content .list ").on('tap','.comment', function (e) {
+        var id =  this.getAttribute('data-id');
+        parent.location.href = "__ROOT__/Mob/PartyClass/comment?id=" + id;
+    })
+    mui(".mui-content .list ").on('tap','.collect', function (e) {
+        var id =  this.getAttribute('data-id');
+        var c = this
+        var count = c.getElementsByTagName('span')[0];
+        loading()
+        mui.ajax('__ROOT__/Mob/PartyClass/ajax_correct',{
+            data: {
+                id: id
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                close_loading()
+                if (data['status'] == 0) {
+                    alert(data.msg);
+                    if(data.data.is_correct == 1){
+                        c.className += " active";
+                    }else{
+                        var reg = new RegExp('(\\s|^)' + 'active' + '(\\s|$)');
+                        c.className = c.className.replace(reg, ' ');
+                    }
+                    count.innerHTML = data.data.count
+                }else{
+                    mui.alert(data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                close_loading()
+                console.log(type);
+                mui.alert('网络异常');
+            }
+        });
+    })
+
+    mui(".mui-content .list ").on('tap','.like', function (e) {
+        var id =  this.getAttribute('data-id');
+        var c = this
+        var count = c.getElementsByTagName('span')[0];
+        loading()
+        mui.ajax('__ROOT__/Mob/PartyClass/ajax_dz',{
+            data: {
+                id: id
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                close_loading()
+                if (data['status'] == 0) {
+                    alert(data.msg);
+                    if(data.data.is_correct == 1){
+                        c.className += " active";
+                    }else{
+                        var reg = new RegExp('(\\s|^)' + 'active' + '(\\s|$)');
+                        c.className = c.className.replace(reg, ' ');
+                    }
+                    count.innerHTML = data.data.count
+                }else{
+                    mui.alert(data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                close_loading()
+                console.log(type);
+                mui.alert('网络异常');
+            }
+        });
+    })
+	function get_head_url(url){
+		
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common-head.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url;
+        }else{
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+
+    function get_img_url(url,size) {
+    	size = (size == undefined?'':size=='small'?'-s.png':(size=='middle'?'-m.png':''));
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url  + size;
+        }else{
+            return   '__ROOT__/Uploads/' +　url  + size;
+        }
+    }
+    
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            up: {
+                contentrefresh: '正在加载...',
+                callback: pullupRefresh
+            }
+        }
+    });
+
+
+        mui.ready(function() {
+            mui('#pullrefresh').pullRefresh().pullupLoading();
+        });
+
+    /**
+     * 上拉加载具体业务实现
+     */
+    function pullupRefresh() {
+        ajaxGetNoteList();
+    }
+
+    mui(".mui-content").on('tap','.btn-add',function(){
+        mui.openWindow({
+            id:'issue',
+            url:'issue.html'
+        });
+    })
+
+    mui(".mui-table-view").on('tap','.list-item',function(){
+        var href = this.getAttribute("href");
+        console.log("href = " + href);
+        parent.window.location.href = href;
+        return false;
+    })
+
+
+
+    var list = mui('.mui-table-view')[0];
+    var lastItem = 0;
+    var listItemHtmlArray = mui('#list-template')[0].innerHTML.split("##");
+    var count = 0;
+    function ajaxGetNoteList() {
+        mui.ajax('__ROOT__/Mob/PartyClass/ajaxGetList',{
+            data:{
+                "lastItem" : lastItem,
+                "count":count
+            },
+            dataType:'json',//服务器返回json格式数据
+            type:'post',//HTTP请求类型
+            timeout:10000,//超时时间设置为10秒；
+            success:function(data){
+                if (data['status'] == 0) {
+                	
+                    var listData = data.data;
+                    count = parseInt(data.msg);
+                    if(listData && listData.length > 0){
+                        console.log("data = " + JSON.stringify(listData));
+                        if(listData.length > 0){
+                            var listItem = "";
+                            for (var i=0; i < listData.length; i++) {
+                                lastItem = listData[i]['create_time'];
+                                var createTimeStr = new Date(listData[i]['create_time']*1000).Format("yyyy.MM.dd   hh:mm");
+                                listItemHtmlArray[3] = get_img_url(listData[i]['cover'],'small');
+                                listItemHtmlArray[1] = listData[i]['id'];
+                                listItemHtmlArray[5] = "【第" + count + "讲】" + listData[i]['title'];
+                                listItemHtmlArray[7] = listData[i]['speaker'];
+                                 listItemHtmlArray[9] = get_head_url(listData[i]['user_headimgurl']);
+                                listItemHtmlArray[11] = listData[i]['user_realname'];
+                                  listItemHtmlArray[15] = createTimeStr;
+                                listItemHtmlArray[17] = listData[i]['id'];
+                                   listItemHtmlArray[19] =  listData[i]['count_correct'];;
+                                listItemHtmlArray[21] = listData[i]['id'];
+                                    listItemHtmlArray[23] =  listData[i]['count_comment'];;
+                                listItemHtmlArray[25] = listData[i]['id'];
+                                     listItemHtmlArray[27] =  listData[i]['count_dz'];;
+                                for(var j=0; j<listItemHtmlArray.length; j++){
+                                    listItem += listItemHtmlArray[j];
+                                }
+                                count--;
+                            }
+                            list.innerHTML += listItem;
+                        }
+                        if(listData.size < 20){ // 返回的数量小于约定的返回数量，表示后面没有更多数据了
+                            mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                        }else{
+                            mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                        }
+                    }else{
+                        mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                    }
+                }else{
+                    mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                    alert("errorMsg = " + data.msg);
+                }
+            },
+            error:function(xhr,type,errorThrown){
+                //异常处理；
+                console.log(type);
+                mui.alert('网络异常');
+            }
+        });
+    }
+
+
+    /**
+     * Created by jervis on 2017/5/4.
+     */
+
+</script>
+</body>
+
+</html>

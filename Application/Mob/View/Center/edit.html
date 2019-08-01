@@ -1,0 +1,110 @@
+<extend name="./Application/Mob/View/Common/base.html"/>
+<block name="styles">
+    <link rel="stylesheet" href="__CSS__/common/zonePublic.css">
+    <link rel="stylesheet" href="__CSS__/grassroots/personal/edit_index.css">
+
+    <style>
+        body{
+            padding-bottom: 50px;
+        }
+        header.head {
+            background: url(__IMG__/branch/head_bg.png) no-repeat;
+            background-size: 100%;
+        }
+
+        .ledger .head .title .right {
+            background: url(__IMG__/branch/right.png) no-repeat 100%;
+            background-size: 100%;
+        }
+
+        .ledger .head .search {
+            background: url(__IMG__/branch/search@2x.png) no-repeat;
+            background-size: 100%;
+        }
+
+        html {
+            height: 100%;
+            background: #e3e9ef;
+        }
+    </style>
+</block>
+<block name="content">
+    <div class="page">
+        <header class="head">
+            <a onclick="history.go(-1);">
+                <div class="head_return"><i></i></div>
+                <div class="xinnav">信息完整度<span>{$user|show_center_rate}</span>%</div>
+            </a>
+        </header>
+    </div>
+    <div class="personal-edit" style="margin-bottom:45px;">
+        <div class="heart">
+            <div class="shell">
+                <if condition="$uid eq null || $uid eq ''">
+                <section>修改头像</section>
+                <div class="avatar">
+                    <a href="__ROOT__/Mob/Center/head"><img src="{$user.headimgurl|get_head_url}"
+                                                            style="overflow: hidden"/><span>点击修改</span></a>
+                </div>
+                <else/>
+                <div class="avatar">
+                   <a ><img src="{$user.headimgurl|get_head_url}" style="overflow: hidden"/></a>
+                </div>
+                </if>
+            </div>
+            <div class="shell">
+                <section>基本信息</section>
+                <div class="basic">
+                    <ul>
+                        <li>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名：<span>{$user.realname}</span></li>
+                        <li>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 别：<span>{$user.gender|get_sex}</span></li>
+                        <!-- <li>出生年月：<span>{$user.birthday}</span></li> -->
+                        <li>入党时间：<span><if condition="$user.role_id lt 3">{$user.activist_date|date='Y-m',###}</if></span>
+                        </li>
+                        <li>联系手机号：<span>{$user.mobile}</span></li>
+                        <li>座&nbsp;&nbsp;右&nbsp;&nbsp;铭：<span>{$user.sign}</span></li>
+                    </ul>
+                    <if condition="$uid eq null || $uid eq ''">
+                    <a href="__ROOT__/Mob/Center/basic"><img src="__IMG__/grassroots/personal/edit_red.png"/>编辑</a>
+                    </if>
+                </div>
+            </div>
+            <div class="shell">
+                <section>政治面貌</section>
+                <div class="face">
+                    <ul>
+                        <li>所属单位：<span>{$user.work_unit_name}</span></li>
+                        <li>所属支部：<span>{$user.branch_name}</span></li>
+                        <li class="hide">是否为市局党委委员纪委委员：<span></span></li>
+                        <li>当前行政职务和职级：<span>{$user.adm_post_name}</span></li>
+                        <li class="hide">是否党务管理人员：<span></span></li>
+                        <li>政治身份：<span>{$user.role_name}</span></li>
+                    </ul>
+                    <if condition="$uid eq null || $uid eq ''">
+                    <a href="__ROOT__/Mob/Center/basic_branch"><img src="__IMG__/grassroots/personal/edit_red.png"/>编辑</a>
+                    </if>
+                </div>
+            </div>
+            <div class="shell">
+                <section>荣誉奖励</section>
+                <div class="honor">
+                    <div class="hei">荣誉奖励情况：<span></span></div>
+                    <if condition="$uid eq null || $uid eq ''">
+                    <a href="__ROOT__/Mob/Center/reward"><img src="__IMG__/grassroots/personal/edit_red.png"/>编辑</a>
+                    </if>
+                </div>
+            </div>
+            <div class="shell">
+                <section>学历情况</section>
+                <div class="education">
+                    <div class="hei">学历情况：<span></span></div>
+                    <if condition="$uid eq null || $uid eq ''">
+                    <a href="__ROOT__/Mob/Center/edu"><img src="__IMG__/grassroots/personal/edit_red.png"/>编辑</a>
+                    </if>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+<block name="scripts">
+</block>

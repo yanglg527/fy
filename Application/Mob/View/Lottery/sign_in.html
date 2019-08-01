@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>签到</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2"/>
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/general/general-header.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lottery/calendar.css"/>
+    <link rel="stylesheet" type="text/css" href="__CSS__/lottery/sign_in.css"/>
+</head>
+
+<body>
+<!--<input type="datetime" id="box"  onfocus="blur()" class="calendars star" placeholder="请选择日期"  min-date="2014-05-10" max-date="2018-06-1" format="yyyy-MM-dd"  readonly="readonly">-->
+<div class="calendar active">
+    <!-- 顶部红底 -->
+    <header></header>
+    <!-- 整张日历 -->
+    <div class="calendar-content">
+        <!-- 日历表头 控制年月 -->
+        <div class="calendar-header">
+            <div class="calendar-month">
+                <!--<a class="month-prev switch-btn" href="javascript:;"><img src="__IMG__/lottery/return.png"></a>-->
+                <div class="nain">
+                    <a class="calendar-title">{$yearMonth}</a>
+                    <!--<a class="calendar-year-txt calendar-title" href="javascript:;" data-value="2017">2017</a>-->
+                    <!--<a class="calendar-month-txt calendar-title" href="javascript:;" data-value="4">05</a>-->
+                </div>
+                <!--<a class="month-next switch-btn" href="javascript:;"><img src="__IMG__/lottery/return.png"></a>-->
+            </div>
+        </div>
+        <!-- 日历表头与表单的连接图标 竖圆角div -->
+        <div class="hear">
+            <img class="left" src="__IMG__/lottery/button.png">
+            <img class="right" src="__IMG__/lottery/button.png">
+        </div>
+        <!-- 签到按钮及状态 -->
+
+        <if condition="$signState == true">
+            <div class="qiandao">
+                <a class="qian">
+                    <img src="__IMG__/lottery/qiandao.png"> <span class="yes">已签到</span>
+                </a>
+            </div>
+        <else/>
+            <div class="qiandao" id="btn-sign">
+                <a class="qian" onclick="qiandao()">
+                    <img src="__IMG__/lottery/qiandao.png"><span>签到</span>
+                    <span class="yes hide">已签到</span>
+                </a>
+            </div>
+            <div class="qiandao" id="btn-signed"  style="display: none">
+                <a class="qian">
+                    <img src="__IMG__/lottery/qiandao.png"> <span class="yes">已签到</span>
+                </a>
+            </div>
+        </if>
+        <!-- 日历星期表头 -->
+        <div class="calendar-week">
+            <span class="weekend">日</span>
+            <span>一</span>
+            <span>二</span>
+            <span>三</span>
+            <span>四</span>
+            <span>五</span>
+            <span class="weekend">六</span>
+        </div>
+        <!-- 日历天列表 -->
+        <div class="calendar-list">
+            <div>
+                <span><a data-calen="2017/3/26" class="prev-m prev-to-month pasted" href="javascript:;">26</a></span>
+                <span><a data-calen="2017/3/27" class="prev-m prev-to-month pasted" href="javascript:;">27</a></span>
+                <span><a data-calen="2017/3/28" class="prev-m prev-to-month pasted" href="javascript:;">28</a></span>
+                <span><a data-calen="2017/3/29" class="prev-m prev-to-month pasted" href="javascript:;">29</a></span>
+                <span><a data-calen="2017/3/30" class="prev-m prev-to-month pasted" href="javascript:;">30</a></span>
+                <span><a data-calen="2017/3/31" class="prev-m prev-to-month pasted" href="javascript:;">31</a></span>
+                <span><a data-calen="2017/4/1" href="javascript:;" class="weekend">1</a></span>
+                <span><a data-calen="2017/4/2" href="javascript:;" class="weekend">2</a></span>
+                <span><a data-calen="2017/4/3" href="javascript:;">3</a></span>
+                <span><a data-calen="2017/4/4" href="javascript:;">4</a></span>
+                <span><a data-calen="2017/4/5" href="javascript:;">5</a></span>
+                <span><a data-calen="2017/4/6" href="javascript:;">6</a></span>
+                <span><a data-calen="2017/4/7" href="javascript:;">7</a></span>
+                <span><a data-calen="2017/4/8" href="javascript:;" class="weekend">8</a></span>
+                <span><a data-calen="2017/4/9" href="javascript:;" class="star weekend">9</a></span>
+                <span><a data-calen="2017/4/10" href="javascript:;">10</a></span>
+                <span><a data-calen="2017/4/11" data-calen="2017/4/12" href="javascript:;">12</a></span>
+                <span><a data-calen="2017/4/13" href="javascript:;">13</a></span>
+                <span><a data-calen="2017/4/14" href="javascript:;">14</a></span>
+                <span><a data-calen="2017/4/15" href="javascript:;" class="weekend">15</a></span>
+                <span><a data-calen="2017/4/16" href="javascript:;" class="weekend">16</a></span>
+                <span><a data-calen="2017/4/17" href="javascript:;">17</a></span>
+                <span><a data-calen="2017/4/18" href="javascript:;">18</a></span>
+                <span><a data-calen="2017/4/19" href="javascript:;">19</a></span>
+                <span><a data-calen="2017/4/20" href="javascript:;">20</a></span>
+                <span><a data-calen="2017/4/21" href="javascript:;">21</a></span>
+                <span><a data-calen="2017/4/22" href="javascript:;" class="weekend">22</a></span>
+                <span><a data-calen="2017/4/23" href="javascript:;" class="weekend">23</a></span>
+                <span><a data-calen="2017/4/24" href="javascript:;">24</a></span>
+                <span><a data-calen="2017/4/25" href="javascript:;">25</a></span>
+                <span><a data-calen="2017/4/26" href="javascript:;">26</a></span>
+                <span><a data-calen="2017/4/27" href="javascript:;">27</a></span>
+                <span><a data-calen="2017/4/28" href="javascript:;">28</a></span>
+                <span><a data-calen="2017/4/29" href="javascript:;" class="weekend">29</a></span>
+                <span><a data-calen="2017/4/30" href="javascript:;" class="weekend">30</a></span>
+                <span><a data-calen="2017/5/1" class="next-m next-to-month pasted" href="javascript:;">1</a></span>
+                <span><a data-calen="2017/5/2" class="next-m next-to-month pasted" href="javascript:;">2</a></span>
+                <span><a data-calen="2017/5/3" class="next-m next-to-month pasted" href="javascript:;">3</a></span>
+                <span><a data-calen="2017/5/4" class="next-m next-to-month pasted" href="javascript:;">4</a></span>
+                <span><a data-calen="2017/5/5" class="next-m next-to-month pasted" href="javascript:;">5</a></span>
+                <span><a data-calen="2017/5/6" class="next-m next-to-month pasted" href="javascript:;">6</a></span>
+            </div>
+            <div>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <span><a class="prev-m prev-to-month pasted"></a></span>
+                <volist name="list" id="item">
+                    <if condition="$item['info']['type'] == 2">
+                        <if condition="$i % 7 == 6">
+                            <span><a id="{$item['id']}" class="weekend {$item.dayClass} {$signStateList|getSignedClass=$item['id']}">{$item.info.day}</a></span>
+                        <elseif condition="$i % 7 == 0"/>
+                            <span><a id="{$item['id']}" class="weekend {$item.dayClass} {$signStateList|getSignedClass=$item['id']}">{$item.info.day}</a></span>
+                        <else/>
+                            <span><a id="{$item['id']}" class="{$item.dayClass} {$signStateList|getSignedClass=$item['id']}">{$item.info.day}</a></span>
+                        </if>
+                    <elseif condition="$item['info']['type'] == 1"/>
+                        <span><a id="{$item['id']}" class="prev-m prev-to-month pasted {$item.dayClass}" href="javascript:;">{$item.info.day}</a></span>
+                    <else/>
+                        <span><a id="{$item['id']}" class="next-m next-to-month pasted {$item.dayClass}" href="javascript:;">{$item.info.day}</a></span>
+                    </if>
+                </volist>
+                <!--<span><a data-calen="2017/4/23" class="prev-m prev-to-month pasted" href="javascript:;">23</a></span>-->
+                <!--<span><a data-calen="2017/4/24" class="prev-m prev-to-month pasted" href="javascript:;">24</a></span>-->
+                <!--<span><a data-calen="2017/4/25" class="prev-m prev-to-month pasted" href="javascript:;">25</a></span>-->
+                <!--<span><a data-calen="2017/4/26" class="prev-m prev-to-month pasted" href="javascript:;">26</a></span>-->
+                <!--<span><a data-calen="2017/4/27" class="prev-m prev-to-month pasted" href="javascript:;">27</a></span>-->
+                <!--<span><a data-calen="2017/4/28" class="prev-m prev-to-month pasted" href="javascript:;">28</a></span>-->
+                <!--<span><a data-calen="2017/4/29" class="prev-m prev-to-month pasted" href="javascript:;">29</a></span>-->
+                <!--<span><a data-calen="2017/4/30" class="prev-m prev-to-month pasted" href="javascript:;">30</a></span>-->
+                <!--<span><a data-calen="2017/5/1" href="javascript:;">1</a></span>-->
+                <!--<span><a data-calen="2017/5/2" href="javascript:;">2</a></span>-->
+                <!--<span><a data-calen="2017/5/3" href="javascript:;">3</a></span>-->
+                <!--<span><a data-calen="2017/5/4" href="javascript:;">4</a></span>-->
+                <!--<span><a data-calen="2017/5/5" href="javascript:;">5</a></span>-->
+                <!--<span><a data-calen="2017/5/6" href="javascript:;" class="weekend">6</a></span>-->
+                <!--<span><a data-calen="2017/5/7" href="javascript:;" class="weekend">7</a></span>-->
+                <!--<span><a data-calen="2017/5/8" href="javascript:;">8</a></span>-->
+                <!--<span><a data-calen="2017/5/9" href="javascript:;" class="star">9</a></span>-->
+                <!--<span><a data-calen="2017/5/10" href="javascript:;" class="star">10</a></span>-->
+                <!--<span><a data-calen="2017/5/11" href="javascript:;">11</a></span>-->
+                <!--<span><a data-calen="2017/5/12" href="javascript:;">12</a></span>-->
+                <!--<span><a data-calen="2017/5/13" href="javascript:;" class="weekend">13</a></span>-->
+                <!--<span><a data-calen="2017/5/14" href="javascript:;" class="weekend">14</a></span>-->
+                <!--<span><a data-calen="2017/5/15" href="javascript:;">15</a></span>-->
+                <!--<span><a data-calen="2017/5/16" href="javascript:;" class="today">16</a></span>-->
+                <!--<span><a data-calen="2017/5/17" href="javascript:;">17</a></span>-->
+                <!--<span><a data-calen="2017/5/18" href="javascript:;">18</a></span>-->
+                <!--<span><a data-calen="2017/5/19" href="javascript:;">19</a></span>-->
+                <!--<span><a data-calen="2017/5/20" href="javascript:;" class="weekend">20</a></span>-->
+                <!--<span><a data-calen="2017/5/21" href="javascript:;" class="weekend">21</a></span>-->
+                <!--<span><a data-calen="2017/5/22" href="javascript:;">22</a></span>-->
+                <!--<span><a data-calen="2017/5/23" href="javascript:;">23</a></span>-->
+                <!--<span><a data-calen="2017/5/24" href="javascript:;">24</a></span>-->
+                <!--<span><a data-calen="2017/5/25" href="javascript:;">25</a></span>-->
+                <!--<span><a data-calen="2017/5/26" href="javascript:;">26</a></span>-->
+                <!--<span><a data-calen="2017/5/27" href="javascript:;" class="weekend">27</a></span>-->
+                <!--<span><a data-calen="2017/5/28" href="javascript:;" class="weekend">28</a></span>-->
+                <!--<span><a data-calen="2017/5/29" href="javascript:;">29< href="javascript:;">30</a></span>-->
+                <!--<span><a data-calen="2017/5/31" href="javascript:;">31</a></span>-->
+                <!--<span><a data-calen="2017/6/1" class="next-m next-to-month pasted" href="javascript:;">1</a></span>-->
+                <!--<span><a data-calen="2017/6/2" class="next-m next-to-month pasted" href="javascript:;">2</a></span>-->
+                <!--<span><a data-calen="2017/6/3" class="next-m next-to-month pasted" href="javascript:;">3</a></span>-->
+            </div>
+            <div>
+                <span><a data-calen="2017/5/28" class="prev-m prev-to-month pasted" href="javascript:;">28</a></span>
+                <span><a data-calen="2017/5/29" class="prev-m prev-to-month pasted" href="javascript:;">29</a></span>
+                <span><a data-calen="2017/5/30" class="prev-m prev-to-month pasted" href="javascript:;">30</a></span>
+                <span><a data-calen="2017/5/31" class="prev-m prev-to-month pasted" href="javascript:;">31</a></span>
+                <span><a data-calen="2017/6/1" href="javascript:;">1</a></span>
+                <span><a data-calen="2017/6/2" href="javascript:;">2</a></span>
+                <span><a data-calen="2017/6/3" href="javascript:;" class="weekend">3</a></span>
+                <span><a data-calen="2017/6/4" href="javascript:;" class="weekend">4</a></span>
+                <span><a data-calen="2017/6/5" href="javascript:;">5</a></span>
+                <span><a data-calen="2017/6/6" href="javascript:;">6</a></span>
+                <span><a data-calen="2017/6/7" href="javascript:;">7</a></span>
+                <span><a data-calen="2017/6/8" href="javascript:;">8</a></span>
+                <span><a data-calen="2017/6/9" href="javascript:;">9</a></span>
+                <span><a data-calen="2017/6/10" href="javascript:;" class="weekend">10</a></span>
+                <span><a data-calen="2017/6/11" href="javascript:;" class="weekend">11</a></span>
+                <span><a data-calen="2017/6/12" href="javascript:;">12</a></span>
+                <span><a data-calen="2017/6/13" href="javascript:;">13</a></span>
+                <span><a data-calen="2017/6/14" href="javascript:;">14</a></span>
+                <span><a data-calen="2017/6/15" href="javascript:;">15</a></span>
+                <span><a data-calen="2017/6/16" href="javascript:;">16</a></span>
+                <span><a data-calen="2017/6/17" href="javascript:;" class="weekend">17</a></span>
+                <span><a data-calen="2017/6/18" href="javascript:;" class="weekend">18</a></span>
+                <span><a data-calen="2017/6/19" href="javascript:;">19</a></span>
+                <span><a data-calen="2017/6/20" href="javascript:;">20</a></span>
+                <span><a data-calen="2017/6/21" href="javascript:;">21</a></span>
+                <span><a data-calen="2017/6/22" href="javascript:;">22</a></span>
+                <span><a data-calen="2017/6/23" href="javascript:;">23</a></span>
+                <span><a data-calen="2017/6/24" href="javascript:;" class="weekend">24</a></span>
+                <span><a data-calen="2017/6/25" href="javascript:;" class="weekend">25</a></span>
+                <span><a data-calen="2017/6/26" href="javascript:;">26</a></span>
+                <span><a data-calen="2017/6/27" href="javascript:;">27</a></span>
+                <span><a data-calen="2017/6/28" href="javascript:;">28</a></span>
+                <span><a data-calen="2017/6/29" href="javascript:;">29</a></span>
+                <span><a data-calen="2017/6/30" href="javascript:;">30</a></span>
+                <span><a data-calen="2017/7/1" class="next-m next-to-month pasted" href="javascript:;">1</a></span>
+                <span><a data-calen="2017/7/2" class="next-m next-to-month pasted" href="javascript:;">2</a></span>
+                <span><a data-calen="2017/7/3" class="next-m next-to-month pasted" href="javascript:;">3</a></span>
+                <span><amdata-calen="2017/7/4" class="next-m next-to-month pasted" href="javascript:;">4</a></span>
+                <span><a data-calen="2017/7/5" class="next-m next-to-month pasted" href="javascript:;">5</a></span>
+                <span><a data-calen="2017/7/6" class="next-m next-to-month pasted" href="javascript:;">6</a></span>
+                <span><a data-calen="2017/7/7" class="next-m next-to-month pasted" href="javascript:;">7</a></span>
+                <span><a data-calen="2017/7/8" class="next-m next-to-month pasted" href="javascript:;">8</a></span>
+            </div>
+        </div>
+        <div class="prompt">已经连续签到<span id="day-count">{$continueSignInCount}</span>天哦~</div>
+        <!-- <a href="./lottery.html" class="lottery">抽奖看积分</a> -->
+    </div>
+</div>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<include file="Common/_menu"/>
+<script>
+    var calendarList = $(".calendar-list");
+
+    $(".month-prev").click(function () {
+        alert("prev month is been click !");
+    })
+
+    $(".month-next").click(function () {
+        alert("next month is been click !");
+    })
+
+    function qiandao() {
+        $.ajax({
+            type: "post",
+            url:"__ROOT__/Mob/Lottery/ajaxSignIn",
+            cache: false,
+            dataType: "json",
+            success: function (res) {
+                if(res['status'] == 0){
+                    // 更新页面内容
+                    window.location.reload();
+                }else if(res['status'] == 1){
+                    alert(res.msg)
+                    window.location.reload();
+                }
+            },
+            error: function () {
+                alert("网络异常...");
+            }
+        });
+    }
+
+
+</script>
+<!--<script src="__JS__/lottery/calendar.js" type="text/javascript" charset="utf-8"></script>-->
+<!--<script src="__JS__/lottery/sign_in.js" type="text/javascript" charset="utf-8"></script>-->
+</body>
+
+</html>

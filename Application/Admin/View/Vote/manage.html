@@ -1,0 +1,168 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .popup-qrcode{
+            position: absolute;display:none; z-index:3000; background-color:#FFF; left: 601px; top: 217px; height: auto; width: auto;text-align:center;
+            border: 2px solid #28a326;
+            border-radius: 10px;
+        }
+        .popup-qrcode .img-qrcode{
+            margin: 10px;
+            width: 280px !important;
+            height:280px !important;
+        }
+        .popup-qrcode h4{
+            padding-bottom: 10px;
+            border-bottom: 1px solid lightgray;
+        }
+
+        .popup-qrcode .close-popup{
+            color: grey;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 16px;
+        }
+
+        .popup-qrcode .bottom-button{
+            padding-bottom: 10px;
+        }
+        .popup-qrcode .bottom-button input{
+            background-color: #eeeeee;
+            border: 1px lightgray solid;
+            border-radius: 5px;
+            padding: 5px 20px;
+            color: black;
+            font-size: 14px;
+        }
+        .popup-qrcode .bottom-button .btn-download{
+            background-color: #eeeeee;
+            border: 1px lightgray solid;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: black;
+            font-size: 14px;
+        }
+
+        .span-more{
+            background-color: #029865;
+            color: white;
+            padding: 5px 10px ;
+        }
+        .am-form .td-title img{
+            display: block;
+            width: 200px !important;
+            height: auto !important;
+        }
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><a href="#" onClick="javascript :history.back(1);"><strong
+                    class="am-text-primary am-text-lg">投票管理</strong></a> /
+                <small>
+                    《{$detail.title}》投票管理
+                </small>
+            </div>
+        </div>
+        <hr>
+
+
+        <div class="am-g">
+
+            <include file="_analysis"/>
+
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-author" >排名</th>
+                            <th class="table-type" >投票项</th>
+                            <th class="table-author " style="">统计</th>
+                            <th class="table-author " style="">票数</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <style>
+                            .answer-item-content{
+                                width: 200px;
+                                height: 15px;
+                                position: relative;
+                            }
+                            .answer-item-content .per{
+                                position: absolute;
+                                left: 0px;top: 0px;
+                                width: 200px;
+                                height: 15px;
+                                border-radius: 7.5px;
+                                background: rgba(155, 155, 155, 0.22);
+                                display: inline-block
+                            }
+                            .answer-item-content .per .value{
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                border-radius: 7.5px;
+                                height: 100%;
+                                display: inline-block;
+                            }
+
+                        </style>
+                        <volist name="items" id="item">
+                            <tr>
+                                <td >{$item.order}</td>
+                                <td ><img src="{$item.image|show_img}"  style="width: 35px;height: 35px;margin-right: 10px" >{$item.title}</td>
+                                <td >
+                                    <div class="answer-item-content">
+                                        <div class="per">
+                                            <div class="value" style="background: deepskyblue;width:{$item['count']|template_percent=$detail['total_count']}">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span>{$item['count']|template_percent=$detail['total_count']}</span>
+                                </td>
+                                <td >
+                                    {$item.count}
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <hr/>
+                    <p>注：.....</p>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+    <script type="text/javascript">
+        $(function(){
+            //导出名单
+            $('#export-excel').click(function () {
+                $('#confirm-text').text("是否导出列表");
+                $('#my-confirm').modal({
+                    relatedTarget: this,
+                    onConfirm: function (options) {
+                        location.href = "__ROOT__/Admin/Vote/VoteListToExcel";
+                    },
+                    onCancel: function () {
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</block>

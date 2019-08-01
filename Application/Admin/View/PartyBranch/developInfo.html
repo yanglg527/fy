@@ -1,0 +1,406 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">党员发展信息</strong></div>
+        </div>
+        <hr>
+        <form class="am-g" action="__ROOT__/Admin/PartyBranch/developInfo">
+            <div class="am-u-sm-12 am-u-md-12" style="margin-bottom: 20px;">
+                <input type="hidden" name="tab" value="{$tab}"/>
+                <!--<volist name='types' id='item'>-->
+                <!--<label class="am-checkbox" style="display: inline-block;margin-right: 10px;margin-top: 0;">-->
+                <!--<input type="checkbox" name="type[]" value="{$item.id}" data-am-ucheck <php>if(strpos( $search['type'], ''.$item['id'])>-1){echo "checked";}</php>> {$item.name}-->
+                <!--</label>-->
+                <!--</volist>-->
+                <!--<div style="width: 800px;margin-top: 10px;clear: both;line-height: 25px;">-->
+                <!--<div style="width: 220px;float: left;" class="am-input-group am-datepicker-date" >-->
+                <!--<input type="text" name="start_date" class="am-form-field" placeholder="开始日期" readonly value="{$search['start_date']}">-->
+                <!--<span class="am-input-group-btn am-datepicker-add-on">-->
+                <!--<button class="am-btn am-btn-default" type="button" style="padding: 5px 10px;" id="my-start"><span class="am-icon-calendar"></span> </button>-->
+                <!--<button class="am-btn am-btn-default btn-cancel-date" type="button" style="padding: 5px 10px;"><span class="am-icon-remove"></span> </button>-->
+                <!--</span>-->
+                <!---->
+                <!--</div>-->
+                <!--<span style="float: left;margin: 0 5px;"> —— </span>-->
+                <!--<div style="width: 220px;float: left;" class="am-input-group am-datepicker-date" >-->
+                <!--<input type="text" name="end_date" class="am-form-field" placeholder="结束日期" readonly value="{$search['end_date']}">-->
+                <!--<span class="am-input-group-btn am-datepicker-add-on">-->
+                <!--<button class="am-btn am-btn-default" type="button" id="my-end"><span class="am-icon-calendar"></span> </button>-->
+                <!--<button class="am-btn am-btn-default btn-cancel-date" type="button" style="padding: 5px 10px;"><span class="am-icon-remove"></span></button>-->
+                <!--</span>-->
+                <!--</div>-->
+                <!--<span class="am-input-group-btn" style="float: left;margin-left: 15px">-->
+                <!--<button class="am-btn am-btn-default" type="submit" id="btn-saixuan" style="padding: 5px 20px;">统计</button>-->
+                <!--</span>-->
+                <!--</div>-->
+            </div>
+        </form>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <div class="am-tabs">
+                    <ul class="am-tabs-nav am-nav am-nav-tabs">
+                        <li
+                        <if condition="$tab == 1"> class="am-active"</if>
+                        >
+                        <a href="__ROOT__/Admin/PartyBranch/developInfo?tab=1&uid={$uid}">入党申请书</a>
+                        </li>
+                        <li
+                        <if condition="$tab == 2"> class="am-active"</if>
+                        >
+                        <a href="__ROOT__/Admin/PartyBranch/developInfo?tab=2&uid={$uid}">思想报告</a>
+                        </li>
+                        <li
+                        <if condition="$tab == 3"> class="am-active"</if>
+                        >
+                        <a href="__ROOT__/Admin/PartyBranch/developInfo?tab=3&uid={$uid}">考试记录</a>
+                        </li>
+                        <li
+                        <if condition="$tab == 4"> class="am-active"</if>
+                        >
+                        <a href="__ROOT__/Admin/PartyBranch/developInfo?tab=4&uid={$uid}">支部和党委意见</a>
+                        </li>
+                    </ul>
+
+                    <div class="am-tabs-bd">
+                        <div class="am-tab-panel am-fade am-in am-active">
+                            <div class="am-form">
+                                <if condition="$tab == 1">
+                                    <table class="am-table am-table-striped am-table-hover table-main">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>申请人</th>
+                                            <th>所在支部</th>
+                                            <th>申请日期</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <volist name="page.list" id="item">
+                                            <tr>
+                                                <td>{$item.id}</td>
+                                                <td>{$item.user_realname}</td>
+                                                <td>{$item.branch_name}</td>
+                                                <td>{$item.update_time|date="Y-m-d",###}</td>
+                                                <td>
+                                                    <div class="am-btn-toolbar">
+                                                        <div class="am-btn-group am-btn-group-xs">
+                                                            <button onclick="loading_page('__ROOT__/Admin/PartyBranch/developInfoDetail?id={$item.id}');" type="button"
+                                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-detail"
+                                                                    data-id="{$item.id}"><span
+                                                                    class="am-icon-archive"></span>详情
+                                                            </button>
+                                                            <button id="btn-dec1" type="button"
+                                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-dec"
+                                                                    data-type="1"
+                                                                    data-id="{$item.id}"><span
+                                                                    class="am-icon-remove"></span>删除
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                </if>
+                                <if condition="$tab == 2">
+                                    <table class="am-table am-table-striped am-table-hover table-main">
+                                        <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>标题</th>
+                                            <th>发布者</th>
+                                            <th>支部</th>
+                                            <th>发布日期</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <volist name="page.list" id="item">
+                                            <tr>
+                                                <td>{$item.id}</td>
+                                                <td>{$item.title}</td>
+                                                <td>{$item.user_realname}</td>
+                                                <td>{$item.branch_name}</td>
+                                                <td>{$item.create_time|date="Y-m-d",###}/{$item.role_name}</td>
+                                                <td>
+                                                    <div class="am-btn-toolbar">
+                                                        <div class="am-btn-group am-btn-group-xs">
+                                                            <button onclick="loading_page('__ROOT__/Admin/PartyBranch/developInfoReportDetail?id={$item.id}')" type="button"
+                                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-detail"
+                                                                    data-id="{$item.id}"><span
+                                                                    class="am-icon-archive"></span>详情
+                                                            </button>
+                                                            <button id="btn-dec2" onclick="decReport('{$item.id}')" type="button" class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-dec"
+                                                                    data-id="{$item.id}"><span class="am-icon-remove"></span>删除
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                </if>
+                                <if condition="$tab == 3">
+                                    <table class="am-table am-table-striped am-table-hover table-main">
+                                        <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>考试</th>
+                                            <th>分数</th>
+                                            <th>发布者</th>
+                                            <th>支部</th>
+                                            <th>发布日期</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <script>
+                                            var map = {};
+                                        </script>
+                                        <volist name="page.list" id="item">
+                                            <tr>
+                                                <td>{$item.id}</td>
+                                                <td>{$item.title}</td>
+                                                <td>{$item.score}</td>
+                                                <td>{$item.user_realname}</td>
+                                                <td>{$item.branch_name}</td>
+                                                <td>{$item.create_time|date="Y-m-d",###}/{$item.role_name}</td>
+                                                <td>
+                                                    <div class="am-btn-toolbar">
+                                                        <div class="am-btn-group am-btn-group-xs">
+                                                            <button onclick="decExam('{$item.id}')" id="btn-dec3" type="button"
+                                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-dec"
+                                                                    data-type="3"
+                                                                    data-id="{$item.id}"><span
+                                                                    class="am-icon-remove"></span>删除
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <script>
+                                                map['id-' + '{$item.id}'] = {$item | to_json_string
+                                                }
+                                                ;
+                                            </script>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                </if>
+                                <if condition="$tab == 4">
+                                    <table class="am-table am-table-striped am-table-hover table-main">
+                                        <thead>
+                                        <tr>
+                                            <th>id</th>
+                                            <th>标题</th>
+                                            <th>发布者</th>
+                                            <!--<th>支部</th>-->
+                                            <th>发布日期</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <script>
+                                            var map = {};
+                                        </script>
+                                        <volist name="page.list" id="item">
+                                            <tr>
+                                                <td>{$item.id}</td>
+                                                <td>{$item.title}</td>
+                                                <td>{$item.user_realname}</td>
+                                                <!--<td>{$item.branch_name}</td>-->
+                                                <td>{$item.create_time|date="Y-m-d",###}/{$item.role_name}</td>
+                                                <td>
+                                                    <div class="am-btn-toolbar">
+                                                        <div class="am-btn-group am-btn-group-xs">
+                                                            <button onclick="loading_page('__ROOT__/Admin/PartyBranch/developInfoAdviceDetail?id={$item.id}')" type="button"
+                                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-detail"
+                                                                    data-id="{$item.id}"><span
+                                                                    class="am-icon-archive"></span>详情
+                                                            </button>
+                                                            <button onclick="decAdvice('{$item.id}')" type="button"
+                                                                    class="am-btn am-btn-default am-btn-xs am-hide-sm-only btn-dec"
+                                                                    data-type="4"
+                                                                    data-id="{$item.id}"><span
+                                                                    class="am-icon-remove"></span>删除
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <script>
+                                                map['id-' + '{$item.id}'] = {$item | to_json_string
+                                                }
+                                                ;
+                                            </script>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                </if>
+                                <div class="page">
+                                    {$page.show}
+                                </div>
+                                <!--<hr />-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>
+
+<block name="scripts">
+    <script>
+        $('#btn-dec1').click(function (){
+            var id = $(this).attr('data-id');
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/MemberDevelopment/ajaxDecApply',
+                        type: 'POST', //GET
+                        data: {
+                            id: id
+                        },
+                        dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function(data) {
+                            if(data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function(xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        });
+
+        function decReport(id){
+            console.log("id = " + id);
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/MemberDevelopment/ajaxDecReport',
+                        type: 'POST', //GET
+                        data: {
+                            id: id
+                        },
+                        dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function(data) {
+                            if(data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function(xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        }
+
+
+        function decExam(id){
+            console.log("id = " + id);
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/MemberDevelopment/ajaxDecExam',
+                        type: 'POST', //GET
+                        data: {
+                            id: id
+                        },
+                        dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function(data) {
+                            if(data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function(xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        }
+
+        function decAdvice(id){
+            console.log("id = " + id);
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+                    $.ajax({
+                        url: '__ROOT__/Admin/MemberDevelopment/ajaxDecAdvice',
+                        type: 'POST', //GET
+                        data: {
+                            id: id
+                        },
+                        dataType: 'json', //返回的数据格式：json/xml/html/script/jsonp/text
+                        success: function(data) {
+                            if(data.status == 0) {
+                                window.location.reload();
+                            } else {
+                                alert_modal(data.msg);
+                            }
+                        },
+                        closeOnConfirm: false,
+                        error: function(xhr, textStatus) {
+                            alert_modal("服务器暂时无法连接，请稍候再试");
+                        }
+                    })
+                },
+                onCancel: function() {
+
+                }
+            });
+        }
+
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "h+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+</block>

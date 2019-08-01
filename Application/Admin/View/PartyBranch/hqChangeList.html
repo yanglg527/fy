@@ -1,0 +1,56 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+                <a href="#" onClick="javascript :history.back(1);"><strong
+                        class="am-text-primary am-text-lg">总支部信息管理</strong></a> /
+                <small>{$detail.name} 换届记录</small>
+            </div>
+        </div>
+        <hr>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>换届时间</th><th>新人员结构</th><th>原旧员结构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.id}</td>
+                                <td>{$item.create_time|date="Y-m-d",###}</td>
+                                <td>{$item.new_members}</td>
+                                <td>{$item.old_members}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <!--<hr />-->
+                    <!--<p>注：.....</p>-->
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+
+    </script>
+
+</block>

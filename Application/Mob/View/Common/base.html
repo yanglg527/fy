@@ -1,0 +1,180 @@
+<!--<!doctype html>
+<html class="no-js">-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width">
+
+    <title>{$webTitle}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta http-equiv="pragma" content="no-cache" >
+    <meta http-equiv="cache-control"content="no-cache">
+    <meta http-equiv="expires"content="0">
+    <meta name="flexible" content="initial-dpr=2" />
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <style>
+        .swiper-container .swiper-slide .bg {
+            background: url("__IMG__/index/bg.png") no-repeat -2px 0 ;
+            background-size: 100%;
+        }
+        a{
+        color: black;
+        }
+    </style>
+    <block name="styles">
+
+    </block>
+
+</head>
+
+<body>
+
+    <block name="content">
+
+    </block>
+    <include file="Common/_loading"/>
+<script>var __root__ = "__ROOT__";</script>
+<script src="__STATICS__/flexible/flexible.js"></script>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<include file="Common/_menu"/>
+<script type="text/javascript">
+    // 点击变色效果
+    function changeColor(object, state){
+        if(state == 1){
+            $(object).addClass("onfocusBackgroundColor");
+        }else{
+            setTimeout(function(){
+                $(object).removeClass("onfocusBackgroundColor");
+            }, 50)
+        }
+    }
+
+    function replaceStr(str, find,rep){
+        str = str.replace(new RegExp(find,'g'),rep);
+        return str
+    }
+
+
+    function alert_modal(text) {
+    }
+</script>
+<script>
+    function get_head_url(url){
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common-head.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url;
+        }else{
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+
+    function get_img_url(url) {
+        if (url == '' || url == null || url == undefined ) {
+           
+            return   '__ROOT__/Public/Common/img/common.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+          
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+          
+            return　'__ROOT__' +　url;
+        }else{
+           
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+    function get_tz_img_url(url) {
+        
+        if (url == '' || url == null || url == undefined ) {
+            return   '__ROOT__/Public/Common/img/common.png';
+        } else if(url.indexOf('http:')>-1 || url.indexOf('https:')>-1){
+            return url;
+        } else if(url.indexOf('/Uploads')>-1) {
+            return　'__ROOT__' +　url;
+        }else{
+            return   '__ROOT__/Uploads/' +　url;
+        }
+    }
+
+    function get_time(time) {
+    	if(time == undefined || time == null || time == '' || time == 0){
+    		return "";
+    	}
+        var newDate = new Date();
+        newDate.setTime(time * 1000);
+        return newDate.toLocaleString();
+    }
+
+    function get_content(content, count) {
+        if(content == undefined || content == null){
+            return "";
+        }
+        var c = $(content).text();
+        var lenght = c.length;
+        if(lenght >= count){
+            return c.substring(0,count) + "...";
+        }else{
+            return c;
+        }
+    }
+    
+    
+    
+    
+    function show_name(name) {
+        if(name == null || name == undefined){
+            return '';
+        }else{
+            return name;
+        }
+    }
+    function show_count(count) {
+        if(count == null || count == undefined){
+            return 0;
+        }else{
+            return count;
+        }
+    }
+
+    function check_null(obj) {
+        if(obj == null || obj == undefined){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+</script>
+
+<block name="scripts">
+</block>
+</body>
+</html>

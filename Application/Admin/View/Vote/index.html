@@ -1,0 +1,171 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">投票活动</strong></div>
+      </div>
+      <hr>
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <button  onclick="loading_page('__ROOT__/Admin/Vote/edit');" type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>
+              <!-- <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button> -->
+            </div>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-form-group">
+          </div>
+        </div>
+        <form action="__ROOT__/Admin/Vote/index" class="am-u-sm-12 am-u-md-3">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" name="keyword" value="{$search.keyword}">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="submit">搜索</button>
+          </span>
+          </div>
+        </form>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <div class="am-form" >
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <!-- <th class="table-check"><input type="checkbox" /></th> -->
+                <th class="table-title">标题</th>
+                <th class="table-author am-hide-sm-only">编辑者</th>
+                <th class="am-hide-sm-only">支部</th>
+                <th class="table-date am-hide-sm-only">结束日期</th>
+                <th class="table-date am-hide-sm-only">发布日期</th>
+                <th class="am-hide-sm-only" style="width:60px;">状态</th>
+                <th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="page.list" id="vo">
+                <tr>
+                  <!-- <td><input type="checkbox" /></td> -->
+                  <td><a href="#">{$vo.title}</a></td>
+                  <td>{$vo.user_realname}
+                  </td>
+                  <td class="am-hide-sm-only">{$vo|show_branch_auth}
+                  </td>
+                  <td class="am-hide-sm-only">{$vo.limited_time|date="Y-m-d H:i:s",###}</td>
+                  <td class="am-hide-sm-only">{$vo.published_time|date="Y-m-d H:i:s",###}</td>
+                  <td class="am-hide-sm-only">
+                    <if condition="$vo.status == 1">
+                      <span class="am-badge am-badge-success am-radius">已启用</span>
+                      <php>
+                        if($vo['limited_time'] < time()){
+                        echo "<br>";
+                        echo "<span class='am-badge am-badge-primary am-radius'>投票已结束</span>";
+                        }
+                      </php>
+                      <else/>
+                      <span class="am-badge am-badge-warning am-radius">已禁用</span>
+                    </if>
+                  </td>
+                  <td>
+                    <div class="am-btn-toolbar">
+                      <div class="am-btn-group am-btn-group-xs">
+                        <if condition="$vo.status == 1">
+                          <if condition="$vo['limited_time'] gt time()">
+                            <button class="am-btn am-btn-default am-btn-xs am-text-danger btn-isopen" data-isopen='0'  data-id='{$vo.id}'><span  class="am-icon-times"></span>禁用</button>
+                          </if>
+                          <else/>
+                          <button class="am-btn am-btn-default am-btn-xs am-text-secondary btn-isopen" data-isopen='1'  data-id='{$vo.id}'><span  class="am-icon-check"></span>启用</button>
+                        </if>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/Vote/manage?id={$vo.id}');" type="button"><span  class="am-icon-bar-chart"></span>统计</button>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/Vote/detail?id={$vo.id}');" type="button"><span  class="am-icon-eye"></span>详情</button>
+                        <if condition="$vo.status eq '0'">
+                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="loading_page('__ROOT__/Admin/Vote/edit?id={$vo.id}');" type="button"><span  class="am-icon-pencil-square-o"></span> 编辑</button>
+                        </if>
+                        <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only btn-dec" type="button" data-id="{$vo.id}"><span class="am-icon-trash-o"></span> 删除</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </volist>
+              </tbody>
+            </table>
+            <div class="page">
+              {$page.show}
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </div>
+        </div>
+
+      </div>
+
+  </div>
+</block>
+<block name="scripts">
+<script>
+  var id = 0;
+  $('.btn-dec').click(function(){
+    id = $(this).attr('data-id');
+    $('#my-confirm').modal({
+      relatedTarget: this,
+      onConfirm: function(options) {
+        $.ajax({
+          url:'__ROOT__/Admin/Vote/ajaxDecVote',
+          type:'POST', //GET
+          data:{id:id},
+          dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          success:function(data){
+            if(data.status == 0){
+              window.location.reload();
+            }else{
+              alert_modal(data.msg);
+            }
+          },
+          closeOnConfirm: false,
+          error:function(xhr,textStatus){
+            alert_modal("服务器暂时无法连接，请稍候再试");
+          }
+        })
+      },
+      onCancel: function() {
+
+      }
+    });
+  });
+
+  var isopen = 0;
+  var id = 0;
+  $('.btn-isopen').click(function(){
+      isopen = $(this).attr('data-isopen');
+      id = $(this).attr('data-id');
+      $.ajax({
+          url:'__ROOT__/Admin/Vote/ajaxisopen',
+          type:'POST', //GET
+          data:{
+              isopen:isopen,
+              id:id
+          },
+          dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+          success:function(data){
+              if(data.status == 0){
+                  window.location.reload();
+              }else{
+                  alert_modal(data.msg);
+              }
+          },
+          closeOnConfirm: false,
+          error:function(xhr,textStatus){
+              alert_modal("服务器暂时无法连接，请稍候再试");
+          }
+      })
+  });
+</script>
+</block>

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的待办任务</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2"/>
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+     <link rel="stylesheet" type="text/css" href="__STATICS__/font-awesome-4.7.0/css/font-awesome.min.css" />
+
+</head>
+<style type="text/css">
+html{
+    background-color: #e3e9ef;
+}
+select {
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  border-radius:0;
+  border: none;
+}
+.loading_text{
+            color:#999;font-size:12px;
+        }
+    .warn_content{
+        min-height: 83px;
+    }
+
+    .item_hide {
+     display: none ; 
+}
+
+</style>
+<style type="text/css">
+    /********************请选择党组遮罩层，请选择标签遮罩层****************/
+    .blackgroup_box,.blacktag_box,.blackspec_box,.blacktype_box{
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(7,17,27,0.8);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        display: none;
+    }
+    .blackgroup_box>.blackgroup_content,.blacktag_box>
+    .blacktag_content,.blackspec_box>.blackspec_content
+    ,.blacktype_box>.blacktype_content{
+        width: 85%;
+        margin: 39% auto;
+        font-size: 12px;
+        color: #333333;
+        background-color: #ffffff;
+    }
+    h3.group_h3,h3.tag_h3,h3.spec_h3,h3.type_h3{
+        background: #ce3d2a;
+        color: #fff;
+        text-align: center;
+        line-height: 1.5rem;
+        font-size: 0.38rem;
+    }
+
+    .group_classify,.tag_classify,.type_classify{
+        margin: 0.3rem auto 0.5rem;
+        width: 90%;
+    }
+    .spec_classify{
+        margin: 0.3rem auto 2.7rem;
+        width: 90%;
+    }
+    .group_classify span,.tag_classify span,.type_classify span{
+        border: 1px solid #ce3d2a;
+        border-radius: 36px;
+        color: #ce3d2a;
+        display: inline-block;
+        line-height: 0.6rem;
+        padding: 0rem 0.15rem;
+        margin-top: 3%;
+        margin-left: 0.6%;
+    }
+    .spec_classify>p{
+        border: 1px solid #ce3d2a;
+        border-radius: 36px;
+        color: #ce3d2a;
+        text-align: center;
+        line-height: 0.6rem;
+        padding: 0rem 0.15rem;
+        width: 33%;
+        margin: 7% auto 0;
+    }
+    .group_classify>p,.tag_classify>p,.type_classify{
+        padding-left: 6%;
+    }
+    .group_classify span.active,.tag_classify span.active,.spec_classify>p.active,.type_classify>span.active{
+        background-color: #ce3d2a;
+        color: #fff;
+    }
+    .group_submit,.tag_submit,.spec_submit,.type_submit{
+        border-top: 1px solid #e3e9ef;
+    }
+    .group_submit>button,.tag_submit>button,.spec_submit>button,.type_submit>button{
+        width: 50%;
+        float: left;
+        border: 1px solid #e3e9ef;
+        border-top: none;
+        border-bottom: none;
+        background-color: #fff;
+        line-height: 1.2rem;
+        font-size: 0.36rem;
+    }
+    .group_submit button:nth-child(1),
+    .tag_submit button:nth-child(1),.spec_submit button:nth-child(1),.type_submit button:nth-child(1){
+        color: #c2c2c2;
+    }
+    .group_submit button:nth-child(2),.tag_submit button:nth-child(2),.spec_submit button:nth-child(2)
+    ,.type_submit button:nth-child(2){
+        border-left: none;
+        color: #ce3d3a;
+    }
+</style>
+<body>
+<div class="page">
+    <div class="banner">
+        <div class="head"><i onclick="history.go(-1)"></i></div>
+        <div class="banner_bg"><img src="__IMG__/inform/bg.png" alt=""></div>
+
+    </div>
+    <div class="content">
+        <div class="header">
+            <div class="item mission  active">
+                <span class="text">待办任务</span>
+                <!-- <div class="icon_bg focus"><span class="num"></span></div> -->
+                <p class="active"></p>
+            </div>
+            <div class="item like">
+                <span class="text">得到的赞</span>
+                <!-- <div class="icon_bg"><span class="num"></span></div> -->
+                <p></p>
+            </div>
+            <div class="item comment">
+                <span class="text">收到评论</span>
+                <!-- <div class="icon_bg"><span class="num"></span></div> -->
+                <p></p>
+            </div>
+        </div>
+        <div class="list"><!--评论列表-->
+            <div class="comment comment_list item_hide" id="comment_list">
+
+                <div style="text-align:center" id="loading_div">
+                <span class="loading_text">没有更多了</span>
+                <i class="fa fa-spinner fa-spin" style="display:none"></i>
+                </div>
+            </div>
+            <!--点赞列表-->
+            <div class="like_list comment_list item_hide" id="like_list">
+
+                <div style="text-align:center" id="loading_div">
+                <span class="loading_text">没有更多了</span>
+                <i class="fa fa-spinner fa-spin" style="display:none"></i>
+                </div>
+            </div>
+            <!--任务列表-->
+            <style>
+            .count_num{
+                text-align: center;
+                padding-top: 10px;
+            }
+            .count_num span{
+                font-size: 16px;
+                color: #ce3d3a;
+                display:inline-block;
+                width: 32%;
+            }
+            </style>
+            <div class="mission_list">
+                <div class="count_num">
+                    <span>任务总数: <?php echo $info['all_mission_count']?></span>
+                    <span>未完成: <?php echo $info['nodone_mission_count']?></span>
+                    <span>已完成: <?php echo $info['finish_mission_count']?></span>   
+                </div>
+                <div class="head">
+                </div>
+                <div class="date_nav">
+                    <div class="swiper-container swiper_date">
+                       
+                    </div>
+                </div>
+                <ul id="warn_list" class="warn_list">
+                    
+
+                <div style="text-align:center" id="loading_div">
+                <span class="loading_text"></span>
+                <i class="fa fa-spinner fa-spin" style="display:none"></i>
+                </div>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- <div class="tem_box">
+                <div class="tem_content">
+                    <h3 class="spec_h3">请选择模板</h3>
+                    <div class="spec_content">
+                        <div class="spec_classify">
+                            <p data-id="3" class="active">新模版</p>
+                        </div>
+                        <div class="spec_submit">
+                            <button type="reset" class="tem_cancle">取消</button>
+                            <button type="submit" class="tem_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!--请选择规定或创新-->
+            <div class="blackspec_box">
+                <div class="blackspec_content">
+                    <h3 class="spec_h3">请选择</h3>
+                    <div class="spec_content">
+                        <div class="spec_classify">
+                            <p data-id="0" class="active">规定动作</p>
+                            <p data-id="1" >创新动作</p>
+                        </div>
+                        <div class="spec_submit">
+                            <button type="reset" class="spec_cancle">取消</button>
+                            <button type="submit" class="spec_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--选择标签弹出层-->
+            <div class="blacktag_box">
+                <div class="blacktag_content">
+                    <h3 class="tag_h3">请选择标签</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify" >
+                            <volist name="tags" id="item">
+                                 <if condition="$i eq 1">
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                              <else/>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                              </if>
+                            </volist>
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="tag_cancle">取消</button>
+                            <button type="submit" class="tag_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--选择标指标-->
+            <div class="blackgroup_box">
+                <div class="blackgroup_content">
+                    <h3 class="group_h3">请选择指标</h3>
+                    <div class="tag_content">
+                        <div class="tag_classify" id="zhibiao">
+<!--                             <volist name="norms" id="item" >
+                              <if condition="$i eq 1">
+                                <span data-id="{$item.id}" class="active">{$item.title}</span>
+                              <else/>
+                                <span data-id="{$item.id}">{$item.title}</span>
+                              </if>
+                             </volist> -->
+                        </div>
+                        <div class="tag_submit">
+                            <button type="reset" class="group_cancle">取消</button>
+                            <button type="submit" class="group_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blacktype_box">
+                <div class="blacktype_content">
+                        <h3 class="type_h3">请选择台账类型</h3>
+                    <div class="type_content">
+                        <div class="type_classify">
+                            <volist name="types" id="item" >
+                                <if condition="$i eq 1">
+                                    <span data-id="{$item.type_id}" class="active">{$item.type_name}</span>
+                                    <else/>
+                                    <span data-id="{$item.type_id}">{$item.type_name}</span>
+                                </if>
+                            </volist>
+                        </div>
+                        <div class="type_submit">
+                            <button type="reset" class="type_cancle">取消</button>
+                            <button type="submit" class="type_sure">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<style>
+    .content_classify h3{
+       font-size: 15px;margin: 5px auto;font-weight: 700; 
+    }
+    .content_classify p{
+        padding: 5px;
+    }
+    .gf_zj{
+        width: 100%;
+    }
+    .gf_zj a{
+        display: inline-block;
+        text-align: center;
+        font-size: 12px;
+        color: #333333;
+        width: 49%;
+        padding: 5px;
+        line-height: 16px;
+        margin: 3px auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+    }
+</style>
+            <!-- 显示内容弹窗 -->
+            <div class="content_box">
+                <div class="content_content">
+                    <h3 class="content_h3">事项内容</h3>
+                    <div class="content_content">
+                        <div class="content_classify" style="min-height:100px;">
+                        <h3>责任事项:</h3>
+                            <p>1.全面从严治党年度工作要点或计划；2.本单位落实全面从严治党主体责任的任务清单或责任清单。(距离任务截止时间19天)</p>
+
+                         <h3>见证资料:</h3>
+                            <p>1.全面从严治党年度工作要点或计划；2.本单位落实全面从严治党主体责任的任务清单或责任清单。(距离任务截止时间19天)</p>
+                        
+                        <h3>截至时间:</h3>
+                            <p>距离任务截止时间19天</p>
+                         <h3>任务规范1.0章节:</h3>
+                         <div class="gf_zj">
+                            <a href="">1111</a>
+                            <a href="">2222</a>
+                            <a href="">3333</a>
+                         </div>
+                        </div>
+                        <div class="content_submit">
+                            <button type="submit" class="content_sure" style="width:100%">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<div style="display:none">
+    <div id="temp1">
+                   <li >
+                        <div class="content warn_content" onclick="show_content('#id#','#day#');">
+                            <div class="head">
+                                <div class="title" style="width: 50%;display: block;white-space: nowrap;overflow: hidden;
+                                text-overflow: ellipsis"><i></i>#type#</div>
+                                <div class="time">截止日期：<span>#time#</span></div>
+                            </div>
+                            <div class="text">#content#</div>
+                        </div>
+                        <div class="btn" onclick="choose_type('#tid#');">录入台账</div>
+                    </li>
+    </div>
+    <div id="temp2">
+                   <li>
+                        <div class="content warn_content" onclick="show_content('#id#','#day#');">
+                            <div class="head">
+                                <div class="title" style="width: 50%;display: block;white-space: nowrap;overflow: hidden;
+                                text-overflow: ellipsis"><i></i>#type#</div>
+                                <div class="time">截止日期：<span>#time#</span></div>
+                            </div>
+                            <div class="text">#content#</div>
+                        </div>
+                        <!-- <a class="btn" href="__ROOT__/Mob/Taizhang/show?id=#taizhang_id#">已完成</a> -->
+                        <a class="btn">已完成</a>
+                    </li>
+    </div>
+    <div id="temp3">
+                   <li >
+                        <div class="content warn_content" onclick="show_content('#intro#','#day#');">
+                            <div class="head">
+                                <div class="title"><i></i>#type#</div>
+                                <div class="time">截止日期：<span>#time#</span></div>
+                            </div>
+                            <div class="text">#content#</div>
+                        </div>
+                    </li>
+    </div>
+    <div id="temp4">
+                   <li >
+                        <div class="content warn_content" onclick="show_content('#id#','#day#');">
+                            <div class="head">
+                                <div class="title" style="width: 50%;display: block;white-space: nowrap;overflow: hidden;
+                                text-overflow: ellipsis"><i></i>#type#</div>
+                                <div class="time">截止日期：<span>#time#</span></div>
+                            </div>
+                            <div class="text">#content#</div>
+                        </div>
+                        <div class="btn" onclick="choose_type('#tid#');">未完成</div>
+                    </li>
+    </div>
+
+    <div id="comment_div">
+        <dl alt="#create_time#">
+                    <dt><img src="#img_url#"></dt>
+                    <dd class="container">
+                        <span>#name#</span>
+                        <div class="content">评论了您的<span class="title">#title#</span>台账</div>
+                        <div class="overview">
+                            #content#
+                        </div>
+                        <div class="foot">
+                            <i></i><span class="time">#time#</span>
+                        </div>
+                    </dd>
+                </dl>
+    </div>
+
+    <div id='like_div'>
+        <dl alt="#create_time#">
+        <dt><img src="#img_url#"></dt>
+                    <dd class="container">
+                        <span>#name#</span>
+                        <div class="content">点赞了您的<span class="title">#title#</span>台账</div>
+                        <div class="foot">
+                            <i></i><span class="time">#time#</span>
+                        </div>
+                    </dd>
+                </dl>
+    </div>
+</div>
+<script>var __root__ = "__ROOT__";</script>
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+<script src="__STATICS__/zepto/event.js"></script>
+<script src="__STATICS__/zepto/touch.js"></script>
+<script src="__JS__/inform/date.js"></script>
+<script src="__JS__/inform/inform.js"></script>
+<include file="Common/_menu"/>
+<script>
+    var mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 7,
+        slidesPerGroup: 7,
+        initialSlide :0
+    });
+    $('body').mdater({
+        minDate: new Date(1970, 2, 10)
+    });
+</script>
+<script type="text/javascript">
+    var mission_id = 0;
+    var taizhang_type = 1;
+    var uid = {$user['uid']};
+    var norms = {$norms|to_json_string};
+
+    function choose_type (id) {
+    	mission_id = id;
+    	$(".blackspec_box").show();
+        var html='';
+        $("#zhibiao").html('');
+        $.each(norms,function(i,vo){
+            if (vo['type'] == taizhang_type) {
+                if (html == '') {
+                    html=html+'<span onclick="change_choose(this)" class="active" data-id="'+vo['id']+'">'+vo['title']+'</span>';
+                }else{
+                    html=html+'<span onclick="change_choose(this)" data-id="'+vo['id']+'">'+vo['title']+'</span>';
+                };
+                
+            };
+        });
+        $("#zhibiao").html(html);
+    }
+    // $(".tem_cancle").click(function(){
+    //     $(".tem_box").hide();
+    // })
+    // $(".tem_sure").click(function(){
+    //     $(".tem_box").hide();
+    //     $(".blackspec_box").show();
+    // })
+    $(".spec_cancle").click(function(){
+        $(".blackspec_box").hide();
+    })
+    $(".spec_sure").click(function(){
+        $(".blackspec_box").hide();
+        $(".blacktype_box").show();
+    })
+    $(".type_cancle").click(function(){
+      $(".blacktype_box").hide();
+    })
+    $(".type_sure").click(function(){
+      //选择了类型后，动态更新指标
+      var type = $(".blacktype_box .active").attr("data-id");
+      $.ajax({
+        type:"POST",
+        dataType:"json",
+        url:"__ROOT__/Mob/Index/ajaxNorms",
+        data:{
+          type:type
+        },
+        success:function(data){
+          console.log(data);
+          if(data['status'] == 0){
+            if(data['data']){
+                var html = '';
+                for(var i=0;i<data['data'].length;i++){
+                    if(i==0){
+                       html += "<span data-id='"+data['data'][i]['id']+"' class='active' onclick='change_choose(this)'>"+data['data'][i]['title']+"</span>";
+                    }else{
+                      html += "<span data-id='"+data['data'][i]['id']+"' onclick='change_choose(this)'>"+data['data'][i]['title']+"</span>";
+                    }
+                }
+
+                $('.blackgroup_box .tag_classify').html(html);
+            }
+          }
+        }
+
+      });
+      $(".blacktype_box").hide();
+      $('.blackgroup_box').show();
+    })
+    $(".group_cancle").click(function(){
+        $(".blackgroup_box").hide();
+    })
+    $(".group_sure").click(function(){
+        $(".blackgroup_box").hide();
+        $(".blacktag_box").show();
+    })
+    $(".tag_cancle").click(function(){
+        $(".blacktag_box").hide();
+    })
+    $(".tag_sure").click(function(){
+        $(".blacktag_box").hide();
+        var type_id = $(".blacktype_box .active").attr("data-id");
+        var spec_id = $(".blackspec_box .active").attr("data-id");
+        var tag_id = $(".blacktag_box .active").attr("data-id");
+        var group_id = $(".blackgroup_box .active").attr("data-id");
+        var url = "__ROOT__/Mob/Index/newtaizhang?spec_id="+spec_id+"&tag_id="+tag_id+"&group_id="+group_id+"&type_id="+type_id+"&mission_id="+mission_id;
+        window.location.href = url;
+    })
+    $(".type_classify>span").click(function(){
+
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+        $(this).siblings().find("span").removeClass("active");
+    
+    })
+
+    $(".tag_classify>span").click(function(){
+
+        $(this).addClass("active");
+        $(this).siblings().removeClass("active");
+        $(this).siblings().find("span").removeClass("active");
+    
+    })
+
+    function change_choose(obj){
+        $(obj).addClass("active");
+        $(obj).siblings().removeClass("active");
+        $(obj).siblings().find("span").removeClass("active");
+    }
+
+    $(".spec_classify>p").click(function(){
+
+        $(this).addClass("active");
+        $(this).siblings("p").removeClass("active");
+    })
+
+    $(window).load(function(){
+            if( $("#warn_list").find("i").css("display")=='none' ){
+            ajax_loading(0);
+            }
+        });
+
+    function ajax_loading(type){
+         // var finish_time = 0;
+         // if ($("#warn_list").find("li").last()) {
+         //   finish_time = $("#comment_list").find("li").last().attr("alt");
+         // };
+         $.ajax({
+                  data: {
+                      // 'finish_time':finish_time,
+                      'type':type,
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '__ROOT__/Mob/Inform/ajaxNoticeLoading',
+                  beforeSend: function(){
+                    $('#warn_list li').remove();
+                    $("#warn_list").find(".loading_text").text("");
+                    $("#warn_list").find("i").show();
+                  },
+                  success: function (data) {
+                    var now1 = Date.parse(new Date()); 
+                    console.log(data)
+                    $(".warn_list").find("i").hide();
+                    if (data["status"] == 0) {
+                      if (data['data']) {
+                        var html = "";
+                        var html_tem ="";
+                        $.each(data['data'],function(i,vo){
+                            if (vo['status'] == 0&&now1<(vo['e_time']*1000)&&now1>(vo['s_time']*1000)) {
+                                html_tem = $("#temp1").html();
+                                html_tem = html_tem.replace("#id#",vo['id']);
+                                html_tem = html_tem.replace("#day#",get_day(vo['e_time']));
+                                html_tem = html_tem.replace("#tid#",vo['id']);
+                            }else if(vo['status'] == 0&&vo['taizhang_id']== null&&now1>(vo['e_time']*1000)){
+                                html_tem = $("#temp4").html();
+                                html_tem = html_tem.replace("#id#",vo['id']);
+                                html_tem = html_tem.replace("#day#",get_day(vo['e_time']));
+                                html_tem = html_tem.replace("#tid#",vo['id']);
+                            }else if(vo['status'] == 1){
+                                html_tem = $("#temp2").html();
+                                html_tem = html_tem.replace("#id#",vo['id']);
+                                html_tem = html_tem.replace("#day#",get_day(vo['e_time']));
+                                html_tem = html_tem.replace("#tid#",vo['id']);
+                            }
+                            if (vo['content'].length > 30) {
+                                html_tem = html_tem.replace("#content#",vo['content'].substr(0, 30)+'...');
+                            }else{
+                                 html_tem = html_tem.replace("#content#",vo['content']);
+                            };
+                            html_tem = html_tem.replace("#time#",new Date(vo.e_time*1000).Format("yyyy-MM-dd"));
+                            html_tem = html_tem.replace("#type#",vo['title']);
+                            html += html_tem;
+                        });
+                        $(".warn_list").find("#loading_div").before(html);
+                      }else{
+              
+                        $(".warn_list").find(".loading_text").text("没有更多了");
+                      };
+                    }else{
+                        alert('网络异常');
+                    };
+                    
+                  },
+                  error: function (data) {
+                    $(".warn_list").find("i").addClass("hide");
+                    alert('网络异常');
+                  }
+              })
+            
+                  
+       }
+
+       function show_content(id,text){
+        // $(".content_classify").html('见证资料:<br/>'+content+'('+text+')');
+
+        $.ajax({
+            data: {
+                    id:id
+                  },
+            type: 'POST',
+            dataType: 'json',
+            url: '__ROOT__/Mob/Inform/ajaxNoticeDetail',
+            success:function(data){
+                console.log(data);
+
+                if(data['status']==0){
+                    var html = "";
+                    var html_a ="";
+                    html += "<h3>责任事项:</h3>";
+                    html += "<p>"+data['data']['title']+"</p>";
+                    html += "<h3>见证资料:</h3>";
+                    html += "<p>"+data['data']['content']+"</p>";
+                    html += "<h3>任务时间:</h3>";
+                    html += "<p>"+new Date(data['data']['s_time']*1000).Format("yyyy-MM-dd")+"~"+new Date(data['data']['e_time']*1000).Format("yyyy-MM-dd")+"</p>";
+                    html += "<h3>截至时间:</h3>";
+                    html += "<p>"+text+"</p>";
+                    html += "<h3>任务规范:</h3>";
+                    html += "<div class='gf_zj'>";
+                    for(var i=0;i<data['data']['standard'].length;i++){
+                        html_a += "<a href='__STATICS__"+data['data']['standard'][i]['docpath']+"'>"+data['data']['standard'][i]['value']+data['data']['standard'][i]['label']+"</a>";
+                    }
+                    html += html_a;
+                    html += "</div>";
+
+                    $(".content_classify").html(html);
+                }else{
+                    alert('网络异常');
+                }
+
+            },
+            error: function (data) {
+               alert('网络异常');
+            }
+        });
+        $(".content_box").show();
+        
+
+       }
+
+       $(".content_sure").click(function(){
+        $(".content_classify").html("");
+        $(".content_box").hide();
+       })
+
+       function trigger(_this,type){
+           
+           $(".btn>.hide").removeClass("hide");
+           $(_this).addClass("hide");
+           ajax_loading(type);
+        }
+
+       Date.prototype.Format = function (fmt) { //author: meizz 
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+
+    function get_day(time){
+        var now = Date.parse(new Date()); 
+        var text=0;
+        time=time*1000;
+        if (time < now) {
+            text= '已截止';
+        }else{
+            text=Math.ceil((time - now)/86400000);
+            text='距离任务截止时间'+text+'天'
+        };
+        return text;
+    }
+
+</script>
+
+<script type="text/javascript">
+function ajax_comment_loading(){
+         var create_time = 0;
+         if ($("#comment_list").find("dl").last()) {
+           create_time = $("#comment_list").find("dl").last().attr("alt");
+         };
+         $.ajax({
+                  data: {
+                      'create_time':create_time,
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '__ROOT__/Mob/Inform/ajaxComentLoading',
+                  beforeSend: function(){
+                    $("#comment_list").find(".loading_text").text("");
+                    $("#comment_list").find("i").show();
+                  },
+                  success: function (data) {
+                    $("#comment_list").find("i").hide();
+                    if (data["status"] == 0) {
+                      if (data['data']) {
+                        var html = "";
+                        var html_tem ="";
+                        $.each(data['data'],function(i,vo){
+                            html_tem = $("#comment_div").html();
+                            html_tem = html_tem.replace("#create_time#",vo['create_time']);
+                            html_tem = html_tem.replace("#time#",new Date(vo.create_time*1000).Format("yyyy-MM-dd"));
+                            html_tem = html_tem.replace("#name#",vo['user_realname']);
+                            html_tem = html_tem.replace("#title#",vo['taizhang_title']);
+                            html_tem = html_tem.replace("#content#",vo['content']);
+                            html_tem = html_tem.replace("#img_url#",get_header_img(vo['user_headimgurl']));
+                            html += html_tem;
+                        });
+                        $("#comment_list").find("#loading_div").before(html);
+                      }else{
+              
+                        $("#comment_list").find(".loading_text").text("没有更多了");
+                      };
+                    }else{
+                        alert('网络异常');
+                    };
+                    
+                  },
+                  error: function (data) {
+                    $("#comment_list").find("i").addClass("hide");
+                    alert('网络异常');
+                  }
+              })
+            
+                  
+       }
+       
+
+       function ajax_like_loading(){
+         var create_time = 0;
+         if ($("#like_list").find("dl").last()) {
+           create_time = $("#like_list").find("dl").last().attr("alt");
+         };
+         $.ajax({
+                  data: {
+                      'create_time':create_time,
+                  },
+                  type: 'POST',
+                  dataType: 'json',
+                  url: '__ROOT__/Mob/Inform/ajaxLikeLoading',
+                  beforeSend: function(){
+                    $("#like_list").find(".loading_text").text("");
+                    $("#like_list").find("i").show();
+                  },
+                  success: function (data) {
+                    $("#like_list").find("i").hide();
+                    if (data["status"] == 0) {
+                      if (data['data']) {
+                        var html = "";
+                        var html_tem ="";
+                        $.each(data['data'],function(i,vo){
+                            html_tem = $("#like_div").html();
+                            html_tem = html_tem.replace("#create_time#",vo['create_time']);
+                            html_tem = html_tem.replace("#time#",new Date(vo.create_time*1000).Format("yyyy-MM-dd"));
+                            html_tem = html_tem.replace("#name#",vo['user_realname']);
+                            html_tem = html_tem.replace("#title#",vo['taizhang_title']);
+                            html_tem = html_tem.replace("#img_url#",get_header_img(vo['user_headimgurl']));
+                            html += html_tem;
+                        });
+                        $("#like_list").find("#loading_div").before(html);
+                      }else{
+              
+                        $("#like_list").find(".loading_text").text("没有更多了");
+                      };
+                    }else{
+                        alert('网络异常');
+                    };
+                    
+                  },
+                  error: function (data) {
+                    $("#like_list").find("i").addClass("hide");
+                    alert('网络异常');
+                  }
+              })
+            
+                  
+       }
+
+function get_header_img(url){
+      if (url != null || url != '') {
+        if(url.indexOf("http") > -1 || url.indexOf("https") > -1){
+          return url;
+        }else if(url.indexOf("/Uploads") > -1){
+          return __root__+url;
+        }else if(url.indexOf("Uploads") > -1){
+          return __root__+'/'+url;
+        }
+        return __root__+'/Uploads/'+url;
+      } else {
+        return __root__+'/Public/Common/img/common-head.png';
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="doc-modal-1" >
+    <div class="am-modal-dialog" style="background: white">
+        <div class="am-modal-hd"><span id="selector-title">标题</span>
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-12" id="search-form">
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" class="am-form-field" id="selector-search-input" name="keyword" value="">
+                        <span class="am-input-group-btn">
+                            <button class="am-btn am-btn-default" id="selector-btn-search" type="button">搜索</button>
+                        </span>
+                    </div>
+                </div>
+
+                <style>
+                    .am-u-sm-12 .item{
+                        position: relative;
+                        margin-top: 5px;
+                        border-bottom: 1px solid gainsboro;
+                        margin: 0 auto; text-align: left;padding: 5px 10px;background: white;
+                    }
+                    .am-u-sm-12 .un{
+                        margin-top: 5px;
+                        color: gainsboro;
+                    }
+                    .am-u-sm-12 .item .item-right{
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        color: gainsboro;
+                    }
+                </style>
+
+                <div class="am-u-sm-12 am-u-md-12"
+                     style="padding-left: 1.5rem;padding-right: 1.5rem;">
+                    <a style='cursor: pointer;'><div class="item canselect" data-id="0" data-name="暂时不设置职务">暂时不设置职务</div></a>
+                    <div style="height: 450px;overflow-y: scroll;background: white" id="select-content">
+                        <!--<div class="item un">咦咦咦<div class="item-right">uyuiyiu</div></div>-->
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

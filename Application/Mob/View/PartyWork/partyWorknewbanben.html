@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>党务管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="flexible" content="initial-dpr=2"/>
+    <link rel="stylesheet" href="__STATICS__/flexible/flexible.css">
+    <script src="__STATICS__/flexible/flexible.js"></script>
+    <link rel="stylesheet" href="__STATICS__/swiper/css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" href="__CSS__/reset.css">
+    <link rel="stylesheet" href="__CSS__/inform/date.css">
+    <link rel="stylesheet" href="__CSS__/inform/inform.css">
+    <link rel="stylesheet" href="/djptNew/public/common/css/pop.window.css">
+
+    <style>
+        .gradient{
+            filter:alpha(opacity=100 finishopacity=50 style=1 startx=0,starty=0,finishx=0,finishy=150) progid:DXImageTransform.Microsoft.gradient(startcolorstr=#a19fa5,endcolorstr=#323848,gradientType=0);
+            -ms-filter:alpha(opacity=100 finishopacity=50 style=1 startx=0,starty=0,finishx=0,finishy=150) progid:DXImageTransform.Microsoft.gradient(startcolorstr=#a19fa5,endcolorstr=#323848,gradientType=0);/*IE8*/
+            background:#323848; /* 一些不支持背景渐变的浏览器 */
+            background:-moz-linear-gradient(top, #a19fa5, #323848);
+            background:-webkit-gradient(linear, 0 0, 0 bottom, from(#a19fa5), to(#323848));
+            background:-o-linear-gradient(top, #a19fa5, #323848);
+        }
+
+        .party-work-block{
+            width: 90%;
+            height: 4.5rem;
+            margin: 1.3rem auto;
+        }
+        .title-block{
+            position: absolute;
+            top: -0.4rem;
+            bottom: -0.4rem;
+            width: 70%;
+            padding: 30px 20px;
+            filter:alpha(opacity=80);
+            -moz-opacity:0.8;
+            -khtml-opacity: 0.8;
+            opacity: 0.8;
+        }
+        .block-bg{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            width: 100%;
+            height: auto;
+        }
+
+    </style>
+</head>
+<body style="padding-bottom: 0px">
+<div class="page" style="padding-bottom: 0px">
+    <div class="banner">
+        <div class="head"><i  onclick="history.go(-1);"></i></div>
+    </div>
+    <div class="gradient" style="padding: 15px 0px;">
+        <a href="__ROOT__/Mob/PartyWork/partySpace">
+            <div class="party-work-block" style="margin-top: 0.5rem">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <img class="block-bg" src="__IMG__party_work/dangfei.png"/>
+                    <div class="title-block" style="background: #da251c; left: 0px;">
+                        <div style="text-align: center; color: #f5d900; font-size: 0.5rem; line-height: 0.6rem">中国共产党党员</div>
+                        <div style="text-align: center; color: #f5d900; font-size: 0.5rem; line-height: 0.6rem">党费证</div>
+                        <img src="__IMG__party_work/danghui.png" style="width: 1.2rem; margin: 0.3rem auto; display: block">
+                        <div style="text-align: center; color: #f5d900; margin-top: 0.5rem; font-size: 0.5rem; line-height: 0.6rem">中共珠海市委会</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a href="__ROOT__/Mob/PartyWork/affairsView?type=1">
+            <div class="party-work-block">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <img class="block-bg" src="__IMG__party_work/sanhuiyike.png"/>
+                    <div class="title-block" style="background: #1982d3; right: 0px;">
+                        <div style="text-align: right; color: #fff; font-size: 0.7rem; line-height: 1rem; margin-right: 0.7rem; margin-top: 0.3rem">三会一课</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem; margin-top: 0.3rem">支部党员大会</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">支部委员会</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">党小组会</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">支部党课</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="__ROOT__/Mob/PartyWork/affairsView?type=2">
+            <div class="party-work-block">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <img class="block-bg" src="__IMG__party_work/minzhushenghuohui.png"/>
+                    <div class="title-block" style="background: #7265d3; left: 0px;">
+                        <div style="text-align: left; color: #fff; font-size: 0.7rem; line-height: 1rem; margin-right: 0.7rem; margin-top: 0.4rem">民主生活会</div>
+                        <div style="text-align: left; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem; margin-top: 0.3rem">领导班子成员和党员批评与自我批评、落实群众路线、夯实执政根基重要组织制度</div>
+                       <!--  <div style="text-align: left; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">开展批评与自我批评</div>
+                        <div style="text-align: left; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">组织活动制度</div> -->
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="__ROOT__/Mob/PartyWork/affairsView?type=3">
+            <div class="party-work-block">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <img class="block-bg" src="__IMG__party_work/zhongxinzuxuexi.png"/>
+                    <div class="title-block" style="background: #deca41; right: 0px;">
+                        <div style="text-align: right; color: #fff; font-size: 0.7rem; line-height: 1rem; margin-right: 0.7rem; margin-top: 0.55rem">中心组学习</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem; margin-top: 0.3rem">学习计划制度、个人自学制度、专题调研制度、学习纪要制度、学习研讨制度、中心发言制度落实情况</div>
+                        <!-- <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem"></div><div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem"></div> -->
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="__ROOT__/Mob/PartyWork/affairsView?type=4">
+            <div class="party-work-block">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <img class="block-bg" src="__IMG__party_work/tanhuatixing.png"/>
+                    <div class="title-block" style="background: #23812c; left: 0px;">
+                        <div style="text-align: left; color: #fff; font-size: 0.7rem; line-height: 1rem; margin-right: 0.7rem; margin-top: 0.5rem">谈心谈话</div>
+                        <div style="text-align: left; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem; margin-top: 0.3rem">全面从严治党</div>
+                        <div style="text-align: left; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">重要环节</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="__ROOT__/Mob/PartyWork/affairsView?type=5">
+            <div class="party-work-block">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <img class="block-bg" src="__IMG__party_work/zhutizeren.png"/>
+                    <div class="title-block" style="background: #ef6f31; right: 0px;">
+                        <div style="text-align: right; color: #fff; font-size: 0.7rem; line-height: 1rem; margin-right: 0.7rem; margin-top: 0.55rem">组织生活会</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem; margin-top: 0.3rem">全面从严治党主体责任</div>
+                        <div style="text-align: right; color: #fff; font-size: 0.4rem; line-height: 0.5rem; margin-right: 0.7rem">和监督责任</div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+
+
+        <!--<div class="party-work-block" style="margin-bottom: 0px; background-image: url('__IMG__party_work/zhutizeren.png'); background-size: 100%; background-repeat: no-repeat;">-->
+            <!--<div class="title-block" style="background: #ef6f31; float: right; padding: 35px 10px">-->
+                <!--<div style="text-align: right; color: #fff; font-size: 30px; line-height: 40px; margin-right: 20px; margin-top: 20px">两个主体活动</div>-->
+                <!--<div style="text-align: right; color: #fff; font-size: 15px; line-height: 20px; margin-right: 20px; margin-top: 10px">党风廉政建设主体责任</div>-->
+                <!--<div style="text-align: right; color: #fff; font-size: 15px; line-height: 20px; margin-right: 20px">承担监督责任</div>-->
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+        <!--</div>-->
+    </div>
+
+</div>
+
+<script src="__STATICS__/swiper/js/swiper-3.3.1.min.js"></script>
+<script src="__STATICS__/zepto/zepto.js"></script>
+    <include file="Common/_menu"/>
+</body>
+</html>

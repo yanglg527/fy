@@ -1,0 +1,84 @@
+<div class="hide" role="dialog"
+     id="dialog-img" style="top: 0%;  left: 0%;  bottom:0;width: 100%;min-height: 100%;background: rgba(117, 117, 117, 0.36);float:left;position: fixed;overflow-y:scroll;
+    overflow-x:hidden; z-index: 1000">
+    <div id="dialog-img-content" style="position:absolute; margin-top:30px; width: 920px;margin-left: -460px;left: 50%">
+        <div id="wPaint" style="position:relative; background:#CACACA; border:solid black 1px;"></div>
+        <button class="btn btn-success" id="btn-save" style="position: absolute;right: 20px;top: 20px">保存</button>
+    </div>
+    <form enctype="multipart/form-data" method="post"></form>
+</div>
+<script>
+    var isUploading = false;
+    $('#dialog-img').click(function () {
+        if (isUploading) {
+            toastError("正在上传，请稍后...");
+        } else {
+            $(this).addClass('hide');
+        }
+return false;
+    })
+    $('#dialog-img-content').click(function () {
+        if (isUploading) {}else{
+            return false;
+        }
+
+    })
+    $('#btn-save').click(function () {
+        if (isUploading) {
+            toastError("正在上传，请稍后...");
+            return false;
+        }
+        var imageData = $("#wPaint").wPaint("image");
+        isUploading = true;
+        toastError("图片正在上传，请稍后...");
+        $('#wPaint').wPaint('pause');
+//        alert($('#dialog-img').attr('o-src'));
+        $.ajax({
+            data: {
+                "ourl":$('#dialog-img').attr('o-src'),
+                "paper_id":$('#dialog-img').attr('id-paper'),
+                "subject_id":$('#dialog-img').attr('id-subject'),
+                "upload_path": $('#dialog-img').attr('src'),
+                "tuya_file": imageData
+            },
+            type: 'POST',
+            dataType: 'json',
+            url: __root__ + '/Home/Image/ajaxSaveTuya',
+            success: function (data) {
+
+                if (data['status'] == 0) {
+                    toastError("修改成功");
+                    setTimeout(function () {
+                        isUploading = false;
+                        $('#dialog-img').addClass('hide');
+                        window.location.reload();
+                    }, 2000)
+
+                } else {
+                    isUploading = false;
+                    toastError(data.msg);
+                }
+            },
+            error: function (data) {
+                isUploading = false;
+                toastError('网络异常,请稍候重试');
+            }
+
+
+        })
+    })
+    function dataURItoBlob(base64Data) {
+        var byteString;
+        if (base64Data.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(base64Data.split(',')[1]);
+        else
+            byteString = unescape(base64Data.split(',')[1]);
+        var mimeString = base64Data.split(',')[0].split(':')[1].split(';')[0];
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ia], {type: mimeString});
+    }
+
+</script>

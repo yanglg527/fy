@@ -1,0 +1,118 @@
+/* * {
+    background-color: rgba(0, 0, 0, 0.1);
+} */
+.activity .timeout {
+    font-size: 0.22rem !important;
+    background-color: #f4f4f4 !important;
+    color: #999;
+}
+.activity .header .header-inner {
+    color: #ffffff;
+    font-size: 0.33rem;
+
+    display: flex;
+    height: 0.75rem;
+    padding: 0.2rem;
+    justify-content: space-between;
+    align-items: center;
+    /* background: linear-gradient(-10deg, #d42018 40%, #ff7d1d 85%); */
+    background-color: #ce3d37;
+}
+
+.activity .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 3rem;
+    width: 100%;
+    background: #ce3d37 url('../images/toLearnAndOneDo/c-items-bg.png') 0 0;
+    background-size: 100% 100%;
+}
+.activity .banner .nav {
+    color: rgb(223, 221, 221);
+    display: flex;
+    justify-content: space-around;
+    height: 0.6rem;
+    padding-bottom: 0.08rem;
+}
+.activity .banner .nav > span {
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.activity .banner .nav .active {
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+.activity .list > ul {
+    display: none;
+}
+.activity .list .list-show {
+    display: block;
+}
+
+.activity .list ul > li {
+    padding: 0.2rem;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.activity .list .item .item-inner {
+    display: flex;
+    justify-content: space-between;
+}
+.activity .list .item .item-inner .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.activity .list .item .item-inner .left > h4 {
+    text-indent: -0.5em;
+    line-height: 1.4em;
+}
+
+.activity .list .item .item-inner .left .info {
+    display: flex;
+    justify-content: space-between;
+}
+.activity .list .item .item-inner .right {
+    color: #ffffff;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.activity .list .item .item-inner .right span {
+    font-size: 0.3rem;
+    display: flex;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    line-height: 1.2em;
+    align-items: center;
+    border-radius: 50%;
+}
+.activity .list .item .time {
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.2rem;
+    border-top: 1px solid #f4f4f4;
+    margin-top: 0.2rem;
+}
+.activity .list .over-item .right > span {
+    color: #999;
+    background-color: #f4f4f4;
+}
+.activity .list .now-item .right > span {
+    display: flex;
+    justify-content: center;
+    background-color: #ce3d37;
+}

@@ -1,0 +1,120 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+        .container {
+            background-color: #f7f8f8;
+            padding-bottom: 40px;
+        }
+
+        .info-block{
+            margin-top: 15px;
+            background: white;
+            border-bottom: 1px solid #e8e8e8;
+            border-top: 1px solid #e8e8e8;
+            padding-left: 15px;
+        }
+
+        .info-block .item{
+            margin-left: 15px;
+            border-bottom: 1px solid #e8e8e8;
+            height: 45px;
+            line-height: 45px;
+            position: relative;
+        }
+
+        .no-bottom-border{
+            border-bottom: 0px !important;
+        }
+
+        .info-block .title{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            left: 2px;
+            margin: auto;
+            font-size: 14px;
+            color: black;
+        }
+
+        .info-block .detail{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            right: 40px;
+            margin: auto;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .icon-right{
+            position: absolute;
+            top: 0px;;
+            bottom: 0px;
+            right: 15px;
+            margin: auto;
+            color: #00a2d4;
+        }
+
+
+
+
+    </style>
+</block>
+<block name="content">
+
+    <div class="info-block">
+        <php> $listSize = sizeof($branchList);</php>
+        <volist name="branchList" id="item">
+            <div class="am-radio" onclick="change('item'+{$item.id}, {$item.id})">
+                <label>
+                    <input id="item{$item.id}" type="radio" name="doc-radio-1" value="{$item.id}" <if condition="$user['branch_id'] == $item['id']">checked</if> >{$item.name}</label>
+                </label>
+            </div>
+
+            <if condition="$i lt $listSize"><div style="height: 1px; background-color: #E8E8E8; margin: 10px 0px;"></div></if>
+        </volist>
+    </div>
+
+        <!-- onclick="changeSex(1)-->
+        <!--<div class="item am-radio">-->
+            <!--<span class="title">男</span>-->
+            <!--<span id="boy" class="am-icon-check icon-right" <if condition="$user['gender'] == 1"> style="display: normal"<else/>style="display: none"</if> > </span>-->
+        <!--</div>-->
+        <!--<div class="item am-radio no-bottom-border">-->
+            <!--<span class="title">女</span>-->
+            <!--<span id="girl" class="am-icon-check icon-right" <if condition="$user['gender'] == 0"> style="display: normal"<else/>style="display: none"</if> > </span>-->
+        <!--</div>-->
+    </div>
+
+</block>
+
+<block name="scripts">
+    <script>
+        function change($id, $value){
+            var isChange = false;
+            if(!$('#' + $id).is(':checked')){
+                isChange = true;
+            }
+            $('#' + $id).prop("checked",true);
+            if(isChange){
+                loading();
+                $.ajax({
+                    url: '__ROOT__/Home/User/ajaxSaveBranch',
+                    type: 'POST', //GET
+                    data: {
+                        branchId:$value,
+                    },
+                    dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                    success: function (data) {
+                        close_loading();
+                        alert_modal(data.msg);
+                    },
+                    error: function (xhr, textStatus) {
+                        close_loading();
+                        alert("服务器暂时无法连接，请稍候再试");
+                    }
+                })
+            }
+        }
+    </script>
+</block>

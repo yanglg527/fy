@@ -1,0 +1,238 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+        .branch-list{
+            background: #F7F8F8;
+        }
+
+        .list-item{
+            background: white;
+            margin-bottom: 10px;
+            padding: 18px 21px 5px 21px;
+        }
+
+        .item-title{
+            height: 39px;
+            line-height: 39px;
+            font-size: 18px;
+            color: #1a1a1a;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            position: relative;
+            padding-left: 38px;
+        }
+        .item-title img{
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            top: 0px;bottom: 0px;left: 0px;
+            margin: auto;
+        }
+
+        .item-info{
+            height: 35px;
+            line-height: 35px;
+            padding-left: 38px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+    </style>
+</block>
+<block name="content">
+
+    <div data-am-widget="tabs" class="am-tabs am-tabs-d2" id="doc-my-tabs" style="background-color:#fff;margin: 0;">
+        <ul class="am-tabs-nav am-cf">
+            <li class="am-active" style="margin-bottom: 1px"><a href="[data-tab-panel-0]"  style="border:none;background-color:#fff;color:#555;">列表</a></li>
+            <li style="margin-bottom: 1px"><a href="[data-tab-panel-1]" style="border:none;background-color:#fff;color:#555;">统计信息</a></li>
+        </ul>
+        <div class="am-tabs-bd">
+            <!-- 我的学习台账列表 -->
+            <div class="am-tab-panel am-active" data-tab-panel-0 style="padding:0px;">
+                <div class="branch-list">
+                    <volist name="list" id="item">
+                        <if condition="$item.type == 'hq'">
+                            <a href="__ROOT__/Home/Branch/index2?id={$item.id}">
+                                <div class="list-item">
+                                    <div class="item-title">
+                                        <img src="__IMG__icon_weidangk.png">
+                                        <span>{$item.name}</span>
+                                    </div>
+                                    <div class="item-info">
+                                        <span><empty name="item.realname">{$item.name}<else/>{$item.realname}</empty></span> / <span>{$item.branch_count}</span>支部
+                                    </div>
+                                </div>
+                            </a>
+                            <else/>
+                            <a href="__ROOT__/Home/Branch/detail?id={$item.id}">
+                                <div class="list-item">
+                                    <div class="item-title">
+                                        <img src="__IMG__icon_weidangk.png">
+                                        <span>{$item.name}</span>
+                                    </div>
+                                    <div class="item-info">
+                                        <span><empty name="item.realname">{$item.name}<else/>{$item.realname}</empty></span> / <span>{$item.party_count}</span>党员
+                                    </div>
+                                </div>
+                            </a>
+                        </if>
+
+                    </volist>
+
+
+                </div>
+            </div>
+
+            <!-- 支部学习台账列表 -->
+            <div class="am-tab-panel " data-tab-panel-1 style="padding:0px;">
+                <div style="background: white;margin-bottom:10px;">
+                    <div id="sex" ></div>
+                    <hr/>
+                    <div id="age" ></div>
+                    <hr/>
+                    <div id="role" ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</block>
+<block name="scripts">
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/echart/echarts.min.js"></script>
+    <script type="text/javascript">
+        var div_width = $(document).width();
+        var div_height = div_width*5/8;
+        $('#sex').width(div_width);
+        $('#sex').height(div_height);
+        $('#age').width(div_width);
+        $('#age').height(div_height);
+        $('#role').width(div_width);
+        $('#role').height(div_height);
+        var sexChart = echarts.init(document.getElementById('sex'));
+        var ageChart = echarts.init(document.getElementById('age'));
+        var roleChart = echarts.init(document.getElementById('role'));
+        sexoption = {
+            title : {
+                text: '{$detail.name}党员性别比例',
+                x:'center',
+
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['女性','男性']
+            },
+            series : [
+                {
+                    name: '人数及占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:{$countArray['gender_women']}, name:'女性'},
+                        {value:{$countArray['gender_man']}, name:'男性'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        ageoption = {
+            title : {
+                text: '{$detail.name}党员年龄结构',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['30岁及以下','30岁~40岁','40岁~50岁','50岁~60岁','60岁及以上']
+            },
+            series : [
+                {
+                    name: '人数及占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:{$countArray['age_30_less']}, name:'30岁及以下'},
+                        {value:{$countArray['age_30_40']}, name:'30岁~40岁'},
+                        {value:{$countArray['age_40_50']}, name:'40岁~50岁'},
+                        {value:{$countArray['age_50_60']}, name:'50岁~60岁'},
+                        {value:{$countArray['age_60_more']}, name:'60岁及以上'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        roleoption = {
+            title : {
+                text: '{$detail.name}党员学历人员比例',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['小学','初中','高中','大学','中专','大专','研究生','其他']
+            },
+            series : [
+                {
+                    name: '人数及占比',
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:{$countArray['ageCount_xx']}, name:'小学'},
+                        {value:{$countArray['ageCount_cz']}, name:'初中'},
+                        {value:{$countArray['ageCount_gz']}, name:'高中'},
+                        {value:{$countArray['ageCount_zz']}, name:'大学'},
+                        {value:{$countArray['ageCount_dz']}, name:'中专'},
+                        {value:{$countArray['ageCount_dx']}, name:'大专'},
+                        {value:{$countArray['ageCount_yjs']}, name:'研究生'},
+                        {value:{$countArray['ageCount_qt']}, name:'其他'},
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        sexChart.setOption(sexoption);
+        ageChart.setOption(ageoption);
+        roleChart.setOption(roleoption);
+
+
+    </script>
+
+</block>

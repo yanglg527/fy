@@ -1,0 +1,86 @@
+<form class="am-form">
+    <div class="am-g am-margin-top">
+        <input type="hidden" name="id" value="{$detail.id}">
+
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+            标题
+        </div>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" name="title" value="{$detail.title}" class="am-input-sm">
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，长度不超过50字符。</div>
+    </div>
+
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+            排序
+        </div>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="number" class="am-input-sm" name="sort" value="{$detail.sort}">
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">数值越大，排得越前</div>
+    </div>
+
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">展示图</div>
+        <div class="am-u-sm-8 am-u-md-3">
+            <div class="am-form-group am-form-file">
+                <input type="hidden" name="img_url" value="{$detail.img_url}">
+
+                <div class="uplosd_image" id="info-cover">
+                    <img src="{$detail.img_url|show_img}" class="info-cover"/>
+                    <span class="info-cover-span">点击选择图片</span>
+                </div>
+            </div>
+        </div>
+        <div class="am-hide-sm-only am-u-md-7 am-form-help">请上传大小小于2M的图片</div>
+    </div>
+
+    <div class="am-g am-margin-top" style="display:none;">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">类型</div>
+        <div class="am-u-sm-8 am-u-md-10">
+            <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="type" id="type_option1" value=1
+                    <if condition="$detail.type == 1 || $detail.type == null">checked</if>
+                    > 党员之家
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="type" id="type_option2" value=2
+                    <if condition="$detail.type == 2">checked</if>
+                    > 品牌创建
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">
+            链接
+        </div>
+        <div class="am-u-sm-8 am-u-md-6">
+            <input type="text" class="am-input-sm" name="url" value="{$detail.url}">
+        </div>
+        <div class="am-hide-sm-only am-u-md-4 am-form-help">请录入要跳转的连接</div>
+    </div>
+
+    <div class="am-g am-margin-top">
+        <div class="am-u-sm-4 am-u-md-2 am-text-right">是否置顶</div>
+        <div class="am-u-sm-8 am-u-md-10">
+            <div class="am-btn-group" data-am-button>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="is_top" id="option1" value=1
+                    <if condition="$detail.is_top == 1">checked</if>
+                    > 是
+                </label>
+                <label class="am-btn am-btn-default am-btn-xs">
+                    <input type="radio" name="is_top" id="option2" value=0
+                    <if condition="$detail.is_top == 0">checked</if>
+                    > 否
+                </label>
+            </div>
+        </div>
+    </div>
+</form>
+
+	

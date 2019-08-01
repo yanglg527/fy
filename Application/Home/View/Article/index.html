@@ -1,0 +1,253 @@
+<extend name="./Application/Home/View/Common/base.html"/>
+<block name="styles">
+   <style>
+        .container{
+	        	background-color: #ffffff;
+	        }
+    	img{
+        	max-width: 100% !important;
+        }
+        .article{
+        	margin:10px;
+        }
+        .item {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            line-height: 50px;
+            border-bottom: 1px solid gainsboro;
+        }
+        .hidden_div{
+            display:none;
+        }
+    </style> 
+  </block> 
+  <block name="content"> 
+   <!-- List --> 
+   <div class="article"> 
+    <article class="am-article"> 
+     <div class="am-article-hd" style="text-align:left"> 
+      <p class="am-article-title">{$article.title}</p> 
+      <p class="am-article-meta">{$branch}&nbsp;&nbsp;&nbsp;{$article.published_at|time_to_string_ques}</p> 
+     </div> 
+       <div class="am-article-bd hidden_div" <volist name="article.tags" id="vo"><if condition="($vo.id eq 15 OR $vo.id eq 16 OR $vo.id eq 17) AND $article.meeting_at neq 0">style="display:block"</if></volist>> 
+        <p class="am-article-lead">会议时间：{$article.meeting_at|date='Y-m-d h:i',###}</p>
+       </div> 
+ 
+    
+
+
+     <div class="article-content"> 
+      <if condition="$article.video_path neq null AND $article.video_path neq ''">
+        <video src="{$article.video_path}" controls="controls" autoplay width="100%">
+        </video>
+      </if>
+      {$article.content}
+     </div> 
+     <if condition="empty($is_agree)" >
+     <span class="am-icon-thumbs-o-up" id="agree" style="color:#999;padding-left:10px;" onclick="is_agree({$article.id})">{$article.agree_count}</span>
+     <else />
+      <span class="am-icon-thumbs-up" id="agree" style="color:#999;padding-left:10px;" onclick="is_agree({$article.id})">{$article.agree_count}</span>
+      </if>
+       <a href="__ROOT__/Home/Study/standingBookEdit?type=0"><span style="float:right;">去发表心得或思想汇报</span></a>
+    </article> 
+
+    <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default"> 
+     <h2 class="am-titlebar-title "> 评论({$article.comment_count})： </h2> 
+    
+    </div> 
+    <ul class="am-comments-list am-comments-list-flip" id="comment-list"> 
+      <volist name="comments" id="vo">
+        <li class="am-comment" style="margin-bottom:15px;"> 
+          <article class="am-comment"> 
+           <a href="#link-to-user-home"> <img src="{$vo.user_header|get_head_url}" alt="" class="am-comment-avatar" width="48" height="48" /> </a> 
+           <div class="am-comment-main"> 
+            <header class="am-comment-hd"> 
+             <!--<h3 class="am-comment-title">评论标题</h3>--> 
+             <div class="am-comment-meta"> 
+              <a href="#link-to-user" class="am-comment-author">{$vo.user_realname}</a> 评论于 
+              <time datetime="" title="">{$vo.create_at|date="Y-m-d H:i:s",###}</time> 
+             </div> 
+            </header> 
+            <div class="am-comment-bd">
+              {$vo.comment} 
+            </div> 
+           </div> 
+          </article> 
+        </li> 
+      </volist> 
+    </ul>
+    <div style="text-align:center;color:#999;font-size:12px;"> 
+      <span id="loading-text" onclick="loadingComments({$article.id});"></span>
+      <i id="loading-icon" class="am-icon-spinner am-icon-spin"></i>
+      <span id="nomore"></span>
+    </div>
+ <hr/>
+   </div> 
+
+ <div style="padding:20px;">
+  <!-- <div class="item" style="border-top: 1px solid gainsboro;">
+    <span class="item-left">内容</span>
+  </div> -->
+    <textarea id="content" rows="4" placeholder="请输入您的评论" style="width: 100%;border: 1px solid gainsboro;"></textarea>
+    <button type="button" class="am-btn am-btn-sm am-btn-success am-round" style="width:100%;margin-top:20px;" onclick="addComment({$article.id})">发表评论</button>
+ </div>
+ <?php
+  if(empty($comments[9]['create_at'])){
+    $comment_create_at = 0;
+  }else{
+    $comment_create_at = $comments[9]['create_at'];
+  }
+?>
+</block>
+<block name="scripts">
+  <script type="text/javascript">
+    var art_id = {$article.id};
+    var agree = 0;
+    var create_at = 0;
+    $(window).load(function(){
+      $('#loading-icon').hide();
+      if ({$comments|sizeof} < 10) {
+        $('#loading-text').html('');
+        $('#nomore').html('没有更多了');
+      }else{
+        $('#nomore').html('');
+        $('#loading-text').html('查看更多');
+        create_at = {$comment_create_at};
+      };
+    });
+    function is_agree (id) {
+      if (agree == 0) {
+        $.ajax({
+                  url: '__ROOT__/Home/Article/ajaxAgree',
+                  type: 'POST', //GET
+                  data: {'id':id},
+                  dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                  success: function (data) {
+                      if (data.status == 0) {
+                          $('#agree').removeClass('am-icon-thumbs-o-up');
+                          $('#agree').addClass('am-icon-thumbs-up');
+                          var val = parseInt($('#agree').text());
+                          $('#agree').html(val+1);
+                          agree = 1;
+                      } else {
+                          alert_modal(data.msg);
+                      }
+                  },
+                  error: function (xhr, textStatus) {
+                      alert_modal("网络不稳定，请稍候再试");
+                  }
+              })
+        };
+    }
+
+    function addComment (id) {
+        var content = $("#content").val();
+        $.ajax({
+                  url: '__ROOT__/Home/Article/ajaxComment',
+                  type: 'POST', //GET
+                  data: {'id':id,'content':content},
+                  dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                  beforeSend: function () {
+                    loading();
+                  },
+                  success: function (data) {
+                      close_loading();
+                      if (data.status == 0) {
+                          // window.location.reload(true);
+                          createTimeString = new Date(data['data']['create_at']*1000).Format("yyyy-MM-dd");
+                          img_url = get_header_img(data['data']['user_header']);
+                           html_content = '<li class="am-comment" style="margin-bottom:15px;"><article class="am-comment"><a href="#link-to-user-home"> <img src="'+img_url+'" alt="" class="am-comment-avatar" width="48" height="48" /> </a><div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta"> <a href="#link-to-user" class="am-comment-author">'+data['data']['user_realname']+'</a> 评论于 <time datetime="" title="">'+createTimeString+'</time></div></header><div class="am-comment-bd">'+data['data']['comment']+'</div></div></article></li>';
+                          $('#comment-list').prepend(html_content);
+                          alert_modal('评论成功！');
+                          var content = $("#content").val('');
+                      } else {
+                          alert_modal(data.msg);
+                      }
+                  },
+                  error: function (xhr, textStatus) {
+                      close_loading();
+                      alert_modal("网络不稳定，请稍候再试");
+                  }
+              })
+    }
+
+    function loadingComments (id) {
+        $.ajax({
+                  url: '__ROOT__/Home/Article/ajaxLoadingComments',
+                  type: 'POST', //GET
+                  data: {'id':id,'create_at':create_at},
+                  dataType: 'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                  beforeSend: function () {
+                    $('#loading-text').html('');
+                    $('#loading-icon').show();
+                  },
+                  success: function (data) {
+                      if (data.status == 0) {
+                         if (data['data']) {
+                            var createTimeString ='';
+                            var html_content = '';
+                            $.each(data['data'],function(i,vo)
+                            {
+                              createTimeString = new Date(vo.create_at*1000).Format("yyyy-MM-dd");
+                              html_content = '';
+                              img_url = get_header_img(vo.user_header);
+                              html_content = html_content + '<li class="am-comment" style="margin-bottom:15px;"><article class="am-comment"><a href="#link-to-user-home"> <img src="'+img_url+'" alt="" class="am-comment-avatar" width="48" height="48" /> </a><div class="am-comment-main"><header class="am-comment-hd"><div class="am-comment-meta"> <a href="#link-to-user" class="am-comment-author">'+vo.user_realname+'</a> 评论于 <time datetime="" title="">'+createTimeString+'</time></div></header><div class="am-comment-bd">'+vo.comment+'</div></div></article></li>';
+                                $('#comment-list').append(html_content);
+                                create_at = vo.create_at;
+                            });
+                            $('#loading-icon').hide(); 
+                            if (data.msg < 10) {
+                              $('#nomore').html('没有更多了');
+                            }else{
+                              $('#loading-text').html('查看更多');
+                            };
+                          }else{
+                            $('#loading-icon').hide(); 
+                            $("#nomore").html('没有更多了');
+                          }
+                      } else {
+                        $('#loading-icon').hide(); 
+                        $('#loading-text').html('查看更多');
+                        alert_modal(data.msg);
+                      }
+                  },
+                  error: function (xhr, textStatus) {
+                    $('#loading-icon').hide(); 
+                      alert_modal("网络不稳定，请稍候再试");
+                  }
+              })
+    }
+
+    Date.prototype.Format = function (fmt) { //author: meizz 
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    function get_header_img(url){
+      if (url != null || url != '') {
+        if(url.indexOf("http") > -1 || url.indexOf("https") > -1){
+          return url;
+        }else if(url.indexOf("/Uploads") > -1){
+          return __root__+url;
+        }else if(url.indexOf("Uploads") > -1){
+          return __root__+'/'+url;
+        }
+        return __root__+'/Uploads/'+url;
+      } else {
+        return __root__+'/Public/Common/img/common-head.png';
+    }
+    }
+    
+  </script>
+</block>

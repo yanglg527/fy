@@ -1,0 +1,77 @@
+<extend name="./Application/Admin/View/Common/base.html"/>
+<block name="styles">
+    <style>
+
+    </style>
+</block>
+<block name="content">
+    <div class="admin-content-body">
+        <div class="am-cf am-padding am-padding-bottom-0">
+            <div class="am-fl am-cf">
+               <strong
+                        class="am-text-primary am-text-lg">党组织关系转接</strong>
+            </div>
+        </div>
+        <hr>
+        <div class="am-g" >
+            <!-- <div class="am-u-sm-3 am-u-md-3 right-align"  >
+                <eq name="auth" value="1">
+                    <a class="am-btn am-btn-sm am-btn-success" type="button"onclick="loading_page('__ROOT__/Admin/PartyBranch/relationIn');">调入</a>
+                </eq>
+            </div> -->
+
+            <form action="__ROOT__/Admin/PartyBranch/relations" class="am-u-sm-9 am-u-md-9 right-align" style="text-align: right">
+                <div style="position: relative;top: 12px;display: inline-block;"><div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" placeholder="输入姓名关键词" name="keyword" value="{$search.keyword}">
+                </div></div>
+
+                <button class="am-btn am-btn-sm am-btn-default" type="submit">确认检索</button>
+            </form>
+        </div>
+
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                            <tr>
+                                <th>id</th><th>姓名</th><th>记录类型</th><th>内容</th><th>操作时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="page.list" id="item">
+                            <tr>
+                                <td>{$item.id}</td>
+                                <td>{$item.user_realname}</td>
+                                <td><if condition="$item.type == 0">
+                                    调出
+                                    <elseif condition="$item.type == 1"/>
+                                    调入
+                                    <elseif condition="$item.type == 2"/>
+                                    内部调动
+                                </if></td>
+                                <td>{$item.content}</td>
+                                <td>{$item.create_time|date="Y-m-d H:i",###}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                    <div class="page">
+                        {$page.show}
+                    </div>
+                    <!--<hr />-->
+                    <!--<p>注：.....</p>-->
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</block>
+<block name="scripts">
+
+    <script>
+
+    </script>
+
+</block>

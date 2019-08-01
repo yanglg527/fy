@@ -1,0 +1,281 @@
+<extend name="./Application/Admin/View/Common/base.html" />
+  <block name="styles">
+    <link href="__STATICS__/cropper/cropper.min.css" rel="stylesheet">
+    <style type="text/css">
+        .hidden_div{
+            display:none;
+        }
+        </style>
+  </block>
+  <block name="content">
+   <div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+     <div class="am-fl am-cf">
+      <a href="#" onclick="javascript :history.back(1);"><strong class="am-text-primary am-text-lg" aizhang="">主题党日</strong></a> /
+      <small>新增</small>
+     </div>
+    </div>
+    <hr/>
+    <input type="hidden" id="id" name="id" value="{$info.id}"/>
+    <input type="hidden" id="file_id" name="file_id" value="">
+    <input type="hidden" id="surplus_file_id" name="surplus_file_id" value="">
+    <div class="am-tabs-bd" style="margin:20px; border: 1px solid #ddd;">
+     <div class="am-tab-panel am-fade am-in am-active">
+      <div class="am-form" id="upload-form">
+
+        <div class="am-g am-margin-top-sm">
+          <div class="am-u-sm-4 am-u-md-2 am-text-right">党组织</div>
+          <div class="am-u-sm-8 am-u-md-6">
+              <select id="branchId">
+                  <option value="">选择支部</option>
+                  <foreach name="brancds" item="vo">
+                      <option value="{$vo.id}" <if condition="$vo.id == $info['branch_id']">selected="selected"</if>>{$vo.name}</option>
+                  </foreach>
+              </select>
+          </div>
+          <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-4 am-u-md-2 am-text-right">开始时间</div>
+          <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+            <input type="text" id="start_time" class="am-form-field" value="{$info.start_time}" placeholder="开始时间" readonly>
+            <span class="am-input-group-btn am-datepicker-add-on">
+              <button class="am-btn am-btn-default" type="button" id="startDate"><span class="am-icon-calendar"></span></button>
+            </span>
+          </div>
+          <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，请选择时间。</div>
+        </div>
+
+        <div class="am-g am-margin-top">
+          <div class="am-u-sm-4 am-u-md-2 am-text-right">截止时间</div>
+          <div class="am-u-sm-8 am-u-md-6 am-input-group am-datepicker-date" data-am-datepicker="{format: 'yyyy-mm-dd'}">
+            <input type="text" id="end_time" class="am-form-field" value="{$info.end_time}" placeholder="截止时间" readonly>
+            <span class="am-input-group-btn am-datepicker-add-on">
+              <button class="am-btn am-btn-default" type="button" id="endDate"><span class="am-icon-calendar"></span></button>
+            </span>
+          </div>
+          <div class="am-hide-sm-only am-u-md-4 am-form-help">*必填，请选择时间。</div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">地点</div>
+            <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" id="place" value="{$info.place}" class="am-input-sm" minlength="2" placeholder="主要措施(至少 2个字符)" required/>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help">
+                *必填
+            </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">主题</div>
+            <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" id="theme" value="{$info.theme}" class="am-input-sm" minlength="3" placeholder="主题(至少 3个字符)" required/>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填
+            </div>
+        </div>
+
+        <div class="am-g am-margin-top-sm">
+          <div class="am-u-sm-4 am-u-md-2 am-text-right">主持人</div>
+          <div class="am-u-sm-8 am-u-md-6">
+              <select id="host_id">
+                  <option value="">请选择记录人</option>
+                  <foreach name="users" item="vo">
+                      <option value="{$vo.uid}" <if condition="$vo.uid eq $info['host_id']">selected="selected"</if>>{$vo.realname}</option>
+                  </foreach>
+              </select>
+          </div>
+          <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+        </div>
+
+        <div class="am-g am-margin-top-sm">
+          <div class="am-u-sm-4 am-u-md-2 am-text-right">记录人</div>
+          <div class="am-u-sm-8 am-u-md-6">
+              <select id="record_id">
+                  <option value="">请选择记录人</option>
+                  <foreach name="users" item="vo">
+                      <option value="{$vo.uid}" <if condition="$vo.uid eq $info['record_id']">selected="selected"</if>>{$vo.realname}</option>
+                  </foreach>
+              </select>
+          </div>
+          <div class="am-hide-sm-only am-u-md-6 am-u-sm-2 am-form-help"></div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">效果</div>
+            <div class="am-u-sm-8 am-u-md-6">
+                <input type="text" id="effect" value="{$info.effect}" class="am-input-sm" minlength="2" placeholder="效果(至少 2个字符)" required/>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help">
+            *必填
+            </div>
+        </div>
+
+        <div class="am-g am-margin-top-sm">
+          <div class="am-u-sm-12 am-u-md-2 am-text-right admin-form-text">
+            内容
+          </div>
+          <div class="am-u-sm-12 am-u-md-10">
+            <script id="editor" type="text/plain"></script>
+          </div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">出席人员</div>
+            <div class="am-u-sm-8 am-u-md-6" id="cq">
+                <foreach name="users" item="data">
+                    <label class="am-checkbox-inline">
+                    <input type="checkbox"
+                        value="{$data.uid}" name="cq"
+                        data-am-ucheck minchecked="1"
+                        onclick="mutuallyExclusive('cq',{$data.uid})"
+                        <if condition="in_array($data['uid'], $attend[2])">checked="1"</if>> {$data.realname}
+                    </label>
+                </foreach>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">请假人员</div>
+            <div class="am-u-sm-8 am-u-md-6" id="qj">
+                <foreach name="users" item="data">
+                    <label class="am-checkbox-inline">
+                    <input type="checkbox"  value="{$data.uid}"
+                    onclick="mutuallyExclusive('qj',{$data.uid})"
+                    name="qj" data-am-ucheck <if condition="in_array($data['uid'], $attend[1])">checked="1"</if>> {$data.realname}
+                    </label>
+                </foreach>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">缺勤人</div>
+            <div class="am-u-sm-8 am-u-md-6" id="qx">
+                <foreach name="users" item="data">
+                    <label class="am-checkbox-inline">
+                    <input type="checkbox"  value="{$data.uid}" name="qx"
+                    onclick="mutuallyExclusive('qx',{$data.uid})"
+                    data-am-ucheck <if condition="in_array($data['uid'], $attend[0])">checked="1"</if>> {$data.realname}
+                    </label>
+                </foreach>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+        </div>
+
+        <div class="am-g am-margin-top">
+            <div class="am-u-sm-4 am-u-md-2 am-text-right">附件</div>
+            <div class="am-u-sm-8 am-u-md-6">
+                <div id="easyContainer"></div>
+                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered" data-am-gallery="{}" >
+                    <foreach name="info.files" item="vo">
+                        <li class="annex-item-{$vo.files_id}">
+                          <div class="am-gallery-item am-cf">
+                            <a href="{$vo.files_path}" class="">
+                            <img src="{$vo.files_path}"  alt="{$vo.former_name}"/>
+                            <h3 class="am-gallery-title">{$vo.former_name}</h3>
+                            </a>
+                            <span class="am-badge am-badge-secondary am-round am-fl">
+                                <a href="{$vo.files_path}" download="{$vo.former_name}">
+                                <i class="am-icon-cloud-download"></i>下载</a>
+                            </span>
+                            <span class="am-badge am-badge-secondary am-round am-fr" onclick="delFile({$vo.files_id})">
+                                <i class="am-icon-times"></i>删除</span>
+                          </div>
+                        </li>
+                    </foreach>
+                </ul>
+            </div>
+            <div class="am-hide-sm-only am-u-md-4 am-form-help"></div>
+        </div>
+      </div>
+     </div>
+    </div>
+    <div class="am-margin">
+     <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="submit_info(2);">提交保存</button>
+     <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="submit_info(0);">存入草稿</button>
+     <button type="button" class="am-btn am-btn-primary am-btn-xs" id="btn-cancel">放弃保存</button>
+    </div>
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">系统提示</div>
+            <div class="am-modal-bd">
+            附件将在保存后被删除！
+            </div>
+            <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
+   </div>
+  </block>
+  <block name="scripts">
+    <script src="__STATICS__/cropper/cropper.min.js"></script>
+    <script src="__PUBLIC__/Admin/js/ThemeDay/default.js"></script>
+    <!-- <script src="__PUBLIC__/Admin/js/TwoLeamAndOneDot/jquery.cookie-1.4.1.min.js"></script> -->
+    <script src="__PUBLIC__/Admin/js/TwoLeamAndOneDot/easyUpload.js"></script>
+    <link href="__PUBLIC__/Admin/css/TwoLeamAndOneDot/easy-upload.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/ueditor.all.min.js"> </script>
+    <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+    <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+    <script type="text/javascript" charset="utf-8" src="__STATICS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script>
+        var BASEURL = '__ROOT__';
+        $('#easyContainer').easyUpload({
+          allowFileTypes: '*.jpg;*.doc;*.pdf;*.png;*.mp4;*.ppt;*.xlsx;*.xls;',//允许上传文件类型，格式';*.doc;*.pdf'
+          allowFileSize: 100000,//允许上传文件大小(KB)
+          selectText: '选择附件',//选择文件按钮文案
+          multi: true,//是否允许多文件上传
+          multiNum: 9,//多文件上传时允许的文件数
+          showNote: true,//是否展示文件上传说明
+          note: '提示：最多上传9个文件，支持格式为doc、pdf、jpg、png、ppt、xls',//文件上传说明
+          showPreview: true,//是否显示文件预览
+          url: BASEURL+'/Admin/ThemeDay/ajaxUploadAnnex',
+          fileName: 'file',
+          // formParam: {
+            // token: $.cookie('token_cookie')//不需要验证token时可以去掉
+          // },//文件filename以外的配置参数，格式：{key1:value1,key2:value2}
+          timeout: 30000,//请求超时时间
+          okCode: 200,
+          // 成功回调
+          successFunc: function(res) {
+              let fileId = [];
+              for (var i = 0; i < res['success'].length; i++) {
+                  fileId.push(res['success'][i]['data']['id']);
+              }
+              $('#file_id').val(fileId);
+          },
+          // 失败回调
+          errorFunc: function(res) {
+            console.log('失败回调', res);
+          },
+          // 删除回调
+          deleteFunc: function(res) {
+              let delFileId = [];
+              for (var i = 0; i < res['success'].length; i++) {
+                  delFileId.push(res['success'][i]['data']['id']);
+              }
+              $('#surplus_file_id').val(delFileId);
+          }
+        });
+        // 富文本
+        var ue = UE.getEditor('editor', {
+                // autoHeight: true,
+                initialFrameHeight: 400,
+                initialFrameWidth: 750,
+               // readonly:true,
+                // retainOnlyLabelPasted: true
+            });
+        ue.ready(function() {
+            ue.setContent('{$info.content}');
+        });
+    </script>
+  </block>
+ </body>
+</html>
